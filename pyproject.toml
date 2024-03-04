@@ -1,0 +1,24 @@
+[tool.poetry]
+name = "meow"
+version = "0.1.0"
+description = "JC2 Capstone Project 2024"
+authors = ["Jia Jiaxuan <jia.jiaxuan_2324@nyjc.edu.sg>"]
+
+[tool.poetry.dependencies]
+python = ">=3.10.0,<3.11"
+flask = "^3.0.0"
+gunicorn = "^21.2.0"
+
+[tool.pyright]
+# https://github.com/microsoft/pyright/blob/main/docs/configuration.md
+useLibraryCodeForTypes = true
+exclude = [".cache"]
+
+[tool.ruff]
+# https://beta.ruff.rs/docs/configuration/
+select = ['E', 'W', 'F', 'I', 'B', 'C4', 'ARG', 'SIM']
+ignore = ['W291', 'W292', 'W293']
+
+[build-system]
+requires = ["poetry-core>=1.0.0"]
+build-backend = "poetry.core.masonry.api"
