@@ -1,0 +1,31 @@
+<!DOCTYPE html>
+<html>
+    <head>
+        <title>Login HERE!</title>
+    </head>
+
+    <body>
+        <h2>MEOW login page</h2>
+        Nice, you have found a place to log in!
+
+        <form action="/login" method="post">
+            <label for="user-field">Name:</label>
+            <input id="user-field" type="text" name="username" value=""><br/>
+            <label for="pass-field">Password:</label>
+            <input id="pass-field" type="password" name="password" value=""><br/>
+            <input type="submit" value="Login">
+            <!-- {% if error_msg %}
+            <div style="border: 2px solid red;"><p>{{error_msg}}<p></div>
+            {% endif %}
+            {% if success_msg %}
+            <br/><h2>{{success_msg}}</h2>
+            {% endif %}
+
+        </form>
+        {% set page = "login" %}    
+        {% block content %}
+            {% include 'navigation.html' %}
+        {% endblock %} -->
+    </body>
+
+</html>
