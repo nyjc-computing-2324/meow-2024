@@ -14,7 +14,7 @@
             <label for="pass-field">Password:</label>
             <input id="pass-field" type="password" name="password" value=""><br/>
             <input type="submit" value="Login">
-            <!-- {% if error_msg %}
+            {% if error_msg %}
             <div style="border: 2px solid red;"><p>{{error_msg}}<p></div>
             {% endif %}
             {% if success_msg %}
@@ -25,7 +25,7 @@
         {% set page = "login" %}    
         {% block content %}
             {% include 'navigation.html' %}
-        {% endblock %} -->
+        {% endblock %}
     </body>
 
 </html>
