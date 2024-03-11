@@ -5,7 +5,7 @@ def username_isvalid(username) -> bool:
     """
     raise NotImplementedError
 
-def password_isvalid(username) -> bool:
+def password_isvalid(password) -> bool:
     """
     checks password during registration for these criteria:
     1. tbc
