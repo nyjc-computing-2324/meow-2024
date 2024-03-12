@@ -6,6 +6,14 @@ app = Flask(__name__)
 def index():
     return render_template("index.html")
 
+@app.route('/home')
+def index():
+    return render_template("home.html")
+
+@app.route('/about')
+def index():
+    return render_template("home.html")
+
 @app.route('/login', methods = ["GET", "POST"])
 def index():
     if request.method == "GET":
