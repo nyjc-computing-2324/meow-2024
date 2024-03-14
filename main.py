@@ -4,18 +4,18 @@ app = Flask(__name__)
 
 @app.route('/')
 def index():
-    return render_template("index.html")
+    return render_template("navigation.html")
 
 @app.route('/home')
-def index():
-    return render_template("home.html")
+def home():
+    return render_template("temp.html")
 
 @app.route('/about')
-def index():
-    return render_template("home.html")
+def about():
+    return render_template("temp.html")
 
 @app.route('/login', methods = ["GET", "POST"])
-def index():
+def login():
     if request.method == "GET":
         return render_template("login.html")
     else:
@@ -25,7 +25,7 @@ def index():
         return redirect("/")
 
 @app.route('/register', methods = ["GET", "POST"])
-def index():
+def register():
     if request.method == "GET":
         return render_template("register.html")
     else:
