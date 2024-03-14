@@ -1,4 +1,4 @@
-from flask import Flask
+from flask import Flask, render_template, redirect, request, session
 
 app = Flask(__name__)
 
@@ -16,6 +16,7 @@ def about():
 
 @app.route('/login', methods = ["GET", "POST"])
 def login():
+    return render_template("index.html")
     if request.method == "GET":
         return render_template("login.html")
     else:
