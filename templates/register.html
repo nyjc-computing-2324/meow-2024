@@ -1,0 +1,33 @@
+<!DOCTYPE html>
+<html>
+    <head>
+        <title>Register HERE!</title>
+    </head>
+
+    <body>
+        <h2>Sign up for a MEOW account HERE!</h2>
+        Heve fun!
+
+        <form action="/register" method="post">
+            <label for="user-field">Name:</label>
+            <input id="user-field" type="text" name="username" value=""><br/>
+            <label for="pass-field">Password:</label>
+            <input id="pass-field" type="password" name="password" value=""><br/>
+            <input type="submit" value="Register">
+            {% if error_msg %}
+            <div style="border: 2px solid red;"><p>{{error_msg}}<p></div>
+            {% endif %}
+            {% if success_msg %}
+            <br/><h2>{{success_msg}}</h2>
+            {% endif %}
+
+        </form>
+
+        {% set page = "register" %}
+        {% block content %}
+            {% include 'navigation.html' %}
+        {% endblock %}
+
+    </body>
+
+</html>
