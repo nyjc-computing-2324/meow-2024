@@ -6,7 +6,7 @@
 
     <body>
         <h2>Sign up for a MEOW account HERE!</h2>
-        Heve fun!
+        Have fun!
 
         <form action="/register" method="post">
             <label for="user-field">Name:</label>
@@ -14,6 +14,9 @@
             <label for="pass-field">Password:</label>
             <input id="pass-field" type="password" name="password" value=""><br/>
             <input type="submit" value="Register">
+            
+            <!-- uty what you want to do for error/success msg -->
+            
             {% if error_msg %}
             <div style="border: 2px solid red;"><p>{{error_msg}}<p></div>
             {% endif %}
