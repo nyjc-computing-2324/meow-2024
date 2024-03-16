@@ -1,0 +1,26 @@
+<!DOCTYPE html>
+<html>
+    <head>
+        {% block head %}
+        {% endblock %}
+    </head>
+
+
+    <body>
+        
+        {% block body %}
+        {% endblock %}
+        <br/>Navigation links can be found below:
+        {% if page != "launch" %}
+        <br/><a href="/" target="_self">Launch</a> 
+        {% endif %}
+        {% if page != "register" %}
+        <br/><a href='/register' target="_self">Register</a> 
+        {% endif %}
+        {% if page != "login" %}
+        <br/><a href='/login' target="_self">Login</a>
+        {% endif %}
+
+    </body>
+
+</html>
