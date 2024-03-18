@@ -3,7 +3,6 @@ from flask import Flask, render_template, redirect, request, session
 # completed is a bool, by default False.
 completed = False
 
-@app.route("/")
 def index():
     #display index.html which is the launch page
     if not completed:
@@ -11,7 +10,6 @@ def index():
         return redirect("/temp")
     return render_template("index.html")
 
-@app.route("/temp")
 def temp():
     return render_template("temp.html")
 
@@ -27,7 +25,6 @@ def about():
     #also doesn't exist yet
     raise NotImplementedError
 
-@app.route("/login", methods=["GET", "POST"])
 def login():
     #display login.html
     if completed:
@@ -39,7 +36,6 @@ def login():
     else:
         return redirect("/temp")
 
-@app.route("/register", methods=["GET", "POST"])
 def register():
     #display register.html
     if completed:
