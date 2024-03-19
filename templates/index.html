@@ -1,53 +1,18 @@
-<!-- launch page -->
 <!DOCTYPE html>
 <html>
-  <head>
-    <title>Meow</title>
-    <meta charset="utf-8">
-    <link rel="stylesheet" href="style.css">
-  </head>
+    <head>
+        <title>MEOW🐱HOME PAGE🐱</title>
+    </head>
 
-  <body>
-  <div class="topbar-blank">
-    <img class="logo-img1" src="cat.svg">
-    <span class="logo-text">
-        Meow
-    </span>
-  </div>
+    <body>
+        <h1>Hi! Glad you found this page!</h1>
+        <br/><h3>喵喵喵🐱</h3>
 
-  <div class="tagline-section">
-    <div class="tagline-container">
-    <div class="tagline">
-      <img class="logo-img2" src="cat.svg">
-      <h2>Meow. The purr-fect reocrd manager, coming to you soon!</h2>
-    </div>
-    </div>
-  </div>
+        {% set page = "home" %}
+        {% block content %}
+            {% include 'navigation.html' %}
+        {% endblock %}
 
-  <div class="intro-section">
-    <div class="row">
-    <div class="column">
-      <div class="feature-box">
-        <h3>Manage</h3>
-        <h4>Manage not only your own, but also your organisation's records!</h4>
-      </div>
-    </div>
-    <div class="column">
-      <div class="feature-box">
-        <h3>Ease</h3>
-        <h4>Practical and easy to use interface.</h4>
-      </div>
-    </div>
-    <div class="column">
-      <div class="feature-box">
-        <h3>Elegant</h3>
-        <h4>Sleek design and animations, and of course...cats!</h4>
-      </div>
-    </div>
-    </div>
-  </div>
+    </body>
 
-  
-
-  </body>
-</html>
+    </html>
