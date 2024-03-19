@@ -12,13 +12,11 @@ def index():
 
 def temp():
     return render_template("temp.html")
-
-
+  
 def home():
     #display home.html
     #yeah it doesn't exist yet just ignore this first
     raise NotImplementedError
-
 
 def about():
     #display about.html
