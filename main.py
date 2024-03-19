@@ -7,6 +7,10 @@ app = Flask(__name__)
 def index():
     return view.index()
 
+@app.route('/temp')
+def temp():
+    return view.temp()
+
 @app.route('/home')
 def home():
     return view.temp()
