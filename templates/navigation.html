@@ -12,20 +12,19 @@
         {% block body %}
         {% endblock %}
         <br/>Navigation links can be found below:
-        {% if page == "launch" %}
-        <br/><a href="/register" target = "_self">Register</a>
-        <br/><a href="/login" target = "_self">Login</a>
-        {% endif %}
-        {% if page == "register" %}
-        <br/><a href="/home" target = "_self">Home</a>
-        {% endif %}
-        {% if page == "login" %}
-        <br/><a href="/home" target = "_self">Home</a>
-        {% endif %}
         {% if page != "home" %}
-        <br/><a href="/home" target = "_self">Home</a>
+        <br/><a href="/" target = "_self">Home</a>
         {% endif %}
-        
+        {% if page != "launch" %}
+        <br/><a href="/temp" target="_self">Launch</a> 
+        {% endif %}
+        {% if page != "register" %}
+        <br/><a href='/register' target="_self">Register</a> 
+        {% endif %}
+        {% if page != "login" %}
+        <br/><a href='/login' target="_self">Login</a>
+        {% endif %}
+
     </body>
 
 </html>

@@ -23,16 +23,24 @@ def about():
     #also doesn't exist yet
     raise NotImplementedError
 
-def login(error = ""):
+def login():
     #display login.html
     if completed:
-        return render_template("login.html", error = error)
+        if request.method == "GET":
+            return render_template("login.html")
+        # for here, the validation needs to be implemented
+        else:
+            return redirect("/home")
     else:
         return redirect("/temp")
 
-def register(error = ""):
+def register():
     #display register.html
     if completed:
-        return render_template("register.html", error = error)
+        if request.method == "GET":
+            return render_template("register.html")
+        # for here the validation needs to be implemented
+        else:
+            return redirect("/home")
     else:
         return redirect("/temp")
