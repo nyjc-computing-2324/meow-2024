@@ -68,9 +68,32 @@ class Account():
                 )
                 conn.commit()
             
-        def update(self, username: str, field: str, new: str):
-            """update existing records in the database"""
-            raise NotImplementedError
+        def update(self, account_id: str, field: str, new: str):
+            """update existing records in the database
+               field can only be "username" or "password"
+               return False if inputs are wrong
+               return True if inputs are correct
+            """
+
+            with sqlite3.connect('meow.db') as conn:
+                cursor = conn.cursor
+                if field not in ['username', 'password']:
+                    return False
+                
+                query = f"""
+                        UPDATE "Account" 
+                        SET {field} = ? 
+                        WHERE "account_id" = ? 
+                        """
+            
+                params = (new, account_id)
+                cursor.execute(query, params)
+
+                
+
+                
+
+            
 
         def retrieve(self, username: str):
             """find existing records in the database"""
