@@ -31,7 +31,9 @@ class Account(Table):
             pass
 
         def insert(self, username: str, password: str):
-            """insert new records into the database"""
+            """insert new records into the database
+               yu xi
+            """
             raise NotImplementedError
 
         def update(self, username: str, field: str, new: str):
