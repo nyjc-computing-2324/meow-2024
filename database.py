@@ -1,5 +1,7 @@
 import sqlite3
 
+from validate import password_isvalid, username_isvalid
+
 class Table():
     """parent class for all subsequent tables"""
 
@@ -111,3 +113,10 @@ class Account():
                 cursor.execute(query, param)
                 conn.commit()
                 #conn.close is automatically called
+
+
+# instantiating table objects
+Account = Account()
+
+def create_account(username, password):
+    Account.insert(username, password)
