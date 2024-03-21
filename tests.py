@@ -5,22 +5,22 @@ class Tests():
 class Frontend(Tests):
     
     def test_index(self):
-        pass
+        raise NotImplementedError
 
     def test_temp(self):
-        pass
+        raise NotImplementedError
 
     def test_home(self):
-        pass
+        raise NotImplementedError
 
     def test_about(self):
-        pass
+        raise NotImplementedError
 
     def test_login(self):
-        pass
+        raise NotImplementedError
 
     def test_register(self):
-        pass
+        raise NotImplementedError
 
 class Backend(Tests):
     def __init__(self):
