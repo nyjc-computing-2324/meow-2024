@@ -1,0 +1,38 @@
+@font-face {
+  font-family: comfortaa;
+  src: url(Comfortaa-Light.ttf)
+}
+
+.name {
+  font-size: 10px;
+  font-family: comfortaa;
+  color:#4a4a4a;
+}
+
+.username {
+  font-size: 10px;
+  font-family: comfortaa;
+  color:#4a4a4a;
+}
+
+.password {
+  font-size: 10px;
+  font-family: comfortaa;
+  color:#4a4a4a;
+}
+
+.create_account {
+    background-color: #4a4a4a;
+    border: none;
+    color: white;
+    text-align: center;
+    text-decoration: none;
+    display: inline-block;
+    font-size: 20px;
+    margin: 4px 2px;
+    cursor: pointer;
+    font-family: comfortaa;
+}
+
+
+
