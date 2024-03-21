@@ -30,12 +30,27 @@ class Account(Table):
             """
             pass
 
-        def insert(self, username: str, password: str):
+        def insert(self, account_id: int, username: str, password: str):
             """insert new records into the database
                yu xi
             """
-            raise NotImplementedError
-
+            with sqlite3.connect('meow.db') as conn:
+                cursor = conn.cursor
+                cursor.execute(
+                    """
+                    INSERT INTO "Account"(
+                        "account_id",
+                        "username",
+                        "password"
+                    ) VALUES (
+                        account_id,
+                        username,
+                        password
+                    );
+                    """
+                )
+                conn.commit()
+            
         def update(self, username: str, field: str, new: str):
             """update existing records in the database"""
             raise NotImplementedError
