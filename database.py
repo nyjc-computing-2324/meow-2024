@@ -97,7 +97,7 @@ class Account():
 
             
 
-        def retrieve(self, username: str):
+        def retrieve(self, account_id: int):
             """find existing records in the database
             yu xi
             """
@@ -105,7 +105,9 @@ class Account():
                 cursor = conn.cursor
                 cursor.execute(
                     """
-                    SELECT
+                    SELECT *
+                    FROM "Account"
+                    WHERE "account_id" == account_id
                     """
                 )
                 conn.commit()
