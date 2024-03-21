@@ -98,8 +98,17 @@ class Account():
             
 
         def retrieve(self, username: str):
-            """find existing records in the database"""
-            raise NotImplementedError
+            """find existing records in the database
+            yu xi
+            """
+            with sqlite3.connect('meow.db') as conn:
+                cursor = conn.cursor
+                cursor.execute(
+                    """
+                    SELECT
+                    """
+                )
+                conn.commit()
 
         def delete(self, account_id: int):
             """remove existing records in the database (Vincent)"""
