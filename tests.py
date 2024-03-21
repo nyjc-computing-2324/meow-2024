@@ -3,7 +3,24 @@ class Tests():
         pass
 
 class Frontend(Tests):
-    pass
+    
+    def test_index(self):
+        pass
+
+    def test_temp(self):
+        pass
+
+    def test_home(self):
+        pass
+
+    def test_about(self):
+        pass
+
+    def test_login(self):
+        pass
+
+    def test_register(self):
+        pass
 
 class Backend(Tests):
     def __init__(self):
