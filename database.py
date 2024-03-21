@@ -18,7 +18,7 @@ class Table():
         raise NotImplementedError
 
     def delete(self):
-        """remove existing records in the database"""
+        """remove existing records in the database (Vincent)"""
         raise NotImplementedError
 
 class Account(Table):
