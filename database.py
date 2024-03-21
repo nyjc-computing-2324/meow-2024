@@ -1,6 +1,5 @@
 import sqlite3
 
-
 class Table():
     """parent class for all subsequent tables"""
 
@@ -29,7 +28,7 @@ class Account():
         def __init__(self):
             """
             create a table upon initialisation of the class
-            account id/*username* for pk
+            account id for primary key
             jae zen
             """
 
