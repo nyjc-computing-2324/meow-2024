@@ -27,6 +27,7 @@ class Account(Table):
             """
             create a table upon initialisation of the class
             account id/*username* for pk
+            jae zen
             """
             pass
 
