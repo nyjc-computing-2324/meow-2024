@@ -24,8 +24,8 @@ class Frontend(Tests):
 
 class Backend(Tests):
     def __init__(self):
-        raise NotImplementedError
-
+        #test_table = Account()
+        pass
     def test_insert(self):
         raise NotImplementedError
 
