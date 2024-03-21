@@ -49,7 +49,7 @@ class Account():
                 
             
 
-        def insert(self, account_id: int, username: str, password: str):
+        def insert(self, username: str, password: str):
             """insert new records into the database
                yu xi
             """
@@ -58,11 +58,9 @@ class Account():
                 cursor.execute(
                     """
                     INSERT INTO "Account"(
-                        "account_id",
                         "username",
                         "password"
                     ) VALUES (
-                        account_id,
                         username,
                         password
                     );
