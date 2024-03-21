@@ -1,3 +1,6 @@
+import sqlite3
+
+
 class Table():
     """parent class for all subsequent tables"""
 
@@ -21,7 +24,7 @@ class Table():
         """remove existing records in the database"""
         raise NotImplementedError
 
-class Account(Table):
+class Account():
 
         def __init__(self):
             """
@@ -29,7 +32,21 @@ class Account(Table):
             account id/*username* for pk
             jae zen
             """
-            pass
+
+            with sqlite3.connect("meow.db") as conn:
+                cursor = conn.cursor()
+                cursor.execute(
+                    """
+                    CREATE TABLE IF NOT EXISTS "Account"(
+                    "account_id" <INTEGER> <PRIMARY KEY>,
+                    "username" <TEXT> <NOT NULL>,
+                    "password" <TEXT> <NOT NULL>
+                    )
+                    """
+                )
+                conn.commit()
+                
+            
 
         def insert(self, account_id: int, username: str, password: str):
             """insert new records into the database
