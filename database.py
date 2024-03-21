@@ -78,5 +78,14 @@ class Account():
             raise NotImplementedError
 
         def delete(self, username: str):
-            """remove existing records in the database"""
-            raise NotImplementedError
+            """remove existing records in the database (Vincent)"""
+            with sqlite3.connect('meow.db') as conn:
+                cursor = conn.cursor()
+                query = """
+                        DELETE FROM "Account"
+                        WHERE "account_id" = ?;
+                        """
+                param = (account_id)
+                cursor.execute(query, param)
+                conn.commit()
+                #conn.close is automatically called
