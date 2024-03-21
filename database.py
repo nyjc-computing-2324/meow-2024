@@ -82,9 +82,9 @@ class Account():
                 cursor = conn.cursor()
                 query = """
                         DELETE FROM "Account"
-                        WHERE "account_id" = ?;
+                        WHERE "username" = ?;
                         """
-                param = (account_id)
+                param = (username,)
                 cursor.execute(query, param)
                 conn.commit()
                 #conn.close is automatically called
