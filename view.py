@@ -26,21 +26,13 @@ def about():
 def login(error = ""):
     #display login.html
     if completed:
-        if request.method == "GET":
-            return render_template("login.html", error = error)
-        # for here, the validation needs to be implemented
-        else:
-            return redirect("/home")
+        return render_template("login.html", error = error)
     else:
         return redirect("/temp")
 
 def register(error = ""):
     #display register.html
     if completed:
-        if request.method == "GET":
-            return render_template("register.html", error = error)
-
-        else:
-            return redirect("/home")
+        return render_template("register.html", error = error)
     else:
         return redirect("/temp")

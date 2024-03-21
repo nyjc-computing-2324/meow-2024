@@ -1,4 +1,4 @@
-from flask import Flask
+from flask import Flask, redirect
 import view, validate, database
 
 app = Flask(__name__)
@@ -27,8 +27,8 @@ def login():
         username = request.form["username"]
         password = request.form["password"]
         if validate.user_isvalid(username, password):
-            pass
             #login
+            return redirect("/home")
         else:
             return view.login(error="invalid username or password")
 
@@ -42,11 +42,11 @@ def register():
         if validate.username_isvalid(username):
             if validate.password_isvalid(password):
                 database.create_account(username, password)
+                return redirect("/home")
             else:
                 return view.register(error="Password does not meet requirements.")
         else:
             return view.register(error="Username does not meet requirements.")
-
 
 if __name__ == '__main__':
   app.run(host='0.0.0.0', port=80)
