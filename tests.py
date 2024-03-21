@@ -6,4 +6,17 @@ class Frontend(Tests):
     pass
 
 class Backend(Tests):
-    pass
+    def __init__(self):
+        raise NotImplementedError
+
+    def test_insert(self):
+        raise NotImplementedError
+
+    def test_update(self):
+        raise NotImplementedError
+
+    def test_retrieve(self):
+        raise NotImplementedError
+
+    def test_delete(self):
+        raise NotImplementedError
