@@ -55,17 +55,18 @@ class Account():
             """
             with sqlite3.connect('meow.db') as conn:
                 cursor = conn.cursor
-                cursor.execute(
-                    """
+                query = """
                     INSERT INTO "Account"(
                         "username",
                         "password"
                     ) VALUES (
-                        username,
-                        password
+                        ?,
+                        ?
                     );
                     """
-                )
+                params = (username, password)
+            
+                cursor.execute(query, params)
                 conn.commit()
             
         def update(self, account_id: str, field: str, new: str):
@@ -99,6 +100,7 @@ class Account():
             """find existing records in the database
             yu xi
             """
+                
             with sqlite3.connect('meow.db') as conn:
                 cursor = conn.cursor
                 cursor.execute(
