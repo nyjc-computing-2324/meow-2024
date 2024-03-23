@@ -1,5 +1,5 @@
-from flask import Flask
-import view
+from flask import Flask, redirect, request
+import view, validate, database
 
 app = Flask(__name__)
 
