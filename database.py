@@ -114,7 +114,81 @@ class Account():
                 conn.commit()
                 #conn.close is automatically called
 
+class Student():
 
+    def __init__(self):
+        """
+        create a table upon initialisation of the class
+        student_id for pk
+        """
+        pass
+
+    def insert(self, name: str, _class: int, email: str, account_id: int):
+        """insert new records into the database"""
+        raise NotImplementedError
+
+    def update(self, student_id: int, field: str, new: str):
+        """update existing records in the database"""
+        raise NotImplementedError
+
+    def retrieve(self, student_id: int):
+        """find existing records in the database"""
+        raise NotImplementedError
+
+    def delete(self, student_id: int):
+        """remove existing records in the database"""
+        raise NotImplementedError
+
+class CCA():
+
+    def __init__(self):
+        """
+        create a table upon initialisation of the class
+        cca_id for pk
+        """
+        pass
+
+    def insert(self, name: str, type: str):
+        """insert new records into the database"""
+        raise NotImplementedError
+
+    def update(self, cca_id: int, field: str, new: str):
+        """update existing records in the database"""
+        raise NotImplementedError
+
+    def retrieve(self, cca_id: int):
+        """find existing records in the database"""
+        raise NotImplementedError
+
+    def delete(self, cca_id: int):
+        """remove existing records in the database"""
+        raise NotImplementedError
+
+class Activity():
+
+    def __init__(self):
+        """
+        create a table upon initialisation of the class
+        activity_id for pk
+        """
+        pass
+
+    def insert(self, name: str, date: str, location: str, organiser_id: int):
+        """insert new records into the database"""
+        raise NotImplementedError
+
+    def update(self, account_id: int, field: str, new: str):
+        """update existing records in the database"""
+        raise NotImplementedError
+
+    def retrieve(self, account_id: int):
+        """find existing records in the database"""
+        raise NotImplementedError
+
+    def delete(self, account_id: int):
+        """remove existing records in the database"""
+        raise NotImplementedError
+        
 # instantiating table objects
 Account = Account()
 
