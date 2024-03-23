@@ -1,4 +1,4 @@
-from flask import Flask, redirect
+from flask import Flask, redirect, request
 import view, validate, database
 
 app = Flask(__name__)
