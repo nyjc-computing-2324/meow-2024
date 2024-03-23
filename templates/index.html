@@ -1,7 +1,8 @@
 <!DOCTYPE html>
 <html>
     <head>
-        <title>MEOW🐱HOME PAGE🐱</title>
+        <link rel="stylesheet" type="text/css" href="{{ url_for('static', filename='css/slider.css') }}">
+        <title>launch</title>
     </head>
 
     <body>
@@ -14,7 +15,9 @@
             <a class="faqs-text" href = "/temp" target="new">FAQs</a>
             <span class="divider">|</span>
             <a class="login-text" href="/login" target="new">Login</a>
-            <input type="submit" class="register_button" value="Sign Up" formaction="/register" formmethod="get">
+            <form action="/register" method="get">
+                <input type="submit" class="sign_up_button" value="Sign up">
+            </form>
         </section>
         
         <section class="tagline-section">
@@ -88,8 +91,22 @@
                 <div class="column">
 
                 </div>
-            <input type="button" class="prev">
-            <input type="button" class="next">
+                <section class="container">
+                    <div class="slider-wrapper">
+                        <div class="slider">
+                            <img id="slide-1" src="https://vz.cnwimg.com/wp-content/uploads/2013/10/Jay-Chou-e1593382563644.jpg" alt="lol image holder" />
+                            <img id="slide-2" src="https://hype.my/wp-content/uploads/2016/10/Jay-Chou.jpg" alt="lol another image holder"/>
+                            <img id="slide-3" src="https://www.filmarchive.gov.hk/image/journal/article-22143131.jpeg" alt="lol lol image holderrrrr"
+                        </div>
+                        <div calss="slider-nav">
+                            <a href="#slide-1"></a>
+                            <a href="#slide-2"></a>
+                            <a href="#slide-3"></a>
+                        </div>
+                    </div>
+                </section>
+                <!-- <input type="button" class="prev">
+            <input type="button" class="next"> -->
         </section>
         <div class="footer">
            <img class="logo-img2" src="{{ url_for('static',filename= 'images/cat.svg') }}">
