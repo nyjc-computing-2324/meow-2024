@@ -26,13 +26,13 @@ def about():
 def login(error = ""):
     #display login.html
     if completed:
-        return render_template("login.html", error = error)
+        return render_template("login.html", error_msg = error)
     else:
         return redirect("/temp")
 
 def register(error = ""):
     #display register.html
     if completed:
-        return render_template("register.html", error = error)
+        return render_template("register.html", error_msg = error)
     else:
         return redirect("/temp")
