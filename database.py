@@ -183,10 +183,22 @@ class Activity:
         raise NotImplementedError
         
 # instantiating table objects
-Account = Account()
+student_account = Account()
 
-def create_account(username, password):
+def create_account(username: str, password: str):
     # checks for valid username and password is already done 
     # check for repeated username
-    if Account.retrieve("username", username) is None:
-        Account.insert(username, password)
+    if student_account.retrieve("username", username) is None:
+        student_account.insert(username, password)
+
+def login(username: str , password: str) -> bool:
+    # checks for valid username and password is already done 
+    
+    data = student_account.retrieve("username", username)
+    # account not found
+    if data is None:
+        return False
+    
+    account_id, database_username, database_password = data
+    # salting and hashing of password not yet implemented
+    return database_password == password
