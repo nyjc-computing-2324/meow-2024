@@ -2,7 +2,7 @@ import sqlite3
 
 from validate import password_isvalid, username_isvalid
 
-class Table():
+class Table:
     """parent class for all subsequent tables"""
 
     def __init__(self):
@@ -25,106 +25,91 @@ class Table():
         """remove existing records in the database"""
         raise NotImplementedError
 
-class Account():
+class Account:
 
-        def __init__(self):
-            """
-            create a table upon initialisation of the class
-            account id for primary key
-            jae zen
-            """
+    def __init__(self):
+        """
+        create a table upon initialisation of the class
+        account id for primary key
+        """
 
-            with sqlite3.connect("meow.db") as conn:
-                cursor = conn.cursor()
-                cursor.execute(
+        with sqlite3.connect("meow.db") as conn:
+            cursor = conn.cursor()
+            cursor.execute(
+                """
+                CREATE TABLE IF NOT EXISTS "account"(
+                "account_id" INTEGER,
+                "username" TEXT NOT NULL UNIQUE,
+                "password" TEXT NOT NULL,
+                PRIMARY KEY ("account_id")
+                );
+                """
+            )
+            conn.commit()
+
+    def insert(self, username: str, password: str):
+        """
+        insert new records into the database
+        """
+        with sqlite3.connect('meow.db') as conn:
+            cursor = conn.cursor()
+            query = """
+                    INSERT INTO "account" ("username", "password") VALUES (?, ?);
                     """
-                    CREATE TABLE IF NOT EXISTS "Account"(
-                    "account_id" <INTEGER> <PRIMARY KEY>,
-                    "username" <TEXT> <NOT NULL>,
-                    "password" <TEXT> <NOT NULL>
-                    )
+            params = (username, password)
+            cursor.execute(query, params)
+            conn.commit()
+        
+    def update(self, account_id: str, field: str, new: str):
+        """
+        update existing records in the database
+        field can only be "username" or "password"
+        return False if inputs are wrong
+        return True if inputs are correct
+        """
+
+        with sqlite3.connect('meow.db') as conn:
+            cursor = conn.cursor()
+            if field not in ['username', 'password']:
+                return False
+            
+            query = f"""
+                    UPDATE "account" 
+                    SET {field} = ? 
+                    WHERE "account_id" = ? 
                     """
-                )
-                conn.commit()
-                
+            params = (new, account_id)
+            cursor.execute(query, params)
+
+    def retrieve(self, field: str, data) -> tuple:
+        """find existing records in the database"""
             
-
-        def insert(self, username: str, password: str):
-            """insert new records into the database
-               yu xi
-            """
-            with sqlite3.connect('meow.db') as conn:
-                cursor = conn.cursor
-                query = """
-                    INSERT INTO "Account"(
-                        "username",
-                        "password"
-                    ) VALUES (
-                        ?,
-                        ?
-                    );
-                    """
-                params = (username, password)
-            
-                cursor.execute(query, params)
-                conn.commit()
-            
-        def update(self, account_id: str, field: str, new: str):
-            """update existing records in the database
-               field can only be "username" or "password"
-               return False if inputs are wrong
-               return True if inputs are correct
-            """
-
-            with sqlite3.connect('meow.db') as conn:
-                cursor = conn.cursor
-                if field not in ['username', 'password']:
-                    return False
-                
-                query = f"""
-                        UPDATE "Account" 
-                        SET {field} = ? 
-                        WHERE "account_id" = ? 
-                        """
-            
-                params = (new, account_id)
-                cursor.execute(query, params)
-
-                
-
-                
-
-            
-
-        def retrieve(self, account_id: int):
-            """find existing records in the database
-            yu xi
-            """
-                
-            with sqlite3.connect('meow.db') as conn:
-                cursor = conn.cursor
-                cursor.execute(
-                    """
+        with sqlite3.connect('meow.db') as conn:
+            cursor = conn.cursor()
+            query = f"""
                     SELECT *
                     FROM "Account"
-                    WHERE "account_id" == account_id
+                    WHERE {field} == ?;
                     """
-                )
-                conn.commit()
+            params = (data,)
+            cursor.execute(query, params)
+            record = cursor.fetchone()
+            conn.commit()
+            return record
 
-        def delete(self, account_id: int):
-            """remove existing records in the database (Vincent)"""
-            with sqlite3.connect('meow.db') as conn:
-                cursor = conn.cursor()
-                query = """
-                        DELETE FROM "Account"
-                        WHERE "account_id" = ?;
-                        """
-                param = (account_id,)
-                cursor.execute(query, param)
-                conn.commit()
+    def delete(self, account_id: int):
+        """remove existing records in the database"""
+        with sqlite3.connect('meow.db') as conn:
+            cursor = conn.cursor()
+            query = """
+                    DELETE FROM "Account"
+                    WHERE "account_id" = ?;
+                    """
+            param = (account_id,)
+            cursor.execute(query, param)
+            conn.commit()
 
-class Student():
+class Student:
 
     def __init__(self):
         """
@@ -149,7 +134,7 @@ class Student():
         """remove existing records in the database"""
         raise NotImplementedError
 
-class CCA():
+class CCA:
 
     def __init__(self):
         """
@@ -174,7 +159,7 @@ class CCA():
         """remove existing records in the database"""
         raise NotImplementedError
 
-class Activity():
+class Activity:
 
     def __init__(self):
         """
@@ -203,4 +188,7 @@ class Activity():
 Account = Account()
 
 def create_account(username, password):
-    Account.insert(username, password)
+    # checks for valid username and password is already done 
+    # check for repeated username
+    if Account.retrieve("username", username) is None:
+        Account.insert(username, password)
