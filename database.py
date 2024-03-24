@@ -1,7 +1,5 @@
 import sqlite3
 
-from validate import password_isvalid, username_isvalid
-
 class Table:
     """parent class for all subsequent tables"""
 
