@@ -7,12 +7,16 @@
 
 
     <body>
-        
+
+        <!-- make the nav bar on the top right hand corner, with borders? -->
         {% block body %}
         {% endblock %}
         <br/>Navigation links can be found below:
+        {% if page != "home" %}
+        <br/><a href="/" target = "_self">Home</a>
+        {% endif %}
         {% if page != "launch" %}
-        <br/><a href="/" target="_self">Launch</a> 
+        <br/><a href="/temp" target="_self">Launch</a> 
         {% endif %}
         {% if page != "register" %}
         <br/><a href='/register' target="_self">Register</a> 
