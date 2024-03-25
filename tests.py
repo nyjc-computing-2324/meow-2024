@@ -1,9 +1,20 @@
-class Tests():
-    def ___init__(self):
-        pass
+import unittest
+from database import Account
+#IMPORTANT Please Read
+"""
+We will be using the unittest module instead to test frontend and backend.
+Using this module follows a similar OOP structure to the classes we made last session 
+One key difference is that you need to inherit from the 'unittest.TestCase' baseclass
 
-class Frontend(Tests):
-    
+DataQuest Simple Guide:https://www.dataquest.io/blog/unit-tests-python/
+
+unittest Documentation: https://docs.python.org/3/library/unittest.html
+"""
+
+class Test_Frontend(unittest.TestCase):
+    def setUp(self):
+        pass
+        
     def test_index(self):
         raise NotImplementedError
 
@@ -22,10 +33,10 @@ class Frontend(Tests):
     def test_register(self):
         raise NotImplementedError
 
-class Backend(Tests):
-    def __init__(self):
-        #test_table = Account()
-        pass
+class Test_Backend(unittest.TestCase):
+    def setUp(self):
+        self.Account = Account()
+        
     def test_insert(self):
         raise NotImplementedError
 
