@@ -21,14 +21,6 @@ def home():
 def about():
     return view.temp()
 
-@app.route('/home')
-def index():
-    return render_template("home.html")
-
-@app.route('/about')
-def index():
-    return render_template("home.html")
-
 @app.route('/login', methods = ["GET", "POST"])
 def login():
     if request.method == "GET":
