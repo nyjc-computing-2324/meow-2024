@@ -1,6 +1,9 @@
 # Ignore local files
 .local
 
+# Ignore bash scripts
+*.sh
+
 # Ignore database files
 *.db
 *.sqlite
