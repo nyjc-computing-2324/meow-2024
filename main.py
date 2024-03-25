@@ -1,7 +1,5 @@
-from flask import Flask, redirect, request
+from flask import Flask, redirect, request, session
 import view, validate, database
-
-logged_in = False
 
 app = Flask(__name__)
 
@@ -29,7 +27,7 @@ def login():
         username = request.form["username"]
         password = request.form["password"]
         if validate.user_isvalid(username, password):
-            logged_in = True
+            session["logged_in"] = True
             return redirect("/home")
         else:
             return view.login(error="invalid username or password")
@@ -44,6 +42,7 @@ def register():
         if validate.username_isvalid(username):
             if validate.password_isvalid(password):
                 database.create_account(username, password)
+                session["logged_in"] = True
                 return redirect("/home")
             else:
                 return view.register(error="Password does not meet requirements.")
