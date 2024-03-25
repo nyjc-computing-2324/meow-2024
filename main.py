@@ -1,6 +1,8 @@
 from flask import Flask, redirect, request
 import view, validate, database
 
+logged_in = False
+
 app = Flask(__name__)
 
 @app.route('/')
@@ -27,7 +29,7 @@ def login():
         username = request.form["username"]
         password = request.form["password"]
         if validate.user_isvalid(username, password):
-            #login
+            logged_in = True
             return redirect("/home")
         else:
             return view.login(error="invalid username or password")
