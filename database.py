@@ -48,6 +48,7 @@ class Account:
     def insert(self, username: str, password: str):
         """
         insert new records into the database
+        checks for repeated username should already be done
         """
         with sqlite3.connect('meow.db') as conn:
             cursor = conn.cursor()
@@ -64,6 +65,7 @@ class Account:
         field can only be "username" or "password"
         return False if inputs are wrong
         return True if inputs are correct
+        checks for repeated username should already be done
         """
 
         with sqlite3.connect('meow.db') as conn:
@@ -80,7 +82,10 @@ class Account:
             cursor.execute(query, params)
 
     def retrieve(self, field: str, data) -> tuple:
-        """find existing records in the database"""
+        """
+        find existing records in the database
+        field can only be "account_id" or "password"
+        """
             
         with sqlite3.connect('meow.db') as conn:
             cursor = conn.cursor()
