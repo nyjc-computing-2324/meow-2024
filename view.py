@@ -23,14 +23,14 @@ def about():
     #also doesn't exist yet
     raise NotImplementedError
 
-def login():
+def login(error = ""):
     #display login.html
     if completed:
         return render_template("login.html", error_msg = error)
     else:
         return redirect("/temp")
 
-def register():
+def register(error = ""):
     #display register.html
     if completed:
         return render_template("register.html", error_msg = error)
