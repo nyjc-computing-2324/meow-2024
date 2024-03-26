@@ -129,7 +129,7 @@ class Student:
         """update existing records in the database"""
         raise NotImplementedError
 
-    def retrieve(self, student_id: int):
+    def retrieve(self, field: str, data):
         """find existing records in the database"""
         raise NotImplementedError
 
