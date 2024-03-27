@@ -84,14 +84,14 @@ class Account:
     def retrieve(self, field: str, data) -> tuple:
         """
         find existing records in the database
-        field can only be "account_id" or "password"
+        field can only be "account_id" or "username"
         """
             
         with sqlite3.connect('meow.db') as conn:
             cursor = conn.cursor()
             query = f"""
                     SELECT *
-                    FROM "Account"
+                    FROM "account"
                     WHERE {field} == ?;
                     """
             params = (data,)
@@ -100,15 +100,18 @@ class Account:
             conn.commit()
             return record
 
-    def delete(self, account_id: int):
-        """remove existing records in the database"""
+    def delete(self, field: str, data):
+        """
+        remove existing records in the database
+        field can only be "account_id" or "username"
+        """
         with sqlite3.connect('meow.db') as conn:
             cursor = conn.cursor()
-            query = """
-                    DELETE FROM "Account"
-                    WHERE "account_id" = ?;
+            query = f"""
+                    DELETE FROM "account"
+                    WHERE {field} = ?;
                     """
-            param = (account_id,)
+            param = (data,)
             cursor.execute(query, param)
             conn.commit()
 
@@ -172,7 +175,15 @@ class Student:
 
     def delete(self, student_id: int):
         """remove existing records in the database"""
-        raise NotImplementedError
+        with sqlite3.connect('meow.db') as conn:
+            cursor = conn.cursor()
+            query = """
+                    DELETE FROM "student"
+                    WHERE "student_id" = ?;
+                    """
+            param = (student_id,)
+            cursor.execute(query, param)
+            conn.commit()
 
 class CCA:
 
