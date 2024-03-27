@@ -26,7 +26,6 @@ class Test_Account(TestCase):
 
     def test_insert(self):
         """
-        By Vincent & Hong Zhao
         Checks if the provided data is correctly inserted into
         the Account table with the insert method
         """
