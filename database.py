@@ -133,6 +133,7 @@ class Student:
                     "class" INTEGER, 
                     "email" TEXT,
                     "account_id" INTEGER NOT NULL UNIQUE
+                    FOREIGN KEY ("account_id") REFERENCES class(Account)
                 );
                 """
             )
