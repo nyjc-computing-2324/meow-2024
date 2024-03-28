@@ -128,10 +128,10 @@ class Student:
             cursor.execute(
                 """
                 CREATE TABLE IF NOT EXISTS "student" (
-                    "student_id" INTEGER PRIMARY KEY
-                    "name" TEXT NOT NULL
-                    "class" INTEGER 
-                    "email" TEXT 
+                    "student_id" INTEGER PRIMARY KEY,
+                    "name" TEXT NOT NULL,
+                    "class" INTEGER, 
+                    "email" TEXT,
                     "account_id" INTEGER NOT NULL UNIQUE
                 );
                 """
