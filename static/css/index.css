@@ -26,46 +26,50 @@
 
 .logo-text1 {
     font-family : comfortaa;
+    font-size : 32px
     }
 
 .contact-text{
     position : relative;
-    left : 1100px;
+    left : 950px;
     font-family : comfortaa;
+    color : black;
+    text-decoration:none
 }
 
 .faqs-text{
     position : relative;
-    left : 1120px;
+    left : 970px;
     font-family : comfortaa;
+    color : black;
+    text-decoration:none
 }
 
 .divider{
     position : relative;
-    left : 1140px;
+    left : 990px;
     font-family : comfortaa;
+    color : black;
 }
 
 .login-text{
     position : relative;
-    left : 1160px;
+    left : 1010px;
     font-family : comfortaa;
+    color : black;
+    text-decoration:none;
+
 }
 
 .sign_up_button1{
     position : relative;
-    left : 1180px;
+    left : 1030px;
     font-family : comfortaa;
-    background-color: #04AA6D;
-    border: none;
-    color: white;
-    padding: 15px 32px;
-    text-align: center;
-    text-decoration: none;
-    display: inline-block;
-    font-size: 16px;
-    margin: 4px 2px;
-    cursor: pointer;
+    background-color: #2f99e9;
+    border-radius: 10px;
+    border : none;
+    width: 100px;
+    height: 40px;
 }
 
 .tagline-section{
@@ -74,8 +78,9 @@
 }
 
 .slogan-container{
+    
     padding-left : 250px;
-    max-width : 45%;
+    max-width : 50%;
 }
 
 .slogan-text{
@@ -84,12 +89,51 @@
 }
 
 .detailed-description-container{
-    padding-top : 10px;
+    padding-top : 20px;
+    padding-bottom : 20px;
     padding-left : 250px;
+    max-width : 42%;
 }
 
 .detailed-description-text{
     font-family : comfortaa;
     font-size : 16px;
+    color : #b0b0b0;
 }
 
+.sign_up_button2{
+    position : relative;
+    left : 250px;
+    font-family : comfortaa;
+    background-color: #2f99e9;
+    border-radius: 10px;
+    border : none;
+    width: 150px;
+    height: 50px;
+    font-size : 18px;
+    font-weight : bold
+}
+
+.description-section{
+    background-image: linear-gradient(#76a6f4, #4e8df4);
+}
+
+.brief-description-container{
+    text-align : center;
+    padding-top : 50px;
+}
+
+.brief-description-text{
+    font-family : comfortaa;
+    color : white;
+}
+
+.feature-item{
+    height: 200px;
+    border-radius: 20px;
+    width: 80%;
+    background-color: #f5f5f5;
+    text-align: center;
+    vertical-align: top;
+    box-shadow: 3px 10px 5px #d9d9d9;
+}
