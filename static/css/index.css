@@ -1,0 +1,9 @@
+@font-face {
+  font-family: comfortaa;
+  src: url(Comfortaa-Light.ttf)
+}
+
+.logo-img1 {
+  height: 61px;
+  width: 61px;
+}
