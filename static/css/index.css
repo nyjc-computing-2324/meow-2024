@@ -30,32 +30,42 @@
 
 .contact-text{
     position : relative;
-    left : 930px;
+    left : 1100px;
     font-family : comfortaa;
 }
 
 .faqs-text{
     position : relative;
-    left : 950px;
+    left : 1120px;
     font-family : comfortaa;
 }
 
 .divider{
     position : relative;
-    left : 970px;
+    left : 1140px;
     font-family : comfortaa;
 }
 
 .login-text{
     position : relative;
-    left : 990px;
+    left : 1160px;
     font-family : comfortaa;
 }
 
 .sign_up_button1{
     position : relative;
-    left : 1010px;
+    left : 1180px;
     font-family : comfortaa;
+    background-color: #04AA6D;
+    border: none;
+    color: white;
+    padding: 15px 32px;
+    text-align: center;
+    text-decoration: none;
+    display: inline-block;
+    font-size: 16px;
+    margin: 4px 2px;
+    cursor: pointer;
 }
 
 .tagline-section{
@@ -70,6 +80,16 @@
 
 .slogan-text{
     font-family : comfortaa;
-    font-size : 36px
+    font-size : 36px;
+}
+
+.detailed-description-container{
+    padding-top : 10px;
+    padding-left : 250px;
+}
+
+.detailed-description-text{
+    font-family : comfortaa;
+    font-size : 16px;
 }
 
