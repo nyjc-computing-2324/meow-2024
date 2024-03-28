@@ -121,12 +121,41 @@ class Student:
         """
         create a table upon initialisation of the class
         student_id for pk
+        yu xi
         """
-        pass
+        with sqlite3.connect('meow.db') as conn:
+            cursor = conn.cursor()
+            cursor.execute(
+                """
+                CREATE TABLE IF NOT EXISTS "student" (
+                    "student_id" INTEGER PRIMARY KEY
+                    "name" TEXT NOT NULL
+                    "class" INTEGER 
+                    "email" TEXT 
+                    "account_id" INTEGER NOT NULL UNIQUE
+                );
+                """
+            )
+            conn.commit()
+            #conn.close() called automatically
 
     def insert(self, name: str, _class: int, email: str, account_id: int):
-        """insert new records into the database"""
-        raise NotImplementedError
+        """
+        insert new records into the database
+        yu xi
+        """
+        with sqlite3.connect('meow.db') as conn:
+            cursor = conn.cursor()
+            query = """
+                INSERT INTO "student"(
+                    "name", "class", "email", "account_id"
+                ) VALUES (?, ?, ?, ?
+                );
+            """
+            params = (name, _class, email, account_id)
+            cursor.execute(query, params)
+            conn.commit()
+            #conn.close() called automatically
 
     def update(self, student_id: int, field: str, new: str):
         """update existing records in the database"""
