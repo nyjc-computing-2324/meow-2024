@@ -59,16 +59,17 @@
 }
 
 .tagline-section{
-    padding-top : 100px;
+    padding-top : 250px;
     padding-bottom : 100px;
 }
 
 .slogan-container{
-    padding-left : 80px;
-    padding-right : 786px;
+    padding-left : 250px;
+    max-width : 45%;
 }
 
 .slogan-text{
     font-family : comfortaa;
     font-size : 36px
 }
+
