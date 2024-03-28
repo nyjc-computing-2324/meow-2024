@@ -1,9 +1,74 @@
 @font-face {
-  font-family: comfortaa;
-  src: url(Comfortaa-Light.ttf)
+    font-family: comfortaa;
+    src: url(Comfortaa-Light.ttf);
+}
+
+* {
+    padding : 0;
+    margin : 0;
+    box-sizing : border-box;
+}
+
+.topbar-section{
+    background-color: white;
+    height: 80px;
+    display: flex;
+    align-items: center;
+    padding-left: 30px;
+    vertical-align: middle;
+    box-shadow: 0px 5px 5px #d9d9d9;
 }
 
 .logo-img1 {
-  height: 61px;
-  width: 61px;
+    height: 61px;
+    width: 61px;
+}
+
+.logo-text1 {
+    font-family : comfortaa;
+    }
+
+.contact-text{
+    position : relative;
+    left : 930px;
+    font-family : comfortaa;
+}
+
+.faqs-text{
+    position : relative;
+    left : 950px;
+    font-family : comfortaa;
+}
+
+.divider{
+    position : relative;
+    left : 970px;
+    font-family : comfortaa;
+}
+
+.login-text{
+    position : relative;
+    left : 990px;
+    font-family : comfortaa;
+}
+
+.sign_up_button1{
+    position : relative;
+    left : 1010px;
+    font-family : comfortaa;
+}
+
+.tagline-section{
+    padding-top : 100px;
+    padding-bottom : 100px;
+}
+
+.slogan-container{
+    padding-left : 80px;
+    padding-right : 786px;
+}
+
+.slogan-text{
+    font-family : comfortaa;
+    font-size : 36px
 }
