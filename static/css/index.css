@@ -116,6 +116,7 @@
 
 .description-section{
     background-image: linear-gradient(#76a6f4, #4e8df4);
+    height : 600px;
 }
 
 .brief-description-container{
@@ -129,11 +130,32 @@
 }
 
 .feature-item{
-    height: 200px;
+    position : relative;
+    left : 300px;
+    top : 80px;
+    height: 320px;
     border-radius: 20px;
-    width: 80%;
-    background-color: #f5f5f5;
-    text-align: center;
-    vertical-align: top;
-    box-shadow: 3px 10px 5px #d9d9d9;
+    width: 20%;
+    background-image : linear-gradient(#ffffff, #76a6f4);
+}
+
+.features-text{
+    position : relative;
+    bottom : 130px;
+    left : 650px;
+    font-family : comfortaa;
+    font-size: 36px;
+    color : white;
+}
+
+.features-subtext{
+    position : relative;
+    bottom : 110px;
+    left : 650px;
+    font-size : 20px;
+    color : white;
+}
+
+.prev{
+    background-image : 'arrow_right.img';
 }
