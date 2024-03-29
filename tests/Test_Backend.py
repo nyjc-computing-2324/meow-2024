@@ -23,13 +23,13 @@ class Test_Account(TestCase):
         self.Account = Account()
         self.name = '@aBc'
         self.password = 'Abcd1234'
+        self.Account.insert(self.name,self.password)
 
     def test_insert(self):
         """
         Checks if the provided data is correctly inserted into
         the Account table with the insert method
         """
-        self.Account.insert(self.name,self.password)
         assertTrue(self.Account.retrieve('username',self.name))
 
     def test_update(self):
@@ -38,9 +38,21 @@ class Test_Account(TestCase):
         Checks if a record is correctly updated in the Account
         table with the update method (maybe done)
         """
+        
         self.password = "aBCD1234"
-        self.Account.update('password', self.password)
-        assertEqual(self.account.retrieve('username', self.name)[2], self.password, "Update function failed")
+        self.Account.update(1, 'password', self.password)
+        with sqlite3.connect('meow.db') as conn:
+            cursor = conn.cursor()
+            query = """
+                    SELECT *
+                    FROM "Account"
+                    WHERE "password" == ?;
+                    """
+            params = (self.password,)
+            cursor.execute(query, params)
+            record = cursor.fetchone()
+            conn.commit()
+        assertEqual(record[2], self.password, "Update function failed")
 
     def test_retrieve(self):
         """
@@ -48,7 +60,8 @@ class Test_Account(TestCase):
         Checks if a record is correctly retrieved from the
         Account table with the retrieve method (perhaps finished)
         """
-        assertEqual(self.name, self.account.retrieve('username',self.name), 'Retrieve function failed')
+
+        assertEqual(self.name, self.Account.retrieve('username',self.name)[1], 'Retrieve function failed')
 
     def test_delete(self):
         """
@@ -56,7 +69,7 @@ class Test_Account(TestCase):
         Checks if a record is correctly deleted from the Account
         table with the delete method (possibly completed)
         """
-        del_target = self.account.retrieve('username',self.name)
-        self.account.delete(del_target[0])
+        del_target = self.Account.retrieve('username', self.name)
+        self.Account.delete(del_target[0])
         assertIsNone(del_target)
     
