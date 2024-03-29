@@ -40,8 +40,7 @@ class Test_Validate(TestCase):
         self.invalidpassword_tooshort = 'Ab1'
         self.invalidpassword_empty = ''
         self.invalidpassword_notascii = 'ABCd二十八28'
-        self.invalidpassword_withnextline = 'ABCdef123\n456'
-        self.invalidpassword_withtabs = 'ABCd    ef1234    33'
+        self.invalidpassword_notprintable = 'ABCdef \t 123 \n 456'
         self.invalidpassword_withspaces = 'ABcd 12 34'
         
         #user validation test cases
@@ -59,18 +58,18 @@ class Test_Validate(TestCase):
         Tests the username_isvalid method on validate.py
         """
         assertTrue(username_isvalid(self.validname),'Username should be valid.')
-        assertTrue(self.validname_allspaces, 'Username should be valid.')
+        assertTrue(self.validname_allspaces, 'Username should be valid even if it contains all spaces')
         
         assertFalse(username_isvalid(self.invalidname_notascii),'Username should be invalid: Username contains non-ASCII characters.')
-        assertFalse(username_isvalid(self.invalidname_notprintable),'Username should be invalid: Username contains non- characters.')
+        assertFalse(username_isvalid(self.invalidname_notprintable),'Username should be invalid: Username contains non-printable characters.')
 
     
     def test_password_isvalid(self):
         """
-        By Si Bin
         Tests the password_isvalid method on validate.py
         """
         assertTrue(password_isvalid(self.validpassword), 'Password should be valid.')
+        
         assertTrue(password_isvalid(self.validpassword_verylong), 'Password should be valid even though it is very long.')
         assertTrue(password_isvalid(self.validpassword_specialcharacters), 'Password should be valid even though it contains special characters.')
 
@@ -78,16 +77,15 @@ class Test_Validate(TestCase):
         assertFalse(password_isvalid(self.invalidpassword_nolower), 'Password should be invalid: There are no lowercase characters.')
         assertFalse(password_isvalid(self.invalidpassword_nodigit), 'Password should be invalid: There are no ASCII numbers.')
         assertFalse(password_isvalid(self.invalidpassword_tooshort), 'Password should be invalid: Password is too short.')
+        
         assertFalse(password_isvalid(self.invalidpassword_empty), 'Password should be invalid: Password is empty (an empty string).')
         assertFalse(password_isvalid(self.invalidpassword_notascii), 'Password should be invalid: Password contains non-ASCII characters.')
-        assertFalse(password_isvalid(self.invalidpassword_withnextline), 'Password should be invalid: Password contains next line character, whcih is non-printable.')
-        assertFalse(password_isvalid(self.invalidpassword_withtabs), 'Password should be invalid: Password contains tabs, which are non-printable.')
+        assertFalse(password_isvalid(self.invalidpassword_notprintable), 'Password should be invalid: Password contains newline and tab characters, whcih are non-printable.')
         assertFalse(password_isvalid(self.invalidpassword_withspaces), 'Password should be invalid: Password contains spaces.')
         
     
     def test_user_isvalid(self):
         """
-        By Si Bin
         Tests the user_isvalid method on validate.py
         """
         assertTrue(user_isvalid(self.user_a['Name'], self.user_a["Password"]), 'User should be valid (User A).')
