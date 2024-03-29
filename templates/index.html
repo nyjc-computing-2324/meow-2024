@@ -58,9 +58,9 @@
                 </div>
             </div>
             <input type="button" class="prev1">
-            <img class = 'left-arrow-1' src='arrow.png' >
+            <img class = 'left-arrow-1' src="{{ url_for('static',filename= 'images/arrow.png') }}">
             <input type="button" class="next1">
-            <img class = 'right-arrow-1' src='arrow.png'>
+            <img class = 'right-arrow-1' src="{{ url_for('static',filename= 'images/arrow.png') }}">
         </section>
         
         <section class="user-review-section">
@@ -77,13 +77,13 @@
 
             <div class = "reviews_list">
                 <div class="person-img1">
-                    <img src='person2.png'>
+                    <img src="{{ url_for('static',filename= 'images/person1.png') }}">
                 </div>
                 <div class="person-img2">
-                    <img src='person2.png'>
+                    <img src="{{ url_for('static',filename= 'images/person2.png') }}">
                 </div>
                 <div class="person-img3">
-                    <img src='person1.png'>
+                    <img src="{{ url_for('static',filename= 'images/person3.png') }}">
                 </div>
                 <div class="column1">
                     
@@ -95,9 +95,9 @@
 
                 </div>
                 <input type="button" class="prev2">
-                <img class = 'left-arrow-2' src='arrow.png' >
+                <img class = 'left-arrow-2' src="{{ url_for('static',filename= 'images/arrow.png') }}">
                 <input type="button" class="next2">
-                <img class = 'right-arrow-2' src='arrow.png'>
+                <img class = 'right-arrow-2' src="{{ url_for('static',filename= 'images/arrow.png') }}">
         </section>
         <section class="ending-description">
            <img class="logo-img2" src="{{ url_for('static',filename= 'images/cat.svg') }}">
