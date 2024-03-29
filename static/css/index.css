@@ -226,8 +226,33 @@
 
 .column1{
     position : relative;
+    left : 70px;
     height: 320px;
     border-radius: 20px;
     width: 300px;
-    background-image : linear-gradient(#ffffff, #8AADF4);
+    background-color : #6666db;
+}
+
+.column2{
+    position : relative;
+    left : 420px;
+    bottom : 320px;
+    height: 320px;
+    border-radius: 20px;
+    width: 300px;
+    background-color : #6666db;
+}
+
+.column3{
+    position : relative;
+    left : 770px;
+    bottom : 640px;
+    height: 320px;
+    border-radius: 20px;
+    width: 300px;
+    background-color : #6666db;
+}
+
+.ending-description{
+    background-color : white;
 }
