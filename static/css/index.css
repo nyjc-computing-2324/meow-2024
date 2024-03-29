@@ -283,12 +283,20 @@
     padding-left : 1000px
 }
 
-input[type='text'] {
+#email-field {
     font-family: comfortaa; 
     background-color : #f2f2f2;
-    height : 200px
+    height : 30px;
+    padding-left : 5px;
 }
 
+#message-field{
+    font-family: comfortaa; 
+    background-color : #f2f2f2;
+    height : 100px;
+    padding-left : 5px;
+    
+}
 .email{
     position : relative;
     bottom : 50px;
