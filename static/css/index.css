@@ -156,6 +156,17 @@
     color : white;
 }
 
-.prev{
-    background-image : 'arrow_right.img';
+.prev1{
+    
 }
+
+.next1{
+    transform : rotate(90deg);
+}
+
+.user-review-section{
+    background-image: linear-gradient(#4e8df4, #2376fb);
+}
+
+
+
