@@ -36,22 +36,27 @@ class Test_Account(TestCase):
         """
         By Vincent & Hong Zhao
         Checks if a record is correctly updated in the Account
-        table with the update method
+        table with the update method (maybe done)
         """
-        raise NotImplementedError
+        self.password = "aBCD1234"
+        self.Account.update('password', self.password)
+        assertEqual(self.account.retrieve('username', self.name)[2], self.password, "Update function failed")
 
     def test_retrieve(self):
         """
         By Vincent & Hong Zhao
         Checks if a record is correctly retrieved from the
-        Account table with the retrieve method
+        Account table with the retrieve method (perhaps finished)
         """
-        raise NotImplementedError
+        assertEqual(self.name, self.account.retrieve('username',self.name), 'Retrieve function failed')
 
     def test_delete(self):
         """
         By Vincent & Hong Zhao
-        Checks if a resord is correctly deleted from the Account
-        table with the delete method
+        Checks if a record is correctly deleted from the Account
+        table with the delete method (possibly completed)
         """
-        raise NotImplementedError
+        del_target = self.account.retrieve('username',self.name)
+        self.account.delete(del_target[0])
+        assertIsNone(del_target)
+    
