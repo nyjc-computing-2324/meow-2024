@@ -98,7 +98,10 @@
                         download profile
                     </td>
             </table>
-
+            {% set page = "profile" %}    
+            {% block content %}
+                {% include 'navigation.html' %}
+            {% endblock %}
         </body>
 </html>
         
