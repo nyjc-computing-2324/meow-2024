@@ -2,10 +2,50 @@
 <html>
     <head>
         <title>CCA</title>
+        <style>
+            th, td {
+              border: 1px whitesmoke;
+              border-radius: 10px;
+            }
+            table {
+              border-collapse: collapse;
+              width: 100%;
+            }
+            .circle {
+              height: 50px;
+              width: 50px;
+              background-color: darkgray;
+              border-radius: 50%;
+            }
+        </style>
     </head>
 
     <body>
-        cca page
+        <table>
+            <tr>
+                <th>
+                    <div class="circle"></div>
+                    Robotics
+                </th>
+                <th>
+                    Achievements
+                </th>
+                <th>
+                    Participation
+                </th>
+            </tr>
+            <tr>
+                <td>
+                    Status: Graduated
+                </td>
+            </tr>
+            <tr>
+                <th>
+                    About
+                </th>
+            </tr>
+        </table>
+        {% include 'navigation.html' %}
     </body>
 
 </html>
