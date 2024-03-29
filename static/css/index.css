@@ -7,6 +7,7 @@
     padding : 0;
     margin : 0;
     box-sizing : border-box;
+    
 }
 
 .topbar-section{
@@ -113,8 +114,8 @@
 }
 
 .description-section{
-    background-image: linear-gradient(#8AADF4, #d0e6fb);
-    height : 600px;
+    background-image: linear-gradient(#8AADF4, #FBF2CF);
+    height : 1200px;
 }
 
 .brief-description-container{
@@ -125,6 +126,7 @@
 .brief-description-text{
     font-family : comfortaa;
     color : white;
+    font-size : 20px
 }
 
 .feature-item{
@@ -192,12 +194,36 @@
     width: 45px;
 }
 
-.user-review-section{
-    background-image: linear-gradient(#4e8df4, #FBF2CF);
-    
+.review-title-container{
+    text-align : center;
+    padding-top : 50px;
 }
 
+.review-title-text{
+    font-family : comfortaa;
+    color : white;
+    font-size : 30px;
+}
+
+.review-subtext-container{
+    text-align : center;
+    padding-top : 100px;
+}
+
+.review-subtext{
+    font-family : comfortaa;
+    color : white;
+    font-size : 30px;
+}
 .logo-img2{
     height: 61px;
     width: 61px;
+}
+
+.reviews_list{
+    padding-left : 200px;
+}
+
+.column1{
+    
 }
