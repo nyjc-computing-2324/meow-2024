@@ -161,11 +161,37 @@ class Student:
 
     def update(self, student_id: int, field: str, new: str):
         """update existing records in the database"""
-        raise NotImplementedError
+        
+        with sqlite3.connect('meow.db') as conn:
+            cursor = conn.cursor()
+            if field not in ['name', 'class','email']:
+                return False
+
+            query = f"""
+                    UPDATE "student" 
+                    SET {field} = ? 
+                    WHERE "student_id" = ? 
+                    """
+            params = (new, student_id)
+            cursor.execute(query, params)
+
 
     def retrieve(self, field: str, data):
         """find existing records in the database"""
-        raise NotImplementedError
+
+        with sqlite3.connect('meow.db') as conn:
+            cursor = conn.cursor()
+            query = f"""
+                    SELECT *
+                    FROM "student"
+                    WHERE {field} == ?;
+                    """
+            params = (data,)
+            cursor.execute(query, params)
+            record = cursor.fetchone()
+            conn.commit()
+            return record
+            
 
     def delete(self, student_id: int):
         """remove existing records in the database"""
