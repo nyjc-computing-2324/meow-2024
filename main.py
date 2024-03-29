@@ -2,9 +2,14 @@ from flask import Flask, redirect, request, session
 import view, validate, database
 
 app = Flask(__name__)
+
 @app.route('/')
 def index():
     return view.index()
+
+@app.route('/act')
+def act():
+    return view.records_activities()
 
 @app.route('/temp')
 def temp():

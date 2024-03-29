@@ -92,13 +92,26 @@
                 <div class="column3">
 
                 </div>
-
+            </div>
         <section class="ending-description">
            <img class="logo-img2" src="{{ url_for('static',filename= 'images/cat.svg') }}">
             <span class="logo-text2">
                 Let's get in touch!
             </span>
-        </div>
+            <span class = "logo-subtext2">
+                Meow is a group project where we bring convenience and love for cats all into a page!
+            </span>
+            <div class = 'email_message-container'>
+                <form action="/index" method="post">
+                    <div class="email">
+                    <input id="email-field" type="text" name="email" value="email">
+                    </div>
+                    <div class="message">
+                    <input id="message-field" type="text" name="message" value="message">
+                    </div>
+                    <input type="submit" class="submit-message" value="Submit">
+            </div>
+        </section>
     <hr>
     
     </body>
