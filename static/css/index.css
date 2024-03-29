@@ -162,7 +162,7 @@
     position : relative;
     bottom : 187px;
     left: 293px;
-    background-image : linear-gradient(#bdcce3, #cbd5de); 
+    background-image : linear-gradient(#a4bdeb, #abc1e9); 
     border: none;
     padding: 28px 32px;
     border-radius : 50%;
@@ -181,7 +181,7 @@
     position : relative;
     bottom : 187px;
     left: 1000px;
-    background-image : linear-gradient(#bdcce3, #cbd5de);
+    background-image : linear-gradient(#a4bdeb, #abc1e9);
     border: none;
     padding: 28px 32px;
     border-radius : 50%;
@@ -225,5 +225,9 @@
 }
 
 .column1{
-    
+    position : relative;
+    height: 320px;
+    border-radius: 20px;
+    width: 300px;
+    background-image : linear-gradient(#ffffff, #8AADF4);
 }
