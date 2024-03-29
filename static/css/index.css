@@ -259,6 +259,9 @@
     height : 500px;
 }
 
+.reader-engagement-text{
+    vertical-align : middle;
+}
 .logo-img2{
     position : relative;
     top : 20px;
@@ -273,6 +276,38 @@
     padding-block : 0px 0px;
     text-align : center;
     font-size : 30px;
-    font-weight : bold
+    font-weight : bold;
 
+}
+.email_message-container{
+    padding-left : 1000px
+}
+
+input[type='text'] {
+    font-family: comfortaa; 
+    background-color : #f2f2f2;
+    height : 200px
+}
+
+.email{
+    position : relative;
+    bottom : 50px;
+}
+.footer{
+    text-align : right;
+}
+
+.privacypolicy-text{
+    padding-right : 10px;
+    font-family : comfortaa;
+    text-decoration : none;
+    font-size : 12px;
+    font-weight : bold;
+}
+
+.terms-text{
+    font-family : comfortaa;
+    text-decoration : none;
+    font-size : 12px;
+    font-weight : bold;
 }
