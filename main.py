@@ -2,7 +2,7 @@ from flask import Flask, redirect, request, session
 import view, validate, database
 
 app = Flask(__name__)
-app.debug = True
+
 @app.route('/')
 def index():
     return view.index()

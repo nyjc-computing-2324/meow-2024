@@ -256,7 +256,7 @@
 
 .ending-description{
     background-color : white;
-    height : 500px;
+    height : 400px;
 }
 
 .reader-engagement-text{
@@ -280,15 +280,16 @@
 
 }
 .email_message-container{
-    padding-left : 900px
+    padding-left : 900px;
+    padding-right: 120px;
 }
 
 #email-field {
     font-family: comfortaa; 
     background-color : #f2f2f2;
-    height : 30px;
+    height : 50px;
     width : 500px;
-    padding-left : 5px;
+    padding-left : 20px;
     border : none;
     border-radius: 20px;
 }
@@ -309,9 +310,19 @@
     
 }
 
-.message{
-    
+.submit-message{
+    position : relative;
+    top  : 20px;
+    float : right;
+    font-family : comfortaa;
+    background-color: #728ddf;
+    border-radius: 10px;
+    border : none;
+    width: 100px;
+    height: 40px;
+    color : white
 }
+
 .footer{
     text-align : right;
 }
