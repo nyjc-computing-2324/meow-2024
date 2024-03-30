@@ -96,4 +96,3 @@ class Test_Validate(TestCase):
         assertFalse(user_isvalid(self.user_a['Password'], self.user_a["Name"]), 'User should be not valid: Username and Password arguments are swapped.')
 
 
-        
