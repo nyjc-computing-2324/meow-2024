@@ -256,11 +256,12 @@
 
 .ending-description{
     background-color : white;
-    height : 400px;
+    height : 450px;
 }
 
 .reader-engagement-text{
     vertical-align : middle;
+    padding-left : 50px;
 }
 .logo-img2{
     position : relative;
@@ -279,8 +280,16 @@
     font-weight : bold;
 
 }
+
+.reader-engagement-subtext{
+    padding-left : 100px;
+    max-width : 600px;
+}
+.logo-subtext2{
+    font-family : comfortaa;
+}
 .email_message-container{
-    padding-left : 900px;
+    padding-left : 750px;
     padding-right: 120px;
 }
 
@@ -288,26 +297,33 @@
     font-family: comfortaa; 
     background-color : #f2f2f2;
     height : 50px;
-    width : 500px;
+    width : 650px;
     padding-left : 20px;
     border : none;
-    border-radius: 20px;
+    border-radius: 10px;
 }
 
 #message-field{
+    position : relative;
     font-family: comfortaa; 
     background-color : #f2f2f2;
-    width: 500px;
+    width: 650px;
     height : 200px;
-    padding-bottom : 150px;
     padding-left : 20px;
+    padding-top : 15px;
     border : none;
-    border-radius: 20px;
+    border-radius: 10px;
+    resize : none;
 }
 .email{
     position : relative;
     bottom : 50px;
     
+}
+
+.message{
+    position : relative;
+    width : 500px;
 }
 
 .submit-message{
