@@ -1,7 +1,7 @@
 from flask import Flask, render_template, redirect, request, session
 
 # completed is a bool, by default False.
-completed = False
+completed = True
 
 def index():
     # display index.html which is the launch page
@@ -32,6 +32,7 @@ def records_activities():
     return render_template("records_activities.html")
 
 def temp():
+    # displays the underdevelopment page temp.html
     return render_template("temp.html")
 
 def home():
