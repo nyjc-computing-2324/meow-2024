@@ -13,6 +13,7 @@
 .topbar-section{
     background-color: white;
     height: 80px;
+    min-width : 1519px;
     display: flex;
     align-items: center;
     padding-left: 30px;
@@ -79,7 +80,7 @@
 
 .slogan-container{
     padding-left : 250px;
-    max-width : 50%;
+    max-width : 800px;
 }
 
 .slogan-text{
@@ -116,6 +117,8 @@
 .description-section{
     background-image: linear-gradient(#8AADF4, #FBF2CF);
     height : 1200px;
+    min-width : 1519px;
+
 }
 
 .brief-description-container{
@@ -257,6 +260,7 @@
 .ending-description{
     background-color : white;
     height : 450px;
+    min-width : 1519px;
 }
 
 .reader-engagement-text{
