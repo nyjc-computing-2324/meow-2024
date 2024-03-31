@@ -7,10 +7,6 @@ app = Flask(__name__)
 def index():
     return view.index()
 
-@app.route('/act')
-def act():
-    return view.records_activities()
-
 @app.route('/temp')
 def temp():
     return view.temp()
