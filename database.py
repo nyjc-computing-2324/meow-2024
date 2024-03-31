@@ -25,13 +25,13 @@ class Table:
 
 class Account:
 
-    def __init__(self):
+    def __init__(self, table_name: str):
         """
         create a table upon initialisation of the class
         account id for primary key
         """
-
-        with sqlite3.connect("meow.db") as conn:
+        self.table_name = table_name
+        with sqlite3.connect(table_name) as conn:
             cursor = conn.cursor()
             cursor.execute(
                 """
@@ -50,7 +50,7 @@ class Account:
         insert new records into the database
         checks for repeated username should already be done
         """
-        with sqlite3.connect('meow.db') as conn:
+        with sqlite3.connect(self.table_name) as conn:
             cursor = conn.cursor()
             query = """
                     INSERT INTO "account" ("username", "password") VALUES (?, ?);
@@ -68,7 +68,7 @@ class Account:
         checks for repeated username should already be done
         """
 
-        with sqlite3.connect('meow.db') as conn:
+        with sqlite3.connect(self.table_name) as conn:
             cursor = conn.cursor()
             if field not in ['username', 'password']:
                 return False
@@ -87,7 +87,7 @@ class Account:
         field can only be "account_id" or "username"
         """
             
-        with sqlite3.connect('meow.db') as conn:
+        with sqlite3.connect(self.table_name) as conn:
             cursor = conn.cursor()
             query = f"""
                     SELECT *
@@ -105,7 +105,7 @@ class Account:
         remove existing records in the database
         field can only be "account_id" or "username"
         """
-        with sqlite3.connect('meow.db') as conn:
+        with sqlite3.connect(self.table_name) as conn:
             cursor = conn.cursor()
             query = f"""
                     DELETE FROM "account"
@@ -229,13 +229,15 @@ class Activity:
         raise NotImplementedError
         
 # instantiating table objects
-student_account = Account()
+student_account = Account("meow.db")
+student_account_backup = Account("backup.db")
 
 def create_account(username: str, password: str):
     # checks for valid username and password is already done 
     # check for repeated username
     if student_account.retrieve("username", username) is None:
         student_account.insert(username, password)
+        student_account_backup.insert(username, password)
 
 def login(username: str , password: str) -> bool:
     # checks for valid username and password is already done 
