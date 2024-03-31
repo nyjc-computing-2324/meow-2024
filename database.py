@@ -160,11 +160,17 @@ class Student:
             #conn.close() called automatically
 
     def update(self, student_id: int, field: str, new: str):
-        """update existing records in the database"""
+        """
+        update existing records in the database
+        field can only be "account_id" "name" "class" or "email"
+        return False if inputs are wrong
+        return True if inputs are correct
+        xinyu
+        """
         
         with sqlite3.connect('meow.db') as conn:
             cursor = conn.cursor()
-            if field not in ['name', 'class','email']:
+            if field not in ['account_id','name', 'class','email']:
                 return False
 
             query = f"""
@@ -177,7 +183,11 @@ class Student:
 
 
     def retrieve(self, field: str, data):
-        """find existing records in the database"""
+        """
+        find existing records in the database
+        field can only be "account_id" "class" or "email"
+        xinyu
+        """
 
         with sqlite3.connect('meow.db') as conn:
             cursor = conn.cursor()
