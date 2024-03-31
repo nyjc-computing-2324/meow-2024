@@ -7,12 +7,13 @@
     padding : 0;
     margin : 0;
     box-sizing : border-box;
-    
+    max-width : 1519px;
 }
 
 .topbar-section{
     background-color: white;
     height: 80px;
+    min-width : 1519px;
     display: flex;
     align-items: center;
     padding-left: 30px;
@@ -79,7 +80,7 @@
 
 .slogan-container{
     padding-left : 250px;
-    max-width : 50%;
+    max-width : 800px;
 }
 
 .slogan-text{
@@ -116,6 +117,8 @@
 .description-section{
     background-image: linear-gradient(#8AADF4, #FBF2CF);
     height : 1200px;
+    min-width : 1519px;
+
 }
 
 .brief-description-container{
@@ -257,6 +260,7 @@
 .ending-description{
     background-color : white;
     height : 450px;
+    min-width : 1519px;
 }
 
 .reader-engagement-text{
@@ -289,8 +293,10 @@
     font-family : comfortaa;
 }
 .email_message-container{
-    padding-left : 750px;
-    padding-right: 120px;
+    position : relative;
+    bottom : 40px;
+    padding-left : 810px;
+    align-items : right;
 }
 
 #email-field {
@@ -301,10 +307,10 @@
     padding-left : 20px;
     border : none;
     border-radius: 10px;
+
 }
 
 #message-field{
-    position : relative;
     font-family: comfortaa; 
     background-color : #f2f2f2;
     width: 650px;
@@ -314,29 +320,27 @@
     border : none;
     border-radius: 10px;
     resize : none;
+
 }
 .email{
     position : relative;
     bottom : 50px;
-    
 }
 
 .message{
-    position : relative;
     width : 500px;
 }
 
 .submit-message{
     position : relative;
-    top  : 20px;
-    float : right;
+    left : 550px;
     font-family : comfortaa;
     background-color: #728ddf;
     border-radius: 10px;
     border : none;
     width: 100px;
     height: 40px;
-    color : white
+    color : white;
 }
 
 .footer{
