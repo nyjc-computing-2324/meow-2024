@@ -1,4 +1,5 @@
 import sqlite3
+import auth.py
 
 class Table:
     """parent class for all subsequent tables"""
@@ -39,13 +40,14 @@ class Account:
                 "account_id" INTEGER,
                 "username" TEXT NOT NULL UNIQUE,
                 "password" TEXT NOT NULL,
+                "salt" TEXT NOT NULL
                 PRIMARY KEY ("account_id")
                 );
                 """
             )
             conn.commit()
 
-    def insert(self, username: str, password: str):
+    def insert(self, username: str, password: str, salt: str):
         """
         insert new records into the database
         checks for repeated username should already be done
@@ -53,9 +55,9 @@ class Account:
         with sqlite3.connect(self.table_name) as conn:
             cursor = conn.cursor()
             query = """
-                    INSERT INTO "account" ("username", "password") VALUES (?, ?);
+                    INSERT INTO "account" ("username", "password", "salt") VALUES (?, ?, ?);
                     """
-            params = (username, password)
+            params = (username, password, salt)
             cursor.execute(query, params)
             conn.commit()
         
@@ -70,7 +72,7 @@ class Account:
 
         with sqlite3.connect(self.table_name) as conn:
             cursor = conn.cursor()
-            if field not in ['username', 'password']:
+            if field not in ['username', 'password', 'salt']:
                 return False
             
             query = f"""
@@ -273,8 +275,10 @@ def create_account(username: str, password: str):
     # checks for valid username and password is already done 
     # check for repeated username
     if student_account.retrieve("username", username) is None:
-        student_account.insert(username, password)
-        student_account_backup.insert(username, password)
+        password, salt = auth.create_hash(password)
+        salt = str(salt)
+        student_account.insert(username, password, salt)
+        student_account_backup.insert(username, password, salt)
 
 def login(username: str , password: str) -> bool:
     # checks for valid username and password is already done 
@@ -284,6 +288,6 @@ def login(username: str , password: str) -> bool:
     if data is None:
         return False
     
-    account_id, database_username, database_password = data
-    # salting and hashing of password not yet implemented
-    return database_password == password
+    account_id, database_username, database_password, database_salt = data
+    # salting and hashing of password implemented 
+    return auth.check_password(password, database_password, database_salt)
