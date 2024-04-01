@@ -32,7 +32,6 @@ class Account:
         account id for primary key
         """
         self.database_name = database_name
-        self.not_null = ["username", "password", "salt"]
         with sqlite3.connect(database_name) as conn:
             cursor = conn.cursor()
             cursor.execute(
@@ -41,32 +40,26 @@ class Account:
                 "account_id" INTEGER,
                 "username" TEXT NOT NULL UNIQUE,
                 "password" TEXT NOT NULL,
-                "salt" TEXT NOT NULL
+                "salt" TEXT NOT NULL,
                 PRIMARY KEY ("account_id")
                 );
                 """
             )
             conn.commit()
 
-    def insert(self, data: dict):
+    def insert(self, username: str, password: str, salt: str):
         """
         insert new records into the database
-        data must contain username: str, password: str, salt: str
         checks for repeated username should already be done
         """
-        keys = data.keys()
-        for key in self.not_null:
-            if key not in keys:
-                return False
         with sqlite3.connect(self.database_name) as conn:
             cursor = conn.cursor()
             query = """
                     INSERT INTO "account" ("username", "password", "salt") VALUES (?, ?, ?);
                     """
-            params = (data["username"], data["password"], data["salt"])
+            params = (username, password, salt)
             cursor.execute(query, params)
             conn.commit()
-        return True
         
     def update(self, account_id: int, field: str, new: str):
         """
@@ -132,7 +125,6 @@ class Student:
         yu xi
         """
         self.database_name = database_name
-        self.not_null = ["name", "account_id"]
         with sqlite3.connect(database_name) as conn:
             cursor = conn.cursor()
             cursor.execute(
@@ -140,9 +132,9 @@ class Student:
                 CREATE TABLE IF NOT EXISTS "student" (
                     "student_id" INTEGER PRIMARY KEY,
                     "name" TEXT NOT NULL,
-                    "class" INTEGER, 
-                    "email" TEXT,
-                    "account_id" INTEGER NOT NULL UNIQUE
+                    "class" INTEGER NOT NULL, 
+                    "email" TEXT NOT NULL,
+                    "account_id" INTEGER NOT NULL UNIQUE,
                     FOREIGN KEY ("account_id") REFERENCES account("account_id")
                 );
                 """
@@ -150,28 +142,21 @@ class Student:
             conn.commit()
             #conn.close() called automatically
 
-    def insert(self, data: dict):
+    def insert(self, name: str, _class: int, email: str, account_id: int):
         """
         insert new records into the database
-        data can contain name: str, _class: int, email: str, account_id: int
-        data must contain name: str, account_id: int
         yu xi
         """
-        keys = data.keys()
-        for key in self.not_null:
-            if key not in keys:
-                return False
         with sqlite3.connect(self.database_name) as conn:
             cursor = conn.cursor()
-            for field in keys:
-                query = f"""
-                    INSERT INTO "student"({field}) VALUES (?);
-                """
-                params = (data[field],)
-                cursor.execute(query, params)
+            query = """
+                INSERT INTO "student"("name", "_class", "email", "account_id") 
+                VALUES (?, ?, ?, ?);
+            """
+            params = (name, _class, email, account_id)
+            cursor.execute(query, params)
             conn.commit()
             #conn.close() called automatically
-        return True
 
     def update(self, student_id: int, field: str, new):
         """
