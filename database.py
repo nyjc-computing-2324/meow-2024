@@ -32,6 +32,7 @@ class Account:
         account id for primary key
         """
         self.database_name = database_name
+        self.not_null = ["username", "password", "salt"]
         with sqlite3.connect(database_name) as conn:
             cursor = conn.cursor()
             cursor.execute(
@@ -47,21 +48,27 @@ class Account:
             )
             conn.commit()
 
-    def insert(self, username: str, password: str, salt: str):
+    def insert(self, data: dict):
         """
         insert new records into the database
+        data must contain username: str, password: str, salt: str
         checks for repeated username should already be done
         """
+        keys = data.keys()
+        for key in self.not_null:
+            if key not in keys:
+                return False
         with sqlite3.connect(self.database_name) as conn:
             cursor = conn.cursor()
             query = """
                     INSERT INTO "account" ("username", "password", "salt") VALUES (?, ?, ?);
                     """
-            params = (username, password, salt)
+            params = (data["username"], data["password"], data["salt"])
             cursor.execute(query, params)
             conn.commit()
+        return True
         
-    def update(self, account_id: str, field: str, new: str):
+    def update(self, account_id: int, field: str, new: str):
         """
         update existing records in the database
         field can only be "username" or "password"
@@ -69,12 +76,10 @@ class Account:
         return True if inputs are correct
         checks for repeated username should already be done
         """
-
+        if field not in ['username', 'password', 'salt']:
+            return False
         with sqlite3.connect(self.database_name) as conn:
-            cursor = conn.cursor()
-            if field not in ['username', 'password', 'salt']:
-                return False
-            
+            cursor = conn.cursor()            
             query = f"""
                     UPDATE "account" 
                     SET {field} = ? 
@@ -82,6 +87,7 @@ class Account:
                     """
             params = (new, account_id)
             cursor.execute(query, params)
+        return True
 
     def retrieve(self, field: str, data) -> tuple:
         """
@@ -126,6 +132,7 @@ class Student:
         yu xi
         """
         self.database_name = database_name
+        self.not_null = ["name", "account_id"]
         with sqlite3.connect(database_name) as conn:
             cursor = conn.cursor()
             cursor.execute(
@@ -143,23 +150,28 @@ class Student:
             conn.commit()
             #conn.close() called automatically
 
-    def insert(self, name: str, _class: int, email: str, account_id: int):
+    def insert(self, data: dict):
         """
         insert new records into the database
+        data can contain name: str, _class: int, email: str, account_id: int
+        data must contain name: str, account_id: int
         yu xi
         """
+        keys = data.keys()
+        for key in self.not_null:
+            if key not in keys:
+                return False
         with sqlite3.connect(self.database_name) as conn:
             cursor = conn.cursor()
-            query = """
-                INSERT INTO "student"(
-                    "name", "class", "email", "account_id"
-                ) VALUES (?, ?, ?, ?
-                );
-            """
-            params = (name, _class, email, account_id)
-            cursor.execute(query, params)
+            for field in keys:
+                query = f"""
+                    INSERT INTO "student"({field}) VALUES (?);
+                """
+                params = (data[field],)
+                cursor.execute(query, params)
             conn.commit()
             #conn.close() called automatically
+        return True
 
     def update(self, student_id: int, field: str, new: str):
         """update existing records in the database"""
