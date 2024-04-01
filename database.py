@@ -131,6 +131,7 @@ class Student:
         field can only be "account_id" "name" "class" or "email"
         return False if inputs are wrong
         return True if inputs are correct
+        checks for valid account_id should already be done
         xinyu
         """
         
