@@ -125,7 +125,7 @@ class Student:
         """insert new records into the database"""
         raise NotImplementedError
 
-    def update(self, student_id: int, field: str, new: str):
+    def update(self, student_id: int, field: str, new):
         """
         update existing records in the database
         field can only be "account_id" "name" "class" or "email"
