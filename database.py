@@ -159,7 +159,7 @@ class Student:
             conn.commit()
             #conn.close() called automatically
 
-    def update(self, student_id: int, field: str, new: str):
+    def update(self, student_id: int, field: str, new):
         """
         update existing records in the database
         field can only be "account_id" "name" "class" or "email"
