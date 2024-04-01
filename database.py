@@ -40,14 +40,14 @@ class Account:
                 "account_id" INTEGER,
                 "username" TEXT NOT NULL UNIQUE,
                 "password" TEXT NOT NULL,
-                "salt" TEXT NOT NULL,
+                "salt" BYTES NOT NULL,
                 PRIMARY KEY ("account_id")
                 );
                 """
             )
             conn.commit()
 
-    def insert(self, username: str, password: str, salt: str):
+    def insert(self, username: str, password: str, salt: bytes):
         """
         insert new records into the database
         checks for repeated username should already be done
@@ -61,7 +61,7 @@ class Account:
             cursor.execute(query, params)
             conn.commit()
         
-    def update(self, account_id: int, field: str, new: str):
+    def update(self, account_id: int, field: str, new):
         """
         update existing records in the database
         field can only be "username" or "password"
@@ -275,7 +275,6 @@ def create_account(username: str, password: str):
     # check for repeated username
     if student_account.retrieve("username", username) is None:
         password, salt = auth.create_hash(password)
-        salt = str(salt)
         student_account.insert(username, password, salt)
         student_account_backup.insert(username, password, salt)
 
