@@ -52,6 +52,8 @@ def profile():
 def about():
     #display about.html
     #also doesn't exist yet
+    if not completed:
+        return redirect("/temp")
     raise NotImplementedError
 
 def login(error = ""):

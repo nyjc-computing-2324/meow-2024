@@ -13,11 +13,11 @@ def temp():
 
 @app.route('/home')
 def home():
-    return view.temp()
+    return view.home()
 
 @app.route('/about')
 def about():
-    return view.temp()
+    return view.about()
 
 @app.route('/login', methods = ["GET", "POST"])
 def login():
@@ -48,6 +48,10 @@ def register():
                 return view.register(error="Password does not meet requirements.")
         else:
             return view.register(error="Username does not meet requirements.")
+
+@app.route('/profile')
+def profile():
+    return view.profile()
 
 @app.route('/view_edit_cca')
 def view_edit_cca():
