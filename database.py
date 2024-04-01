@@ -134,7 +134,7 @@ class Student:
         xinyu
         """
         
-        with sqlite3.connect('meow.db') as conn:
+        with sqlite3.connect(self.database_name) as conn:
             cursor = conn.cursor()
             if field not in ['account_id','name', 'class','email']:
                 return False
@@ -155,7 +155,7 @@ class Student:
         xinyu
         """
 
-        with sqlite3.connect('meow.db') as conn:
+        with sqlite3.connect(self.database_name) as conn:
             cursor = conn.cursor()
             query = f"""
                     SELECT *
