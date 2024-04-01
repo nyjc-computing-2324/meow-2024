@@ -1,5 +1,5 @@
 import sqlite3
-import auth.py
+import auth
 
 class Table:
     """parent class for all subsequent tables"""
@@ -145,12 +145,13 @@ class Student:
     def insert(self, name: str, _class: int, email: str, account_id: int):
         """
         insert new records into the database
+        checks for valid account_id should already be done
         yu xi
         """
         with sqlite3.connect(self.database_name) as conn:
             cursor = conn.cursor()
             query = """
-                INSERT INTO "student"("name", "_class", "email", "account_id") 
+                INSERT INTO "student"("name", "class", "email", "account_id") 
                 VALUES (?, ?, ?, ?);
             """
             params = (name, _class, email, account_id)
