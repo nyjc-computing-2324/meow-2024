@@ -26,13 +26,13 @@ class Table:
 
 class Account:
 
-    def __init__(self, table_name: str):
+    def __init__(self, database_name: str):
         """
         create a table upon initialisation of the class
         account id for primary key
         """
-        self.table_name = table_name
-        with sqlite3.connect(table_name) as conn:
+        self.database_name = database_name
+        with sqlite3.connect(database_name) as conn:
             cursor = conn.cursor()
             cursor.execute(
                 """
@@ -52,7 +52,7 @@ class Account:
         insert new records into the database
         checks for repeated username should already be done
         """
-        with sqlite3.connect(self.table_name) as conn:
+        with sqlite3.connect(self.database_name) as conn:
             cursor = conn.cursor()
             query = """
                     INSERT INTO "account" ("username", "password", "salt") VALUES (?, ?, ?);
@@ -70,7 +70,7 @@ class Account:
         checks for repeated username should already be done
         """
 
-        with sqlite3.connect(self.table_name) as conn:
+        with sqlite3.connect(self.database_name) as conn:
             cursor = conn.cursor()
             if field not in ['username', 'password', 'salt']:
                 return False
@@ -89,7 +89,7 @@ class Account:
         field can only be "account_id" or "username"
         """
             
-        with sqlite3.connect(self.table_name) as conn:
+        with sqlite3.connect(self.database_name) as conn:
             cursor = conn.cursor()
             query = f"""
                     SELECT *
@@ -107,7 +107,7 @@ class Account:
         remove existing records in the database
         field can only be "account_id" or "username"
         """
-        with sqlite3.connect(self.table_name) as conn:
+        with sqlite3.connect(self.database_name) as conn:
             cursor = conn.cursor()
             query = f"""
                     DELETE FROM "account"
@@ -119,13 +119,14 @@ class Account:
 
 class Student:
 
-    def __init__(self):
+    def __init__(self, database_name):
         """
         create a table upon initialisation of the class
         student_id for pk
         yu xi
         """
-        with sqlite3.connect('meow.db') as conn:
+        self.database_name = database_name
+        with sqlite3.connect(database_name) as conn:
             cursor = conn.cursor()
             cursor.execute(
                 """
@@ -147,7 +148,7 @@ class Student:
         insert new records into the database
         yu xi
         """
-        with sqlite3.connect('meow.db') as conn:
+        with sqlite3.connect(self.database_name) as conn:
             cursor = conn.cursor()
             query = """
                 INSERT INTO "student"(
@@ -170,7 +171,7 @@ class Student:
 
     def delete(self, student_id: int):
         """remove existing records in the database"""
-        with sqlite3.connect('meow.db') as conn:
+        with sqlite3.connect(self.database_name) as conn:
             cursor = conn.cursor()
             query = """
                     DELETE FROM "student"
