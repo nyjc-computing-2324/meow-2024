@@ -159,13 +159,50 @@ class Student:
             conn.commit()
             #conn.close() called automatically
 
-    def update(self, student_id: int, field: str, new: str):
-        """update existing records in the database"""
-        raise NotImplementedError
+    def update(self, student_id: int, field: str, new):
+        """
+        update existing records in the database
+        field can only be "account_id" "name" "class" or "email"
+        return False if inputs are wrong
+        return True if inputs are correct
+        checks for valid account_id should already be done
+        xinyu
+        """
+        
+        with sqlite3.connect(self.database_name) as conn:
+            cursor = conn.cursor()
+            if field not in ['account_id','name', 'class','email']:
+                return False
+
+            query = f"""
+                    UPDATE "student" 
+                    SET {field} = ? 
+                    WHERE "student_id" = ? 
+                    """
+            params = (new, student_id)
+            cursor.execute(query, params)
+
 
     def retrieve(self, field: str, data):
-        """find existing records in the database"""
-        raise NotImplementedError
+        """
+        find existing records in the database
+        field can only be "account_id" "class" or "email"
+        xinyu
+        """
+
+        with sqlite3.connect(self.database_name) as conn:
+            cursor = conn.cursor()
+            query = f"""
+                    SELECT *
+                    FROM "student"
+                    WHERE {field} == ?;
+                    """
+            params = (data,)
+            cursor.execute(query, params)
+            record = cursor.fetchone()
+            conn.commit()
+            return record
+            
 
     def delete(self, student_id: int):
         """remove existing records in the database"""

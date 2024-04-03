@@ -32,15 +32,3 @@ def password_isvalid(password) -> bool:
         return False
         
     return True
-
-            
-        
-        
-
-def user_isvalid(username, password) -> bool:
-    """
-    xinyu
-    checks if the username and password corresponds to a user in the 
-    database, return False if it doesn't, otherwise return True
-    """
-    raise NotImplementedError
