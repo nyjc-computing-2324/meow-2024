@@ -4,6 +4,7 @@ import auth
 class Table:
     """parent class for all subsequent tables"""
     table_name: str
+    fields: list[str]
 
     def __init__(self, pk: int, database_name: str):
         "create a table upon initialisation of the class"
@@ -155,6 +156,7 @@ class Account(Table):
 
 class Student(Table):
     table_name: str = "student"
+    fields = ["student_id", "name", "class", "email", "account_id"]
 
     def __init__(self, database_name):
         """
@@ -267,6 +269,7 @@ class Student(Table):
 
 class CCA(Table):
     table_name: str = "cca"
+    fields = ["cca_id", "name", "type"]
     
     def __init__(self):
         """
@@ -354,6 +357,7 @@ class CCA(Table):
 
 class Activity(Table):
     table_name: str = "activity"
+    fields = ["student_id", "name", "date", "location"]
 
     def __init__(self, database_name):
         """
