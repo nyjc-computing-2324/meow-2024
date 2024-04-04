@@ -222,8 +222,23 @@ class CCA:
         """
         create a table upon initialisation of the class
         cca_id for pk
+        jae zen
         """
-        pass
+
+        with sqlite3.connect('meow.db') as conn:
+            cursor = conn.cursor()
+            cursor.execute(
+                """
+                CREATE TABLE IF NOT EXISTS "activity" (
+                    "cca_id" INTEGER PRIMARY KEY,
+                    "name" TEXT NOT NULL,
+                    "type" TEXT, 
+                );
+                """
+            )
+            conn.commit()
+            #conn.close() called automatically
+
 
     def insert(self, name: str, type: str):
         """insert new records into the database"""
@@ -247,8 +262,24 @@ class Activity:
         """
         create a table upon initialisation of the class
         activity_id for pk
+        jae zen
         """
-        pass
+
+        with sqlite3.connect('meow.db') as conn:
+            cursor = conn.cursor()
+            cursor.execute(
+                """
+                CREATE TABLE IF NOT EXISTS "activity" (
+                    "student_id" INTEGER PRIMARY KEY,
+                    "name" TEXT NOT NULL,
+                    "date" TEXT, 
+                    "location" TEXT,
+                    FOREIGN KEY ("organiser_id") REFERENCES account("student_id")
+                );
+                """
+            )
+            conn.commit()
+            #conn.close() called automatically
 
     def insert(self, name: str, date: str, location: str, organiser_id: int):
         """insert new records into the database"""
