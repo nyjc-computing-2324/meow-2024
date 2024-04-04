@@ -1,6 +1,14 @@
 # Ignore local files
 .local
 
+# Ignore bash scripts
+*.sh
+
+# Ignore database files
+*.db
+*.sqlite
+*.sqlite3
+
 # Byte-compiled / optimized / DLL files
 __pycache__/
 *.py[cod]
