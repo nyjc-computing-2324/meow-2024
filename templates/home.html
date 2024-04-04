@@ -1,14 +1,36 @@
 <!DOCTYPE html>
 <html>
     <head>
-        <title>HOME</title>
+        <title>Welcome Back!</title>
 
         <body>
-            Welcome to the home meowww
+            <section>
+                Quick access
+                <div>
+                    <a href="/records_cca" target="new"> My Records</a>
+                </div>
+                <div>
+                    <a href="/manage" target="new"> Manage</a>
+                </div>
+                <div>
+                    <a href="/profile" target="new"> Profile</a>
+                </div>
+            </section>
+            <section>
+                Announcements
+                <div>
+                    blank
+                </div>
+            </section>
+            
             
             {% set page = "home" %}    
             {% block content %}
                 {% include 'navigation.html' %}
             {% endblock %}
         </body>
+        <footer class='footer'>
+            <a class="privacypolicy-text" href = "/temp" target="new">PRIVACY POLICY</a>
+
+        </footer>
 </html>

@@ -7,21 +7,17 @@ app = Flask(__name__)
 def index():
     return view.index()
 
-@app.route('/act')
-def act():
-    return view.records_activities()
-
 @app.route('/temp')
 def temp():
     return view.temp()
 
 @app.route('/home')
 def home():
-    return view.temp()
+    return view.home()
 
 @app.route('/about')
 def about():
-    return view.temp()
+    return view.about()
 
 @app.route('/login', methods = ["GET", "POST"])
 def login():
@@ -52,6 +48,22 @@ def register():
                 return view.register(error="Password does not meet requirements.")
         else:
             return view.register(error="Username does not meet requirements.")
+
+@app.route('/profile')
+def profile():
+    return view.profile()
+
+@app.route('/view_edit_cca')
+def view_edit_cca():
+    return view.view_edit_cca()
+
+@app.route('/records_cca')
+def records_cca():
+    return view.records_cca()
+
+@app.route('/records_activities')
+def records_activities():
+    return view.records_activities()
 
 if __name__ == '__main__':
   app.run(host='0.0.0.0', port=80)
