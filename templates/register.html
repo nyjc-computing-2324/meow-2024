@@ -1,13 +1,13 @@
 <!DOCTYPE html>
 <html>
     <head>
-        <link rel="stylesheet" type="text/css" href="style.css">
+        <link rel="stylesheet" type="text/css" href="{{ url_for('static', filename='css/register.css') }}">
         <title>Register HERE!</title>
     </head>
 
     <body>
         <section class="topbar-section">
-            <img class="logo-img1" src="cat.svg">
+            <img class="logo-img1" src="{{ url_for('static',filename= 'images/cat.svg') }}">
             <span class="logo-text1">
                 Meow
             </span>
@@ -30,7 +30,7 @@
             </div>
         </section>
         <section class = register-box>
-            <img class="logo-img2" src="cat">
+            <img class="logo-img2" src="{{ url_for('static',filename= 'images/cat.svg') }}">
             <div class = 'register-box-title'>
                 <h3>sign up</h3>
             </div>
