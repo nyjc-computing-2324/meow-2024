@@ -434,7 +434,7 @@ class Activity(Table):
             cursor.execute(query, params)
             conn.commit()
 
-class StudentActivity(Table):
+class StudentActivity:
 
     def __init__(self):
         """
