@@ -3,6 +3,7 @@ import auth
 
 class Table:
     """parent class for all subsequent tables"""
+    table_name: str
 
     def __init__(self, pk: int, database_name: str):
         "create a table upon initialisation of the class"
@@ -38,6 +39,7 @@ class Table:
 #     def __init__(self):
 
 class Account(Table):
+    table_name: str = "account"
     fields = ["account_id", "username", "password", "salt"]
 
     def __init__(self, database_name: str):
@@ -140,6 +142,7 @@ class Account(Table):
             #conn.close() called automatically
 
 class Student(Table):
+    table_name: str = "student"
 
     def __init__(self, database_name):
         """
@@ -242,7 +245,8 @@ class Student(Table):
             conn.commit()
 
 class CCA(Table):
-
+    table_name: str = "cca"
+    
     def __init__(self):
         """
         create a table upon initialisation of the class
@@ -328,6 +332,7 @@ class CCA(Table):
             conn.commit()
 
 class Activity(Table):
+    table_name: str = "activity"
 
     def __init__(self):
         """
