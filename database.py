@@ -4,12 +4,12 @@ import auth
 class Table:
     """parent class for all subsequent tables"""
     table_name: str
-    fields: list[str]
+    pk_name: str
+    fields = []
 
-    def __init__(self, pk: int, database_name: str):
-        "create a table upon initialisation of the class"
-        self.pk = pk
-        self.database_name = database_name
+    def __init__(self, database_name: str):
+        """create a table upon initialisation of the class"""
+        raise NotImplementedError
 
     def _valid_field_else_error(self, field) -> None:
         if field not in self.fields:
