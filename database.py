@@ -259,7 +259,7 @@ class CCA(Table):
         jae zen
         """
         self.database_name = database_name
-        with sqlite3.connect('meow.db') as conn:
+        with sqlite3.connect(self.database_name) as conn:
             cursor = conn.cursor()
             cursor.execute(
                 """
@@ -346,7 +346,7 @@ class Activity(Table):
         jae zen
         """
         self.database_name = database_name
-        with sqlite3.connect('meow.db') as conn:
+        with sqlite3.connect(self.database_name) as conn:
             cursor = conn.cursor()
             cursor.execute(
                 """
