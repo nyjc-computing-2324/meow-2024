@@ -298,8 +298,8 @@ class CCA:
                     DELETE FROM "cca"
                     WHERE "cca_id" = ?;
                     """
-            param = (cca_id,)
-            cursor.execute(query, param)
+            params = (cca_id,)
+            cursor.execute(query, params)
             conn.commit()
 
 class Activity:
@@ -350,8 +350,8 @@ class Activity:
                     DELETE FROM "account"
                     WHERE "account_id" = ?;
                     """
-            param = (account_id,)
-            cursor.execute(query, param)
+            params = (account_id,)
+            cursor.execute(query, params)
             conn.commit()
 
 class StudentActivity:
@@ -360,6 +360,9 @@ class StudentActivity:
         """
         create a table upon initialisation of the class
         (student_id, activity_id) for pk
+
+        This class has no .update() method.
+        To "update", instead use .remove() and .insert()
         """
         raise NotImplementedError
 
@@ -373,8 +376,18 @@ class StudentActivity:
 
     def delete(self, student_id: int, activity_id: int):
         """remove existing records in the database"""
-        raise NotImplementedError
-        
+        with sqlite3.connect(self.database_name) as conn:
+            cursor = conn.cursor()
+            query = """
+                    DELETE FROM "student_activity"
+                    WHERE "student_id" = ?, 
+                    "activity_id" = ?;
+                    """
+            param = (student_id, activity_id)
+            cursor.execute(query, param)
+            conn.commit()
+
+
 # instantiating table objects
 student_account = Account("meow.db")
 student_account_backup = Account("backup.db")
