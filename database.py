@@ -18,9 +18,21 @@ class Table:
         """update existing records in the database"""
         raise NotImplementedError
 
-    def retrieve(self):
+    def retrieve(self, field: str, pk: int):
         """find existing records in the database"""
-        raise NotImplementedError
+        with sqlite3.connect(self.database_name) as conn:
+            cursor = conn.cursor()
+            query = f"""
+                    SELECT *
+                    FROM {self.table_name}
+                    WHERE {field} = ?;
+                    """
+            params = (pk,)
+            cursor.execute(query, params)
+            record = cursor.fetchone()
+            conn.commit()
+            return record
+            
 
     def delete(self, pk: int):
         """remove existing records in the database"""
