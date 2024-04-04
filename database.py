@@ -241,16 +241,54 @@ class CCA:
 
 
     def insert(self, name: str, type: str):
-        """insert new records into the database"""
-        raise NotImplementedError
-
+        """
+        insert new records into the database
+        yu xi
+        """
+        with sqlite3.connect(self.database_name) as conn:
+            cursor = conn.cursor()
+            query = """
+                INSERT INTO 'cca' ("name", "type") VALUES (?, ?);
+            """
+            params = (name, type)
+            cursor.execute(query, params)
+            conn.commit()
+            # conn.close() is called automatically
+    
     def update(self, cca_id: int, field: str, new: str):
-        """update existing records in the database"""
-        raise NotImplementedError
+        """
+        update existing records in the database
+        yu xi
+        """
+        with sqlite3.connect(self.database_name) as conn:
+            cursor = conn.cursor()
+            query = f"""
+                UPDATE 'cca'
+                SET {field} = ?
+                WHERE cca_id = ? ;                
+            """
+            params = (new, cca_id)
+            cursor.execute(query, params)
+            conn.commit()
+            # conn.close() is called automatically
+        return T
 
     def retrieve(self, cca_id: int):
-        """find existing records in the database"""
-        raise NotImplementedError
+        """
+        find existing records in the database
+        yu xi
+        """
+        with sqlite3.connect('meow.db') as conn:
+            cursor = conn.cursor()
+            query = """
+                SELECT *
+                FROM 'cca' ;
+                WHERE 'cca_id' = ? ;
+            """
+            params = (cca_id,)
+            cursor.execute(query, params)
+            conn.commit()
+            # conn.close() is called automatically
 
     def delete(self, cca_id: int):
         """remove existing records in the database"""
