@@ -340,7 +340,10 @@ class Activity:
         raise NotImplementedError
 
     def delete(self, account_id: int):
-        """remove existing records in the database"""
+        """
+        remove existing records in the database
+        STANLEY DID THIS THANK ME
+        """
         with sqlite3.connect(self.database_name) as conn:
             cursor = conn.cursor()
             query = """
@@ -350,6 +353,27 @@ class Activity:
             param = (account_id,)
             cursor.execute(query, param)
             conn.commit()
+
+class StudentActivity:
+
+    def __init__(self):
+        """
+        create a table upon initialisation of the class
+        (student_id, activity_id) for pk
+        """
+        raise NotImplementedError
+
+    def insert(self, student_id: int, activity: int):
+        """insert new records into the database"""
+        raise NotImplementedError
+
+    def retrieve(self, student_id: int, activity_id: int):
+        """find existing records in the database"""
+        raise NotImplementedError
+
+    def delete(self, student_id: int, activity_id: int):
+        """remove existing records in the database"""
+        raise NotImplementedError
         
 # instantiating table objects
 student_account = Account("meow.db")
