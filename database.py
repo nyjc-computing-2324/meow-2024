@@ -4,9 +4,10 @@ import auth
 class Table:
     """parent class for all subsequent tables"""
 
-    def __init__(self):
+    def __init__(self, pk: int, database_name: str):
         "create a table upon initialisation of the class"
-        pass
+        self.pk = pk
+        self.database_name = database_name
 
     def insert(self):
         """insert new records into the database"""
@@ -20,9 +21,21 @@ class Table:
         """find existing records in the database"""
         raise NotImplementedError
 
-    def delete(self):
-        """remove existing records in the database (Vincent)"""
-        raise NotImplementedError
+    def delete(self, pk: int):
+        """remove existing records in the database"""
+        with sqlite3.connect(self.database_name) as conn:
+            cursor = conn.cursor()
+            query = f"""
+                    DELETE FROM "{self.table_name}"
+                    WHERE "{self.pk}" = ?;
+                    """
+            params = (pk,)
+            cursor.execute(query, params)
+            conn.commit()
+
+class JunctionTable(Table):
+
+    def __init__(self):
 
 class Account:
     fields = ["account_id", "username", "password", "salt"]
