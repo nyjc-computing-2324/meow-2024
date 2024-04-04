@@ -33,11 +33,11 @@ class Table:
             cursor.execute(query, params)
             conn.commit()
 
-class JunctionTable(Table):
+# class JunctionTable(Table):
 
-    def __init__(self):
+#     def __init__(self):
 
-class Account:
+class Account(Table):
     fields = ["account_id", "username", "password", "salt"]
 
     def __init__(self, database_name: str):
@@ -139,7 +139,7 @@ class Account:
             conn.commit()
             #conn.close() called automatically
 
-class Student:
+class Student(Table):
 
     def __init__(self, database_name):
         """
@@ -241,7 +241,7 @@ class Student:
             cursor.execute(query, param)
             conn.commit()
 
-class CCA:
+class CCA(Table):
 
     def __init__(self):
         """
@@ -327,7 +327,7 @@ class CCA:
             cursor.execute(query, params)
             conn.commit()
 
-class Activity:
+class Activity(Table):
 
     def __init__(self):
         """
@@ -429,7 +429,7 @@ class Activity:
             cursor.execute(query, params)
             conn.commit()
 
-class StudentActivity:
+class StudentActivity(Table):
 
     def __init__(self):
         """
