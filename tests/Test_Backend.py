@@ -30,7 +30,7 @@ class Test_Account(TestCase):
         Checks if the provided data is correctly inserted into
         the Account table with the insert method
         """
-        assertTrue(self.Account.retrieve('username',self.name),'Insert function failed')
+        self.assertTrue(self.Account.retrieve('username',self.name),'Insert function failed')
 
     def test_update(self):
         """
@@ -52,7 +52,7 @@ class Test_Account(TestCase):
             cursor.execute(query, params)
             record = cursor.fetchone()
             conn.commit()
-        assertEqual(record[2], self.password, "Update method failed")
+        self.assertEqual(record[2], self.password, "Update method failed")
 
     def test_retrieve(self):
         """
@@ -61,7 +61,7 @@ class Test_Account(TestCase):
         Account table with the retrieve method (perhaps finished)
         """
 
-        assertEqual(self.name, self.Account.retrieve('username',self.name)[1], 'Retrieve method failed')
+        self.assertEqual(self.name, self.Account.retrieve('username',self.name)[1], 'Retrieve method failed')
 
     def test_delete(self):
         """
@@ -71,5 +71,5 @@ class Test_Account(TestCase):
         """
         del_target = self.Account.retrieve('username', self.name)
         self.Account.delete(del_target[0])
-        assertIsNone(self.Account.retrieve('username', self.name), 'Delete method failed')
+        self.assertIsNone(self.Account.retrieve('username', self.name), 'Delete method failed')
     
