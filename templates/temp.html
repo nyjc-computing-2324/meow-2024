@@ -1,16 +1,15 @@
-
 <!-- launch page -->
 <!DOCTYPE html>
 <html>
   <head>
     <title>Meow</title>
     <meta charset="utf-8">
-    <link rel="stylesheet" href="style.css">
+    <link rel="stylesheet" type="text/css" href="{{ url_for('static', filename='css/style.css') }}">
   </head>
 
   <body>
   <div class="topbar-blank">
-    <img class="logo-img1" src="images/cat.svg">
+    <img class="logo-img1" src="{{ url_for('static',filename= 'images/cat.svg') }}">
     <span class="logo-text">
         Meow
     </span>
@@ -19,8 +18,8 @@
   <div class="tagline-section">
     <div class="tagline-container">
     <div class="tagline">
-      <img class="logo-img2" src="images/cat.svg">
-      <h2>Meow. The purr-fect reocrd manager, coming to you soon!</h2>
+      <img class="logo-img2" src="{{ url_for('static',filename= 'images/cat.svg') }}">
+      <h2>Meow. The purr-fect record manager, coming to you soon!</h2>
     </div>
     </div>
   </div>

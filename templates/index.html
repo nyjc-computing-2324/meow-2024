@@ -1,18 +1,125 @@
 <!DOCTYPE html>
 <html>
     <head>
-        <title>MEOW🐱HOME PAGE🐱</title>
+        <link rel="stylesheet" type="text/css" href="{{ url_for('static', filename='css/slider.css') }}">
+        <title>launch</title>
     </head>
 
     <body>
-        <h1>Hi! Glad you found this page!</h1>
-        <br/><h3>喵喵喵🐱</h3>
+        <section class="topbar-section">
+            <img class="logo-img1" src="{{ url_for('static',filename= 'images/cat.svg') }}">
+            <span class="logo-text1">
+                Meow
+            </span>
+            <a class="contact-text" href="/temp" target="new">Contact</a>
+            <a class="faqs-text" href = "/temp" target="new">FAQs</a>
+            <span class="divider">|</span>
+            <a class="login-text" href="/login" target="new">Login</a>
+            <form action="/register" method="get">
+                <input type="submit" class="sign_up_button" value="Sign up">
+            </form>
+        </section>
+        
+        <section class="tagline-section">
+            <div class="slogan-container">
+            <span class="slogan-text">
+              <h2>Meow. The purrrfect record manager for you.</h2>
+            </span>
+            </div>
+    
+            <div class="detailed-description-container">
+            <span class="detailed-description-text">
+              <h5>Simplify Record-Keeping and Management effortlessly with Meow.</h5>
+            </span>
+            </div>
+            
+            <form action="/register" method="get">
+                <input type="submit" class="sign_up_button" value="Sign up now">
+            </form>
+        </section>
+        <section class = "description-section">
+            
+            <div class = "brief-description-container">
+            <span class = "brief-description-text">
+                <h2>Exciting Features!</h2>
+            </span>
+            </div>
+            <div class="features-list">
+                <div class = "feature-item">
+                    <div class = "features-text">
+                        <h3>Convenience</h3>
+                    </div>
+                    
+                    <div class = "features-subtext">
+                        <h5>Meow is packed full with exciting features!</h5>
+                
+                    </div>
+                </div>
+            </div>
+            <input type="button" class="prev">
+            <input type="button" class="next">
+        </section>
+        
+        <section class="user-review-section">
+            <div class="title-container">
+            <span class="title-text">
+                <h3>What our users say</h3>
+            </span>
+            </div>
+            <div class="subtitle-container">
+            <span class="user-review-subtext">
+                <h5>Positive reviews across the board!</h5>
+            </span>
+            </div>
 
-        {% set page = "home" %}
-        {% block content %}
-            {% include 'navigation.html' %}
-        {% endblock %}
+            <div class = "reviews_list">
+                <div class="person-img">
+                    
+                </div>
+                <div class="person-img">
 
+                </div>
+                <div class="person-img">
+
+                </div>
+                <div class="column">
+                    
+                </div>
+                <div class="column">
+
+                </div>
+                <div class="column">
+
+                </div>
+                <section class="container">
+                    <div class="slider-wrapper">
+                        <div class="slider">
+                            <img id="slide-1" src="https://vz.cnwimg.com/wp-content/uploads/2013/10/Jay-Chou-e1593382563644.jpg" alt="lol image holder" />
+                            <img id="slide-2" src="https://hype.my/wp-content/uploads/2016/10/Jay-Chou.jpg" alt="lol another image holder"/>
+                            <img id="slide-3" src="https://www.filmarchive.gov.hk/image/journal/article-22143131.jpeg" alt="lol lol image holderrrrr"
+                        </div>
+                        <div calss="slider-nav">
+                            <a href="#slide-1"></a>
+                            <a href="#slide-2"></a>
+                            <a href="#slide-3"></a>
+                        </div>
+                    </div>
+                </section>
+                <!-- <input type="button" class="prev">
+            <input type="button" class="next"> -->
+        </section>
+        <div class="footer">
+           <img class="logo-img2" src="{{ url_for('static',filename= 'images/cat.svg') }}">
+            <span class="logo-text2">
+                Let's get in touch!
+            </span>
+        </div>
+    <hr>
+    
     </body>
+    <footer class='footer'>
+        <a class="privacypolicy-text" href = "/temp" target="new">PRIVACY POLICY</a>
+        <a class="terms-text" href = "/temp" target="new">TERMS AND CONDITIONS</a>
 
+    </footer>
 </html>

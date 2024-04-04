@@ -1,20 +1,25 @@
 <!DOCTYPE html>
 <html>
     <head>
+        <link rel="stylesheet" type="text/css" href="{{ url_for('static', filename='css/style_register.css') }}">
         <title>Register HERE!</title>
     </head>
 
     <body>
-        <h2>Sign up for a MEOW account HERE!</h2>
-        Have fun!
-
         <form action="/register" method="post">
+            <div class="name">
             <label for="user-field">Name:</label>
+            <input id="user-field" type="text" name="name" value=""><br/>
+            </div>
+            <div class="username">
+            <label for="user-field">Username:</label>
             <input id="user-field" type="text" name="username" value=""><br/>
+            </div>
+            <div class="password">
             <label for="pass-field">Password:</label>
             <input id="pass-field" type="password" name="password" value=""><br/>
-            <input type="submit" value="Register">
-            
+            </div>
+            <input type="submit" class="create_account" value="Create Account">
             <!-- uty what you want to do for error/success msg -->
 
             {% if error_msg %}
