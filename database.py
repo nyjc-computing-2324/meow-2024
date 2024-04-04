@@ -217,8 +217,12 @@ class Student(Table):
         xinyu
         """
 
+        
         with sqlite3.connect(self.database_name) as conn:
             cursor = conn.cursor()
+            if field not in ['account_id','name', 'class','email']:
+                return False
+                
             query = f"""
                     SELECT *
                     FROM "student"
@@ -236,6 +240,7 @@ class Student(Table):
         """remove existing records in the database"""
         with sqlite3.connect(self.database_name) as conn:
             cursor = conn.cursor()
+            
             query = """
                     DELETE FROM "student"
                     WHERE "student_id" = ?;
@@ -253,15 +258,15 @@ class CCA(Table):
         cca_id for pk
         jae zen
         """
-
+        self.database_name = database_name
         with sqlite3.connect('meow.db') as conn:
             cursor = conn.cursor()
             cursor.execute(
                 """
-                CREATE TABLE IF NOT EXISTS "activity" (
+                CREATE TABLE IF NOT EXISTS "cca" (
                     "cca_id" INTEGER PRIMARY KEY,
                     "name" TEXT NOT NULL,
-                    "type" TEXT, 
+                    "type" TEXT NOT NULL, 
                 );
                 """
             )
@@ -334,13 +339,13 @@ class CCA(Table):
 class Activity(Table):
     table_name: str = "activity"
 
-    def __init__(self):
+    def __init__(self, database_name):
         """
         create a table upon initialisation of the class
         activity_id for pk
         jae zen
         """
-
+        self.database_name = database_name
         with sqlite3.connect('meow.db') as conn:
             cursor = conn.cursor()
             cursor.execute(
@@ -348,8 +353,8 @@ class Activity(Table):
                 CREATE TABLE IF NOT EXISTS "activity" (
                     "student_id" INTEGER PRIMARY KEY,
                     "name" TEXT NOT NULL,
-                    "date" TEXT, 
-                    "location" TEXT,
+                    "date" TEXT NOT NULL, 
+                    "location" TEXT NOT NULL,
                     FOREIGN KEY ("organiser_id") REFERENCES account("student_id")
                 );
                 """
