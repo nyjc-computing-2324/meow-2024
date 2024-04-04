@@ -311,7 +311,7 @@ class Activity:
                     """
             param = (account_id,)
             cursor.execute(query, param)
-            cursor.commit()
+            conn.commit()
         
 # instantiating table objects
 student_account = Account("meow.db")
