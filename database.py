@@ -51,8 +51,8 @@ class Account(Table):
         with sqlite3.connect(database_name) as conn:
             cursor = conn.cursor()
             cursor.execute(
-                """
-                CREATE TABLE IF NOT EXISTS "account"(
+                f"""
+                CREATE TABLE IF NOT EXISTS {self.table_name} (
                 "account_id" INTEGER,
                 "username" TEXT NOT NULL UNIQUE,
                 "password" TEXT NOT NULL,
@@ -71,8 +71,8 @@ class Account(Table):
         """
         with sqlite3.connect(self.database_name) as conn:
             cursor = conn.cursor()
-            query = """
-                    INSERT INTO "account" ("username", "password", "salt") VALUES (?, ?, ?);
+            query = f"""
+                    INSERT INTO {self.table_name} ("username", "password", "salt") VALUES (?, ?, ?);
                     """
             params = (username, password, salt)
             cursor.execute(query, params)
@@ -92,7 +92,7 @@ class Account(Table):
         with sqlite3.connect(self.database_name) as conn:
             cursor = conn.cursor()            
             query = f"""
-                    UPDATE "account" 
+                    UPDATE {self.table_name} 
                     SET {field} = ? 
                     WHERE "account_id" = ? 
                     """
@@ -115,7 +115,7 @@ class Account(Table):
             cursor = conn.cursor()
             query = f"""
                     SELECT *
-                    FROM "account"
+                    FROM {self.table_name}
                     WHERE {field} = ?;
                     """
             params = (data,)
@@ -133,7 +133,7 @@ class Account(Table):
         with sqlite3.connect(self.database_name) as conn:
             cursor = conn.cursor()
             query = f"""
-                    DELETE FROM "account"
+                    DELETE FROM {self.table_name}
                     WHERE {field} = ?;
                     """
             param = (data,)
@@ -154,8 +154,8 @@ class Student(Table):
         with sqlite3.connect(database_name) as conn:
             cursor = conn.cursor()
             cursor.execute(
-                """
-                CREATE TABLE IF NOT EXISTS "student" (
+                f"""
+                CREATE TABLE IF NOT EXISTS {self.table_name} (
                     "student_id" INTEGER PRIMARY KEY,
                     "name" TEXT NOT NULL,
                     "class" INTEGER NOT NULL, 
@@ -176,8 +176,8 @@ class Student(Table):
         """
         with sqlite3.connect(self.database_name) as conn:
             cursor = conn.cursor()
-            query = """
-                INSERT INTO "student"("name", "class", "email", "account_id") 
+            query = f"""
+                INSERT INTO {self.table_name}("name", "class", "email", "account_id") 
                 VALUES (?, ?, ?, ?);
             """
             params = (name, _class, email, account_id)
@@ -199,7 +199,7 @@ class Student(Table):
         with sqlite3.connect(self.database_name) as conn:
             cursor = conn.cursor()
             query = f"""
-                    UPDATE "student" 
+                    UPDATE {self.table_name} 
                     SET {field} = ? 
                     WHERE "student_id" = ? 
                     """
@@ -221,7 +221,7 @@ class Student(Table):
             cursor = conn.cursor()
             query = f"""
                     SELECT *
-                    FROM "student"
+                    FROM {self.table_name}
                     WHERE {field} = ?;
                     """
             params = (data,)
@@ -236,8 +236,8 @@ class Student(Table):
         """remove existing records in the database"""
         with sqlite3.connect(self.database_name) as conn:
             cursor = conn.cursor()
-            query = """
-                    DELETE FROM "student"
+            query = f"""
+                    DELETE FROM {self.table_name}
                     WHERE "student_id" = ?;
                     """
             param = (student_id,)
@@ -257,8 +257,8 @@ class CCA(Table):
         with sqlite3.connect('meow.db') as conn:
             cursor = conn.cursor()
             cursor.execute(
-                """
-                CREATE TABLE IF NOT EXISTS "activity" (
+                f"""
+                CREATE TABLE IF NOT EXISTS {self.table_name} (
                     "cca_id" INTEGER PRIMARY KEY,
                     "name" TEXT NOT NULL,
                     "type" TEXT, 
@@ -276,8 +276,8 @@ class CCA(Table):
         """
         with sqlite3.connect(self.database_name) as conn:
             cursor = conn.cursor()
-            query = """
-                INSERT INTO 'cca' ("name", "type") VALUES (?, ?);
+            query = f"""
+                INSERT INTO {self.table_name} ("name", "type") VALUES (?, ?);
             """
             params = (name, type)
             cursor.execute(query, params)
@@ -292,7 +292,7 @@ class CCA(Table):
         with sqlite3.connect(self.database_name) as conn:
             cursor = conn.cursor()
             query = f"""
-                UPDATE 'cca'
+                UPDATE {self.table_name}
                 SET {field} = ?
                 WHERE cca_id = ? ;                
             """
@@ -309,9 +309,9 @@ class CCA(Table):
         """
         with sqlite3.connect('meow.db') as conn:
             cursor = conn.cursor()
-            query = """
+            query = f"""
                 SELECT *
-                FROM 'cca' ;
+                FROM {self.table_name} ;
                 WHERE 'cca_id' = ? ;
             """
             params = (cca_id,)
@@ -323,8 +323,8 @@ class CCA(Table):
         """remove existing records in the database"""
         with sqlite3.connect(self.database_name) as conn:
             cursor = conn.cursor()
-            query = """
-                    DELETE FROM "cca"
+            query = f"""
+                    DELETE FROM {self.table_name}
                     WHERE "cca_id" = ?;
                     """
             params = (cca_id,)
@@ -344,8 +344,8 @@ class Activity(Table):
         with sqlite3.connect('meow.db') as conn:
             cursor = conn.cursor()
             cursor.execute(
-                """
-                CREATE TABLE IF NOT EXISTS "activity" (
+                f"""
+                CREATE TABLE IF NOT EXISTS {self.table_name} (
                     "student_id" INTEGER PRIMARY KEY,
                     "name" TEXT NOT NULL,
                     "date" TEXT, 
@@ -365,8 +365,8 @@ class Activity(Table):
         with sqlite3.connect(self.database_name) as conn:
             cursor = conn.cursor()
             
-            query = """
-                INSERT INTO "activity"("name", "date", "location", "organiser_id")
+            query = f"""
+                INSERT INTO {self.table_name}("name", "date", "location", "organiser_id")
                 VALUES( ?, ?, ?, ? );
                 """
             params = (name, date, location, organiser_id)
@@ -389,7 +389,7 @@ class Activity(Table):
             cursor = conn.cursor()
             
             query = f"""
-                UPDATE "activity"
+                UPDATE {self.table_name}
                 SET {field} = ?
                 where "activity_id" = ?
                 """
@@ -408,7 +408,7 @@ class Activity(Table):
             cursor = conn.cursor
             query = f"""
                 SELECT *
-                FROM "activity"
+                FROM {self.table_name}
                 where {field} = ?
             """
             params = (account_id,)
@@ -426,8 +426,8 @@ class Activity(Table):
         """
         with sqlite3.connect(self.database_name) as conn:
             cursor = conn.cursor()
-            query = """
-                    DELETE FROM "account"
+            query = f"""
+                    DELETE FROM {self.table_name}
                     WHERE "account_id" = ?;
                     """
             params = (account_id,)
