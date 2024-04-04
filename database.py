@@ -46,6 +46,7 @@ class Account:
                 """
             )
             conn.commit()
+            #conn.close() called automatically
 
     def insert(self, username: str, password: str, salt: bytes):
         """
@@ -60,6 +61,7 @@ class Account:
             params = (username, password, salt)
             cursor.execute(query, params)
             conn.commit()
+            #conn.close() called automatically
         
     def update(self, account_id: int, field: str, new):
         """
@@ -80,6 +82,8 @@ class Account:
                     """
             params = (new, account_id)
             cursor.execute(query, params)
+            conn.commit()
+        #conn.close() called automatically
         return True
 
     def retrieve(self, field: str, data) -> tuple:
@@ -93,12 +97,13 @@ class Account:
             query = f"""
                     SELECT *
                     FROM "account"
-                    WHERE {field} == ?;
+                    WHERE {field} = ?;
                     """
             params = (data,)
             cursor.execute(query, params)
             record = cursor.fetchone()
             conn.commit()
+            #conn.close() called automatically
             return record
 
     def delete(self, field: str, data):
@@ -115,6 +120,7 @@ class Account:
             param = (data,)
             cursor.execute(query, param)
             conn.commit()
+            #conn.close() called automatically
 
 class Student:
 
@@ -168,12 +174,10 @@ class Student:
         checks for valid account_id should already be done
         xinyu
         """
-        
+        if field not in ['account_id','name', 'class','email']:
+            return False
         with sqlite3.connect(self.database_name) as conn:
             cursor = conn.cursor()
-            if field not in ['account_id','name', 'class','email']:
-                return False
-
             query = f"""
                     UPDATE "student" 
                     SET {field} = ? 
@@ -181,6 +185,9 @@ class Student:
                     """
             params = (new, student_id)
             cursor.execute(query, params)
+            conn.commit()
+            #conn.close() called automatically
+            return True
 
 
     def retrieve(self, field: str, data):
@@ -195,12 +202,13 @@ class Student:
             query = f"""
                     SELECT *
                     FROM "student"
-                    WHERE {field} == ?;
+                    WHERE {field} = ?;
                     """
             params = (data,)
             cursor.execute(query, params)
             record = cursor.fetchone()
             conn.commit()
+            #conn.close() called automatically
             return record
             
 
@@ -328,16 +336,66 @@ class Activity:
             #conn.close() called automatically
 
     def insert(self, name: str, date: str, location: str, organiser_id: int):
-        """insert new records into the database"""
-        raise NotImplementedError
+        """
+        insert new records into the database
+        checks for repeated organiser_id should already be done
+        """
+        with sqlite3.connect(self.database_name) as conn:
+            cursor = conn.cursor()
+            
+            query = """
+                INSERT INTO "activity"("name", "date", "location", "organiser_id")
+                VALUES( ?, ?, ?, ? );
+                """
+            params = (name, date, location, organiser_id)
+            cursor.execute(query, params)
+            conn.commit()
+            #conn.close() called automatically
 
     def update(self, account_id: int, field: str, new: str):
-        """update existing records in the database"""
-        raise NotImplementedError
+        """
+        update existing records in the database
+        field can only be "organiser_id" "name" "date" or "location"
+        return False if inputs are wrong
+        return True if inputs are correct
+        checks for valid organiser_id should already be done
+        xinyu
+        """
+        if field not in ['organiser_id','name', 'date','location']:
+            return False
+        with sqlite3.connect(self.database_name) as conn:
+            cursor = conn.cursor()
+            
+            query = f"""
+                UPDATE "activity"
+                SET {field} = ?
+                where "activity_id" = ?
+                """
+            params = (new, activity_id)
+            cursor.execute(query, params)
+            conn.commit
+            #conn.close() called automatically
+        return True
 
     def retrieve(self, account_id: int):
-        """find existing records in the database"""
-        raise NotImplementedError
+        """
+        find existing records in the database
+        xinyu
+        """
+        with sqlite3.connect(self.database_name) as conn:
+            cursor = conn.cursor
+            query = f"""
+                SELECT *
+                FROM "activity"
+                where {field} = ?
+            """
+            params = (account_id,)
+            cursor.execute(query, params)
+            record = cursor.fetchone()
+            conn.commit()
+            #conn.close() called automatically
+            return record
+    
 
     def delete(self, account_id: int):
         """
