@@ -20,7 +20,7 @@ We will be starting with the Account class first, and move on to other ones.
 class Test_Account(TestCase):
 
     def setUp(self):
-        self.Account = Account()
+        self.Account = Account(':memory:')
         self.name = '@aBc'
         self.password = 'Abcd1234'
         self.Account.insert(self.name,self.password)
@@ -41,7 +41,7 @@ class Test_Account(TestCase):
         
         self.password = "aBCD1234"
         self.Account.update(1, 'password', self.password)
-        with sqlite3.connect('meow.db') as conn:
+        with sqlite3.connect(self.database_name) as conn:
             cursor = conn.cursor()
             query = """
                     SELECT *
@@ -72,4 +72,3 @@ class Test_Account(TestCase):
         del_target = self.Account.retrieve('username', self.name)
         self.Account.delete(del_target[0])
         self.assertIsNone(self.Account.retrieve('username', self.name), 'Delete method failed')
-    
