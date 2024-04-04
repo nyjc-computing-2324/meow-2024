@@ -88,7 +88,8 @@ class Account(Table):
         checks for repeated username should already be done
         """
         if field not in ['username', 'password', 'salt']:
-            return False
+            raise Exception('field entered incorrectly')
+                
         with sqlite3.connect(self.database_name) as conn:
             cursor = conn.cursor()            
             query = f"""
@@ -110,7 +111,11 @@ class Account(Table):
         """
         find existing records in the database
         field can only be "account_id" or "username"
+        error raised if field entered incorrectly 
         """
+        if field not in ['username', 'password', 'salt']:
+            raise Exception('field entered incorrectly')
+        
         with sqlite3.connect(self.database_name) as conn:
             cursor = conn.cursor()
             query = f"""
@@ -129,7 +134,12 @@ class Account(Table):
         """
         remove existing records in the database
         field can only be "account_id" or "username"
+        error raised if field entered incorrectly 
         """
+
+        if field not in ['username', 'password', 'salt']:
+            raise Exception('field entered incorrectly')
+            
         with sqlite3.connect(self.database_name) as conn:
             cursor = conn.cursor()
             query = f"""
@@ -192,6 +202,7 @@ class Student(Table):
         return False if inputs are wrong
         return True if inputs are correct
         checks for valid account_id should already be done
+        raise error if field entered incorrectly
         xinyu
         """
         if field not in ['account_id','name', 'class','email']:
@@ -214,8 +225,11 @@ class Student(Table):
         """
         find existing records in the database
         field can only be "account_id" "class" or "email"
+        raise error if field entered incorrectly
         xinyu
         """
+        if field not in ['account_id','name', 'class','email']:
+            raise Exception("field entered incorrectly")
 
         
         with sqlite3.connect(self.database_name) as conn:
