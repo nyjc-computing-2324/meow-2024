@@ -10,6 +10,10 @@ class Table:
         self.pk = pk
         self.database_name = database_name
 
+    def _valid_field_else_error(self, field) -> None:
+        if field not in self.fields:
+            raise AttributeError(f"Invalid field '{field}'")
+    
     def insert(self):
         """insert new records into the database"""
         raise NotImplementedError
@@ -103,9 +107,7 @@ class Account(Table):
         #conn.close() called automatically
         return True
 
-    def _valid_field_else_error(self, field) -> None:
-        if field not in self.fields:
-            raise AttributeError(f"Invalid field '{field}'")
+    
 
     def retrieve(self, field: str, data) -> tuple:
         """
