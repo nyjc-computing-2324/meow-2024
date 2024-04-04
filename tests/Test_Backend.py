@@ -71,5 +71,4 @@ class Test_Account(TestCase):
         """
         del_target = self.Account.retrieve('username', self.name)
         self.Account.delete(del_target[0])
-        self.assertIsNone(self.Account.retrieve('username', self.name), 'Delete method failed')
-    
+        self.assertIsNone(self.Account.retrieve('username', self.name), 'Delete method failed')    
