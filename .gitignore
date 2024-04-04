@@ -1,7 +1,7 @@
 # Ignore local files
 .local
 
-# Ignore bash files
+# Ignore bash scripts
 *.sh
 
 # Ignore database files
