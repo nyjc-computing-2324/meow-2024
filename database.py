@@ -25,6 +25,7 @@ class Table:
         raise NotImplementedError
 
 class Account:
+    fields = ["account_id", "username", "password", "salt"]
 
     def __init__(self, database_name: str):
         """
@@ -86,12 +87,15 @@ class Account:
         #conn.close() called automatically
         return True
 
+    def _valid_field_else_error(self, field) -> None:
+        if field not in self.fields:
+            raise AttributeError(f"Invalid field '{field}'")
+
     def retrieve(self, field: str, data) -> tuple:
         """
         find existing records in the database
         field can only be "account_id" or "username"
         """
-            
         with sqlite3.connect(self.database_name) as conn:
             cursor = conn.cursor()
             query = f"""
