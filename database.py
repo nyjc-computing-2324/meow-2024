@@ -254,7 +254,15 @@ class CCA:
 
     def delete(self, cca_id: int):
         """remove existing records in the database"""
-        raise NotImplementedError
+        with sqlite3.connect(self.database_name) as conn:
+            cursor = conn.cursor()
+            query = """
+                    DELETE FROM "cca"
+                    WHERE "cca_id" = ?;
+                    """
+            param = (cca_id,)
+            cursor.execute(query, param)
+            conn.commit()
 
 class Activity:
 
