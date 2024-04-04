@@ -19,11 +19,21 @@ class Table:
         """insert new records into the database"""
         raise NotImplementedError
 
-    def update(self):
+    def update(self, field: ):
         """update existing records in the database"""
-        raise NotImplementedError
-
-    def retrieve(self, field: str, pk: int):
+        with sqlite3.connect(self.database_name) as conn:
+            cursor = conn.cursor()            
+            query = f"""
+                    UPDATE "account" 
+                    SET {field} = ? 
+                    WHERE "account_id" = ? 
+                    """
+            params = (new, account_id)
+            cursor.execute(query, params)
+            conn.commit()
+            #conn.close() called automatically
+        
+    def retrieve(self):
         """find existing records in the database"""
         with sqlite3.connect(self.database_name) as conn:
             cursor = conn.cursor()
@@ -117,7 +127,7 @@ class Account(Table):
             params = (new, account_id)
             cursor.execute(query, params)
             conn.commit()
-        #conn.close() called automatically
+            #conn.close() called automatically
         return True
 
     
