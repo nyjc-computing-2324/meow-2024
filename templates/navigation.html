@@ -1,62 +1,31 @@
 <!DOCTYPE html>
 <html>
     <head>
-        {% block head %}
-        {% endblock %}
-        <style>
-            ul {
-                list-style-type: none;
-                margin: 0;
-                padding: 0;
-                overflow: hidden;
-                border: 1px solid #e7e7e7;
-                background-color: #f3f3f3;
-                }
-
-            lil {
-                float: right;
-                }
-
-            lir {
-                float: left;
-                }
-
-            li a {
-                display: block;
-                color: #666;
-                text-align: center;
-                padding: 14px 16px;
-                text-decoration: none;
-                }
-
-            li a:hover:not(.active) {
-                background-color: #ddd;
-                }
-
-            li a.active {
-                color: white;
-                background-color: #04AA6D;
-                }
-        </style>
+        <link rel="stylesheet" type="text/css" href="{{ url_for('static', filename='css/navigation.css') }}">
+        <title>Register HERE!</title>
     </head>
 
-
     <body>
-        {% if page= ("landing" or "login" or "register" %}
-        <ul>
-            <lil>Meow</lil>
-            <lir>FAQs</lir>
-            <lir><a href="/login">login</a></lir>
-            <lir><a href="/register">sign up</a></lir>
-        </ul>
-        {% else %}
-        <ul>
-            <lil>Meow</lil>
-            <lir><a href="/myrecords">My records</a></lir>                  <lir>Manage</lir>
-            <lir><a href="/login">log out</a></lir>
-        </ul>
-        {% endif %}
-
-    </body>
-
-</html>
+        <section class="topbar-section">
+            <img class="logo-img1" src="cat.svg">
+            <span class="logo-text1">
+                Meow
+            </span>
+            <div class = "links-container">
+                <div class = "contact-container">
+                <a class="contact-text" href="/temp" target="new">Contact</a>
+                </div>
+                <div class = "faqs-container">
+                <a class="faqs-text" href = "/temp" target="new">FAQs</a>
+                </div>
+                <div class = "divider-container">
+                <span class="divider-text">|</span>
+                </div>
+                <div class = "login-container">
+                <a class="login-text" href="/login" target="new">Login</a>
+                </div>
+                <form action="/register" method="get">
+                    <input type="submit" class="sign_up_button1" value="Sign up">
+                </form>
+            </div>
+        </section>
