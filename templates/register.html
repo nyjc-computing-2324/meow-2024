@@ -1,40 +1,57 @@
 <!DOCTYPE html>
 <html>
     <head>
-        <link rel="stylesheet" type="text/css" href="{{ url_for('static', filename='css/style_register.css') }}">
+        <link rel="stylesheet" type="text/css" href="{{ url_for('static', filename='css/register.css') }}">
         <title>Register HERE!</title>
     </head>
 
     <body>
+        <section class="topbar-section">
+            <img class="logo-img1" src="{{ url_for('static',filename= 'images/cat.svg') }}">
+            <span class="logo-text1">
+                Meow
+            </span>
+            <div class = "links-container">
+                <div class = "contact-container">
+                <a class="contact-text" href="/temp" target="new">Contact</a>
+                </div>
+                <div class = "faqs-container">
+                <a class="faqs-text" href = "/temp" target="new">FAQs</a>
+                </div>
+                <div class = "divider-container">
+                <span class="divider-text">|</span>
+                </div>
+                <div class = "login-container">
+                <a class="login-text" href="/login" target="new">Login</a>
+                </div>
+                <form action="/register" method="get">
+                    <input type="submit" class="sign_up_button1" value="Sign up">
+                </form>
+            </div>
+        </section>
+        <section class = register-box>
+            <img class="logo-img2" src="{{ url_for('static',filename= 'images/cat.svg') }}">
+            <div class = 'register-box-title'>
+                <h3>sign up</h3>
+            </div>
         <form action="/register" method="post">
-            <div class="name">
-            <label for="user-field">Name:</label>
-            <input id="user-field" type="text" name="name" value=""><br/>
+            <div class = "name-field-container">
+                <input id="name-field" type="text" name="name" value="name">
             </div>
-            <div class="username">
-            <label for="user-field">Username:</label>
-            <input id="user-field" type="text" name="username" value=""><br/>
+            <div class="username-field-container">
+                <input id="username-field" type="text" name="username" value="username">
             </div>
-            <div class="password">
-            <label for="pass-field">Password:</label>
-            <input id="pass-field" type="password" name="password" value=""><br/>
+            <div class="password-field-container">
+                <input id="pass-field" type="password" name="password" value="password">
             </div>
-            <input type="submit" class="create_account" value="Create Account">
-            <!-- uty what you want to do for error/success msg -->
-
-            {% if error_msg %}
-            <div style="border: 2px solid red;"><p>{{error_msg}}<p></div>
-            {% endif %}
-            {% if success_msg %}
-            <br/><h2>{{success_msg}}</h2>
-            {% endif %}
-
-        </form>
-
-        {% set page = "register" %}
-        {% block content %}
-            {% include 'navigation.html' %}
-        {% endblock %}
+            <div class = 'TOS-checkbox-container'>
+                <input type="checkbox" id="TOS-checkbox" name="TOS-checkbox" value="True">
+              <label for="TOS-checkbox"> I hereby agree to Meow's Terms and Conditions and acknowledge the Privacy Policy</label>
+            </div>
+            <div class = create-account-button-container>
+                <input type="submit" class="create-account" value="Create Account">
+            </div>
+        </section>
 
     </body>
 
