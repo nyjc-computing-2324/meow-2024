@@ -9,9 +9,10 @@ class Table:
 
     def __init__(self, database_name: str):
         """create a table upon initialisation of the class"""
-        raise NotImplementedError
+        self.database_name = database_name
 
     def _valid_field_else_error(self, field) -> None:
+        """checks if given fields are found in the table"""
         if field not in self.fields:
             raise AttributeError(f"Invalid field '{field}'")
     
