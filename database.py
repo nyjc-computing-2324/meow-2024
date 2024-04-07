@@ -4,7 +4,7 @@ import auth
 class Table:
     """parent class for all subsequent tables"""
     table_name: str
-    pk_name: str
+    pk_name: str    #stands for primary key name
     fields = []
 
     def __init__(self, database_name: str):
@@ -20,43 +20,43 @@ class Table:
         """insert new records into the database"""
         raise NotImplementedError
 
-    def update(self, field: str, new: str, pk: int):
+    def update(self, pk: int, field: str, new: str):
         """update existing records in the database"""
+        self._valid_field_else_error(field)
         with sqlite3.connect(self.database_name) as conn:
             cursor = conn.cursor()            
             query = f"""
-                    UPDATE "account" 
+                    UPDATE {self.table_name} 
                     SET {field} = ? 
-                    WHERE {self.pk} = ? 
+                    WHERE {self.pk_name} = ? 
                     """
             params = (new, pk)
             cursor.execute(query, params)
             conn.commit()
             #conn.close() called automatically
         
-    def retrieve(self, field: str, pk: int):
+    def retrieve(self, pk: int):
         """find existing records in the database"""
         with sqlite3.connect(self.database_name) as conn:
             cursor = conn.cursor()
             query = f"""
                     SELECT *
                     FROM {self.table_name}
-                    WHERE {field} = ?;
+                    WHERE {self.pk_name} = ?;
                     """
             params = (pk,)
             cursor.execute(query, params)
             record = cursor.fetchone()
             conn.commit()
             return record
-            
 
     def delete(self, pk: int):
         """remove existing records in the database"""
         with sqlite3.connect(self.database_name) as conn:
             cursor = conn.cursor()
             query = f"""
-                    DELETE FROM "{self.table_name}"
-                    WHERE "{self.pk}" = ?;
+                    DELETE FROM {self.table_name}
+                    WHERE {self.pk_name} = ?;
                     """
             params = (pk,)
             cursor.execute(query, params)
