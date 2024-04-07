@@ -1,14 +1,14 @@
 <!DOCTYPE html>
 <html>
     <head>
-        <link rel="stylesheet" type="text/css" href="css/login.css">
+        <link rel="stylesheet" type="text/css" href="{{ url_for('static', filename='css/style_login.css') }}">
         <title>Login HERE!</title>
     </head>
 
     <body>
         <section class="login-box">
             <br>
-            <img class="logo-img1" src="images/cat.svg">
+            <img class="logo-img1" src="{{ url_for('static',filename= 'images/cat.svg') }}">
             <h1 class="logo-text1">log in</h1>
 
 
