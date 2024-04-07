@@ -1,30 +1,49 @@
 <!DOCTYPE html>
 <html>
     <head>
+        <link rel="stylesheet" type="text/css" href="css/login.css">
         <title>Login HERE!</title>
     </head>
 
     <body>
-        <h2>MEOW login page</h2>
-        Nice, you have found a place to log in!
+        <section class="login-box">
+            <br>
+            <img class="logo-img1" src="images/cat.svg">
+            <h1 class="logo-text1">log in</h1>
 
-        <form action="/login" method="post">
-            <label for="user-field">Name:</label>
-            <input id="user-field" type="text" name="username" value=""><br/>
-            <label for="pass-field">Password:</label>
-            <input id="pass-field" type="password" name="password" value=""><br/>
-            <input type="submit" value="Login">
-            
-            <!-- uty what you want to do for error/success msg -->
 
-            {% if error_msg %}
-            <div style="border: 2px solid red;"><p>{{error_msg}}<p></div>
-            {% endif %}
-            {% if success_msg %}
-            <br/><h2>{{success_msg}}</h2>
-            {% endif %}
+            <form action="/login" method="post">
+                <div class="username">
+                <input id="user-field" type="text" name="username" value="" placeholder="Username"><br/>
+                </div>
+
+                <div class="password">
+                <input id="pass-field" type="password" name="password" value="" placeholder="Password"><br/>
+                </div>
+
+                <br>
+
+                <div class="login">
+                <input type="submit" class="login" value="Login">
+                </div>
+
+                <div class="forget-pass">
+                    <label for="pass" type="text" name="forgor"><a href="#forgetpass">Forget password?</a></label>
+                </div>
+
+                {% if error_msg %}
+                <div style="border: 2px solid red;"><p>{{error_msg}}<p></div>
+                {% endif %}
+                {% if success_msg %}
+                <br/><h2>{{success_msg}}</h2>
+                {% endif %}
+
 
         </form>
+        </section>
+        <div class="tagline-section">
+            New to Meow? <a href="/register">Sign up for free!</a>
+        </div>
         {% set page = "login" %}    
         {% block content %}
             {% include 'navigation.html' %}
