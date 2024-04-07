@@ -251,22 +251,15 @@ class Student(Table):
         """
         find existing records in the database
         field can only be "account_id" "class" or "email"
-        raise error if field entered incorrectly
         xinyu
         """
-        if field not in ['account_id','name', 'class','email']:
-            raise Exception("field entered incorrectly")
 
-        
         with sqlite3.connect(self.database_name) as conn:
             cursor = conn.cursor()
-            if field not in ['account_id','name', 'class','email']:
-                return False
-                
             query = f"""
                     SELECT *
-                    FROM {self.table_name}
-                    WHERE {field} = ?;
+                    FROM "student"
+                    WHERE {field} == ?;
                     """
             params = (data,)
             cursor.execute(query, params)
