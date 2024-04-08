@@ -1,0 +1,363 @@
+@font-face {
+    font-family: comfortaa;
+    src: url(Comfortaa-Light.ttf);
+}
+
+* {
+    padding : 0;
+    margin : 0;
+    box-sizing : border-box;
+    max-width : 1519px;
+}
+
+.topbar-section{
+    background-color: white;
+    height: 80px;
+    min-width : 1519px;
+    display: flex;
+    align-items: center;
+    padding-left: 30px;
+    vertical-align: middle;
+    box-shadow: 0px 5px 5px #d9d9d9;
+}
+
+.logo-img1 {
+    height: 61px;
+    width: 61px;
+}
+
+.logo-text1 {
+    font-family : comfortaa;
+    font-size : 32px
+    }
+
+.contact-text{
+    position : relative;
+    left : 950px;
+    font-family : comfortaa;
+    color : black;
+    text-decoration:none
+}
+
+.faqs-text{
+    position : relative;
+    left : 970px;
+    font-family : comfortaa;
+    color : black;
+    text-decoration:none
+}
+
+.divider{
+    position : relative;
+    left : 990px;
+    font-family : comfortaa;
+    color : black;
+}
+
+.login-text{
+    position : relative;
+    left : 1010px;
+    font-family : comfortaa;
+    color : black;
+    text-decoration:none
+}
+
+.sign_up_button1{
+    position : relative;
+    left : 1030px;
+    font-family : comfortaa;
+    background-color: #2f99e9;
+    border-radius: 10px;
+    border : none;
+    width: 100px;
+    height: 40px;
+}
+
+.tagline-section{
+    padding-top : 250px;
+    padding-bottom : 100px;
+}
+
+.slogan-container{
+    padding-left : 250px;
+    max-width : 800px;
+}
+
+.slogan-text{
+    font-family : comfortaa;
+    font-size : 36px;
+}
+
+.detailed-description-container{
+    padding-top : 20px;
+    padding-bottom : 20px;
+    padding-left : 250px;
+    max-width : 42%;
+}
+
+.detailed-description-text{
+    font-family : comfortaa;
+    font-size : 16px;
+    color : #b0b0b0;
+}
+
+.sign_up_button2{
+    position : relative;
+    left : 250px;
+    font-family : comfortaa;
+    background-color: #2f99e9;
+    border-radius: 10px;
+    border : none;
+    width: 150px;
+    height: 50px;
+    font-size : 18px;
+    font-weight : bold
+}
+
+.description-section{
+    background-image: linear-gradient(#8AADF4, #FBF2CF);
+    height : 1200px;
+    min-width : 1519px;
+
+}
+
+.brief-description-container{
+    text-align : center;
+    padding-top : 50px;
+}
+
+.brief-description-text{
+    font-family : comfortaa;
+    color : white;
+    font-size : 20px
+}
+
+.feature-item{
+    position : relative;
+    left : 375px;
+    top : 80px;
+    height: 320px;
+    border-radius: 20px;
+    width: 300px;
+    background-image : linear-gradient(#ffffff, #8AADF4);
+}
+
+.features-text{
+    position : relative;
+    bottom : 130px;
+    left : 725px;
+    max-width : 100px;
+    font-family : comfortaa;
+    font-size: 36px;
+    color : white;
+}
+
+.features-subtext{
+    position : relative;
+    bottom : 110px;
+    left : 725px;
+    font-size : 20px;
+    max-width : 400px;
+    color : white;
+}
+
+.prev1{
+    position : relative;
+    bottom : 187px;
+    left: 293px;
+    background-image : linear-gradient(#a4bdeb, #abc1e9); 
+    border: none;
+    padding: 28px 32px;
+    border-radius : 50%;
+}
+
+.left-arrow-1{
+    position : relative;
+    bottom : 200px;
+    left : 230px;
+    transform : rotate(180deg);
+    height: 45px;
+    width: 45px;
+}
+
+.next1{
+    position : relative;
+    bottom : 187px;
+    left: 1000px;
+    background-image : linear-gradient(#a4bdeb, #abc1e9);
+    border: none;
+    padding: 28px 32px;
+    border-radius : 50%;
+}
+.right-arrow-1{
+    position : relative;
+    bottom : 200px;
+    left : 945px;
+    height: 45px;
+    width: 45px;
+}
+
+.review-title-container{
+    text-align : center;
+    padding-top : 50px;
+}
+
+.review-title-text{
+    font-family : comfortaa;
+    color : white;
+    font-size : 30px;
+}
+
+.review-subtext-container{
+    text-align : center;
+    padding-top : 100px;
+}
+
+.review-subtext{
+    font-family : comfortaa;
+    color : white;
+    font-size : 30px;
+}
+.logo-img2{
+    height: 61px;
+    width: 61px;
+}
+
+.reviews_list{
+    padding-left : 200px;
+    max-height : 400px;
+}
+
+.column1{
+    position : relative;
+    left : 70px;
+    height: 320px;
+    border-radius: 20px;
+    width: 300px;
+    background-color : #6666db;
+}
+
+.column2{
+    position : relative;
+    left : 420px;
+    bottom : 320px;
+    height: 320px;
+    border-radius: 20px;
+    width: 300px;
+    background-color : #6666db;
+}
+
+.column3{
+    position : relative;
+    left : 770px;
+    bottom : 640px;
+    height: 320px;
+    border-radius: 20px;
+    width: 300px;
+    background-color : #6666db;
+}
+
+.ending-description{
+    background-color : white;
+    height : 450px;
+    min-width : 1519px;
+}
+
+.reader-engagement-text{
+    vertical-align : middle;
+    padding-left : 50px;
+}
+.logo-img2{
+    position : relative;
+    top : 20px;
+    left : 50px;
+    height: 61px;
+    width: 61px;
+}
+
+.logo-text2{
+    font-family : comfortaa;
+    padding-left : 50px;
+    padding-block : 0px 0px;
+    text-align : center;
+    font-size : 30px;
+    font-weight : bold;
+
+}
+
+.reader-engagement-subtext{
+    padding-left : 100px;
+    max-width : 600px;
+}
+.logo-subtext2{
+    font-family : comfortaa;
+}
+.email_message-container{
+    position : relative;
+    bottom : 40px;
+    padding-left : 810px;
+    align-items : right;
+}
+
+#email-field {
+    font-family: comfortaa; 
+    background-color : #f2f2f2;
+    height : 50px;
+    width : 650px;
+    padding-left : 20px;
+    border : none;
+    border-radius: 10px;
+
+}
+
+#message-field{
+    font-family: comfortaa; 
+    background-color : #f2f2f2;
+    width: 650px;
+    height : 200px;
+    padding-left : 20px;
+    padding-top : 15px;
+    border : none;
+    border-radius: 10px;
+    resize : none;
+
+}
+.email{
+    position : relative;
+    bottom : 50px;
+}
+
+.message{
+    width : 500px;
+}
+
+.submit-message{
+    position : relative;
+    left : 550px;
+    font-family : comfortaa;
+    background-color: #728ddf;
+    border-radius: 10px;
+    border : none;
+    width: 100px;
+    height: 40px;
+    color : white;
+}
+
+.footer{
+    text-align : right;
+}
+
+.privacypolicy-text{
+    padding-right : 10px;
+    font-family : comfortaa;
+    text-decoration : none;
+    font-size : 12px;
+    font-weight : bold;
+}
+
+.terms-text{
+    font-family : comfortaa;
+    text-decoration : none;
+    font-size : 12px;
+    font-weight : bold;
+}
