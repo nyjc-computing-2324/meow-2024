@@ -235,27 +235,24 @@ class Student(Table):
             conn.commit()
             #conn.close() called automatically
 
-    def retrieve(self, field: str, data):
+    def retrieve(self, student_id: int):
         """
         find existing records in the database
-        field can only be "account_id" "class" or "email"
         xinyu
         """
-
         with sqlite3.connect(self.database_name) as conn:
             cursor = conn.cursor()
             query = f"""
                     SELECT *
                     FROM "student"
-                    WHERE {field} == ?;
+                    WHERE {self.pk_name} == ?;
                     """
-            params = (data,)
+            params = (student_id,)
             cursor.execute(query, params)
             record = cursor.fetchone()
             conn.commit()
             #conn.close() called automatically
-            return record
-            
+            return record         
 
     def delete(self, student_id: int):
         """remove existing records in the database"""
@@ -263,7 +260,7 @@ class Student(Table):
             cursor = conn.cursor()
             query = f"""
                     DELETE FROM {self.table_name}
-                    WHERE "student_id" = ?;
+                    WHERE {self.pk_name} = ?;
                     """
             param = (student_id,)
             cursor.execute(query, param)
@@ -314,20 +311,22 @@ class CCA(Table):
     def update(self, cca_id: int, field: str, new: str):
         """
         update existing records in the database
+        field can only be "name" or "type"
+        raises Attributes error if field is invalid
         yu xi
         """
+        self._valid_field_else_error(field)
         with sqlite3.connect(self.database_name) as conn:
             cursor = conn.cursor()
             query = f"""
                 UPDATE {self.table_name}
                 SET {field} = ?
-                WHERE cca_id = ? ;                
+                WHERE {self.pk_name} = ? ;                
             """
             params = (new, cca_id)
             cursor.execute(query, params)
             conn.commit()
             # conn.close() is called automatically
-        return T
 
     def retrieve(self, cca_id: int):
         """
@@ -339,7 +338,7 @@ class CCA(Table):
             query = f"""
                 SELECT *
                 FROM {self.table_name} ;
-                WHERE 'cca_id' = ? ;
+                WHERE {self.pk_name} = ? ;
             """
             params = (cca_id,)
             cursor.execute(query, params)
@@ -352,7 +351,7 @@ class CCA(Table):
             cursor = conn.cursor()
             query = f"""
                     DELETE FROM {self.table_name}
-                    WHERE "cca_id" = ?;
+                    WHERE {self.pk_name} = ?;
                     """
             params = (cca_id,)
             cursor.execute(query, params)
