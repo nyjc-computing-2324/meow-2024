@@ -1,66 +1,75 @@
 <!DOCTYPE html>
 <html>
     <head>
-        <link rel="stylesheet" type="text/css" href="{{ url_for('static', filename='css/slider.css') }}">
         <link rel="stylesheet" type="text/css" href="{{ url_for('static', filename='css/index.css') }}">
         <title>launch</title>
     </head>
 
-    <body class = 'body'>
+    <body>
         <section class="topbar-section">
             <img class="logo-img1" src="{{ url_for('static',filename= 'images/cat.svg') }}">
             <span class="logo-text1">
                 Meow
             </span>
-            <a class="contact-text" href="/temp" target="new">Contact</a>
-            <a class="faqs-text" href = "/temp" target="new">FAQs</a>
-            <span class="divider">|</span>
-            <a class="login-text" href="/login" target="new">Login</a>
-            <form action="/register" method="get">
-                <input type="submit" class="sign_up_button1" value="Sign up">
-            </form>
+            <div class = "links-container">
+                <div class = "contact-container">
+                <a class="contact-text" href="/temp" target="new">Contact</a>
+                </div>
+                <div class = "faqs-container">
+                <a class="faqs-text" href = "/temp" target="new">FAQs</a>
+                </div>
+                <div class = "divider-container">
+                <span class="divider-text">|</span>
+                </div>
+                <div class = "login-container">
+                <a class="login-text" href="/login" target="new">Login</a>
+                </div>
+                <form action="/register" method="get">
+                    <input type="submit" class="sign_up_button1" value="Sign up">
+                </form>
+            </div>
         </section>
 
         <section class="tagline-section">
+            <div class = "tagline-container">
             <div class="slogan-container">
             <span class="slogan-text">
               <h2>The purrrfect records manager for you.</h2>
             </span>
             </div>
 
-            <div class="detailed-description-container">
-            <span class="detailed-description-text">
+            <div class="slogan-subtext-container">
+            <span class="slogan-subtext">
               <h5>Simplify Record-Keeping and Management effortlessly with Meow.</h5>
             </span>
             </div>
-
             <form action="/register" method="get">
+                <div class = "sign_up_button2-container">
                 <input type="submit" class="sign_up_button2" value="Sign up now">
+                </div>
+            </div>
             </form>
         </section>
         <section class = "description-section">
-
             <div class = "brief-description-container">
             <span class = "brief-description-text">
                 <h2>Exciting Features!</h2>
             </span>
             </div>
             <div class="features-list">
+                <input type="image" src="{{ url_for('static',filename= 'images/arrow.png') }}" alt="button" width="48" height="48" class="prev1">
                 <div class = "feature-item">
                 </div>
+                <div class = "features-text-container">
                 <div class = "features-text">
                     <h3>Convenience</h3>
                 </div>
-
                 <div class = "features-subtext">
                     <h5>Meow is packed full with exciting features!</h5>
-
                 </div>
+                </div>
+                <input type="image" src="{{ url_for('static',filename= 'images/arrow.png') }}" alt="button" width="48" height="48" class="next1">
             </div>
-            <input type="button" class="prev1">
-            <img class = 'left-arrow-1' src="{{ url_for('static',filename= 'images/arrow.png') }}">
-            <input type="button" class="next1">
-            <img class = 'right-arrow-1' src="{{ url_for('static',filename= 'images/arrow.png') }}">
 
             <div class="review-title-container">
             <span class="review-title-text">
@@ -74,40 +83,42 @@
             </div>
 
             <div class = "reviews_list">
-                <div class="person-img1">
-                    <img src="{{ url_for('static',filename= 'images/person1.png') }}">
-                </div>
-                <div class="person-img2">
-                    <img src="{{ url_for('static',filename= 'images/person2.png') }}">
-                </div>
-                <div class="person-img3">
-                    <img src="{{ url_for('static',filename= 'images/person3.png') }}">
-                </div>
-                <div class="column1">
+                <div class="review1">
+                    <img src="{{ url_for('static',filename= 'images/person1.png') }}" class = "person-img1">
+                    <div class="column1">
 
+                    </div>
                 </div>
-                <div class="column2">
+                <div class="review2">
+                    <img src="{{ url_for('static',filename= 'images/person2.png') }} " class = "person-img2">
+                    <div class="column2">
 
+                    </div>
                 </div>
-                <div class="column3">
+                <div class="review3">
+                    <img src="{{ url_for('static',filename= 'images/person3.png') }}" class = "person-img3">
+                    <div class="column3">
 
+                    </div>
                 </div>
             </div>
             <br>
             <br>
             <br>
+        </section>
         <section class="ending-description">
+            <div class = "reader-engagement-container">
             <div class = "reader-engagement-text">
-           <img class="logo-img2" src="{{ url_for('static',filename= 'images/cat.svg') }}">
+            <img class="logo-img2" src="{{ url_for('static',filename= 'images/cat.svg') }}">
             <span class="logo-text2">
                 Let's get in touch!
             </span>
             </div>
-            <br>
             <div class = "reader-engagement-subtext">
             <span class = "logo-subtext2">
                 Meow is a group project where we bring convenience and love for cats all into a page!
             </span>
+            </div>
             </div>
             <div class = 'email_message-container'>
                 <form action="/" method="post">
