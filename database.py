@@ -74,6 +74,7 @@ class Account(Table):
         create a table upon initialisation of the class
         account id for primary key
         """
+        self.database_name = database_name
         with sqlite3.connect(database_name) as conn:
             cursor = conn.cursor()
             cursor.execute(
@@ -185,6 +186,7 @@ class Student(Table):
         student_id for pk
         yu xi
         """
+        self.database_name = database_name
         with sqlite3.connect(database_name) as conn:
             cursor = conn.cursor()
             cursor.execute(
@@ -283,12 +285,13 @@ class CCA(Table):
     table_name: str = "cca"
     fields = ["cca_id", "name", "type"]
     
-    def __init__(self):
+    def __init__(self, database_name):
         """
         create a table upon initialisation of the class
         cca_id for pk
         jae zen
         """
+        self.database_name = database_name
         with sqlite3.connect(self.database_name) as conn:
             cursor = conn.cursor()
             cursor.execute(
@@ -376,6 +379,7 @@ class Activity(Table):
         activity_id for pk
         jae zen
         """
+        self.database_name = database_name
         with sqlite3.connect(self.database_name) as conn:
             cursor = conn.cursor()
             cursor.execute(
