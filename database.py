@@ -84,7 +84,6 @@ class Account(Table):
                 "username" TEXT NOT NULL UNIQUE,
                 "password" TEXT NOT NULL,
                 "salt" BYTES NOT NULL,
-                PRIMARY KEY ("account_id")
                 );
                 """
             )
