@@ -83,7 +83,7 @@ class Account(Table):
                 "account_id" INTEGER PRIMARY KEY,
                 "username" TEXT NOT NULL UNIQUE,
                 "password" TEXT NOT NULL,
-                "salt" BYTES NOT NULL,
+                "salt" BYTES NOT NULL
                 );
                 """
             )
@@ -108,14 +108,11 @@ class Account(Table):
     def update(self, account_id: int, field: str, new):
         """
         update existing records in the database
-        field can only be "username" or "password"
-        return False if inputs are wrong
-        return True if inputs are correct
-        checks for repeated username should already be done
+        field can only be "username", "password" or "salt"
+        raises Attributes error if field is invalid
+        checks for repeated username should already be done if username is being updated
         """
-        if field not in ['username', 'password', 'salt']:
-            raise Exception('field entered incorrectly')
-                
+        self._valid_field_else_error(field)            
         with sqlite3.connect(self.database_name) as conn:
             cursor = conn.cursor()            
             query = f"""
@@ -127,18 +124,15 @@ class Account(Table):
             cursor.execute(query, params)
             conn.commit()
             #conn.close() called automatically
-        return True
-
-    
 
     def retrieve(self, field: str, data) -> tuple:
         """
         find existing records in the database
         field can only be "account_id" or "username"
-        error raised if field entered incorrectly 
+        raises Attributes error if field is invalid
         """
-        if field not in ['username', 'password', 'salt']:
-            raise Exception('field entered incorrectly')
+        if field not in ['account_id', 'username']:
+            raise AttributeError(f"Invalid field '{field}'")
         
         with sqlite3.connect(self.database_name) as conn:
             cursor = conn.cursor()
@@ -158,11 +152,10 @@ class Account(Table):
         """
         remove existing records in the database
         field can only be "account_id" or "username"
-        error raised if field entered incorrectly 
+        raises Attributes error if field is invalid
         """
-
-        if field not in ['username', 'password', 'salt']:
-            raise Exception('field entered incorrectly')
+        if field not in ['account_id', 'username']:
+            raise AttributeError(f"Invalid field '{field}'")
             
         with sqlite3.connect(self.database_name) as conn:
             cursor = conn.cursor()
@@ -224,15 +217,12 @@ class Student(Table):
     def update(self, student_id: int, field: str, new):
         """
         update existing records in the database
-        field can only be "account_id" "name" "class" or "email"
-        return False if inputs are wrong
-        return True if inputs are correct
+        field can only be "account_id", "name", "class" or "email"
         checks for valid account_id should already be done
-        raise error if field entered incorrectly
-        xinyu
+        raises Attributes error if field is invalid
         """
-        if field not in ['account_id','name', 'class','email']:
-            return False
+        if field not in ['account_id', 'username']:
+            raise AttributeError(f"Invalid field '{field}'")
         with sqlite3.connect(self.database_name) as conn:
             cursor = conn.cursor()
             query = f"""
@@ -244,8 +234,6 @@ class Student(Table):
             cursor.execute(query, params)
             conn.commit()
             #conn.close() called automatically
-            return True
-
 
     def retrieve(self, field: str, data):
         """
