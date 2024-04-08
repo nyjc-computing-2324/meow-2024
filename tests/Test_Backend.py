@@ -16,6 +16,10 @@ unittest Documentation: https://docs.python.org/3/library/unittest.html
 
 
 We will be starting with the Account class first, and move on to other ones.
+
+CURRENT TASKS/ISSUES:
+- Continue with Student, CCA,etc testclasses
+- UPDATE METHOD SEEMS WRONG
 """
 
 class Test_Account(TestCase):
@@ -32,6 +36,7 @@ class Test_Account(TestCase):
         the Account table with the insert method
         """
         self.assertTrue(self.Account.retrieve('username',self.name),'Insert function failed')
+        self.result_insert = TextTestRunner().run(defaultTestLoader.loadTestsFromName("test_insert"))
 
     def test_update(self):
         """
@@ -39,7 +44,9 @@ class Test_Account(TestCase):
         Checks if a record is correctly updated in the Account
         table with the update method (maybe done)
         """
-        
+        if not self.result_insert.wasSuccessful():
+            self.skipTest("Skipping test condition as insertion does not work")
+            
         self.password = "aBCD1234"
         self.Account.update(1, 'password', self.password)
         with sqlite3.connect(self.Account.database_name) as conn:
@@ -61,8 +68,12 @@ class Test_Account(TestCase):
         Checks if a record is correctly retrieved from the
         Account table with the retrieve method (perhaps finished)
         """
-
-        self.assertEqual(self.name, self.Account.retrieve('username',self.name)[1], 'Retrieve method failed')
+        if not self.result_insert.wasSuccessful():
+            self.skipTest("Skipping test condition as insertion does not work")
+            
+        self.assertEqual(self.name, self.Account.retrieve('username',self.name)[1], 'Retrieve method failed using username')      
+        self.assertEqual(self.name, self.Account.retrieve('account_id','1')[1], 'Retrieve method failed using account_id')
+        
 
     def test_delete(self):
         """
@@ -71,14 +82,15 @@ class Test_Account(TestCase):
         table with the delete method, using both username and
         account_id, provided the insert method works
         """
+        if not self.result_insert.wasSuccessful():
+            self.skipTest("Skipping test condition as insertion does not work")
+            
         del_target = self.Account.retrieve('username', self.name)
         self.Account.delete('username',del_target[0])
         self.assertIsNone(self.Account.retrieve('username', self.name), 'Delete method failed using username')
-        result_insert = TextTestRunner().run(defaultTestLoader.loadTestsFromName("test_insert"))
-        if not result_insert.wasSuccessful():
-            self.skipTest("Skipping test condition as insertion does not work")
+        
         self.Account.insert(self.name,self.password)
         self.Account.delete('account_id',del_target[0])
-        self.assertIsNone(self.Account.retrieve('username', self.name), 'Delete method failed using username')
+        self.assertIsNone(self.Account.retrieve('username', self.name), 'Delete method failed using account_id')
         
         
