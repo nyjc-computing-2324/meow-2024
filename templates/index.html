@@ -1,13 +1,13 @@
 <!DOCTYPE html>
 <html>
     <head>
-        <link rel="stylesheet" type="text/css" href="index.css">
+        <link rel="stylesheet" type="text/css" href="{{ url_for('static', filename='css/index.css') }}">
         <title>launch</title>
     </head>
 
     <body>
         <section class="topbar-section">
-            <img class="logo-img1" src="cat.svg">
+            <img class="logo-img1" src="{{ url_for('static',filename= 'images/cat.svg') }}">
             <span class="logo-text1">
                 Meow
             </span>
@@ -57,7 +57,7 @@
             </span>
             </div>
             <div class="features-list">
-                <input type="image" src="arrow.png" alt="button" width="48" height="48" class="prev1">
+                <input type="image" src="{{ url_for('static',filename= 'images/arrow.png') }}" alt="button" width="48" height="48" class="prev1">
                 <div class = "feature-item">
                 </div>
                 <div class = "features-text-container">
@@ -68,7 +68,7 @@
                     <h5>Meow is packed full with exciting features!</h5>
                 </div>
                 </div>
-                <input type="image" src="arrow.png" alt="button" width="48" height="48" class="next1">
+                <input type="image" src="{{ url_for('static',filename= 'images/arrow.png') }}" alt="button" width="48" height="48" class="next1">
             </div>
 
             <div class="review-title-container">
@@ -109,7 +109,7 @@
         <section class="ending-description">
             <div class = "reader-engagement-container">
             <div class = "reader-engagement-text">
-            <img class="logo-img2" src="cat.svg">
+            <img class="logo-img2" src="{{ url_for('static',filename= 'images/cat.svg') }}">
             <span class="logo-text2">
                 Let's get in touch!
             </span>
