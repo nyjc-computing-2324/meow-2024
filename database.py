@@ -391,10 +391,9 @@ class Activity(Table):
         checks for repeated organiser_id should already be done
         """
         with sqlite3.connect(self.database_name) as conn:
-            cursor = conn.cursor()
-            
+            cursor = conn.cursor()            
             query = f"""
-                INSERT INTO {self.table_name}("name", "date", "location", "organiser_id")
+                INSERT INTO {self.table_name} ("name", "date", "location", "organiser_id")
                 VALUES( ?, ?, ?, ? );
                 """
             params = (name, date, location, organiser_id)
@@ -402,50 +401,45 @@ class Activity(Table):
             conn.commit()
             #conn.close() called automatically
 
-    def update(self, account_id: int, field: str, new: str):
+    def update(self, activity_id: int, field: str, new: str):
         """
         update existing records in the database
         field can only be "organiser_id" "name" "date" or "location"
-        return False if inputs are wrong
-        return True if inputs are correct
         checks for valid organiser_id should already be done
+        raises Attributes error if field is invalid
         xinyu
         """
-        if field not in ['organiser_id','name', 'date','location']:
-            return False
+        self._valid_field_else_error(field)
         with sqlite3.connect(self.database_name) as conn:
             cursor = conn.cursor()
-            
             query = f"""
                 UPDATE {self.table_name}
                 SET {field} = ?
-                where "activity_id" = ?
+                where {self.pk_name} = ?
                 """
             params = (new, activity_id)
             cursor.execute(query, params)
-            conn.commit
+            conn.commit()
             #conn.close() called automatically
-        return True
 
-    def retrieve(self, account_id: int):
+    def retrieve(self, activity_id: int):
         """
         find existing records in the database
         xinyu
         """
         with sqlite3.connect(self.database_name) as conn:
-            cursor = conn.cursor
+            cursor = conn.cursor()
             query = f"""
                 SELECT *
                 FROM {self.table_name}
-                where {field} = ?
-            """
-            params = (account_id,)
+                where {self.pk_name} = ?
+                """
+            params = (activity_id,)
             cursor.execute(query, params)
             record = cursor.fetchone()
             conn.commit()
             #conn.close() called automatically
             return record
-    
 
     def delete(self, account_id: int):
         """
@@ -456,7 +450,7 @@ class Activity(Table):
             cursor = conn.cursor()
             query = f"""
                     DELETE FROM {self.table_name}
-                    WHERE "account_id" = ?;
+                    WHERE {self.pk_name} = ?;
                     """
             params = (account_id,)
             cursor.execute(query, params)
