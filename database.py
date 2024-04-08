@@ -80,7 +80,7 @@ class Account(Table):
             cursor.execute(
                 f"""
                 CREATE TABLE IF NOT EXISTS {self.table_name} (
-                "account_id" INTEGER,
+                "account_id" INTEGER PRIMARY KEY,
                 "username" TEXT NOT NULL UNIQUE,
                 "password" TEXT NOT NULL,
                 "salt" BYTES NOT NULL,
@@ -178,6 +178,7 @@ class Account(Table):
 
 class Student(Table):
     table_name: str = "student"
+    pk_name: str = "student_id"
     fields = ["student_id", "name", "class", "email", "account_id"]
 
     def __init__(self, database_name):
@@ -192,7 +193,7 @@ class Student(Table):
             cursor.execute(
                 f"""
                 CREATE TABLE IF NOT EXISTS {self.table_name} (
-                    "student_id" INTEGER PRIMARY KEY,
+                    {self.pk_name} INTEGER PRIMARY KEY,
                     "name" TEXT NOT NULL,
                     "class" INTEGER NOT NULL, 
                     "email" TEXT NOT NULL,
@@ -283,6 +284,7 @@ class Student(Table):
 
 class CCA(Table):
     table_name: str = "cca"
+    pk_name: str = "cca_id"
     fields = ["cca_id", "name", "type"]
     
     def __init__(self, database_name):
@@ -297,7 +299,7 @@ class CCA(Table):
             cursor.execute(
                 f"""
                 CREATE TABLE IF NOT EXISTS {self.table_name} (
-                    "cca_id" INTEGER PRIMARY KEY,
+                    {self.pk_name} INTEGER PRIMARY KEY,
                     "name" TEXT NOT NULL,
                     "type" TEXT NOT NULL, 
                 );
@@ -371,7 +373,8 @@ class CCA(Table):
 
 class Activity(Table):
     table_name: str = "activity"
-    fields = ["student_id", "name", "date", "location"]
+    pk_name = "activity_id"
+    fields = ["activity_id", "name", "date", "location", "organiser_id"]
 
     def __init__(self, database_name):
         """
@@ -385,7 +388,7 @@ class Activity(Table):
             cursor.execute(
                 f"""
                 CREATE TABLE IF NOT EXISTS {self.table_name} (
-                    "student_id" INTEGER PRIMARY KEY,
+                    {self.pk_name} INTEGER PRIMARY KEY,
                     "name" TEXT NOT NULL,
                     "date" TEXT NOT NULL, 
                     "location" TEXT NOT NULL,
