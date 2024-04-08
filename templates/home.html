@@ -1,36 +1,44 @@
 <!DOCTYPE html>
 <html>
     <head>
-        <title>Welcome Back!</title>
+        <title>Home Page</title>
+        <link rel="stylesheet" href="home.css">
+    </head>
 
-        <body>
-            <section>
-                Quick access
-                <div>
-                    <a href="/records_cca" target="new"> My Records</a>
-                </div>
-                <div>
-                    <a href="/manage" target="new"> Manage</a>
-                </div>
-                <div>
-                    <a href="/profile" target="new"> Profile</a>
-                </div>
-            </section>
-            <section>
-                Announcements
-                <div>
-                    blank
-                </div>
-            </section>
-            
-            
-            {% set page = "home" %}    
-            {% block content %}
-                {% include 'navigation.html' %}
-            {% endblock %}
-        </body>
-        <footer class='footer'>
-            <a class="privacypolicy-text" href = "/temp" target="new">PRIVACY POLICY</a>
+    <body>
+        <section>
+            <h1>Welcome Back!</h1>
+            <h2>Quick access</h2>
+            <div class="quick-access">
+            <div class="myrecords">
+                <a href="/records_cca" target="new"> My Records</a>
+            </div>
+            <div class="manage">
+                <a href="/manage" target="new"> Manage</a>
+            </div>
+            <div class="profile">
+                <a href="/profile" target="new"> Profile</a>
+            </div>
+        </section>
+        
+        <section>
+            <h2>Announcements</h2>
+            <div class="ance">
+                blank
+            </div>
+        </section>
 
-        </footer>
+        {% set page = "home" %}    
+        {% block content %}
+            {% include 'navigation.html' %}
+        {% endblock %}
+        
+    </body>
+    
+    <footer class='footer'>
+        <a class="privacypolicy-text" href = "/temp" target="new">PRIVACY POLICY</a>
+    </footer>
+    
 </html>
+
+
