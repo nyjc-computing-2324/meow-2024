@@ -42,7 +42,7 @@ class Test_Account(TestCase):
         
         self.password = "aBCD1234"
         self.Account.update(1, 'password', self.password)
-        with sqlite3.connect(self.database_name) as conn:
+        with sqlite3.connect(self.Account.database_name) as conn:
             cursor = conn.cursor()
             query = """
                     SELECT *
@@ -68,8 +68,17 @@ class Test_Account(TestCase):
         """
         By Vincent & Hong Zhao
         Checks if a record is correctly deleted from the Account
-        table with the delete method (possibly completed)
+        table with the delete method, using both username and
+        account_id, provided the insert method works
         """
         del_target = self.Account.retrieve('username', self.name)
-        self.Account.delete(del_target[0])
-        self.assertIsNone(self.Account.retrieve('username', self.name), 'Delete method failed')
+        self.Account.delete('username',del_target[0])
+        self.assertIsNone(self.Account.retrieve('username', self.name), 'Delete method failed using username')
+        result_insert = TextTestRunner().run(defaultTestLoader.loadTestsFromName("test_insert"))
+        if not result_insert.wasSuccessful():
+            self.skipTest("Skipping test condition as insertion does not work")
+        self.Account.insert(self.name,self.password)
+        self.Account.delete('account_id',del_target[0])
+        self.assertIsNone(self.Account.retrieve('username', self.name), 'Delete method failed using username')
+        
+        
