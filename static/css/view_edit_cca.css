@@ -12,7 +12,7 @@
 
 /* .topbar-section{
     background-color: white;
-    height: 80px;
+    height: 60px;
     min-width : 100%;
     display: flex;
     align-items: center;
@@ -30,6 +30,8 @@
     font-family : comfortaa;
     font-size : 30px;
     } */
+
+
 
 .record-text{
     position : relative;
@@ -56,7 +58,8 @@
 
 .logout-text{
     position : relative;
-    left : 1010px;
+    left: 1010px;
+    text-align: right;
     font-family : comfortaa;
     color : black;
     text-decoration:none
@@ -66,8 +69,8 @@
     height: 55px;
     width: 55px;
     border-radius: 50%;  
-    display: inline-block;
-    right: 0px;
+    position: relative;
+    float: right;
     background-color: #8AADF4;
 }
 
@@ -82,6 +85,7 @@
 .profile-text{
     font-family : comfortaa;
     font-size : 18px;
+    align-items: center;
     display: inline-block;
 }
 
@@ -99,6 +103,7 @@
     width: 32%;
     height: 400px;
     margin-right: 10px;
+    margin-left: 15px;
 }
 
 .left-textbox {
@@ -120,7 +125,6 @@
     width: 32%;
     height: 400px;
     display: inline-block;
-    margin-right: 10px;
 }
 
 .right-textbox {
@@ -131,5 +135,5 @@
     width: 32%;
     height: 400px;
     display: inline-block;
-    margin-right: 10px;
+    margin-right: 15px;
 }
