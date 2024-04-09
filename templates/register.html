@@ -4,9 +4,12 @@
         <link rel="stylesheet" type="text/css" href="{{ url_for('static', filename='css/style_register.css') }}">
         <title>Register HERE!</title>
     </head>
-
+    {% set page = "register" %}    
+    {% block content %}
+        {% include 'navigation.html' %}
+    {% endblock %}
     <body>
-        <section class="topbar-section">
+        <!-- <section class="topbar-section">
             <img class="logo-img1" src="{{ url_for('static',filename= 'images/cat.svg') }}">
             <span class="logo-text1">
                 Meow
@@ -28,7 +31,7 @@
                     <input type="submit" class="sign_up_button1" value="Sign up">
                 </form>
             </div>
-        </section>
+        </section> -->
         <section class = register-box>
             <img class="logo-img2" src="{{ url_for('static',filename= 'images/cat.svg') }}">
             <div class = 'register-box-title'>
@@ -52,7 +55,7 @@
                 <input type="submit" class="create-account" value="Create Account">
             </div>
         </section>
-
+        
     </body>
 
 </html>

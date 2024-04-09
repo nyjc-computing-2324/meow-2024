@@ -3,7 +3,10 @@
     <head>
         <title>PROFILE</title>
     </head>
-    
+    {% set page = "profile" %}    
+    {% block content %}
+        {% include 'navigation.html' %}
+    {% endblock %}
     <body>
         <div class= "header">
             <h1>Profile Page</h1>
