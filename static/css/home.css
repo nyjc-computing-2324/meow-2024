@@ -12,7 +12,7 @@ h2 {font-size: 30px;
 section {font-family : comfortaa;
         font-size : 20px;
         margin-left: 10%;
-        margin-right: 10%
+        margin-right: 10%;
 
 
 }
@@ -85,4 +85,8 @@ section {font-family : comfortaa;
         font-size: 16px;
         float: right;
         margin-right: 10%
+}
+
+.main-body{
+    margin-top: 150px;
 }
