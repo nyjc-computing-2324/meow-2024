@@ -10,7 +10,7 @@
     max-width : 1519px;
 }
 
-.topbar-section{
+/* .topbar-section{
     background-color: white;
     height: 80px;
     min-width : 100%;
@@ -29,7 +29,7 @@
 .logo-text1 {
     font-family : comfortaa;
     font-size : 30px;
-    }
+    } */
 
 .record-text{
     position : relative;
@@ -88,7 +88,8 @@
 .general-text{
     font-family : comfortaa;
     font-size : 18px;
-    display: inline-block;
+    /* display: inline-block; */
+    margin-top: 150px;
 }
 
 .general-left-textbox {
