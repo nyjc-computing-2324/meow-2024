@@ -1,0 +1,96 @@
+@font-face {
+    font-family: comfortaa;
+    src: url(Comfortaa-Light.ttf);
+}
+
+* {
+    padding : 0;
+    margin : 0;
+    box-sizing : border-box;
+    max-width : 100%;
+}
+
+.topbar-section{
+    background-color: white;
+    height: 80px;
+    max-width: 100%;
+    display: flex;
+    align-items: center;
+    padding-left: 30px;
+    box-shadow: 0px 5px 5px #d9d9d9;
+    position: fixed; 
+    top: 0; 
+    width: 100%; 
+}
+
+.logo-img1 {
+    height: 61px;
+    width: 61px;
+    margin-right: auto;
+}
+
+.logo-text1 {
+    margin-right : auto;
+    font-family : comfortaa;
+    font-size : 32px;
+    }
+
+.links-container{
+    display: flex;
+    align-items: center;
+    justify-content: flex-end;
+    width: 100%;
+    margin-right: 30px;
+}
+.contact-container{
+    position : relative;
+    right : 80px;
+}
+
+.contact-text{
+    font-family : comfortaa;
+    color : black;
+    text-decoration:none
+}
+.faqs-container{
+    position : relative;
+    right : 60px;
+}
+
+.faqs-text{
+    font-family : comfortaa;
+    color : black;
+    text-decoration:none
+}
+
+.divider-container{
+    position : relative;
+    right : 40px;
+}
+
+.divider-text{
+    font-family : comfortaa;
+    color : black;
+}
+
+.login-container{
+    position : relative;
+    right : 20px;
+}
+
+.login-text{
+    font-family : comfortaa;
+    color : black;
+    text-decoration:none
+}
+
+.sign_up_button1{
+    margin-left : auto;
+    font-family : comfortaa;
+    background-color: #2f99e9;
+    border-radius: 10px;
+    border : none;
+    width: 100px;
+    height: 40px;
+
+}
