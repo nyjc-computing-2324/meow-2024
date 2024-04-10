@@ -5,9 +5,6 @@ completed = False
 
 def index():
     # display index.html which is the launch page
-    if not completed:
-        # redirects the user to temp
-        return redirect("/temp")
     return render_template("index.html")
 
 def view_edit_cca():
@@ -37,9 +34,6 @@ def temp():
 
 def home():
     #display home.html
-    if not completed:
-        # redirects the user to temp
-        return redirect("/temp")
     return render_template("home.html")
 
 def profile():
@@ -58,14 +52,8 @@ def about():
 
 def login(error = ""):
     #display login.html
-    if completed:
-        return render_template("login.html", error_msg = error)
-    else:
-        return redirect("/temp")
+    return render_template("login.html", error_msg = error)
 
 def register(error = ""):
     #display register.html
-    if completed:
-        return render_template("register.html", error_msg = error)
-    else:
-        return redirect("/temp")
+    return render_template("register.html", error_msg = error)
