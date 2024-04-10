@@ -4,9 +4,15 @@ def username_isvalid(username) -> bool:
     """
     xinyu
     checks username during registration for these criteria:
-    1. all char are ascii printable char
+    1. all char are ascii printable char except horizontal tab, space and line feed (newline)
     """
-    return all(char in string.printable for char in username)
+    if all(char in string.printable for char in username):
+        return False
+        
+    if chr(9) in username or chr(10) in username or chr(32) in username:
+        return False
+    
+    return True
 
 
 def password_isvalid(password) -> bool:
