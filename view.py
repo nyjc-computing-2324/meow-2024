@@ -31,7 +31,7 @@ def records_activities():
 def temp():
     # displays the underdevelopment page temp.html
     return render_template("temp.html")
-
+  
 def home():
     #display home.html
     return render_template("home.html")
