@@ -1,7 +1,6 @@
 from unittest import *
 from validate import *
 from database import *
-import auth
 #IMPORTANT Please Read
 """
 We will be using the unittest module instead to test frontend and backend.
@@ -75,7 +74,7 @@ class Test_Validate(TestCase):
 
         self.assertFalse(password_isvalid(self.invalidpassword_empty), 'Password should be invalid: Password is empty (an empty string).')
         self.assertFalse(password_isvalid(self.invalidpassword_notascii), 'Password should be invalid: Password contains non-ASCII characters.')
-        self.assertFalse(password_isvalid(self.invalidpassword_notprintable), 'Password should be invalid: Password contains newline and tab characters, whcih are non-printable.')
+        self.assertFalse(password_isvalid(self.invalidpassword_notprintable), 'Password should be invalid: Password contains newline and tab characters, which are non-printable.')
         self.assertFalse(password_isvalid(self.invalidpassword_withspaces), 'Password should be invalid: Password contains spaces.')
 
 
