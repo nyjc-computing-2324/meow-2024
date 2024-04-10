@@ -28,6 +28,7 @@ class Test_Validate(TestCase):
 
         self.invalidname_notascii = 'ABCD二十八'
         self.invalidname_notprintable = 'John \t Doe \n Smith'
+        self.invalidname_empty = ''
 
         #password test cases
         self.validpassword = 'Abcd1234'
@@ -43,13 +44,13 @@ class Test_Validate(TestCase):
         self.invalidpassword_notprintable = 'ABCdef \t 123 \n 456'
         self.invalidpassword_withspaces = 'ABcd 12 34'
 
-        #user validation test cases(Commented-out for time being due to future changes in the Account class)
-        # test_account = Account()
+        #user validation test case
+        test_account = Account(":memory:")
         self.user_a = {'Name':'AAAAA', 'Password':'ABCDefg1234'}
         self.user_b = {'Name':'Beez Nuts', 'Password':'B33z_Nutz'}
 
-        # test_account.insert(self.user_a['Name'], self.user_a['Password'])
-        # test_account.insert(self.user_b['Name'], self.user_b['Password'])
+        test_account.insert(self.user_a['Name'], self.user_a['Password'])
+        test_account.insert(self.user_b['Name'], self.user_b['Password'])
 
 
 
@@ -62,6 +63,7 @@ class Test_Validate(TestCase):
 
         self.assertFalse(username_isvalid(self.invalidname_notascii),'Username should be invalid: Username contains non-ASCII characters.')
         self.assertFalse(username_isvalid(self.invalidname_notprintable),'Username should be invalid: Username contains non-printable characters.')
+        self.assertFalse(username_isvalid(self.invalidname_empty), 'Username should be invalid: Username is empty string.')
 
 
     def test_password_isvalid(self):
@@ -84,15 +86,15 @@ class Test_Validate(TestCase):
         self.assertFalse(password_isvalid(self.invalidpassword_withspaces), 'Password should be invalid: Password contains spaces.')
 
 
-    # def test_user_isvalid(self): (Commented-out due to future changes in the Account class)
-        # """
-        # Tests the user_isvalid method on validate.py
-        # """
-        # self.assertTrue(user_isvalid(self.user_a['Name'], self.user_a["Password"]), 'User should be valid (User A).')
-        # self.assertTrue(user_isvalid(self.user_b['Name'], self.user_b["Password"]), 'User should be valid (User B).')
+    def test_user_isvalid(self):
+        """
+        Tests the user_isvalid method on validate.py
+        """
+        self.assertTrue(user_isvalid(self.user_a['Name'], self.user_a["Password"]), 'User should be valid (User A).')
+        self.assertTrue(user_isvalid(self.user_b['Name'], self.user_b["Password"]), 'User should be valid (User B).')
 
-        # self.assertFalse(user_isvalid(self.user_a['Name'], self.user_a["Name"]), 'User should be not valid: Second argument uses the Username instead of the Password.')
-        # self.assertFalse(user_isvalid(self.user_a['Name'], self.user_b["Password"]), 'User should be not valid: User A Username with User B Password.')
-        # self.assertFalse(user_isvalid(self.user_a['Password'], self.user_a["Name"]), 'User should be not valid: Username and Password arguments are swapped.')
+        self.assertFalse(user_isvalid(self.user_a['Name'], self.user_a["Name"]), 'User should be not valid: Second argument uses the Username instead of the Password.')
+        self.assertFalse(user_isvalid(self.user_a['Name'], self.user_b["Password"]), 'User should be not valid: User A Username with User B Password.')
+        self.assertFalse(user_isvalid(self.user_a['Password'], self.user_a["Name"]), 'User should be not valid: Username and Password arguments are swapped.')
 
 
