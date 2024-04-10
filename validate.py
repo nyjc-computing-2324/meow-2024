@@ -13,7 +13,7 @@ def password_isvalid(password) -> bool:
     """
     xinyu
     checks password during registration for these criteria:
-    1. all char are ascii printable char
+    1. all char are ascii printable char except tab
     2. at least 8 char, 1 upper, 1 lower, 1 number
     """
     if not all(char in string.printable for char in password):
@@ -29,6 +29,9 @@ def password_isvalid(password) -> bool:
         return False
         
     if not any(char in string.digits for char in password):
+        return False
+
+    if "    " in password:
         return False
         
     return True
