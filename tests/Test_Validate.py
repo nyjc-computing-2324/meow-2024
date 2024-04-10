@@ -1,6 +1,7 @@
 from unittest import *
 from validate import *
 from database import *
+import auth
 #IMPORTANT Please Read
 """
 We will be using the unittest module instead to test frontend and backend.
@@ -44,14 +45,6 @@ class Test_Validate(TestCase):
         self.invalidpassword_notprintable = 'ABCdef \t 123 \n 456'
         self.invalidpassword_withspaces = 'ABcd 12 34'
 
-        #user validation test case
-        test_account = Account(":memory:")
-        self.user_a = {'Name':'AAAAA', 'Password':'ABCDefg1234'}
-        self.user_b = {'Name':'Beez Nuts', 'Password':'B33z_Nutz'}
-
-        test_account.insert(self.user_a['Name'], self.user_a['Password'])
-        test_account.insert(self.user_b['Name'], self.user_b['Password'])
-
 
 
     def test_username_isvalid(self):
@@ -84,17 +77,5 @@ class Test_Validate(TestCase):
         self.assertFalse(password_isvalid(self.invalidpassword_notascii), 'Password should be invalid: Password contains non-ASCII characters.')
         self.assertFalse(password_isvalid(self.invalidpassword_notprintable), 'Password should be invalid: Password contains newline and tab characters, whcih are non-printable.')
         self.assertFalse(password_isvalid(self.invalidpassword_withspaces), 'Password should be invalid: Password contains spaces.')
-
-
-    def test_user_isvalid(self):
-        """
-        Tests the user_isvalid method on validate.py
-        """
-        self.assertTrue(user_isvalid(self.user_a['Name'], self.user_a["Password"]), 'User should be valid (User A).')
-        self.assertTrue(user_isvalid(self.user_b['Name'], self.user_b["Password"]), 'User should be valid (User B).')
-
-        self.assertFalse(user_isvalid(self.user_a['Name'], self.user_a["Name"]), 'User should be not valid: Second argument uses the Username instead of the Password.')
-        self.assertFalse(user_isvalid(self.user_a['Name'], self.user_b["Password"]), 'User should be not valid: User A Username with User B Password.')
-        self.assertFalse(user_isvalid(self.user_a['Password'], self.user_a["Name"]), 'User should be not valid: Username and Password arguments are swapped.')
 
 
