@@ -1,0 +1,42 @@
+<!DOCTYPE html>
+<html>
+    <head>
+        <title>PROFILE</title>
+    </head>
+    {% set page = "profile" %}    
+    {% block content %}
+        {% include 'navigation.html' %}
+    {% endblock %}
+    <body>
+        <div class= "header">
+            <h1>Profile Page</h1>
+        </div>
+
+        <div class= "email">
+            <h2>email:</h2>
+            <p>zhuohaowren123@gmail.com</p>
+        </div>
+
+        <div class= "number">
+            <h2>number:</h2>
+            <p>+65 98765432</p>
+        </div>
+
+        <div class="name">
+            <h2>Zhuo Howren</h2>
+            <p>@username</p>
+        </div>
+
+        <div class="edit-download">
+            <h3><div button class="button-round">edit</button></h3>
+            <h3><div button class="button-round">download profile</button></h3>
+        </div>
+
+        <div class= "about">
+            <h2>About myself:</h2>
+            <p>Lorem ipsum dolor sit amet, consectetur adipiscing elit. Curabitur in iaculis ex. Etiam volutpat laoreet urna. Morbi ut tortor nec nulla commodo malesuada sit amet vel lacus. Fusce eget efficitur libero. Morbi dapibus porta quam laoreet placerat.</h3>
+        </div>
+
+    </body>
+</html>
+        

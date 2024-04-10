@@ -1,0 +1,385 @@
+@font-face {
+    font-family: comfortaa;
+    src: url(Comfortaa-Light.ttf);
+}
+
+* {
+    padding : 0;
+    margin : 0;
+    box-sizing : border-box;
+}
+
+.topbar-section{
+    background-color: white;
+    height: 80px;
+    max-width: 100%;
+    display: flex;
+    align-items: center;
+    padding-left: 30px;
+    box-shadow: 0px 5px 5px #d9d9d9;
+    position: fixed; 
+    top: 0; 
+    min-width: 100%; 
+    z-index: 1;
+}
+
+.logo-img1 {
+    height: 61px;
+    width: 61px;
+    margin-right: auto;
+}
+
+.logo-text1 {
+    margin-right : auto;
+    font-family : comfortaa;
+    font-size : 32px;
+    }
+
+.links-container{
+    display: flex;
+    align-items: center;
+    justify-content: flex-end;
+    width: 100%;
+    margin-right: 30px;
+}
+.contact-container{
+    position : relative;
+    right : 80px;
+}
+
+.contact-text{
+    font-family : comfortaa;
+    color : black;
+    text-decoration:none
+}
+.faqs-container{
+    position : relative;
+    right : 60px;
+}
+
+.faqs-text{
+    font-family : comfortaa;
+    color : black;
+    text-decoration:none
+}
+
+.divider-container{
+    position : relative;
+    right : 40px;
+}
+
+.divider-text{
+    font-family : comfortaa;
+    color : black;
+}
+
+.login-container{
+    position : relative;
+    right : 20px;
+}
+
+.login-text{
+    font-family : comfortaa;
+    color : black;
+    text-decoration:none
+}
+
+.sign_up_button1{
+    margin-left : auto;
+    font-family : comfortaa;
+    background-color: #2f99e9;
+    border-radius: 10px;
+    border : none;
+    width: 100px;
+    height: 40px;
+
+
+}
+
+.tagline-section{
+    margin-right : auto;
+    margin-left : auto;
+    padding-top : 250px;
+    padding-bottom : 100px;
+    align-items: center;
+    display : flex;
+    flex-direction : column;
+    min-width : 100%;
+}
+
+.tagline-container{
+    align-content: left;
+    display : flex;
+    flex-direction : column;
+}
+.slogan-container{
+    width : 500px;
+    text-align : left;
+}
+
+.slogan-text{
+    font-family : comfortaa;
+    font-size : 36px;
+}
+
+.slogan-subtext-container{
+    margin-top : 10px;
+    width : 400px;
+    text-align : left;
+}
+
+.slogan-subtext{
+    font-family : comfortaa;
+    font-size : 16px;
+    color : #b0b0b0;
+}
+
+.sign_up_button2{
+    margin-top : 10px;
+    font-family : comfortaa;
+    background-color: #2f99e9;
+    border-radius: 10px;
+    border : none;
+    width: 150px;
+    height: 50px;
+    font-size : 18px;
+    font-weight : bold;
+}
+
+.description-section{
+    background-image: linear-gradient(#8AADF4, #FBF2CF);
+    margin-left : auto;
+    margin-right : auto;
+    min-width : 100%;
+}
+
+.brief-description-container{
+    margin-left : auto;
+    margin-right : auto;
+    margin-bottom : 100px;
+    padding-top : 50px;
+    display : flex;
+    justify-content: center;
+}
+
+.brief-description-text{
+    font-family : comfortaa;
+    color : white;
+    font-size : 20px
+}
+
+.features-list{
+    display : flex;
+    justify-content: center;
+    width : 100%;
+}
+.feature-item{
+    min-height: 320px;
+    border-radius: 20px;
+    min-width: 250px;
+    background-image : linear-gradient(#ffffff, #8AADF4);
+}
+
+.features-text-container{
+    position : relative;
+    flex-direction: column;
+    text-align : left;
+    left : 50px;
+    top : 100px;
+}
+.features-text{
+    font-family : comfortaa;
+    font-size: 36px;
+    color : white;
+}
+
+.features-subtext{
+    position : relative;
+    top : 25px;
+    font-family : comfortaa;
+    font-size : 20px;
+    min-width : 400px;
+    color : white;
+
+}
+
+.prev1{
+    position : relative;
+    transform : rotate(180deg);
+    top : 120px;
+    right : 25px;
+}
+
+.next1{
+    position : relative;
+    top : 120px;
+    left : 25px;
+
+}
+
+.review-title-container{
+    display : flex;
+    justify-content : center;
+    padding-top : 200px;
+}
+
+.review-title-text{
+    margin-top : 100px;
+    font-family : comfortaa;
+    color : white;
+    font-size : 30px;
+}
+
+.review-subtext-container{
+    display : flex;
+    justify-content : center;
+    padding-top : 100px;
+}
+
+.review-subtext{
+    font-family : comfortaa;
+    color : white;
+    font-size : 30px;
+}
+
+.reviews_list{
+    max-height : 400px;
+    display : flex;
+    justify-content: center;
+}
+
+.review1, .review2, .review3{
+    text-align: center;
+}
+
+.review1, .review2{
+    margin-right : 100px;
+}
+.column1{
+    height: 320px;
+    border-radius: 20px;
+    width: 300px;
+    background-color : #6666db;
+}
+
+.column2{
+    height: 320px;
+    border-radius: 20px;
+    width: 300px;
+    background-color : #6666db;
+}
+
+.column3{
+    height: 320px;
+    border-radius: 20px;
+    width: 300px;
+    background-color : #6666db;
+}
+
+.ending-description{
+    background-color : white;
+    height : 450px;
+    margin-left : auto;
+    margin-right : auto;
+    display: flex;
+    justify-content: center;
+    flex-direction : row;
+}
+
+.reader-engagement-container{
+    display : flex;
+    flex-direction : column;
+    margin-top : 40px;
+
+}
+.reader-engagement-text{
+    display : flex;
+    align-items : center;
+}
+.logo-img2{
+    height: 61px;
+    width: 61px;
+}
+
+.logo-text2{
+    font-family : comfortaa;
+    font-size : 30px;
+    font-weight : bold;
+
+}
+
+.reader-engagement-subtext{
+    padding-left : 10px;
+    max-width : 600px;
+}
+.logo-subtext2{
+    font-family : comfortaa;
+}
+.email_message-container{
+    align-items : right;
+    margin-top : 100px;
+    margin-left : 100px;
+}
+
+#email-field {
+    font-family: comfortaa; 
+    background-color : #f2f2f2;
+    height : 50px;
+    width : 650px;
+    padding-left : 20px;
+    border : none;
+    border-radius: 10px;
+
+}
+
+#message-field{
+    font-family: comfortaa; 
+    background-color : #f2f2f2;
+    width: 650px;
+    height : 200px;
+    padding-left : 20px;
+    padding-top : 15px;
+    border : none;
+    border-radius: 10px;
+    resize : none;
+
+}
+.email{
+    position : relative;
+    bottom : 50px;
+}
+
+.message{
+    width : 500px;
+}
+
+.submit-message{
+    font-family : comfortaa;
+    background-color: #728ddf;
+    border-radius: 10px;
+    border : none;
+    width: 100px;
+    height: 40px;
+    color : white;
+}
+
+.footer{
+    text-align : right;
+    margin-left : auto;
+    margin-right : auto;
+}
+
+.privacypolicy-text{
+    padding-right : 10px;
+    font-family : comfortaa;
+    text-decoration : none;
+    font-size : 12px;
+    font-weight : bold;
+}
+
+.terms-text{
+    font-family : comfortaa;
+    text-decoration : none;
+    font-size : 12px;
+    font-weight : bold;
+}

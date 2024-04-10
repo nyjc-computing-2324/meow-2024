@@ -1,30 +1,31 @@
 <!DOCTYPE html>
 <html>
     <head>
-        {% block head %}
-        {% endblock %}
+        <link rel="stylesheet" type="text/css" href="{{ url_for('static', filename='css/navigation.css') }}">
+        <title>Register HERE!</title>
     </head>
 
-
     <body>
-
-        <!-- make the nav bar on the top right hand corner, with borders? -->
-        {% block body %}
-        {% endblock %}
-        <br/>Navigation links can be found below:
-        {% if page != "home" %}
-        <br/><a href="/" target = "_self">Home</a>
-        {% endif %}
-        {% if page != "launch" %}
-        <br/><a href="/temp" target="_self">Launch</a> 
-        {% endif %}
-        {% if page != "register" %}
-        <br/><a href='/register' target="_self">Register</a> 
-        {% endif %}
-        {% if page != "login" %}
-        <br/><a href='/login' target="_self">Login</a>
-        {% endif %}
-
-    </body>
-
-</html>
+        <section class="topbar-section">
+            <img class="logo-img1" src="{{ url_for('static',filename= 'images/cat.svg') }}">
+            <span class="logo-text1">
+                Meow
+            </span>
+            <div class = "links-container">
+                <div class = "contact-container">
+                <a class="contact-text" href="/temp" target="new">Contact</a>
+                </div>
+                <div class = "faqs-container">
+                <a class="faqs-text" href = "/temp" target="new">FAQs</a>
+                </div>
+                <div class = "divider-container">
+                <span class="divider-text">|</span>
+                </div>
+                <div class = "login-container">
+                <a class="login-text" href="/login">Login</a>
+                </div>
+                <form action="/register" method="get">
+                    <input type="submit" class="sign_up_button1" value="Sign up">
+                </form>
+            </div>
+        </section>
