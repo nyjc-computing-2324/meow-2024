@@ -122,10 +122,22 @@ class JunctionTable(Table):
             #conn.close() called automatically        
         
     def retrieve(self):
+        """Do I need this?"""
         raise NotImplementedError
 
-    def delete(self):
-        raise NotImplementedError
+    def delete(self, pk1_value, pk2_value):
+        """remove existing records in the database"""
+        with sqlite3.connect(self.database_name) as conn:
+            cursor = conn.cursor()
+            query = f"""
+                    DELETE FROM {self.table_name}
+                    WHERE {self.pk1_name} = ?
+                    AND
+                    {self.pk2_name} = ?;
+                    """
+            param = (pk1_value, pk2_value)
+            cursor.execute(query, param)
+            conn.commit()
 
     
         
