@@ -1,4 +1,6 @@
+"""module providing function for salt"""
 import os
+"""module providing function for hashing"""
 import hashlib
 
 def create_hash(password: str) -> tuple[str, bytes]:

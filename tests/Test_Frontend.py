@@ -12,8 +12,23 @@ DataQuest Simple Guide: https://www.dataquest.io/blog/unit-tests-python/
 
 unittest Documentation: https://docs.python.org/3/library/unittest.html
 
-We'll start with this once Validate and some Backend classes like Account are done.
-This is that it's easier for y'all to familiarise with the new module first 
+Here is an example of how frontend testing is implemented,
+This route tested returns a redered html page containing 'Hello, World!':
+
+class TestFlaskRoutes(unittest.TestCase):
+
+    def setUp(self):
+        app.testing = True
+        self.app = app.test_client()
+
+    def test_hello_route(self):
+        response = self.app.get('/')
+        data = response.get_json()
+        self.assertEqual(response.status_code, 200)
+        self.assertEqual(data['message'], 'Hello, World!')
+
+if __name__ == '__main__':
+    unittest.main()
 """
 
 

@@ -26,7 +26,7 @@ def login():
     else:
         username = request.form["username"]
         password = request.form["password"]
-        if validate.user_isvalid(username, password):
+        if database.login(username, password):
             session["logged_in"] = True
             return redirect("/home")
         else:

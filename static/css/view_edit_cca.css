@@ -1,0 +1,139 @@
+@font-face {
+    font-family: comfortaa;
+    src: url(Comfortaa-Light.ttf);
+}
+
+* {
+    padding : 0;
+    margin : 0;
+    box-sizing : border-box;
+    max-width : 1519px;
+}
+
+/* .topbar-section{
+    background-color: white;
+    height: 60px;
+    min-width : 100%;
+    display: flex;
+    align-items: center;
+    padding-left: 30px;
+    vertical-align: middle;
+    box-shadow: 0px 5px 5px #d9d9d9;
+}
+
+.logo-img1 {
+    height: 40px;
+    width: 40px;
+}
+
+.logo-text1 {
+    font-family : comfortaa;
+    font-size : 30px;
+    } */
+
+
+
+.record-text{
+    position : relative;
+    left : 950px;
+    font-family : comfortaa;
+    color : deepskyblue;
+    text-decoration:none
+}
+
+.manage-text{
+    position : relative;
+    left : 970px;
+    font-family : comfortaa;
+    color : black;
+    text-decoration:none
+}
+
+.divider{
+    position : relative;
+    left : 990px;
+    font-family : comfortaa;
+    color : black;
+}
+
+.logout-text{
+    position : relative;
+    left: 1010px;
+    text-align: right;
+    font-family : comfortaa;
+    color : black;
+    text-decoration:none
+}
+
+.topbar-circle {
+    height: 55px;
+    width: 55px;
+    border-radius: 50%;  
+    position: relative;
+    float: right;
+    background-color: #8AADF4;
+}
+
+.profile-circle {
+    height: 55px;
+    width: 55px;
+    border-radius: 50%;  
+    display: inline-block;
+    background-color: #8AADF4;
+}
+
+.profile-text{
+    font-family : comfortaa;
+    font-size : 18px;
+    align-items: center;
+    display: inline-block;
+}
+
+.general-text{
+    font-family : comfortaa;
+    font-size : 18px;
+    /* display: inline-block; */
+    margin-top: 150px;
+}
+
+.general-left-textbox {
+    float: left;
+    border-radius: 25px;
+    background: white;
+    width: 32%;
+    height: 400px;
+    margin-right: 10px;
+    margin-left: 15px;
+}
+
+.left-textbox {
+    float: left;
+    border-radius: 25px;
+    background: lightyellow;
+    padding: 20px;
+    width: 100%;
+    height: 320px;
+    display: inline-block;
+    margin-right: 10px;
+}
+
+.middle-textbox {
+    float: left;
+    border-radius: 25px;
+    background: lightyellow;
+    padding: 20px;
+    width: 32%;
+    height: 400px;
+    display: inline-block;
+}
+
+.right-textbox {
+    float: right;
+    border-radius: 25px;
+    background: lightyellow;
+    padding: 20px;
+    width: 32%;
+    height: 400px;
+    display: inline-block;
+    margin-right: 15px;
+}
