@@ -532,7 +532,7 @@ class Activity(Table):
             cursor.execute(query, params)
             conn.commit()
 
-class StudentActivity:
+class StudentActivity(JunctionTable):
 
     table_name: str = "studentactivity"
     pk1_name: str = "student_id"
@@ -603,7 +603,7 @@ class StudentActivity:
             cursor.execute(query, param)
             conn.commit()
 
-class StudentCCA:
+class StudentCCA(JunctionTable):
 
     table_name: str = "studentcca"
     pk1_name: str = "cca_id"
