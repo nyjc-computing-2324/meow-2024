@@ -613,7 +613,7 @@ class StudentCCA:
     def __init__(self, database_name):
         """
         create a table upon initialisation of the class
-        (student_id, activity_id) for pk
+        (cca_id, student_id) for pk
     
         This class has no .update() method.
         To "update", instead use .remove() and .insert()
