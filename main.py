@@ -1,7 +1,10 @@
 from flask import Flask, redirect, request, session
 import view, validate, database, dbfunctions
+<<<<<<< HEAD
 import os
 
+=======
+>>>>>>> 6eae116 (Dev (#161))
 
 app = Flask(__name__)
 
