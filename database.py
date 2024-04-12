@@ -1,17 +1,17 @@
 import sqlite3
-import auth
 
 class Table:
     """parent class for all subsequent tables"""
     table_name: str
-    pk_name: str
+    pk_name: str    #stands for primary key name
     fields = []
 
     def __init__(self, database_name: str):
         """create a table upon initialisation of the class"""
-        raise NotImplementedError
+        self.database_name = database_name
 
     def _valid_field_else_error(self, field) -> None:
+        """checks if given fields are found in the table"""
         if field not in self.fields:
             raise AttributeError(f"Invalid field '{field}'")
     
@@ -19,43 +19,43 @@ class Table:
         """insert new records into the database"""
         raise NotImplementedError
 
-    def update(self, field: str, new: str, pk: int):
+    def update(self, pk: int, field: str, new: str):
         """update existing records in the database"""
+        self._valid_field_else_error(field)
         with sqlite3.connect(self.database_name) as conn:
             cursor = conn.cursor()            
             query = f"""
-                    UPDATE "account" 
+                    UPDATE {self.table_name} 
                     SET {field} = ? 
-                    WHERE {self.pk} = ? 
+                    WHERE {self.pk_name} = ? 
                     """
             params = (new, pk)
             cursor.execute(query, params)
             conn.commit()
             #conn.close() called automatically
         
-    def retrieve(self, field: str, pk: int):
+    def retrieve(self, pk: int):
         """find existing records in the database"""
         with sqlite3.connect(self.database_name) as conn:
             cursor = conn.cursor()
             query = f"""
                     SELECT *
                     FROM {self.table_name}
-                    WHERE {field} = ?;
+                    WHERE {self.pk_name} = ?;
                     """
             params = (pk,)
             cursor.execute(query, params)
             record = cursor.fetchone()
             conn.commit()
             return record
-            
 
     def delete(self, pk: int):
         """remove existing records in the database"""
         with sqlite3.connect(self.database_name) as conn:
             cursor = conn.cursor()
             query = f"""
-                    DELETE FROM "{self.table_name}"
-                    WHERE "{self.pk}" = ?;
+                    DELETE FROM {self.table_name}
+                    WHERE {self.pk_name} = ?;
                     """
             params = (pk,)
             cursor.execute(query, params)
@@ -80,11 +80,10 @@ class Account(Table):
             cursor.execute(
                 f"""
                 CREATE TABLE IF NOT EXISTS {self.table_name} (
-                "account_id" INTEGER,
+                "account_id" INTEGER PRIMARY KEY,
                 "username" TEXT NOT NULL UNIQUE,
                 "password" TEXT NOT NULL,
-                "salt" BYTES NOT NULL,
-                PRIMARY KEY ("account_id")
+                "salt" BYTES NOT NULL
                 );
                 """
             )
@@ -109,14 +108,11 @@ class Account(Table):
     def update(self, account_id: int, field: str, new):
         """
         update existing records in the database
-        field can only be "username" or "password"
-        return False if inputs are wrong
-        return True if inputs are correct
-        checks for repeated username should already be done
+        field can only be "username", "password" or "salt"
+        raises Attributes error if field is invalid
+        checks for repeated username should already be done if username is being updated
         """
-        if field not in ['username', 'password', 'salt']:
-            raise Exception('field entered incorrectly')
-                
+        self._valid_field_else_error(field)            
         with sqlite3.connect(self.database_name) as conn:
             cursor = conn.cursor()            
             query = f"""
@@ -128,18 +124,15 @@ class Account(Table):
             cursor.execute(query, params)
             conn.commit()
             #conn.close() called automatically
-        return True
-
-    
 
     def retrieve(self, field: str, data) -> tuple:
         """
         find existing records in the database
         field can only be "account_id" or "username"
-        error raised if field entered incorrectly 
+        raises Attributes error if field is invalid
         """
-        if field not in ['username', 'password', 'salt']:
-            raise Exception('field entered incorrectly')
+        if field not in ['account_id', 'username']:
+            raise AttributeError(f"Invalid field '{field}'")
         
         with sqlite3.connect(self.database_name) as conn:
             cursor = conn.cursor()
@@ -159,11 +152,10 @@ class Account(Table):
         """
         remove existing records in the database
         field can only be "account_id" or "username"
-        error raised if field entered incorrectly 
+        raises Attributes error if field is invalid
         """
-
-        if field not in ['username', 'password', 'salt']:
-            raise Exception('field entered incorrectly')
+        if field not in ['account_id', 'username']:
+            raise AttributeError(f"Invalid field '{field}'")
             
         with sqlite3.connect(self.database_name) as conn:
             cursor = conn.cursor()
@@ -178,6 +170,7 @@ class Account(Table):
 
 class Student(Table):
     table_name: str = "student"
+    pk_name: str = "student_id"
     fields = ["student_id", "name", "class", "email", "account_id"]
 
     def __init__(self, database_name):
@@ -192,7 +185,7 @@ class Student(Table):
             cursor.execute(
                 f"""
                 CREATE TABLE IF NOT EXISTS {self.table_name} (
-                    "student_id" INTEGER PRIMARY KEY,
+                    {self.pk_name} INTEGER PRIMARY KEY,
                     "name" TEXT NOT NULL,
                     "class" INTEGER NOT NULL, 
                     "email" TEXT NOT NULL,
@@ -224,15 +217,12 @@ class Student(Table):
     def update(self, student_id: int, field: str, new):
         """
         update existing records in the database
-        field can only be "account_id" "name" "class" or "email"
-        return False if inputs are wrong
-        return True if inputs are correct
+        field can only be "account_id", "name", "class" or "email"
         checks for valid account_id should already be done
-        raise error if field entered incorrectly
-        xinyu
+        raises Attributes error if field is invalid
         """
-        if field not in ['account_id','name', 'class','email']:
-            return False
+        if field not in ['account_id', 'username']:
+            raise AttributeError(f"Invalid field '{field}'")
         with sqlite3.connect(self.database_name) as conn:
             cursor = conn.cursor()
             query = f"""
@@ -244,37 +234,25 @@ class Student(Table):
             cursor.execute(query, params)
             conn.commit()
             #conn.close() called automatically
-            return True
 
-
-    def retrieve(self, field: str, data):
+    def retrieve(self, student_id: int):
         """
         find existing records in the database
-        field can only be "account_id" "class" or "email"
-        raise error if field entered incorrectly
         xinyu
         """
-        if field not in ['account_id','name', 'class','email']:
-            raise Exception("field entered incorrectly")
-
-        
         with sqlite3.connect(self.database_name) as conn:
             cursor = conn.cursor()
-            if field not in ['account_id','name', 'class','email']:
-                return False
-                
             query = f"""
                     SELECT *
-                    FROM {self.table_name}
-                    WHERE {field} = ?;
+                    FROM "student"
+                    WHERE {self.pk_name} == ?;
                     """
-            params = (data,)
+            params = (student_id,)
             cursor.execute(query, params)
             record = cursor.fetchone()
             conn.commit()
             #conn.close() called automatically
-            return record
-            
+            return record         
 
     def delete(self, student_id: int):
         """remove existing records in the database"""
@@ -282,7 +260,7 @@ class Student(Table):
             cursor = conn.cursor()
             query = f"""
                     DELETE FROM {self.table_name}
-                    WHERE "student_id" = ?;
+                    WHERE {self.pk_name} = ?;
                     """
             param = (student_id,)
             cursor.execute(query, param)
@@ -290,9 +268,10 @@ class Student(Table):
 
 class CCA(Table):
     table_name: str = "cca"
+    pk_name: str = "cca_id"
     fields = ["cca_id", "name", "type"]
     
-    def __init__(self):
+    def __init__(self, database_name):
         """
         create a table upon initialisation of the class
         cca_id for pk
@@ -304,7 +283,7 @@ class CCA(Table):
             cursor.execute(
                 f"""
                 CREATE TABLE IF NOT EXISTS {self.table_name} (
-                    "cca_id" INTEGER PRIMARY KEY,
+                    {self.pk_name} INTEGER PRIMARY KEY,
                     "name" TEXT NOT NULL,
                     "type" TEXT NOT NULL, 
                 );
@@ -332,20 +311,22 @@ class CCA(Table):
     def update(self, cca_id: int, field: str, new: str):
         """
         update existing records in the database
+        field can only be "name" or "type"
+        raises Attributes error if field is invalid
         yu xi
         """
+        self._valid_field_else_error(field)
         with sqlite3.connect(self.database_name) as conn:
             cursor = conn.cursor()
             query = f"""
                 UPDATE {self.table_name}
                 SET {field} = ?
-                WHERE cca_id = ? ;                
+                WHERE {self.pk_name} = ? ;                
             """
             params = (new, cca_id)
             cursor.execute(query, params)
             conn.commit()
             # conn.close() is called automatically
-        return T
 
     def retrieve(self, cca_id: int):
         """
@@ -357,7 +338,7 @@ class CCA(Table):
             query = f"""
                 SELECT *
                 FROM {self.table_name} ;
-                WHERE 'cca_id' = ? ;
+                WHERE {self.pk_name} = ? ;
             """
             params = (cca_id,)
             cursor.execute(query, params)
@@ -370,7 +351,7 @@ class CCA(Table):
             cursor = conn.cursor()
             query = f"""
                     DELETE FROM {self.table_name}
-                    WHERE "cca_id" = ?;
+                    WHERE {self.pk_name} = ?;
                     """
             params = (cca_id,)
             cursor.execute(query, params)
@@ -378,7 +359,8 @@ class CCA(Table):
 
 class Activity(Table):
     table_name: str = "activity"
-    fields = ["student_id", "name", "date", "location"]
+    pk_name = "activity_id"
+    fields = ["activity_id", "name", "date", "location", "organiser_id"]
 
     def __init__(self, database_name):
         """
@@ -392,7 +374,7 @@ class Activity(Table):
             cursor.execute(
                 f"""
                 CREATE TABLE IF NOT EXISTS {self.table_name} (
-                    "student_id" INTEGER PRIMARY KEY,
+                    {self.pk_name} INTEGER PRIMARY KEY,
                     "name" TEXT NOT NULL,
                     "date" TEXT NOT NULL, 
                     "location" TEXT NOT NULL,
@@ -409,10 +391,9 @@ class Activity(Table):
         checks for repeated organiser_id should already be done
         """
         with sqlite3.connect(self.database_name) as conn:
-            cursor = conn.cursor()
-            
+            cursor = conn.cursor()            
             query = f"""
-                INSERT INTO {self.table_name}("name", "date", "location", "organiser_id")
+                INSERT INTO {self.table_name} ("name", "date", "location", "organiser_id")
                 VALUES( ?, ?, ?, ? );
                 """
             params = (name, date, location, organiser_id)
@@ -420,50 +401,45 @@ class Activity(Table):
             conn.commit()
             #conn.close() called automatically
 
-    def update(self, account_id: int, field: str, new: str):
+    def update(self, activity_id: int, field: str, new: str):
         """
         update existing records in the database
         field can only be "organiser_id" "name" "date" or "location"
-        return False if inputs are wrong
-        return True if inputs are correct
         checks for valid organiser_id should already be done
+        raises Attributes error if field is invalid
         xinyu
         """
-        if field not in ['organiser_id','name', 'date','location']:
-            return False
+        self._valid_field_else_error(field)
         with sqlite3.connect(self.database_name) as conn:
             cursor = conn.cursor()
-            
             query = f"""
                 UPDATE {self.table_name}
                 SET {field} = ?
-                where "activity_id" = ?
+                where {self.pk_name} = ?
                 """
             params = (new, activity_id)
             cursor.execute(query, params)
-            conn.commit
+            conn.commit()
             #conn.close() called automatically
-        return True
 
-    def retrieve(self, account_id: int):
+    def retrieve(self, activity_id: int):
         """
         find existing records in the database
         xinyu
         """
         with sqlite3.connect(self.database_name) as conn:
-            cursor = conn.cursor
+            cursor = conn.cursor()
             query = f"""
                 SELECT *
                 FROM {self.table_name}
-                where {field} = ?
-            """
-            params = (account_id,)
+                where {self.pk_name} = ?
+                """
+            params = (activity_id,)
             cursor.execute(query, params)
             record = cursor.fetchone()
             conn.commit()
             #conn.close() called automatically
             return record
-    
 
     def delete(self, account_id: int):
         """
@@ -474,7 +450,7 @@ class Activity(Table):
             cursor = conn.cursor()
             query = f"""
                     DELETE FROM {self.table_name}
-                    WHERE "account_id" = ?;
+                    WHERE {self.pk_name} = ?;
                     """
             params = (account_id,)
             cursor.execute(query, params)
