@@ -286,8 +286,7 @@ class Student(Table):
         checks for valid account_id should already be done
         raises Attributes error if field is invalid
         """
-        if field not in ['account_id', 'username']:
-            raise AttributeError(f"Invalid field '{field}'")
+
         with sqlite3.connect(self.database_name) as conn:
             cursor = conn.cursor()
             query = f"""
