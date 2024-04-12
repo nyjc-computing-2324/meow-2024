@@ -537,7 +537,7 @@ class StudentActivity:
     table_name: str = "studentactivity"
     pk1_name: str = "student_id"
     pk2_name: str = "activity_id"
-    fields = ["activity_id", "student_id"]
+    fields = ["student_id", "activity_id"]
     
     def __init__(self, database_name):
         """
