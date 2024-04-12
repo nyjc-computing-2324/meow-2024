@@ -52,3 +52,40 @@ def login(username: str , password: str) -> bool:
     # salting and hashing of password implemented 
     return auth.check_password(password, database_password, database_salt)
 
+# instantiating table objects
+student_profile = Student('meow.db')
+student_profile_backup = Student('backup.db')
+
+def create_profile(name, _class, email, account_id):
+    """
+    insert date into student_profile and student_profile_backup
+    """
+    student_profile.insert(name, _class, email, account_id)
+    student_profile_backup.insert(name, _class, email, account_id)
+
+def retrieve_profile(student_id: str):
+    """
+    check if profile exist using student_id
+    if false raise attribute error
+    if true return profile in dict
+    """
+    record = student_profile.retrieve(student_id)
+    if record is None:
+        raise AttributeError("Profile does not exist.")
+    student_id, name, _class, email, account_id = record
+    record_dict = {'student_id': student_id, 'name': name, 'class': _class, 'email': email, 'account_id': account_id}
+    return record_dict
+
+def delete_profile(student_id: str):
+    """
+    check if profile exist using student_id
+    if false raise attribute error
+    if true delete profile from student_profile and student_profile_backup
+    """
+    if student_profile.retrieve(student_id) is None:
+        raise AttributeError("Profile does not exist.")
+    student_profile.delete(student_id)
+    student_profile_backup.delete(student_id)
+
+
+
