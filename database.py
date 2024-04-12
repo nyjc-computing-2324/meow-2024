@@ -463,7 +463,7 @@ class Activity(Table):
             query = f"""
                 UPDATE {self.table_name}
                 SET {field} = ?
-                where {self.pk_name} = ?
+                WHERE {self.pk_name} = ?;
                 """
             params = (new, activity_id)
             cursor.execute(query, params)
@@ -480,7 +480,7 @@ class Activity(Table):
             query = f"""
                 SELECT *
                 FROM {self.table_name}
-                where {self.pk_name} = ?
+                WHERE {self.pk_name} = ?;
                 """
             params = (activity_id,)
             cursor.execute(query, params)
