@@ -30,6 +30,7 @@ def login():
     else:
         username = request.form["username"]
         password = request.form["password"]
+
         if dbfunctions.login(username, password):
             session["logged_in"] = True
             return redirect("/home")
