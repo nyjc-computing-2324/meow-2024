@@ -1,5 +1,5 @@
 from flask import Flask, redirect, request, session
-import view, validate, database
+import view, validate, database, dbfunctions
 
 app = Flask(__name__)
 
@@ -26,7 +26,7 @@ def login():
     else:
         username = request.form["username"]
         password = request.form["password"]
-        if database.login(username, password):
+        if dbfunctions.login(username, password):
             session["logged_in"] = True
             return redirect("/home")
         else:
@@ -41,7 +41,7 @@ def register():
         password = request.form["password"]
         if validate.username_isvalid(username):
             if validate.password_isvalid(password):
-                database.create_account(username, password)
+                dbfunctions.create_account(username, password)
                 session["logged_in"] = True
                 return redirect("/home")
             else:
