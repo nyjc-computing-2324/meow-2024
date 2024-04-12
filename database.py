@@ -640,12 +640,12 @@ class StudentCCA:
                 query = f"""
                     INSERT INTO {self.database_name} ({self.pk1_name}, {self.pk2_name}, "role") VALUES (?,?,?);
                 """
-                params = (activity_id, student_id, role)
+                params = (cca_id, student_id, role)
                 cursor.execute(query, params)
                 conn.commit()
                 #conn.close() is called automatically
 
-        def retrieve(self, cca_id: int, student_id: int, role: str):
+        def retrieve(self, cca_id: int, student_id: int):
             """find existing records in the database"""
             with sqlite3.connect(self.database_name) as conn:
                 cursor = conn.cursor()
@@ -655,7 +655,7 @@ class StudentCCA:
                     WHERE {self.pk1_name} = ? AND 
                           {self.pk2_name} = ?;
                 """
-                params = (student_id, activity_id)
+                params = (cca_id, student_id)
                 cursor.execute(query, params)
                 record = cursor.fetchall()
                 conn.commit()
@@ -671,6 +671,6 @@ class StudentCCA:
                         WHERE {self.pk1_name} = ? AND
                               {self.pk2_name} = ?;        
                         """
-                param = (student_id, activity_id, role)
+                param = (cca_id, student_id)
                 cursor.execute(query, param)
                 conn.commit()
