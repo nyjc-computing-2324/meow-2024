@@ -61,9 +61,57 @@ class Table:
             cursor.execute(query, params)
             conn.commit()
 
-# class JunctionTable(Table):
+class JunctionTable(Table):
+    pk1_name: str
+    pk2_name: str
+    fields: list[str]
 
-#     def __init__(self):
+    def __init__(self):
+        # self.database_name
+        return
+        
+        
+
+    def insert(self, record: dict):
+        # check that all fields in record is valid
+        for field in record:
+            self._valid_field_else_error(field)
+        # check that record has all fields required
+        for field in self.fields:
+            if field not in record:
+                raise AttributeError(f"field {field} not in record argument")
+        with sqlite3.connect(self.database_name) as conn:
+            cursor = conn.cursor()
+            # formatting the query
+            fieldstr = '"' + ('", "').join(self.fields) + '"'
+            qnmarks = ", ".join(["?"] * len(self.fields))
+            query = f"""
+                    INSERT INTO {self.table_name} ({fieldstr}) VALUES ({qnmarks});
+                    """
+            params = tuple(record.values()))
+            cursor.execute(query, params)
+            conn.commit()
+            #conn.close() called automatically
+        
+        
+                
+
+            
+        
+        
+        raise NotImplementedError
+
+    def update(self):
+        raise NotImplementedError
+
+    def retrieve(self):
+        raise NotImplementedError
+
+    def delete(self):
+        raise NotImplementedError
+
+    
+        
 
 class Account(Table):
     table_name: str = "account"
