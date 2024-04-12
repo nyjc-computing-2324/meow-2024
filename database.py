@@ -513,6 +513,39 @@ class StudentActivity:
             cursor.execute(query, param)
             conn.commit()
 
+class StudentCCA:
+
+def __init__(self):
+    """
+    create a table upon initialisation of the class
+    (student_id, activity_id) for pk
+
+    This class has no .update() method.
+    To "update", instead use .remove() and .insert()
+    """
+    raise NotImplementedError
+
+def insert(self, student_id: int, activity: int):
+    """insert new records into the database"""
+    raise NotImplementedError
+
+def retrieve(self, student_id: int, activity_id: int):
+    """find existing records in the database"""
+    raise NotImplementedError
+
+def delete(self, student_id: int, activity_id: int):
+    """remove existing records in the database"""
+    with sqlite3.connect(self.database_name) as conn:
+        cursor = conn.cursor()
+        query = """
+                DELETE FROM "student_activity"
+                WHERE "student_id" = ?, 
+                "activity_id" = ?;
+                """
+        param = (student_id, activity_id)
+        cursor.execute(query, param)
+        conn.commit()
+
 
 # instantiating table objects
 student_account = Account("meow.db")
