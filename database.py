@@ -1,5 +1,20 @@
 import sqlite3
 
+
+def quote_join(list_of_str: list[str], enquote: bool = False) -> str:
+    """
+    takes in a list of str
+    e.g. ['hello', 'bye']
+    if enquote == False, returns 'hello, bye'
+    if enquote == True, returns '"hello", "bye"'
+    
+    
+    """
+    if enquote:
+        return ", ".join([f'"{str_}"' for str_ in list_of_str])_
+    else:
+        return ", ".join(list_of_str)
+
 class Table:
     """parent class for all subsequent tables"""
     table_name: str
@@ -73,6 +88,19 @@ class JunctionTable(Table):
         
 
     def insert(self, record: dict):
+        """
+        inserts the record into the junction table
+        
+        Checks for redundancies should already be done
+        i.e. insert({"student_id": 5. "cca_id": 3})
+        should not be called if {"student_id": 5. "cca_id": 3} 
+        already exists in the database, do the check beforehand.
+
+        record argument that is passed should have:
+        keys of type str referring to the fields
+        values of type str referring to the values to be put in the cells
+
+        """
         # check that all fields in record is valid
         for field in record:
             self._valid_field_else_error(field)
@@ -83,27 +111,16 @@ class JunctionTable(Table):
         with sqlite3.connect(self.database_name) as conn:
             cursor = conn.cursor()
             # formatting the query
-            fieldstr = '"' + ('", "').join(self.fields) + '"'
-            qnmarks = ", ".join(["?"] * len(self.fields))
+            fieldstr = quote_join(self.fields, enquote = True)
+            qnmarks = quote_join(["?"] * len(self.fields))
             query = f"""
                     INSERT INTO {self.table_name} ({fieldstr}) VALUES ({qnmarks});
                     """
-            params = tuple(record.values()))
+            params = tuple(record.values())
             cursor.execute(query, params)
             conn.commit()
-            #conn.close() called automatically
+            #conn.close() called automatically        
         
-        
-                
-
-            
-        
-        
-        raise NotImplementedError
-
-    def update(self):
-        raise NotImplementedError
-
     def retrieve(self):
         raise NotImplementedError
 
