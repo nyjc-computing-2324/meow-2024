@@ -506,7 +506,12 @@ class Activity(Table):
 
 class StudentActivity:
 
-    def __init__(self):
+    table_name: str = "studentactivity"
+    pk1_name: str = "student_id"
+    pk2_name: str = "activity_id"
+    fields = ["activity_id", "student_id"]
+    
+    def __init__(self, database_name):
         """
         create a table upon initialisation of the class
         (student_id, activity_id) for pk
@@ -514,24 +519,57 @@ class StudentActivity:
         This class has no .update() method.
         To "update", instead use .remove() and .insert()
         """
-        raise NotImplementedError
+        self.database_name = database_name
+        with sqlite3.connect(self.database_name) as conn:
+            cursor = conn.cursor()
+            cursor.execute(
+                f"""
+                CREATE TABLE IF NOT EXISTS {self.table_name} (
+                    {self.pk1_name} INTEGER PRIMARY KEY,
+                    {self.pk2_name} INTEGER PRIMARY KEY
+                );
+                """
+            )
+            conn.commit()
+            #conn.close() called automatically
 
-    def insert(self, student_id: int, activity: int):
+    def insert(self, student_id: int, activity_id: int):
         """insert new records into the database"""
-        raise NotImplementedError
+        with sqlite3.connect(self.database_name) as conn:
+            cursor = conn.cursor()
+            query = f"""
+                INSERT INTO {self.database_name} ({self.pk1_name}, {self.pk2_name}) VALUES (?,?);
+            """
+            params = (activity_id, student_id)
+            cursor.execute(query, params)
+            conn.commit()
+            #conn.close() is called automatically
 
     def retrieve(self, student_id: int, activity_id: int):
         """find existing records in the database"""
-        raise NotImplementedError
+        with sqlite3.connect(self.database_name) as conn:
+            cursor = conn.cursor()
+            query = f"""
+                SELECT *
+                FROM {self.database_name}
+                WHERE {self.pk1_name} = ? AND 
+                      {self.pk2_name} = ?;
+            """
+            params = (student_id, activity_id)
+            cursor.execute(query, params)
+            record = cursor.fetchall()
+            conn.commit()
+            #conn.close() is called automatically
+        return record
 
     def delete(self, student_id: int, activity_id: int):
         """remove existing records in the database"""
         with sqlite3.connect(self.database_name) as conn:
             cursor = conn.cursor()
-            query = """
-                    DELETE FROM "student_activity"
-                    WHERE "student_id" = ?, 
-                    "activity_id" = ?;
+            query = f"""
+                    DELETE FROM {self.database_name}
+                    WHERE {self.pk1_name} = ? AND
+                          {self.pk2_name} = ?;
                     """
             param = (student_id, activity_id)
             cursor.execute(query, param)
@@ -539,58 +577,72 @@ class StudentActivity:
 
 class StudentCCA:
 
-def __init__(self):
-    """
-    create a table upon initialisation of the class
-    (student_id, activity_id) for pk
-
-    This class has no .update() method.
-    To "update", instead use .remove() and .insert()
-    """
-    raise NotImplementedError
-
-def insert(self, student_id: int, activity: int):
-    """insert new records into the database"""
-    raise NotImplementedError
-
-def retrieve(self, student_id: int, activity_id: int):
-    """find existing records in the database"""
-    raise NotImplementedError
-
-def delete(self, student_id: int, activity_id: int):
-    """remove existing records in the database"""
-    with sqlite3.connect(self.database_name) as conn:
-        cursor = conn.cursor()
-        query = """
-                DELETE FROM "student_activity"
-                WHERE "student_id" = ?, 
-                "activity_id" = ?;
+    table_name: str = "studentcca"
+    pk1_name: str = "cca_id"
+    pk2_name: str = "student_id"
+    fields = ["cca_id", "student_id", "role"]
+    
+    def __init__(self, database_name):
+        """
+        create a table upon initialisation of the class
+        (student_id, activity_id) for pk
+    
+        This class has no .update() method.
+        To "update", instead use .remove() and .insert()
+        """
+        self.database_name = database_name
+        with sqlite3.connect(self.database_name) as conn:
+            cursor = conn.cursor()
+            cursor.execute(
+                f"""
+                CREATE TABLE IF NOT EXISTS {self.table_name} (
+                    {self.pk1_name} INTEGER PRIMARY KEY,
+                    {self.pk2_name} INTEGER PRIMARY KEY,
+                    "role" TEXT
+                );
                 """
-        param = (student_id, activity_id)
-        cursor.execute(query, param)
-        conn.commit()
-
-
-# instantiating table objects
-student_account = Account("meow.db")
-student_account_backup = Account("backup.db")
-
-def create_account(username: str, password: str):
-    # checks for valid username and password is already done 
-    # check for repeated username
-    if student_account.retrieve("username", username) is None:
-        password, salt = auth.create_hash(password)
-        student_account.insert(username, password, salt)
-        student_account_backup.insert(username, password, salt)
-
-def login(username: str , password: str) -> bool:
-    # checks for valid username and password is already done 
+            )
+            conn.commit()
+            #conn.close() called automatically
     
-    data = student_account.retrieve("username", username)
-    # account not found
-    if data is None:
-        return False
-    
-    account_id, database_username, database_password, database_salt = data
-    # salting and hashing of password implemented 
-    return auth.check_password(password, database_password, database_salt)
+        def insert(self, cca_id: int, student_id: int, role: str):
+            """insert new records into the database"""
+            with sqlite3.connect(self.database_name) as conn:
+                cursor = conn.cursor()
+                query = f"""
+                    INSERT INTO {self.database_name} ({self.pk1_name}, {self.pk2_name}, "role") VALUES (?,?,?);
+                """
+                params = (activity_id, student_id, role)
+                cursor.execute(query, params)
+                conn.commit()
+                #conn.close() is called automatically
+
+        def retrieve(self, cca_id: int, student_id: int, role: str):
+            """find existing records in the database"""
+            with sqlite3.connect(self.database_name) as conn:
+                cursor = conn.cursor()
+                query = f"""
+                    SELECT *
+                    FROM {self.database_name}
+                    WHERE {self.pk1_name} = ? AND 
+                          {self.pk2_name} = ?;
+                """
+                params = (student_id, activity_id)
+                cursor.execute(query, params)
+                record = cursor.fetchall()
+                conn.commit()
+                #conn.close() is called automatically
+            return record
+
+        def delete(self, cca_id: int, student_id: int):
+            """remove existing records in the database"""
+            with sqlite3.connect(self.database_name) as conn:
+                cursor = conn.cursor()
+                query = f"""
+                        DELETE FROM {self.database_name}
+                        WHERE {self.pk1_name} = ? AND
+                              {self.pk2_name} = ?;        
+                        """
+                param = (student_id, activity_id, role)
+                cursor.execute(query, param)
+                conn.commit()
