@@ -32,6 +32,7 @@
 
 .logo-text1 {
     margin-right : auto;
+    color: black;
     font-family : comfortaa;
     font-size : 32px;
     color: black;
@@ -71,6 +72,11 @@
 .divider-container1{
     position : relative;
     right :70px;
+}
+
+.divider-container1{
+    position : relative;
+    right : 70px;
 }
 
 .divider-container{
