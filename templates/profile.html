@@ -2,13 +2,13 @@
 <html>
     <head>
         <title>PROFILE</title>
-        <link rel="stylesheet" type="text/css" href="profile.css">
+        <link rel="stylesheet" type="text/css" href="{{ url_for('static', filename='css/profile.css') }}">
     </head>
-    {% set page = "profile" %}    
-    {% block content %}
-        {% include 'navigation.html' %}
-    {% endblock %}
     <body>
+        {% set page = "profile" %}    
+        {% block content %}
+            {% include 'navigation.html' %}
+        {% endblock %}
         <section>
             <div class= "header">
                 <div class= "header-content">
