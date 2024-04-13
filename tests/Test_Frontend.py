@@ -52,7 +52,7 @@ class Test_Frontend(TestCase):
     def test_temp(self):
         r = requests.get('https://meow-dev.replit.app' + '/temp')
         content = r.content
-        soup = BeautifulSoup(content)
+        soup = BeautifulSoup(content, 'html.parser')
         # print(soup.prettify())
         title = soup.find_all('title')[0].get_text()
         self.assertEqual(title, "Meow")
