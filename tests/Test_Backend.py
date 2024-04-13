@@ -29,26 +29,7 @@ class Test_Account(TestCase):
         self.name = '@aBc'
         self.password = 'Abcd1234'
         self.password_hash, self.salt = auth.create_hash(self.password)
-
-        self.conn = sqlite3.connect(':memory:')
-        self.cursor = self.conn.cursor()
-
-        # Create the account table
-        self.cursor.execute("""
-                                CREATE TABLE IF NOT EXISTS "account" (
-                                "account_id" INTEGER,
-                                "username" TEXT NOT NULL UNIQUE,
-                                "password" TEXT NOT NULL,
-                                "salt" BYTES NOT NULL,
-                                PRIMARY KEY ("account_id")
-                                );
-                            """)
-        self.conn.commit()
-        self.account = Account(':memory:')
-        self.account.insert(self.name, self.password_hash, self.salt)
-
-    def tearDown(self):
-        self.conn.close()
+        self.Account.insert(self.name, self.password_hash, self.salt)
 
     def test_insert(self):
         """
@@ -57,11 +38,12 @@ class Test_Account(TestCase):
         attribute of the retrieved record matches with the
         inserted record's name
         """
-        with sqlite3.connect(self.account.database_name) as conn:
+
+        with sqlite3.connect(self.Account.database_name) as conn:
             cursor = conn.cursor()
             query = """
                     SELECT *
-                    FROM "account"
+                    FROM "Account"
                     WHERE "username" == ?;
                     """
             params = (self.name,)
@@ -84,8 +66,8 @@ class Test_Account(TestCase):
             
         self.new_password = "aBCD1234"
         self.new_password_hash, _ = auth.create_hash(self.new_password)
-        self.account.update(1, 'password', self.new_password_hash)
-        with sqlite3.connect(self.account.database_name) as conn:
+        self.Account.update(1, 'password', self.new_password_hash)
+        with sqlite3.connect(self.Account.database_name) as conn:
             cursor = conn.cursor()
             query = """
                     SELECT *
@@ -108,8 +90,8 @@ class Test_Account(TestCase):
         if not self.result_insert.wasSuccessful():
             self.skipTest("Skipping test condition as insertion does not work")
             
-        self.assertEqual(self.password_hash, self.account.retrieve('username',self.name)[2], 'Retrieve method failed using username')      
-        self.assertEqual(self.password_hash, self.account.retrieve('account_id','1')[2], 'Retrieve method failed using account_id')
+        self.assertEqual(self.password_hash, self.Account.retrieve('username',self.name)[2], 'Retrieve method failed using username')      
+        self.assertEqual(self.password_hash, self.Account.retrieve('account_id','1')[2], 'Retrieve method failed using account_id')
         
 
     def test_delete(self):
@@ -127,8 +109,8 @@ class Test_Account(TestCase):
         self.assertIsNone(self.account.retrieve('username', self.name), 'Delete method failed using username')
         
         password, salt = auth.create_hash(self.password)
-        self.account.insert(self.name,password,salt)
-        self.account.delete('account_id',del_target[0])
-        self.assertIsNone(self.account.retrieve('username', self.name), 'Delete method failed using account_id')
+        self.Account.insert(self.name,password,salt)
+        self.Account.delete('account_id',del_target[0])
+        self.assertIsNone(self.Account.retrieve('username', self.name), 'Delete method failed using account_id')
         
         
