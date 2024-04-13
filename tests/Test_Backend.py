@@ -105,11 +105,6 @@ class Test_Account(TestCase):
             self.skipTest("Skipping test condition as insertion does not work")
             
         del_target = self.Account.retrieve('username', self.name)
-
-        self.Account.delete(del_target[0])
-        
-        self.assertIsNone(self.Account.retrieve('username', self.name), 'Delete method failed')
-
         self.Account.delete('username',del_target[0])
         self.assertIsNone(self.Account.retrieve('username', self.name), 'Delete method failed using username')
         
@@ -117,4 +112,5 @@ class Test_Account(TestCase):
         self.Account.insert(self.name,password,salt)
         self.Account.delete('account_id',del_target[0])
         self.assertIsNone(self.Account.retrieve('username', self.name), 'Delete method failed using account_id')
+
 
