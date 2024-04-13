@@ -57,3 +57,11 @@ def login(error = ""):
 def register(error = ""):
     #display register.html
     return render_template("register.html", error_msg = error)
+
+def pp():
+    # display pravacy-policy.html
+    return render_template("privacy-policy.html")
+
+def toc():
+    # display terms-and-conditions.html
+    return render_template("terms-and-conditions.html")
