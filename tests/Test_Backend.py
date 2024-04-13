@@ -26,7 +26,6 @@ CURRENT TASKS/ISSUES:
 class Test_Account(TestCase):
 
     def setUp(self):
-        self.Account = Account(':memory:')
         self.name = '@aBc'
         self.password = 'Abcd1234'
         self.password_hash, self.salt = auth.create_hash(self.password)
@@ -39,6 +38,7 @@ class Test_Account(TestCase):
         attribute of the retrieved record matches with the
         inserted record's name
         """
+
         with sqlite3.connect(self.Account.database_name) as conn:
             cursor = conn.cursor()
             query = """
@@ -71,7 +71,7 @@ class Test_Account(TestCase):
             cursor = conn.cursor()
             query = """
                     SELECT *
-                    FROM "Account"
+                    FROM "account"
                     WHERE "password" == ?;
                     """
             params = (self.new_password_hash,)
@@ -104,9 +104,9 @@ class Test_Account(TestCase):
         if not self.result_insert.wasSuccessful():
             self.skipTest("Skipping test condition as insertion does not work")
             
-        del_target = self.Account.retrieve('username', self.name)
-        self.Account.delete('username',del_target[0])
-        self.assertIsNone(self.Account.retrieve('username', self.name), 'Delete method failed using username')
+        del_target = self.account.retrieve('username', self.name)
+        self.account.delete('username',del_target[0])
+        self.assertIsNone(self.account.retrieve('username', self.name), 'Delete method failed using username')
         
         password, salt = auth.create_hash(self.password)
         self.Account.insert(self.name,password,salt)
