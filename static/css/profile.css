@@ -19,13 +19,13 @@ p {color: #8cb5f8;
    font-size: 20px;
 }
 
-section {
+.body {
     font-family: comfortaa;
     font-size: 20px;
     margin-left: 10%;
     margin-right: 10%;
     border-radius: 8px;
-    margin-bottom: 20%;
+    /* margin-bottom: 20%; */
     box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.2), 0 6px 20px 0 rgba(0, 0, 0, 0.19);
 }
 
