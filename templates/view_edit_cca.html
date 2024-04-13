@@ -3,54 +3,67 @@
 <!DOCTYPE html>
 <html>
     <head>
+        <link rel="stylesheet" type="text/css" href="{{ url_for('static', filename='css/view_edit_cca.css') }}">
         <title>CCA</title>
-        <style>
-            table tr th {
-              width: 500px;
-              border-radius: 10px;
-              border-width: 1px;
-              border-style: solid;
-              border-spacing: 0px;
-            }
-            .circle {
-              height: 50px;
-              width: 50px;
-              background-color: darkgray;
-              border-radius: 50%;
-            }
-        </style>
     </head>
 
     <body>
-        <table>
-            <tr>
-                <td>
-                    <div class="circle"></div>
-                </td>
-                <td>
-                    Robotics
-                    </br>
-                    Status: Graduated
-                </td>
-                <th>
-                    Achievements
-                </th>
-                <th>
-                    Participation
-                </th>
-            </tr>
-            <tr>
-                
-            </tr>
-            <tr>
-                <td>
+        <!-- <section class="topbar-section">
+            <img class="logo-img1" src="{{ url_for('static',filename= 'images/cat.svg') }}">
+            <span class="logo-text1">
+                Meow
+            </span>
+            <a class="record-text" href="/temp" target="new">My Records</a>
+            <span class="divider">|</span>
+            <a class="manage-text" href = "/temp" target="new">Manage</a>
+            <span class="divider">|</span>
+            <a class="logout-text" href="/temp" target="new">Log out</a>
+            <!--<span class="topbar-circle"></span>
+        </section> -->
 
-                </td>
-                <th>
-                    About
-                </th>
-            </tr>
-        </table>
+        </br>
+
+        <div class="general-text">
+            <div class="general-left-textbox">
+                <div>
+                    <span class="profile-circle"></span>
+                    <span class="profile-text">
+                        <h2>Robotics</h2>
+                        <p>Status: Graduated</p>
+                    </span>
+                </div>
+                
+                </br>
+                
+                <div class="left-textbox">
+                    <h2>About</h2>
+                    </br>
+                    <p>Type: Clubs and Societies</p>
+                    <p>Role: Vice President</p>
+                    <p>Date joined: 01/01/2015</p>
+                    <p>Date left: 01/01/2018</p>
+                </div>
+            </div>
+    
+            <div class="middle-textbox">
+                <h2>Achievments</h2>
+                </br>
+                <p>2015 NRPC 8th place</p>
+                <p>2016 WRO participation</p>
+                <p>2016 NRC runner up</p>
+                <p>2017 NRC participation</p>
+                <p>2018 WRO participation</p>
+                <p>2018 WRO best designed robot</p>
+            </div>
+
+            <div class="right-textbox">
+                <h2>Participation</h2>
+                </br>
+                <p>2016 beach cleaning</p>
+                <p>2017 VIA Fei Yue old folks home</p>
+                <p>2018 VIA soup kitchen</p>
+            </div>
+        </div>
         {% include 'navigation.html' %}
     </body>
 

@@ -1,0 +1,108 @@
+@font-face {
+    font-family: comfortaa;
+    src: url(Comfortaa-Light.ttf);
+}
+
+* {
+    padding: 0;
+    margin: 0;
+    box-sizing: border-box;
+    max-width: 100%;
+}
+
+.login-box {
+    margin-top: 150px;
+    margin-left: auto;
+    margin-right: auto;
+    box-shadow: 0px 5px 5px 5px #d9d9d9;
+    height: 470px;
+    width: 500px;
+    border-radius: 10px;
+}
+
+.username-field-container {
+    margin-top: 20px;
+    margin-left: auto;
+    margin-right: auto;
+    width: 400px;
+    height: 40px;
+    padding-left: 10px;
+}
+
+#user-field {
+    font-family: comfortaa;
+    background-color: #FBF2CF;
+    height: 50px;
+    width: 450px;
+    padding-left: 20px;
+    border: none;
+    border-radius: 10px;
+    display: block;
+    margin-top: 67px;
+    margin-left: auto;
+    margin-right: auto;
+}
+
+.password-field-container {
+    margin-top: 20px;
+    margin-left: auto;
+    margin-right: auto;
+    width: 400px;
+    height: 40px;
+    padding-left: 10px;
+}
+
+#pass-field {
+    font-family: comfortaa;
+    background-color: #FBF2CF;
+    height: 50px;
+    width: 450px;
+    padding-left: 20px;
+    border: none;
+    border-radius: 10px;
+    margin-left: auto;
+    margin-right: auto;
+    margin-top: auto;
+    display: block;
+}
+
+.login {
+    margin: auto;
+    font-family: comfortaa;
+    background-color: #8AADF4;
+    border-radius: 10px;
+    border: none;
+    width: 450px;
+    height: 40px;
+    color: white
+}
+
+.login-button-container {
+    margin-top: 30px;
+    margin: auto;
+    width: 500px;
+    height: 40px;
+    padding-left: 10px;
+}
+
+.logo-img1 {
+    display: block;
+    height: 61px;
+    width: 61px;
+    margin-left: auto;
+    margin-right: auto;
+}
+
+.logo-text1 {
+    text-align: center;
+    font-family: comfortaa;
+}
+
+.forget-pass {
+    margin-left: 28px;
+}
+
+.tagline-section {
+    text-align: center;
+    margin-top: 20px;
+}

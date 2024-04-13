@@ -2,66 +2,41 @@
 <html>
     <head>
         <title>PROFILE</title>
-        <style>
-            .dot {
-                height: 75px;
-                width: 75px;
-                background-color: #bbb;
-                border-radius: 50%;
-                display: inline-block;                                          }
-        </style>
     </head>
-        <body>
-            <span class="dot"></span>
-            <h2>Profile Page</h2>
-            <table>
-                <tr>
-                    <th>
-                        email:
-                    </th>
-                    <th>
-                        number:
-                    </th>
-                </tr>
-                    <td>
-                        zhuohowren123@gmail.com
-                    </td>
-                    <td>
-                        +65 98765432
-                    </td>
-            </table>
-             </br>
-            <table>
-                <tr>
-                    <th>
-                        Zhuo Howren
-                    </th>
-                    <th>
-                        About myself:
-                    </th>
-                </tr>
-                    <td>
-                        @username
-                    </td>
-                    <td>
-                        Lorem ipsum dolor sit amet, consectetur adipiscing elit. Curabitur in iaculis ex. Etiam volutpat laoreet urna. Morbi ut tortor nec nulla commodo malesuada sit amet vel lacus. Fusce eget efficitur libero. Morbi dapibus porta quam laoreet placerat.
-                    </td>
-            </table>
-                
-            <table>
-                <tr>
-                    <th>
-                        edit
-                    </th>
-                </tr>
-                    <td>
-                        download profile
-                    </td>
-            </table>
-            {% set page = "profile" %}    
-            {% block content %}
-                {% include 'navigation.html' %}
-            {% endblock %}
-        </body>
+    {% set page = "profile" %}    
+    {% block content %}
+        {% include 'navigation.html' %}
+    {% endblock %}
+    <body>
+        <div class= "header">
+            <h1>Profile Page</h1>
+        </div>
+
+        <div class= "email">
+            <h2>email:</h2>
+            <p>zhuohaowren123@gmail.com</p>
+        </div>
+
+        <div class= "number">
+            <h2>number:</h2>
+            <p>+65 98765432</p>
+        </div>
+
+        <div class="name">
+            <h2>Zhuo Howren</h2>
+            <p>@username</p>
+        </div>
+
+        <div class="edit-download">
+            <h3><div button class="button-round">edit</button></h3>
+            <h3><div button class="button-round">download profile</button></h3>
+        </div>
+
+        <div class= "about">
+            <h2>About myself:</h2>
+            <p>Lorem ipsum dolor sit amet, consectetur adipiscing elit. Curabitur in iaculis ex. Etiam volutpat laoreet urna. Morbi ut tortor nec nulla commodo malesuada sit amet vel lacus. Fusce eget efficitur libero. Morbi dapibus porta quam laoreet placerat.</h3>
+        </div>
+
+    </body>
 </html>
         

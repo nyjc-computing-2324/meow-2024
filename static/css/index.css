@@ -7,80 +7,114 @@
     padding : 0;
     margin : 0;
     box-sizing : border-box;
-    max-width : 1519px;
 }
 
 .topbar-section{
     background-color: white;
     height: 80px;
-    min-width : 1519px;
+    max-width: 100%;
     display: flex;
     align-items: center;
     padding-left: 30px;
-    vertical-align: middle;
     box-shadow: 0px 5px 5px #d9d9d9;
+    position: fixed; 
+    top: 0; 
+    min-width: 100%; 
+    z-index: 1;
 }
 
 .logo-img1 {
     height: 61px;
     width: 61px;
+    margin-right: auto;
 }
 
 .logo-text1 {
+    margin-right : auto;
     font-family : comfortaa;
-    font-size : 32px
+    font-size : 32px;
     }
 
-.contact-text{
+.links-container{
+    display: flex;
+    align-items: center;
+    justify-content: flex-end;
+    width: 100%;
+    margin-right: 30px;
+}
+.contact-container{
     position : relative;
-    left : 950px;
+    right : 80px;
+}
+
+.contact-text{
     font-family : comfortaa;
     color : black;
     text-decoration:none
+}
+.faqs-container{
+    position : relative;
+    right : 60px;
 }
 
 .faqs-text{
-    position : relative;
-    left : 970px;
     font-family : comfortaa;
     color : black;
     text-decoration:none
 }
 
-.divider{
+.divider-container{
     position : relative;
-    left : 990px;
+    right : 40px;
+}
+
+.divider-text{
     font-family : comfortaa;
     color : black;
 }
 
-.login-text{
+.login-container{
     position : relative;
-    left : 1010px;
+    right : 20px;
+}
+
+.login-text{
     font-family : comfortaa;
     color : black;
     text-decoration:none
 }
 
 .sign_up_button1{
-    position : relative;
-    left : 1030px;
+    margin-left : auto;
     font-family : comfortaa;
     background-color: #2f99e9;
     border-radius: 10px;
     border : none;
     width: 100px;
     height: 40px;
+
+
 }
 
 .tagline-section{
+    margin-right : auto;
+    margin-left : auto;
     padding-top : 250px;
     padding-bottom : 100px;
+    align-items: center;
+    display : flex;
+    flex-direction : column;
+    min-width : 100%;
 }
 
+.tagline-container{
+    align-content: left;
+    display : flex;
+    flex-direction : column;
+}
 .slogan-container{
-    padding-left : 250px;
-    max-width : 800px;
+    width : 500px;
+    text-align : left;
 }
 
 .slogan-text{
@@ -88,22 +122,20 @@
     font-size : 36px;
 }
 
-.detailed-description-container{
-    padding-top : 20px;
-    padding-bottom : 20px;
-    padding-left : 250px;
-    max-width : 42%;
+.slogan-subtext-container{
+    margin-top : 10px;
+    width : 400px;
+    text-align : left;
 }
 
-.detailed-description-text{
+.slogan-subtext{
     font-family : comfortaa;
     font-size : 16px;
     color : #b0b0b0;
 }
 
 .sign_up_button2{
-    position : relative;
-    left : 250px;
+    margin-top : 10px;
     font-family : comfortaa;
     background-color: #2f99e9;
     border-radius: 10px;
@@ -111,19 +143,23 @@
     width: 150px;
     height: 50px;
     font-size : 18px;
-    font-weight : bold
+    font-weight : bold;
 }
 
 .description-section{
     background-image: linear-gradient(#8AADF4, #FBF2CF);
-    height : 1200px;
-    min-width : 1519px;
-
+    margin-left : auto;
+    margin-right : auto;
+    min-width : 100%;
 }
 
 .brief-description-container{
-    text-align : center;
+    margin-left : auto;
+    margin-right : auto;
+    margin-bottom : 100px;
     padding-top : 50px;
+    display : flex;
+    justify-content: center;
 }
 
 .brief-description-text{
@@ -132,21 +168,26 @@
     font-size : 20px
 }
 
+.features-list{
+    display : flex;
+    justify-content: center;
+    width : 100%;
+}
 .feature-item{
-    position : relative;
-    left : 375px;
-    top : 80px;
-    height: 320px;
+    min-height: 320px;
     border-radius: 20px;
-    width: 300px;
+    min-width: 250px;
     background-image : linear-gradient(#ffffff, #8AADF4);
 }
 
-.features-text{
+.features-text-container{
     position : relative;
-    bottom : 130px;
-    left : 725px;
-    max-width : 100px;
+    flex-direction: column;
+    text-align : left;
+    left : 50px;
+    top : 100px;
+}
+.features-text{
     font-family : comfortaa;
     font-size: 36px;
     color : white;
@@ -154,62 +195,44 @@
 
 .features-subtext{
     position : relative;
-    bottom : 110px;
-    left : 725px;
+    top : 25px;
+    font-family : comfortaa;
     font-size : 20px;
-    max-width : 400px;
+    min-width : 400px;
     color : white;
+
 }
 
 .prev1{
     position : relative;
-    bottom : 187px;
-    left: 293px;
-    background-image : linear-gradient(#a4bdeb, #abc1e9); 
-    border: none;
-    padding: 28px 32px;
-    border-radius : 50%;
-}
-
-.left-arrow-1{
-    position : relative;
-    bottom : 200px;
-    left : 230px;
     transform : rotate(180deg);
-    height: 45px;
-    width: 45px;
+    top : 120px;
+    right : 25px;
 }
 
 .next1{
     position : relative;
-    bottom : 187px;
-    left: 1000px;
-    background-image : linear-gradient(#a4bdeb, #abc1e9);
-    border: none;
-    padding: 28px 32px;
-    border-radius : 50%;
-}
-.right-arrow-1{
-    position : relative;
-    bottom : 200px;
-    left : 945px;
-    height: 45px;
-    width: 45px;
+    top : 120px;
+    left : 25px;
+
 }
 
 .review-title-container{
-    text-align : center;
-    padding-top : 50px;
+    display : flex;
+    justify-content : center;
+    padding-top : 200px;
 }
 
 .review-title-text{
+    margin-top : 100px;
     font-family : comfortaa;
     color : white;
     font-size : 30px;
 }
 
 .review-subtext-container{
-    text-align : center;
+    display : flex;
+    justify-content : center;
     padding-top : 100px;
 }
 
@@ -218,19 +241,21 @@
     color : white;
     font-size : 30px;
 }
-.logo-img2{
-    height: 61px;
-    width: 61px;
-}
 
 .reviews_list{
-    padding-left : 200px;
     max-height : 400px;
+    display : flex;
+    justify-content: center;
 }
 
+.review1, .review2, .review3{
+    text-align: center;
+}
+
+.review1, .review2{
+    margin-right : 100px;
+}
 .column1{
-    position : relative;
-    left : 70px;
     height: 320px;
     border-radius: 20px;
     width: 300px;
@@ -238,9 +263,6 @@
 }
 
 .column2{
-    position : relative;
-    left : 420px;
-    bottom : 320px;
     height: 320px;
     border-radius: 20px;
     width: 300px;
@@ -248,9 +270,6 @@
 }
 
 .column3{
-    position : relative;
-    left : 770px;
-    bottom : 640px;
     height: 320px;
     border-radius: 20px;
     width: 300px;
@@ -260,43 +279,46 @@
 .ending-description{
     background-color : white;
     height : 450px;
-    min-width : 1519px;
+    margin-left : auto;
+    margin-right : auto;
+    display: flex;
+    justify-content: center;
+    flex-direction : row;
 }
 
+.reader-engagement-container{
+    display : flex;
+    flex-direction : column;
+    margin-top : 40px;
+
+}
 .reader-engagement-text{
-    vertical-align : middle;
-    padding-left : 50px;
+    display : flex;
+    align-items : center;
 }
 .logo-img2{
-    position : relative;
-    top : 20px;
-    left : 50px;
     height: 61px;
     width: 61px;
 }
 
 .logo-text2{
     font-family : comfortaa;
-    padding-left : 50px;
-    padding-block : 0px 0px;
-    text-align : center;
     font-size : 30px;
     font-weight : bold;
 
 }
 
 .reader-engagement-subtext{
-    padding-left : 100px;
+    padding-left : 10px;
     max-width : 600px;
 }
 .logo-subtext2{
     font-family : comfortaa;
 }
 .email_message-container{
-    position : relative;
-    bottom : 40px;
-    padding-left : 810px;
     align-items : right;
+    margin-top : 100px;
+    margin-left : 100px;
 }
 
 #email-field {
@@ -332,8 +354,6 @@
 }
 
 .submit-message{
-    position : relative;
-    left : 550px;
     font-family : comfortaa;
     background-color: #728ddf;
     border-radius: 10px;
@@ -345,6 +365,8 @@
 
 .footer{
     text-align : right;
+    margin-left : auto;
+    margin-right : auto;
 }
 
 .privacypolicy-text{
