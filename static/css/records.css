@@ -84,18 +84,17 @@
     padding: 30px 40px 70px;
 }
 
-.cca-activity-text-button {
-    border: none;
+
+.cca-activity-text {
     border-radius: 20px;
     background: white;
     padding: 5px;
     text-align: center;
     width: 10%;
-    height: 30px;
+    height: 50px;
     display: inline-block;
     position: relative;
-    top: -17px;
-    cursor: pointer;
+    top: -20px;
 }
 
 .circle {
@@ -128,16 +127,13 @@
 }
 
 .plus-button {
-    border: none;
     height: 55px;
     width: 55px;
     border-radius: 50%;
     background-color: #8AADF4;
-    color: white;
     float: right;
+    color: white;
     text-align: center;
     padding: 9px 0px;
-    margin: 10px 20px;
     font-size: 30px;
-    cursor: pointer;
 }

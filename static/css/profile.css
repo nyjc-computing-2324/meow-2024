@@ -3,7 +3,9 @@
     src: url(Comfortaa-Light.ttf);
 }
 
-h1 {font-size: 50px;
+
+h1 {
+    font-size: 50px;
 }
 
 h2 {font-size: 30px;
@@ -42,6 +44,7 @@ section {
 .header-content {
     position: relative;
     top: 45px;
+    right: 20px;
 }
 
 .dot {
@@ -60,7 +63,7 @@ section {
 
 .email-number {
     display: inline-block;
-    width: 65%;
+    width: 55%;
     float: right;
 }
 
@@ -70,7 +73,7 @@ section {
     text-align: left;
     width: 25%;
     font-size: 16px;
-    margin-right: 20%;
+    margin-right: 10%;
     display: inline-block;
 }
 
@@ -90,11 +93,10 @@ section {
 
 .name-buttons {
     background-color: white;
-    width: 30%;
+    width: 35%;
     float: left;
     height: 80%;
-    margin-left: 5%;
-    margin-bottom: 5%;
+    margin-left: 5%
 }
 
 
@@ -122,13 +124,11 @@ section {
 .button1 {
     background-color: #d9d9d9;
     border-radius: 12px;
-    padding: 10px 30px;
 }
 
 .button2 {
     background-color: #8cb5f8;
     border-radius: 12px;
-    padding: 10px 30px;
 }
 
 
@@ -137,7 +137,7 @@ section {
     background-color: #FBF2CF;
     border-radius: 8px;
     height: 80%;
-    width: 60%;
+    width: 50%;
     text-align: center;
     float: right;
     margin-right: 5%;
