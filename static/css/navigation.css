@@ -31,6 +31,7 @@
 
 .logo-text1 {
     margin-right : auto;
+    color: black;
     font-family : comfortaa;
     font-size : 32px;
     }
@@ -47,30 +48,25 @@
     right : 80px;
 }
 
-.contact-text{
-    font-family : comfortaa;
-    color : black;
-    text-decoration:none
-}
 .faqs-container{
     position : relative;
     right : 60px;
 }
 
-.faqs-text{
+.text{
     font-family : comfortaa;
     color : black;
     text-decoration:none
 }
 
+.divider-container1{
+    position : relative;
+    right : 70px;
+}
+
 .divider-container{
     position : relative;
     right : 40px;
-}
-
-.divider-text{
-    font-family : comfortaa;
-    color : black;
 }
 
 .login-container{
