@@ -16,16 +16,16 @@ def view_edit_cca():
 
 def records_cca():
     # display records_cca.html
-    if not completed:
-        # redirects the user to temp
-        return redirect("/temp")
+    # if not completed:
+    #     # redirects the user to temp
+    #     return redirect("/temp")
     return render_template("records_cca.html")
 
 def records_activities():
     # display records_activities.html
-    if not completed:
-        # redirects the user to temp
-        return redirect("/temp")
+    # if not completed:
+    #     # redirects the user to temp
+    #     return redirect("/temp")
     return render_template("records_activities.html")
 
 def temp():
@@ -38,9 +38,9 @@ def home():
 
 def profile():
     # displays profile.html
-    if not completed:
-        # redirects the user to temp.html
-        return redirect("/temp")
+    # if not completed:
+    #     # redirects the user to temp.html
+    #     return redirect("/temp")
     return render_template("profile.html")
 
 def about():
