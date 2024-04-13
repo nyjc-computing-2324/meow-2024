@@ -2,40 +2,56 @@
 <html>
     <head>
         <title>PROFILE</title>
+        <link rel="stylesheet" type="text/css" href="profile.css">
     </head>
     {% set page = "profile" %}    
     {% block content %}
         {% include 'navigation.html' %}
     {% endblock %}
     <body>
-        <div class= "header">
-            <h1>Profile Page</h1>
-        </div>
+        <section>
+            <div class= "header">
+                <div class= "header-content">
+                    <h1>Profile Page</h1>
+                </div>
+            </div>
+        
+            <span class= "dot"></span>
 
-        <div class= "email">
-            <h2>email:</h2>
-            <p>zhuohaowren123@gmail.com</p>
-        </div>
-
-        <div class= "number">
-            <h2>number:</h2>
-            <p>+65 98765432</p>
-        </div>
-
-        <div class="name">
-            <h2>Zhuo Howren</h2>
-            <p>@username</p>
-        </div>
-
-        <div class="edit-download">
-            <h3><div button class="button-round">edit</button></h3>
-            <h3><div button class="button-round">download profile</button></h3>
-        </div>
-
-        <div class= "about">
-            <h2>About myself:</h2>
-            <p>Lorem ipsum dolor sit amet, consectetur adipiscing elit. Curabitur in iaculis ex. Etiam volutpat laoreet urna. Morbi ut tortor nec nulla commodo malesuada sit amet vel lacus. Fusce eget efficitur libero. Morbi dapibus porta quam laoreet placerat.</h3>
-        </div>
+            <div class ="details">
+                <div class= "email-number">
+                    <div class= "email">
+                        <h2>email:</h2>
+                        <p>zhuohaowren123@gmail.com</p>
+                    </div>
+            
+                    <div class= "number">
+                        <h2>number:</h2>
+                        <p>+65 98765432</p>
+                    </div>
+                </div>
+    
+                <div class= "name-about">
+                    
+                    <div class= "name-buttons">
+                        <div class="name">
+                            <h2>Zhuo Howren</h2>
+                            <p>@username</p>
+                        </div>
+                
+                        <div class="edit-download">
+                            <h3><div button class="button1">edit</button></h3>
+                            <h3><div button class="button2">download profile</button></h3>
+                        </div>
+                    </div>
+            
+                    <div class= "about">
+                        <h2>About myself:</h2>
+                        <h4>Lorem ipsum dolor sit amet, consectetur adipiscing elit. Curabitur in iaculis ex. Etiam volutpat laoreet urna. Morbi ut tortor nec nulla commodo malesuada sit amet vel lacus. Fusce eget efficitur libero. Morbi dapibus porta quam laoreet placerat.</h4>
+                    </div>
+                </div>
+            </div>
+        </section>
 
     </body>
 </html>
