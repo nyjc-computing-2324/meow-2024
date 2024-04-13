@@ -49,8 +49,6 @@ class Table:
             #conn.close() called automatically
         
     def retrieve(self, pk: int):
-<<<<<<< HEAD
-=======
         """find existing records in the database"""
         with sqlite3.connect(self.database_name) as conn:
             cursor = conn.cursor()
@@ -489,7 +487,6 @@ class StudentActivity:
         raise NotImplementedError
 
     def retrieve(self, student_id: int, activity_id: int):
->>>>>>> 7ed3c64 (Dev to main (#149))
         """find existing records in the database"""
         with sqlite3.connect(self.database_name) as conn:
             cursor = conn.cursor()
@@ -565,7 +562,6 @@ class JunctionTable(Table):
         """Do I need this?"""
         raise NotImplementedError
 
-<<<<<<< HEAD
     def delete(self, pk1_value, pk2_value):
         """remove existing records in the database"""
         with sqlite3.connect(self.database_name) as conn:
@@ -1115,17 +1111,3 @@ class StudentCCA(JunctionTable):
                 param = (cca_id, student_id)
                 cursor.execute(query, param)
                 conn.commit()
-=======
-    def delete(self, student_id: int, activity_id: int):
-        """remove existing records in the database"""
-        with sqlite3.connect(self.database_name) as conn:
-            cursor = conn.cursor()
-            query = """
-                    DELETE FROM "student_activity"
-                    WHERE "student_id" = ?, 
-                    "activity_id" = ?;
-                    """
-            param = (student_id, activity_id)
-            cursor.execute(query, param)
-            conn.commit()
->>>>>>> 7ed3c64 (Dev to main (#149))
