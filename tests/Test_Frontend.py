@@ -1,4 +1,8 @@
 from unittest import *
+from main import app
+import view
+import requests
+from bs4 import BeautifulSoup
 #IMPORTANT Please Read
 """
 We will be using the unittest module instead to test frontend and backend.
@@ -35,22 +39,63 @@ if __name__ == '__main__':
 class Test_Frontend(TestCase):
 
     def setUp(self):
-        pass
+        app.testing = True
+        view.completed = True
+        self.app = app.test_client()
+        self.paths = ['/', '/temp', '/home', '/about', '/login', '/register']
 
-    def test_index(self):
-        raise NotImplementedError
+    def test_request_load_successfully(self):
+        for path in self.paths:
+            try:
+                self.app.get(path)
+            except NotImplementedError:
+                continue
+            response = self.app.get(path)
+            self.assertEqual(response.status_code, 200, msg=f"{path} failed to load.")
 
     def test_temp(self):
-        raise NotImplementedError
+        try:
+            self.app.get('/temp')
+        except NotImplementedError:
+            self.skipTest('Temp route not implemented yet')
+        r = requests.get('https://meow-dev.replit.app' + '/temp')
+        content = r.content
+        soup = BeautifulSoup(content, 'html.parser')
+        # print(soup.prettify())
+        title = soup.find_all('title')[0].get_text()
+        correct = 'Meow'
+        self.assertEqual(title, correct, msg=f'Wrong displayed title: {title} instead of {correct}')
+        
+        
+    # def test_index_loads_successfully(self):
+    #     response = self.app.get('/')
+    #     data = response.get_json()
+    #     self.assertEqual(response.status_code, 200)
+        
 
-    def test_home(self):
-        raise NotImplementedError
+    # def test_temp_loads_successfully(self):
+    #     response = self.app.get('/temp')
+    #     data = response.get_json()
+    #     self.assertEqual(response.status_code, 200)
 
-    def test_about(self):
-        raise NotImplementedError
+    # def test_home_loads_successfully(self):
+    #     response = self.app.get('/home')
+    #     data = response.get_json()
+    #     self.assertEqual(response.status_code, 200)
 
-    def test_login(self):
-        raise NotImplementedError
+    # def test_about_loads_successfully(self):
+    #     response = self.app.get('/about')
+    #     data = response.get_json()
+    #     self.assertEqual(response.status_code, 200, msg=f"")
 
-    def test_register(self):
-        raise NotImplementedError
+    # def test_login_loads_successfully(self):
+    #     response = self.app.get('/login')
+    #     data = response.get_json()
+    #     self.assertEqual(response.status_code, 200)
+
+    # def test_register_loads_successfully(self):
+    #     response = self.app.get('/register')
+    #     data = response.get_json()
+    #     self.assertEqual(response.status_code, 200)
+
+
