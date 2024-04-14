@@ -14,22 +14,24 @@
             <div class = 'register-box-title'>
                 <h3>sign up</h3>
             </div>
-        <form action="/register" method="post">
-            <div class = "name-field-container">
-                <input id="name-field" type="text" name="name" placeholder="name">
-            </div>
-            <div class="username-field-container">
-                <input id="username-field" type="text" name="username" placeholder="username">
-            </div>
-            <div class="password-field-container">
-                <input id="pass-field" type="password" name="password" placeholder="password">
-            </div>
-            <div class = 'TOS-checkbox-container'>
-                <input type="checkbox" id="TOS-checkbox" name="TOS-checkbox" value="True">
-              <label for="TOS-checkbox"> I hereby agree to Meow's Terms and Conditions and acknowledge the Privacy Policy</label>
-            </div>
-            <div class = create-account-button-container>
-                <input type="submit" class="create-account" value="Create Account">
+            <form name="register" action="/register" method="post">
+                <div class = "name-field-container">
+                    <input id="name-field" type="text" name="name" value="name">
+                </div>
+                <div class="username-field-container">
+                    <input id="username-field" type="text" name="username" value="username">
+                </div>
+                <div class="password-field-container">
+                    <input id="pass-field" type="password" name="password" value="password">
+                </div>
+                <div class = 'TOS-checkbox-container'>
+                    <input type="checkbox" id="TOS-checkbox" name="TOS-checkbox" value="True">
+                  <label for="TOS-checkbox"> I hereby agree to Meow's Terms and Conditions and acknowledge the Privacy Policy</label>
+                </div>
+                <div class = create-account-button-container>
+                    <input type="submit" class="create-account" value="Create Account">
+                </div>
+            </form>
             </div>
         </section>
           

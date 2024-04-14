@@ -3,56 +3,60 @@
     <head>
         <title>PROFILE</title>
         <link rel="stylesheet" type="text/css" href="{{ url_for('static', filename='css/profile.css') }}">
+        <meta name="viewport" content="width=device-width, initial-scale=1.0">
     </head>
     <body>
         {% set page = "profile" %}    
         {% block content %}
             {% include 'navigation.html' %}
         {% endblock %}
-        <section>
-            <div class= "header">
-                <div class= "header-content">
-                    <h1>Profile Page</h1>
-                </div>
-            </div>
-        
-            <span class= "dot"></span>
-
-            <div class ="details">
-                <div class= "email-number">
-                    <div class= "email">
-                        <h2>email:</h2>
-                        <p>zhuohaowren123@gmail.com</p>
+    <body>
+        <section class="profile-section">
+            <div class="profile-container">
+                <div class="profile-display-container">
+                    <div class="profile-picture-container">
+                    <img>
                     </div>
-            
-                    <div class= "number">
-                        <h2>number:</h2>
-                        <p>+65 98765432</p>
-                    </div>
-                </div>
-    
-                <div class= "name-about">
-                    
-                    <div class= "name-buttons">
-                        <div class="name">
-                            <h2>Zhuo Howren</h2>
-                            <p>@username</p>
-                        </div>
                 
-                        <div class="edit-download">
-                            <h3><div button class="button1">edit</button></h3>
-                            <h3><div button class="button2">download profile</button></h3>
+                    <span class = "profile-name">
+                        <h2>Zhuo Howren</h2>
+                    </span>
+                
+                    <span class = "profile-username">
+                        <h3>@username</h3>
+                    </span>
+                    <form name="edit-profile" action = "/profile" method="post">
+                        <input type="submit" class='edit-profile-button' value="edit">
+                    </form>
+                    <form name="download-profile" action = "/profile" method="post">
+                        <button id="btn" class = "download-profile-label">Download profile</button>
+                        <input type="file" id="inputField" class = "download-profile-button">
+                    </form>
+                </div>
+                <div class="profile-description-container">
+                    <span class="profile-title"><h1>Profile Page</h1></span>
+                    <div class="email-number-container">
+                        <div class="email-container">
+                            <span class="email-label">email:</span>
+                            <br>
+                            <span class="email-content">zhuohowren123@gmail.com</span>
+                        </div>
+                        <div class="number-container">
+                            <span class="number-label">number:</span>
+                            <br>
+                            <span class="number-content">+65 98765432</span>    
                         </div>
                     </div>
-            
-                    <div class= "about">
-                        <h2>About myself:</h2>
-                        <h4>Lorem ipsum dolor sit amet, consectetur adipiscing elit. Curabitur in iaculis ex. Etiam volutpat laoreet urna. Morbi ut tortor nec nulla commodo malesuada sit amet vel lacus. Fusce eget efficitur libero. Morbi dapibus porta quam laoreet placerat.</h4>
+                    <div class="about-container">
+                        <span class="about-label">About myself:</span>
+                        <br>
+                        <div class="about">
+                        <textarea id="about-field" type="text" name="message" placeholder="Meow!"></textarea>
+                        </div>
                     </div>
                 </div>
             </div>
         </section>
-
     </body>
 </html>
-        
+

@@ -6,29 +6,10 @@
     </head>
 
     <body>
-        <section class="topbar-section">
-            <img class="logo-img1" src="{{ url_for('static',filename= 'images/cat.svg') }}">
-            <span class="logo-text1">
-                Meow
-            </span>
-            <div class = "links-container">
-                <div class = "contact-container">
-                <a class="contact-text" href="/temp" target="new">Contact</a>
-                </div>
-                <div class = "faqs-container">
-                <a class="faqs-text" href = "/temp" target="new">FAQs</a>
-                </div>
-                <div class = "divider-container">
-                <span class="divider-text">|</span>
-                </div>
-                <div class = "login-container">
-                <a class="login-text" href="/login">Login</a>
-                </div>
-                <form action="/register" method="get">
-                    <input type="submit" class="sign_up_button1" value="Sign up">
-                </form>
-            </div>
-        </section>
+        {% set page = "profile" %}    
+        {% block content %}
+            {% include 'navigation.html' %}
+        {% endblock %}
 
         <section class="tagline-section">
             <div class = "tagline-container">
@@ -43,12 +24,12 @@
               <h5>Simplify Record-Keeping and Management effortlessly with Meow.</h5>
             </span>
             </div>
-            <form action="/register" method="get">
-                <div class = "sign_up_button2-container">
-                <input type="submit" class="sign_up_button2" value="Sign up now">
+                <form name="to-register" action="/register" method="get">
+                    <div class = "sign_up_button2-container">
+                    <input type="submit" class="sign_up_button2" value="Sign up now">
+                    </div>
                 </div>
-            </div>
-            </form>
+                </form>
         </section>
         <section class = "description-section">
             <div class = "brief-description-container">
