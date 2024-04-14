@@ -1,0 +1,148 @@
+@font-face {
+    font-family: comfortaa;
+    src: url(Comfortaa-Light.ttf);
+}
+
+
+h1 {
+    font-size: 50px;
+}
+
+h2 {font-size: 30px;
+}
+
+h4 {color: black;
+    font-weight: normal;
+}
+
+p {color: #8cb5f8;
+   font-size: 20px;
+}
+
+.body {
+    font-family: comfortaa;
+    font-size: 20px;
+    margin-left: 10%;
+    margin-right: 10%;
+    border-radius: 8px;
+    /* margin-bottom: 20%; */
+    box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.2), 0 6px 20px 0 rgba(0, 0, 0, 0.19);
+}
+
+
+.header {
+    background-color: #d9d9d9;
+    border-radius: 8px;
+    height: 150px;
+    width: 100%;
+    text-align: center;
+    display: flex;
+    flex-direction: column;
+    margin-top: 20%;
+}
+
+.header-content {
+    position: relative;
+    top: 45px;
+    right: 20px;
+}
+
+.dot {
+    height: 150px;
+    width: 150px;
+    background-color: #bdbcfb;
+    border-radius: 50%;
+    display: inline-block;
+    margin-left: 10%;
+    border-style: solid;
+    border-color: white;
+    border-width: 10px;
+    position: relative;
+    top: -70px;
+}
+
+.email-number {
+    display: inline-block;
+    width: 55%;
+    float: right;
+}
+
+.email {
+    background-color: white;
+    color: black;
+    text-align: left;
+    width: 25%;
+    font-size: 16px;
+    margin-right: 10%;
+    display: inline-block;
+}
+
+.number {
+    background-color: white;
+    color: black;
+    text-align: left;
+    width: 25%;
+    font-size: 16px;
+    float: right;
+    margin-right: 20%;
+}
+
+.name-about {
+    display: inline-block;
+}
+
+.name-buttons {
+    background-color: white;
+    width: 35%;
+    float: left;
+    height: 80%;
+    margin-left: 5%
+}
+
+
+.name {
+    background-color: white;
+    color: black;
+    text-align: center;
+    border-radius: 8px;
+    width: 90%;
+    text-decoration: none;
+    display: inline-block;
+    font-size: 16px;
+    margin: 4px 2px;
+}
+
+
+.edit-download {
+    text-align: center;
+    text-decoration: none;
+    font-size: 16px;
+    margin: 4px 2px;
+    width: 90%;
+}
+
+.button1 {
+    background-color: #d9d9d9;
+    border-radius: 12px;
+}
+
+.button2 {
+    background-color: #8cb5f8;
+    border-radius: 12px;
+}
+
+
+
+.about {
+    background-color: #FBF2CF;
+    border-radius: 8px;
+    height: 80%;
+    width: 50%;
+    text-align: center;
+    float: right;
+    margin-right: 5%;
+    margin-bottom: 5%;
+}
+
+.details {margin-top: -15%;
+}
