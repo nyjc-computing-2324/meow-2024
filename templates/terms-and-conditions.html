@@ -67,9 +67,16 @@
 
             </div>
         </div>
+        {% set page = "privacy" %}    
+        {% block content %}
+            {% include 'navigation.html' %}
+        {% endblock %}
         <script src="static/js/pp_script.js"></script>
-    </body>
+        </body>
+        <hr>
+        <footer class='footer'>
+        <a class="privacypolicy-text" href = "/pp" target="new">PRIVACY POLICY</a>
+        <a class="terms-text" href = "/toc" target="new">TERMS AND CONDITIONS</a>
 
-
-
+        </footer>
 </html>
