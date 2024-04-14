@@ -53,6 +53,7 @@
     top: 70px;
 }
 
+
 .content-container {
     flex-grow: 1; /* Take up remaining space */
     padding: 20px; /* Add padding for spacing */
