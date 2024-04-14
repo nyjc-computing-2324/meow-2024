@@ -12,7 +12,7 @@
         <section class="topbar-section">
             <img class="logo-img1" src="{{ url_for('static',filename= 'images/cat.svg') }}">
             <span class="logo-text1">
-                <a href="/home"> Meow </a>
+                Meow
             </span>
             <div class = "links-container">
                 <div class = "contact-container">
@@ -34,7 +34,7 @@
         </section>
         {% endif %}
 
-        {% if page == "privacy" or page == "home" or page == "profile" or page == "records_cca" or page == "records_activities" %}
+        {% if page == "privacy" or page == "home" or page == "profile" or page == "records" %}
         <section class="topbar-section">
             <img class="logo-img1" src="{{ url_for('static',filename= 'images/cat.svg') }}">
             <span class="logo-text1">
