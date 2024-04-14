@@ -5,7 +5,7 @@ def quote_join(list_of_str: list[str], enquote: bool = False) -> str:
     takes in a list of str
     e.g. ['hello', 'bye']
     if enquote == False, returns 'hello, bye'
-    if enquote == True, returns '"hello", "bye"' 
+    if enquote == True, returns '"hello", "bye"'
     """
     if enquote:
         return ", ".join([f'"{str_}"' for str_ in list_of_str])_
@@ -16,7 +16,7 @@ class Table:
     """parent class for all subsequent tables"""
     table_name: str
     pk_name: str    #stands for primary key name
-    fields = []
+    fields: list
 
     def __init__(self, database_name: str):
         """create a table upon initialisation of the class"""
@@ -27,9 +27,41 @@ class Table:
         if field not in self.fields:
             raise AttributeError(f"Invalid field '{field}'")
     
-    def insert(self):
-        """insert new records into the database"""
-        raise NotImplementedError
+    def insert(self, record: dict) -> None:
+        """
+        inserts the record into the junction table
+
+        Checks for redundancies should already be done
+        i.e. if pk == 5 already exists in the table,
+        dont insert another record with pk == 5
+
+        record argument that is passed should have:
+        keys of type str referring to the fields
+        values of type str referring to the values to be put in the cells
+
+        The record dict must be created with they keys
+        following the same order as in self.fields.
+        This is NOT checked in this method!
+        """
+        # check that all fields in record is valid
+        for field in record:
+            self._valid_field_else_error(field)
+        # check that record has all fields required
+        for field in self.fields:
+            if field not in record:
+                raise AttributeError(f"field {field} not in record argument")
+        with sqlite3.connect(self.database_name) as conn:
+            cursor = conn.cursor()
+            # formatting the query
+            fieldstr = quote_join(self.fields, enquote = True)
+            qnmarks = quote_join(["?"] * len(self.fields))
+            query = f"""
+                    INSERT INTO {self.table_name} ({fieldstr}) VALUES ({qnmarks});
+                    """
+            params = tuple(record.values())
+            cursor.execute(query, params)
+            conn.commit()
+            #conn.close() called automatically 
 
     def update(self, pk: int, field: str, new: str):
         """update existing records in the database"""
@@ -516,25 +548,22 @@ class JunctionTable(Table):
     pk2_name: str
     fields: list[str]
 
-    def __init__(self):
-        # self.database_name
-        return
-        
-        
-
     def insert(self, record: dict):
         """
         inserts the record into the junction table
         
         Checks for redundancies should already be done
-        i.e. insert({"student_id": 5. "cca_id": 3})
-        should not be called if {"student_id": 5. "cca_id": 3} 
+        i.e. insert({"student_id": 5. "activity_id": 3})
+        should not be called if {"student_id": 5. "activity_id": 3} 
         already exists in the database, do the check beforehand.
 
         record argument that is passed should have:
         keys of type str referring to the fields
         values of type str referring to the values to be put in the cells
 
+        The record dict must be created with they keys
+        following the same order as in self.fields.
+        This is NOT checked in this method!
         """
         # check that all fields in record is valid
         for field in record:
@@ -555,10 +584,6 @@ class JunctionTable(Table):
             cursor.execute(query, params)
             conn.commit()
             #conn.close() called automatically        
-        
-    def retrieve(self):
-        """Do I need this?"""
-        raise NotImplementedError
 
     def delete(self, pk1_value, pk2_value):
         """remove existing records in the database"""
