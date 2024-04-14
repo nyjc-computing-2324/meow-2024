@@ -1,4 +1,4 @@
-from database import Account
+from database import Account, Student
 import auth
 
 # instantiating table objects
