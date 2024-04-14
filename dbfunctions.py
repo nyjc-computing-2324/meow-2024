@@ -86,5 +86,3 @@ def delete_profile(student_id: str):
         raise AttributeError("Profile does not exist.")
     student_profile.delete(student_id)
     student_profile_backup.delete(student_id)
-
-
