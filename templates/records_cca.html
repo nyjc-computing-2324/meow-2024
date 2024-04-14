@@ -27,7 +27,7 @@
         </div>
         
         <div>
-            <button class="cca-activity-text-button">CCA</button><button class="cca-activity-text-button">Activities</button>
+            <button class="cca-activity-text-button">CCA </br> <span style="color: white">h</span> </button><button class="cca-activity-text-button" style="background: linear-gradient(180deg, whitesmoke 50%, white 50%)"> Activities </br> <span style="color: white">h</span></button>
         </div>
 
         <div class="general-text">
@@ -70,10 +70,7 @@
 
         <button class="plus-button"> + </button>
         
-        {% set page = "records" %}
-        {% block content %}
-            {% include 'navigation.html' %}
-        {% endblock %}
+        {% include 'navigation.html' %}
     </body>
     
     </html>
