@@ -1,31 +1,65 @@
-<!DOCTYPE html>
-<html>
-    <head>
-        <link rel="stylesheet" type="text/css" href="{{ url_for('static', filename='css/navigation.css') }}">
-        <title>Register HERE!</title>
-    </head>
+            <!DOCTYPE html>
+            <html>
+                <head>
+                    <link rel="stylesheet" type="text/css" href="{{ url_for('static', filename='css/navigation.css') }}">
+                    <title>Register HERE!</title>
+                </head>
 
-    <body>
-        <section class="topbar-section">
-            <img class="logo-img1" src="{{ url_for('static',filename= 'images/cat.svg') }}">
-            <span class="logo-text1">
-                <a style= "text-decoration: none"href="/home"> Meow </a>
-            </span>
-            <div class = "links-container">
-                <div class = "contact-container">
-                <a class="contact-text" href="/temp" target="new">Contact</a>
-                </div>
-                <div class = "faqs-container">
-                <a class="faqs-text" href = "/temp" target="new">FAQs</a>
-                </div>
-                <div class = "divider-container">
-                <span class="divider-text">|</span>
-                </div>
-                <div class = "login-container">
-                <a class="login-text" href="/login">Login</a>
-                </div>
-                <form action="/register" method="get">
-                    <input type="submit" class="sign_up_button1" value="Sign up">
-                </form>
-            </div>
-        </section>
+                <body>
+                    {% block body %}
+                    {% endblock %}
+                    {% if page == "landing" or page == "login" or page == "register" %}
+                    <section class="topbar-section">
+                        <img class="logo-img1" src="{{ url_for('static',filename= 'images/cat.svg') }}">
+                        <span class="logo-text1">
+                            <a style= "text-decoration: none"href="/home"> Meow </a>
+                        </span>
+                        <div class = "links-container">
+                            <div class = "contact-container">
+                            <a class="text" href="/temp" target="new">Contact</a>
+                            </div>
+                            <div class = "faqs-container">
+                            <a class="text" href = "/temp" target="new">FAQs</a>
+                            </div>
+                            <div class = "divider-container">
+                            <span class="text">|</span>
+                            </div>
+                            <div class = "login-container">
+                            <a class="text" href="/login">Login</a>
+                            </div>
+                            <form action="/register" method="get">
+                                <input type="submit" class="sign_up_button1" value="Sign up">
+                            </form>
+                        </div>
+                    </section>
+                    {% endif %}
+
+                    {% if page == "privacy" or page == "home" or page == "profile" or page == "records_cca" or page == "records_activities" %}
+                    <section class="topbar-section">
+                        <img class="logo-img1" src="{{ url_for('static',filename= 'images/cat.svg') }}">
+                        <span class="logo-text1">
+                            <a style= "text-decoration: none"href="/home"> Meow </a>
+                        </span>
+                        <div class = "links-container">
+                            <div class = "contact-container">
+                            <a class="text" href="/records_cca" target="new">My Records</a>
+                            </div>
+                            <div class = "divider-container1">
+                            <span class="text">|</span>
+                            </div>
+                            <div class = "faqs-container">
+                            <a class="text" href = "/temp" target="new">Manage</a>
+                            </div>
+                            <div class = "divider-container">
+                            <span class="text">|</span>
+                            </div>
+                            <div class = "login-container">
+                            <a class="text" href="/temp">Log Out</a>
+                            </div>
+                            <form action="/profile" method="get">
+                                <button class = "profile-button"><img class = "profile-picture"></button>
+                            </form>
+                        </div>
+                    </section>
+                    {% endif %}
+                </body>
