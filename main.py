@@ -23,6 +23,14 @@ def home():
 def about():
     return view.about()
 
+@app.route('/pp')
+def pp():
+    return view.pp()
+
+@app.route('/toc')
+def toc():
+    return view.toc()
+
 @app.route('/login', methods = ["GET", "POST"])
 def login():
     if request.method == "GET":
