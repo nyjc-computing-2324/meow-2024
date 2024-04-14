@@ -51,6 +51,9 @@ setupClickListener("triggerText6", "targetButton6", "targetSection6");
 setupClickListener("triggerText7", "targetButton7", "targetSection7");
 setupClickListener("triggerText8", "targetButton8", "targetSection8");
 setupClickListener("triggerText9", "targetButton9", "targetSection9");
+setupClickListener("triggerText10", "targetButton10", "targetSection10");
+setupClickListener("triggerText11", "targetButton11", "targetSection11");
+
 
 
 
