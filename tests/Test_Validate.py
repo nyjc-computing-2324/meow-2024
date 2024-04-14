@@ -23,7 +23,7 @@ class Test_Validate(TestCase):
         can add more values to test more cases
         """
         #username test cases
-        self.validname = 'aBc @123_beAnsta|k'
+        self.validname = 'aBc@123_beAnsta|k'
         self.validname_allspaces = '                            '
 
         self.invalidname_notascii = 'ABCD二十八'
@@ -49,6 +49,7 @@ class Test_Validate(TestCase):
     def test_username_isvalid(self):
         """
         Tests the username_isvalid method on validate.py
+        #New no space also allowed
         """
         self.assertTrue(username_isvalid(self.validname),'Username should be valid.')
         self.assertTrue(self.validname_allspaces, 'Username should be valid even if it contains all spaces')
