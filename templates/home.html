@@ -4,7 +4,7 @@
         <link rel="stylesheet" type="text/css" href="{{ url_for('static', filename='css/home.css') }}">
         <title>Home Page</title>
     </head>
-    
+
     <body>
         <div class='main-body'>
         <section>
@@ -29,12 +29,15 @@
                 blank
             </div>
         </section>
-        
+
         <footer class='footer'>
             <a class="privacypolicy-text" href = "/temp" target="new">PRIVACY POLICY</a>
         </footer>
         </div>
-        {% include 'navigation.html' %}
+        {% set page = "home" %}    
+        {% block content %}
+            {% include 'navigation.html' %}
+        {% endblock %}
     </body>
 </html>
 
