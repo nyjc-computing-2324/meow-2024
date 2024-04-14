@@ -19,130 +19,157 @@ p {color: #8cb5f8;
    font-size: 20px;
 }
 
-.body {
+*{
+    box-sizing : True;
+}
+
+input[type=file]{
+    width:90px;
+    color:transparent;
+}
+
+.profile-section{
+    background: linear-gradient(#d9d9d9 0%, #d9d9d9 30%, white 30%, white 100%);
+    margin-top : 150px;
     font-family: comfortaa;
     font-size: 20px;
-    margin-left: 10%;
-    margin-right: 10%;
+    margin-left: auto;
+    margin-right: auto;
     border-radius: 8px;
-    /* margin-bottom: 20%; */
     box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.2), 0 6px 20px 0 rgba(0, 0, 0, 0.19);
+    width : 70%;
+    max-width : 800px;
+    min-width : 768px;
+    height : 500px;
+
 }
 
-
-.header {
-    background-color: #d9d9d9;
-    border-radius: 8px;
-    height: 150px;
-    width: 100%;
-    text-align: center;
-    display: flex;
-    flex-direction: column;
-    margin-top: 20%;
+.profile-container{
+    display : flex;
 }
 
-.header-content {
+.profile-display-container{
+    display : flex;
+    flex-direction : column;
+    align-items:center;
     position: relative;
-    top: 45px;
-    right: 20px;
+    top : 50px;
+    width : 200px;
+    margin-left : 50px;
+    margin-right : 20px;
+    height : 450px;
 }
 
-.dot {
-    height: 150px;
-    width: 150px;
+.profile-picture-container{
+    height: 200px;
+    width: 200px;
     background-color: #bdbcfb;
     border-radius: 50%;
-    display: inline-block;
-    margin-left: 10%;
     border-style: solid;
     border-color: white;
     border-width: 10px;
-    position: relative;
-    top: -70px;
 }
 
-.email-number {
-    display: inline-block;
-    width: 55%;
-    float: right;
-}
-
-.email {
-    background-color: white;
-    color: black;
-    text-align: left;
-    width: 25%;
-    font-size: 16px;
-    margin-right: 10%;
-    display: inline-block;
-}
-
-.number {
-    background-color: white;
-    color: black;
-    text-align: left;
-    width: 25%;
-    font-size: 16px;
-    float: right;
-    margin-right: 20%;
-}
-
-.name-about {
-    display: inline-block;
-}
-
-.name-buttons {
-    background-color: white;
-    width: 35%;
-    float: left;
-    height: 80%;
-    margin-left: 5%
+.profile-name{
+    text-align : center;
+    width : 180px;
+    font-family : comfortaa;
 }
 
 
-.name {
-    background-color: white;
-    color: black;
-    text-align: center;
-    border-radius: 8px;
-    width: 90%;
-    text-decoration: none;
-    display: inline-block;
-    font-size: 16px;
-    margin: 4px 2px;
-}
-
-
-.edit-download {
+.edit-profile-button{
+    margin-top : 50px;
     text-align: center;
     text-decoration: none;
     font-size: 16px;
-    margin: 4px 2px;
-    width: 90%;
-}
-
-.button1 {
+    width : 178px;
+    border : none;
+    border-radius: 12px;
+    height : 40px;
     background-color: #d9d9d9;
-    border-radius: 12px;
+    color : white;
+    font-family : comfortaa;
+
 }
 
-.button2 {
-    background-color: #8cb5f8;
-    border-radius: 12px;
+.download-profile-button{
+    display : none;
+    cursor: pointer;
+    
 }
 
+.download-profile-label{
+    text-align: center;
+    text-decoration: none;
+    font-size: 16px;
+    width : 178px; 
+    border : none;
+    border-radius: 12px;
+    height : 40px;
+    background-color: #bdbcfb;
+    color : white;
+    margin-top : 10px;
+    font-family : comfortaa;
 
+}
 
-.about {
+.profile-description-container{
+    display : flex;
+    flex-direction : column;
+    margin-top : 75px;
+    width : 70%;
+}
+
+.email-number-container{
+    display : flex;
+    flex-direction : row;
+    align-items : center;
+    height : 150px;
+    width : 90%;
+}
+
+.email-container{
+    margin-left : 20px;
+    font-family : comfortaa;
+
+}
+.number-container{
+    margin-left : 50px;
+    font-family : comfortaa;
+
+}
+
+.about-container{
+    margin-left : 20px;
     background-color: #FBF2CF;
     border-radius: 8px;
-    height: 80%;
-    width: 50%;
     text-align: center;
-    float: right;
-    margin-right: 5%;
-    margin-bottom: 5%;
+    height : 180px;
+    width : 70%;
+    max-width : 600px;
+    min-width : 450px;
+    font-family : comfortaa;
+
 }
 
-.details {margin-top: -15%;
+#about-field{
+    background-color : #FBF2CF;
+    text-align: center;
+    border : none;
+    /* outline : none; */
+    resize : none;
+    border-radius: 10px;
+    font-family : comfortaa;
+    max-width : 560px;
+    width : 70%;
+    height : 140px;
+    font-family : comfortaa;
+
+}
+
+@media only screen and (max-width: 768px) {
+  /* For mobile phones: */
+  [class*="profile-section"] {
+    width: 100%;
+  }
 }
