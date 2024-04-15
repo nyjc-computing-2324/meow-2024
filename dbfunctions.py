@@ -32,25 +32,24 @@ def login(username: str , password: str) -> bool:
     # salting and hashing of password implemented 
     return auth.check_password(password, database_password, database_salt)
 
-def update_account(field: str, data: str):
+def update_account(pk_name: str, pk, field: str, data):
     """
     obtain information for an account
     if account does not exists, attribute error is raised
     else account updated in student_account and student_account_backup
+    pk_name can only be "account_id" or "username"
     """
-    record = student_account.retrieve(field, data)
-    if record is None:
+    if student_account.retrieve(pk_name, pk) is None:
         raise AttributeError("Account does not exist")
-    account_id, username, password, salt = record
-    record_dict = {'account_id': account_id, 'username': username, 'password': password, 'salt': salt}
-    return record_dict
-
+    student_account.update(pk_name, pk, field, data)
+    student_account_backup.update(pk_name, pk, field, data)
 
 def retrieve_account(pk_name: str, pk) -> dict:
     """
     obtain information for an account
     if account does not exists, attribute error is raised
     else a dictionary of account_id, username, password, salt is returned
+    pk_name can only be "account_id" or "username"
     """
     record = student_account.retrieve(pk_name, pk)
     if record is None:
@@ -59,15 +58,16 @@ def retrieve_account(pk_name: str, pk) -> dict:
     record_dict = {'account_id': account_id, 'username': username, 'password': password, 'salt': salt}
     return record_dict
 
-def delete_account(field: str, data: str):
+def delete_account(pk_name: str, pk):
     """
     if account does not exists, attribute error is raised
     else delete account from student_account and student_account_backup
+    pk_name can only be "account_id" or "username"
     """
-    if student_account.retrieve(field, data) is None:
-        raise AttributeError("Account does not exist.")
-    student_account.delete(field, data)
-    student_account_backup.delete(field, data)
+    if student_account.retrieve(pk_name, pk) is None:
+        raise AttributeError("Account does not exist")
+    student_account.delete(pk_name, pk)
+    student_account_backup.delete(pk_name, pk)
 
 def create_profile(name, _class, email, account_id):
     """
