@@ -9,6 +9,7 @@ student_profile = Student('meow.db')
 student_profile_backup = Student('backup.db')
 
 
+# FOR ACCOUNT TABLE
 def create_account(username: str, password: str):
     """
     create account for new users
@@ -37,10 +38,14 @@ def update_account(pk_name: str, pk, field: str, data):
     obtain information for an account
     if account does not exists, attribute error is raised
     else account updated in student_account and student_account_backup
+    field can only be "username", "password" or "salt"
     pk_name can only be "account_id" or "username"
+    if username already exists and is to be updated, attribute error is raised
     """
     if student_account.retrieve(pk_name, pk) is None:
         raise AttributeError("Account does not exist")
+    if field == "username" and student_account.retrieve("username", data) is not None:
+        raise AttributeError("Username already exist")
     student_account.update(pk_name, pk, field, data)
     student_account_backup.update(pk_name, pk, field, data)
 
@@ -69,12 +74,35 @@ def delete_account(pk_name: str, pk):
     student_account.delete(pk_name, pk)
     student_account_backup.delete(pk_name, pk)
 
+
+# FOR STUDENT TABLE
 def create_profile(name, _class, email, account_id):
     """
-    insert date into student_profile and student_profile_backup
+    insert data into student_profile and student_profile_backup
+    if account_id does not exist in account table, attribute error is raised
+    if account_id already exist in student table, attribute error is raised
     """
+    if student_account.retrieve("account_id", account_id) is None:
+        raise AttributeError("Invalid account id")
     student_profile.insert(name, _class, email, account_id)
     student_profile_backup.insert(name, _class, email, account_id)
+
+def update_retrieve(pk_name: str, pk, field: str, data):
+    """
+    obtain information for an account
+    if account does not exists, attribute error is raised
+    else account updated in student_account and student_account_backup
+    field can only be "username", "password" or "salt"
+    pk_name can only be "account_id" or "username"
+    if username already exists and is to be updated, attribute error is raised
+    """
+    if student_account.retrieve(pk_name, pk) is None:
+        raise AttributeError("Account does not exist")
+    if field == "username" and student_account.retrieve("username", data) is not None:
+        raise AttributeError("Username already exist")
+    student_account.update(pk_name, pk, field, data)
+    student_account_backup.update(pk_name, pk, field, data)
+
 
 def retrieve_profile(student_id: str):
     """
