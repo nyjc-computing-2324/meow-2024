@@ -161,9 +161,6 @@ class JunctionTable(Table):
             cursor.execute(query, param)
             conn.commit()
 
-    
-        
-
 class Account(Table):
     table_name: str = "account"
     fields = ["account_id", "username", "password", "salt"]
@@ -211,7 +208,7 @@ class Account(Table):
         raises Attributes error if field is invalid
         checks for repeated username should already be done if username is being updated
         """
-        self._valid_field_else_error(field)            
+        self._valid_field_else_error(field)           
         with sqlite3.connect(self.database_name) as conn:
             cursor = conn.cursor()            
             query = f"""
@@ -320,7 +317,7 @@ class Student(Table):
         checks for valid account_id should already be done
         raises Attributes error if field is invalid
         """
-
+        self._valid_field_else_error(field)
         with sqlite3.connect(self.database_name) as conn:
             cursor = conn.cursor()
             query = f"""
