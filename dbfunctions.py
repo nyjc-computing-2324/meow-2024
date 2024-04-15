@@ -5,6 +5,10 @@ import auth
 student_account = Account("meow.db")
 student_account_backup = Account("backup.db")
 
+student_profile = Student('meow.db')
+student_profile_backup = Student('backup.db')
+
+
 def create_account(username: str, password: str):
     """
     create account for new users
@@ -15,30 +19,6 @@ def create_account(username: str, password: str):
         password, salt = auth.create_hash(password)
         student_account.insert(username, password, salt)
         student_account_backup.insert(username, password, salt)
-
-def retrieve_account(field: str, data: str) -> dict:
-    """
-    obtain information for an account
-    if account does not exists, attribute error is raised
-    else a dictionary of account_id, username, password, salt is returned
-    """
-    if student_account.retrieve(field, data) is None:
-        raise AttributeError("Account does not exist")
-    account_id, username, password, salt = record
-    record_dict = {'account_id': account_id, 'username': username, 'password': password, 'salt': salt}
-    return record_dict
-    
-
-def delete_account(field: str, data: str):
-    """
-    check if account exists
-    if false raise attribute error
-    if true delete account from student_account and student_account_backup
-    """
-    if student_account.retrieve("username", username) is None:
-        raise AttributeError("Account does not exist.")
-    student_account.delete(field, data)
-    student_account_backup.delete(field, data)
 
 def login(username: str , password: str) -> bool:
     # checks for valid username and password is already done 
@@ -52,9 +32,42 @@ def login(username: str , password: str) -> bool:
     # salting and hashing of password implemented 
     return auth.check_password(password, database_password, database_salt)
 
-# instantiating table objects
-student_profile = Student('meow.db')
-student_profile_backup = Student('backup.db')
+def update_account(field: str, data: str):
+    """
+    obtain information for an account
+    if account does not exists, attribute error is raised
+    else account updated in student_account and student_account_backup
+    """
+    record = student_account.retrieve(field, data)
+    if record is None:
+        raise AttributeError("Account does not exist")
+    account_id, username, password, salt = record
+    record_dict = {'account_id': account_id, 'username': username, 'password': password, 'salt': salt}
+    return record_dict
+
+
+def retrieve_account(pk_name: str, pk) -> dict:
+    """
+    obtain information for an account
+    if account does not exists, attribute error is raised
+    else a dictionary of account_id, username, password, salt is returned
+    """
+    record = student_account.retrieve(pk_name, pk)
+    if record is None:
+        raise AttributeError("Account does not exist")
+    account_id, username, password, salt = record
+    record_dict = {'account_id': account_id, 'username': username, 'password': password, 'salt': salt}
+    return record_dict
+
+def delete_account(field: str, data: str):
+    """
+    if account does not exists, attribute error is raised
+    else delete account from student_account and student_account_backup
+    """
+    if student_account.retrieve(field, data) is None:
+        raise AttributeError("Account does not exist.")
+    student_account.delete(field, data)
+    student_account_backup.delete(field, data)
 
 def create_profile(name, _class, email, account_id):
     """

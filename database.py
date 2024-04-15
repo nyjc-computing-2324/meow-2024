@@ -199,27 +199,31 @@ class Account(Table):
             conn.commit()
             #conn.close() called automatically
         
-    def update(self, account_id: int, field: str, new):
+    def update(self, pk_name: str, pk, field: str, new):
         """
         update existing records in the database
         field can only be "username", "password" or "salt"
+        pk_name can only be "account_id" or "username"
         raises Attributes error if field is invalid
         checks for repeated username should already be done if username is being updated
         """
         self._valid_field_else_error(field)           
+        if pk_name not in ['account_id', 'username']:
+            raise AttributeError(f"Invalid pk_name '{pk_name}'")
+        
         with sqlite3.connect(self.database_name) as conn:
             cursor = conn.cursor()            
             query = f"""
                     UPDATE {self.table_name} 
                     SET {field} = ? 
-                    WHERE "account_id" = ? 
+                    WHERE {pk_name} = ? 
                     """
-            params = (new, account_id)
+            params = (new, pk)
             cursor.execute(query, params)
             conn.commit()
             #conn.close() called automatically
 
-    def retrieve(self, pk_name: str, data) -> tuple:
+    def retrieve(self, pk_name: str, pk) -> tuple:
         """
         find existing records in the database
         pk_name can only be "account_id" or "username"
@@ -242,22 +246,22 @@ class Account(Table):
             #conn.close() called automatically
             return record
 
-    def delete(self, field: str, data):
+    def delete(self, pk_name: str, pk):
         """
         remove existing records in the database
-        field can only be "account_id" or "username"
+        pk_name can only be "account_id" or "username"
         raises Attributes error if field is invalid
         """
-        if field not in ['account_id', 'username']:
-            raise AttributeError(f"Invalid field '{field}'")
+        if pk_name not in ['account_id', 'username']:
+            raise AttributeError(f"Invalid pk_name '{pk_name}'")
             
         with sqlite3.connect(self.database_name) as conn:
             cursor = conn.cursor()
             query = f"""
                     DELETE FROM {self.table_name}
-                    WHERE {field} = ?;
+                    WHERE {pk_name} = ?;
                     """
-            param = (data,)
+            param = (pk,)
             cursor.execute(query, param)
             conn.commit()
             #conn.close() called automatically
