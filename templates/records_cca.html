@@ -70,7 +70,10 @@
 
         <button class="plus-button"> + </button>
         
-        {% include 'navigation.html' %}
+        {% set page = "records" %}
+        {% block content %}
+            {% include 'navigation.html' %}
+        {% endblock %}
     </body>
     
     </html>
