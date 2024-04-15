@@ -8,7 +8,7 @@ def quote_join(list_of_str: list[str], enquote: bool = False) -> str:
     if enquote == True, returns '"hello", "bye"'
     """
     if enquote:
-        return ", ".join([f'"{str_}"' for str_ in list_of_str])_
+        return ", ".join([f'"{str_}"' for str_ in list_of_str])
     else:
         return ", ".join(list_of_str)
 
