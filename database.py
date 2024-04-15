@@ -16,7 +16,7 @@ class Table:
     """parent class for all subsequent tables"""
     table_name: str
     pk_name: str    #stands for primary key name
-    fields: list
+    fields: list[str]
 
     def __init__(self, database_name: str):
         """create a table upon initialisation of the class"""
@@ -573,8 +573,8 @@ class StudentActivity(JunctionTable):
                     {self.pk1_name} INTEGER,
                     {self.pk2_name} INTEGER,
                     PRIMARY KEY ({self.pk1_name}, {self.pk2_name}),
-                    FOREIGN KEY ({self.pk1_name}) REFERENCES cca("student_id"),
-                    FOREIGN KEY ({self.pk2_name}) REFERENCES student("activity_id")
+                    FOREIGN KEY ({self.pk1_name}) REFERENCES student("student_id"),
+                    FOREIGN KEY ({self.pk2_name}) REFERENCES activity("activity_id")
                 );
                 """
             )
@@ -588,21 +588,26 @@ class StudentActivity(JunctionTable):
             query = f"""
                 INSERT INTO {self.database_name} ({self.pk1_name}, {self.pk2_name}) VALUES (?,?);
             """
-            params = (activity_id, student_id)
+            params = (student_id, activity_id)
             cursor.execute(query, params)
             conn.commit()
             #conn.close() is called automatically
 
-    def retrieve(self, student_id: int, activity_id: int):
-        """find existing records in the database"""
+    def retrieve(self, pk: int, pk_name: str):
+        """
+        find existing records in the database
+        pk_name can only be "student_id" or "activity_id"
+        retrieves all data regarding the student or activity
+        """
+        self._valid_field_else_error(pk_name)
         with sqlite3.connect(self.database_name) as conn:
             cursor = conn.cursor()
             query = f"""
                     SELECT *
                     FROM {self.database_name}
-                    WHERE {self.pk1_name} = ? AND {self.pk2_name} = ?;
+                    WHERE {pk_name} = ?;
                     """
-            params = (student_id, activity_id)
+            params = (pk,)
             cursor.execute(query, params)
             record = cursor.fetchall()
             conn.commit()
@@ -643,8 +648,8 @@ class StudentCCA(JunctionTable):
                     {self.pk2_name} INTEGER,
                     "role" TEXT NOT NULL,
                     PRIMARY KEY ({self.pk1_name}, {self.pk2_name}),
-                    FOREIGN KEY ({self.pk1_name}) REFERENCES cca("student_id"),
-                    FOREIGN KEY ({self.pk2_name}) REFERENCES student("cca_id")
+                    FOREIGN KEY ({self.pk1_name}) REFERENCES student("student_id"),
+                    FOREIGN KEY ({self.pk2_name}) REFERENCES cca("cca_id")
                 );
                 """
             )
@@ -658,7 +663,7 @@ class StudentCCA(JunctionTable):
             query = f"""
                 INSERT INTO {self.database_name} ({self.pk1_name}, {self.pk2_name}, "role") VALUES (?,?,?);
             """
-            params = (cca_id, student_id, role)
+            params = (student_id, cca_id, role)
             cursor.execute(query, params)
             conn.commit()
             #conn.close() is called automatically
@@ -681,16 +686,21 @@ class StudentCCA(JunctionTable):
             conn.commit()
             #conn.close() called automatically
 
-    def retrieve(self, student_id: int, cca_id: int):
-        """find existing records in the database"""
+    def retrieve(self, pk: int, pk_name: str):
+        """
+        find existing records in the database
+        pk_name can only be "student_id" or "cca_id"
+        retrieves all data regarding the student or cca
+        """
+        self._valid_field_else_error(pk_name)
         with sqlite3.connect(self.database_name) as conn:
             cursor = conn.cursor()
             query = f"""
                     SELECT *
                     FROM {self.database_name}
-                    WHERE {self.pk1_name} = ? AND {self.pk2_name} = ?;
+                    WHERE {pk_name} = ?;
                     """
-            params = (cca_id, student_id)
+            params = (pk,)
             cursor.execute(query, params)
             record = cursor.fetchall()
             conn.commit()
@@ -705,6 +715,6 @@ class StudentCCA(JunctionTable):
                     DELETE FROM {self.database_name}
                     WHERE {self.pk1_name} = ? AND {self.pk2_name} = ?;        
                     """
-            param = (cca_id, student_id)
-            cursor.execute(query, param)
+            params = (student_id, cca_id)
+            cursor.execute(query, params)
             conn.commit()
