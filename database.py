@@ -634,9 +634,6 @@ class StudentCCA(JunctionTable):
         """
         create a table upon initialisation of the class
         (cca_id, student_id) for pk
-    
-        This class has no .update() method.
-        To "update", instead use .remove() and .insert()
         """
         self.database_name = database_name
         with sqlite3.connect(self.database_name) as conn:
@@ -656,7 +653,7 @@ class StudentCCA(JunctionTable):
             conn.commit()
             #conn.close() called automatically
     
-    def insert(self, cca_id: int, student_id: int, role: str):
+    def insert(self, student_id: int, cca_id: int, role: str):
         """insert new records into the database"""
         with sqlite3.connect(self.database_name) as conn:
             cursor = conn.cursor()
@@ -668,7 +665,25 @@ class StudentCCA(JunctionTable):
             conn.commit()
             #conn.close() is called automatically
 
-    def retrieve(self, cca_id: int, student_id: int):
+    def update(self, student_id: int, cca_id: int, new: str):
+        """
+        update existing records in the database
+        only role could be updated
+        To "update" student_id or cca_id, instead use .remove() and .insert()
+        """
+        with sqlite3.connect(self.database_name) as conn:
+            cursor = conn.cursor()            
+            query = f"""
+                    UPDATE {self.table_name} 
+                    SET "role" = ? 
+                    WHERE {self.pk1_name} = ? AND {self.pk2_name}
+                    """
+            params = (new, student_id, cca_id)
+            cursor.execute(query, params)
+            conn.commit()
+            #conn.close() called automatically
+
+    def retrieve(self, student_id: int, cca_id: int):
         """find existing records in the database"""
         with sqlite3.connect(self.database_name) as conn:
             cursor = conn.cursor()
@@ -685,7 +700,7 @@ class StudentCCA(JunctionTable):
             #conn.close() is called automatically
         return record
 
-    def delete(self, cca_id: int, student_id: int):
+    def delete(self, student_id: int, cca_id: int):
         """remove existing records in the database"""
         with sqlite3.connect(self.database_name) as conn:
             cursor = conn.cursor()
