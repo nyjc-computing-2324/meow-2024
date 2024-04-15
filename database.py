@@ -570,8 +570,11 @@ class StudentActivity(JunctionTable):
             cursor.execute(
                 f"""
                 CREATE TABLE IF NOT EXISTS {self.table_name} (
-                    {self.pk1_name} INTEGER PRIMARY KEY,
-                    {self.pk2_name} INTEGER PRIMARY KEY
+                    {self.pk1_name} INTEGER,
+                    {self.pk2_name} INTEGER,
+                    PRIMARY KEY ({self.pk1_name}, {self.pk2_name}),
+                    FOREIGN KEY ({self.pk1_name}) REFERENCES cca("student_id"),
+                    FOREIGN KEY ({self.pk2_name}) REFERENCES student("activity_id")
                 );
                 """
             )
@@ -623,9 +626,9 @@ class StudentActivity(JunctionTable):
 class StudentCCA(JunctionTable):
 
     table_name: str = "studentcca"
-    pk1_name: str = "cca_id"
-    pk2_name: str = "student_id"
-    fields = ["cca_id", "student_id", "role"]
+    pk1_name: str = "student_id"
+    pk2_name: str = "cca_id"
+    fields = ["student_id", "cca_id", "role"]
     
     def __init__(self, database_name):
         """
@@ -641,9 +644,12 @@ class StudentCCA(JunctionTable):
             cursor.execute(
                 f"""
                 CREATE TABLE IF NOT EXISTS {self.table_name} (
-                    {self.pk1_name} INTEGER PRIMARY KEY,
-                    {self.pk2_name} INTEGER PRIMARY KEY,
-                    "role" TEXT NOT NULL
+                    {self.pk1_name} INTEGER,
+                    {self.pk2_name} INTEGER,
+                    "role" TEXT NOT NULL,
+                    PRIMARY KEY ({self.pk1_name}, {self.pk2_name}),
+                    FOREIGN KEY ({self.pk1_name}) REFERENCES cca("student_id"),
+                    FOREIGN KEY ({self.pk2_name}) REFERENCES student("cca_id")
                 );
                 """
             )
