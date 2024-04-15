@@ -6,23 +6,24 @@ student_account = Account("meow.db")
 student_account_backup = Account("backup.db")
 
 def create_account(username: str, password: str):
-    # checks for valid username and password is already done 
+    """
+    create account for new users
+    checks for valid username and password is already done 
+    """
     # check for repeated username
     if student_account.retrieve("username", username) is None:
         password, salt = auth.create_hash(password)
         student_account.insert(username, password, salt)
         student_account_backup.insert(username, password, salt)
 
-def retrieve_account(field: str, data: str) -> tuple:
+def retrieve_account(field: str, data: str) -> dict:
     """
-    xinyu
-    check if account exists
-    if false raise attribute error
-    if true return a dictionary of account_id, username, password, salt
+    obtain information for an account
+    if account does not exists, attribute error is raised
+    else a dictionary of account_id, username, password, salt is returned
     """
-    record = student_account.retrieve(field, data)
-    if record is None:
-        raise AttributeError("Account does not exist.")
+    if student_account.retrieve(field, data) is None:
+        raise AttributeError("Account does not exist")
     account_id, username, password, salt = record
     record_dict = {'account_id': account_id, 'username': username, 'password': password, 'salt': salt}
     return record_dict
@@ -30,7 +31,6 @@ def retrieve_account(field: str, data: str) -> tuple:
 
 def delete_account(field: str, data: str):
     """
-    xinyu
     check if account exists
     if false raise attribute error
     if true delete account from student_account and student_account_backup

@@ -219,21 +219,21 @@ class Account(Table):
             conn.commit()
             #conn.close() called automatically
 
-    def retrieve(self, field: str, data) -> tuple:
+    def retrieve(self, pk_name: str, data) -> tuple:
         """
         find existing records in the database
-        field can only be "account_id" or "username"
+        pk_name can only be "account_id" or "username"
         raises Attributes error if field is invalid
         """
-        if field not in ['account_id', 'username']:
-            raise AttributeError(f"Invalid field '{field}'")
+        if pk_name not in ['account_id', 'username']:
+            raise AttributeError(f"Invalid pk_name '{pk_name}'")
         
         with sqlite3.connect(self.database_name) as conn:
             cursor = conn.cursor()
             query = f"""
                     SELECT *
                     FROM {self.table_name}
-                    WHERE {field} = ?;
+                    WHERE {pk_name} = ?;
                     """
             params = (data,)
             cursor.execute(query, params)
