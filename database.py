@@ -598,11 +598,10 @@ class StudentActivity(JunctionTable):
         with sqlite3.connect(self.database_name) as conn:
             cursor = conn.cursor()
             query = f"""
-                SELECT *
-                FROM {self.database_name}
-                WHERE {self.pk1_name} = ? AND 
-                      {self.pk2_name} = ?;
-            """
+                    SELECT *
+                    FROM {self.database_name}
+                    WHERE {self.pk1_name} = ? AND {self.pk2_name} = ?;
+                    """
             params = (student_id, activity_id)
             cursor.execute(query, params)
             record = cursor.fetchall()
@@ -616,8 +615,7 @@ class StudentActivity(JunctionTable):
             cursor = conn.cursor()
             query = f"""
                     DELETE FROM {self.database_name}
-                    WHERE {self.pk1_name} = ? AND
-                          {self.pk2_name} = ?;
+                    WHERE {self.pk1_name} = ? AND {self.pk2_name} = ?;
                     """
             param = (student_id, activity_id)
             cursor.execute(query, param)
@@ -676,7 +674,7 @@ class StudentCCA(JunctionTable):
             query = f"""
                     UPDATE {self.table_name} 
                     SET "role" = ? 
-                    WHERE {self.pk1_name} = ? AND {self.pk2_name}
+                    WHERE {self.pk1_name} = ? AND {self.pk2_name};
                     """
             params = (new, student_id, cca_id)
             cursor.execute(query, params)
@@ -688,11 +686,10 @@ class StudentCCA(JunctionTable):
         with sqlite3.connect(self.database_name) as conn:
             cursor = conn.cursor()
             query = f"""
-                SELECT *
-                FROM {self.database_name}
-                WHERE {self.pk1_name} = ? AND 
-                      {self.pk2_name} = ?;
-            """
+                    SELECT *
+                    FROM {self.database_name}
+                    WHERE {self.pk1_name} = ? AND {self.pk2_name} = ?;
+                    """
             params = (cca_id, student_id)
             cursor.execute(query, params)
             record = cursor.fetchall()
@@ -706,8 +703,7 @@ class StudentCCA(JunctionTable):
             cursor = conn.cursor()
             query = f"""
                     DELETE FROM {self.database_name}
-                    WHERE {self.pk1_name} = ? AND
-                          {self.pk2_name} = ?;        
+                    WHERE {self.pk1_name} = ? AND {self.pk2_name} = ?;        
                     """
             param = (cca_id, student_id)
             cursor.execute(query, param)
