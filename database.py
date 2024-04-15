@@ -9,8 +9,8 @@ def quote_join(list_of_str: list[str], enquote: bool = False) -> str:
     """
     if enquote:
         return ", ".join([f'"{str_}"' for str_ in list_of_str])
-    else:
-        return ", ".join(list_of_str)
+    
+    return ", ".join(list_of_str)
 
 class Table:
     """parent class for all subsequent tables"""
@@ -39,7 +39,7 @@ class Table:
         keys of type str referring to the fields
         values of type str referring to the values to be put in the cells
 
-        The record dict must be created with they keys
+        The record dict must be created with the keys
         following the same order as in self.fields.
         This is NOT checked in this method!
         """
