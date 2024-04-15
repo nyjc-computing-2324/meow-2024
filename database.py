@@ -38,10 +38,6 @@ class Table:
         record argument that is passed should have:
         keys of type str referring to the fields
         values of type str referring to the values to be put in the cells
-
-        The record dict must be created with the keys
-        following the same order as in self.fields.
-        This is NOT checked in this method!
         """
         # check that all fields in record is valid
         for field in record:
@@ -58,7 +54,10 @@ class Table:
             query = f"""
                     INSERT INTO {self.table_name} ({fieldstr}) VALUES ({qnmarks});
                     """
-            params = tuple(record.values())
+            # formatting the params
+            params = (record[self.fields[0]],)
+            for field in self.fields[1:]:
+                params += (record[field],)
             cursor.execute(query, params)
             conn.commit()
             #conn.close() called automatically 
@@ -121,11 +120,7 @@ class JunctionTable(Table):
 
         record argument that is passed should have:
         keys of type str referring to the fields
-        values of type str referring to the values to be put in the cells
-
-        The record dict must be created with they keys
-        following the same order as in self.fields.
-        This is NOT checked in this method!
+        values of the correct type referring to the values to be put in the cells
         """
         # check that all fields in record is valid
         for field in record:
@@ -142,7 +137,10 @@ class JunctionTable(Table):
             query = f"""
                     INSERT INTO {self.table_name} ({fieldstr}) VALUES ({qnmarks});
                     """
-            params = tuple(record.values())
+            # formatting the params
+            params = (record[self.fields[0]],)
+            for field in self.fields[1:]:
+                params += (record[field],)
             cursor.execute(query, params)
             conn.commit()
             #conn.close() called automatically        
