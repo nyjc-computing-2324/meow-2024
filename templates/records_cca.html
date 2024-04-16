@@ -2,48 +2,78 @@
 <!DOCTYPE html>
 <html>
     <head>
+        <link rel="stylesheet" type="text/css" href="{{ url_for('static', filename='css/records.css') }}">
         <title>CCA Record</title>
     </head>
 
     <body>
-        <h3>My records</h3>
+        <!-- <section class="topbar-section">
+            <img class="logo-img1" src="{{ url_for('static',filename= 'images/cat.svg') }}">
+            <span class="logo-text1">
+                Meow
+            </span>
+            <a class="record-text" href="/temp" target="new">My Records</a>
+            <span class="divider">|</span>
+            <a class="manage-text" href = "/temp" target="new">Manage</a>
+            <span class="divider">|</span>
+            <a class="logout-text" href="/temp" target="new">Log out</a>
+            <!--<span class="topbar-circle"></span>
+        </section> -->
+
         </br>
-        <div>
-            <p>CCA &nbsp;&nbsp;&nbsp;&nbsp; Activities</p>
+
+        <div class="myrecord-textbox">
+            <h3 class="myrecord-text">My records</h3>
         </div>
         
-        </br>
+        <div>
+            <button class="cca-activity-text-button">CCA</button><button class="cca-activity-text-button">Activities</button>
+        </div>
+
+        <div class="general-text">
+            <div class="general-textbox">
+                <span class="circle"></span>
+                <span>
+                    <h3>Robotics</h3>
+                    <span>Year: 2015 - 2018 &nbsp;&nbsp;&nbsp;&nbsp; Role: Vice President &nbsp;&nbsp;&nbsp;&nbsp; Type: Clubs and societies </span>
+                    <span class="status-text">Status: Graduated</span>
+                </span>
+            </div>
+
+            <div class="general-textbox">
+                <span class="circle"></span>
+                <span>
+                    <h3>Symphonic Band</h3>
+                    <span>Year: 2019 - 2023 &nbsp;&nbsp;&nbsp;&nbsp; Role: Member &nbsp;&nbsp;&nbsp;&nbsp; Type: Performing Arts </span>
+                    <span class="status-text">Status: Graduated</span>
+                </span>
+            </div>
+
+            <div class="general-textbox">
+                <span class="circle"></span>
+                <span>
+                    <h3>Football</h3>
+                    <span>Year: 2022 - 2023 &nbsp;&nbsp;&nbsp;&nbsp; Role: Captain &nbsp;&nbsp;&nbsp;&nbsp; Type: Sports </span>
+                    <span class="status-text">Status: <span style="color:red">Inactive</span> </span>
+                </span>
+            </div>
+
+            <div class="general-textbox">
+                <span class="circle"></span>
+                <span>
+                    <h3>Floorball</h3>
+                    <span>Year: 2023 - &nbsp;&nbsp;&nbsp;&nbsp; Role: Logistics &nbsp;&nbsp;&nbsp;&nbsp; Type: Sports </span>
+                    <span class="status-text">Status: <span style="color:mediumseagreen">Active</span> </span>
+                </span>
+            </div>
+        </div>
+
+        <button class="plus-button"> + </button>
         
-        <div>
-            <h3>Robotics</h3>
-            <span>Year: 2015 - 2018 &nbsp;&nbsp;&nbsp;&nbsp; Role: Vice President &nbsp;&nbsp;&nbsp;&nbsp; Type: Clubs and societies </span>
-            <span>Status: Graduated</span>
-        </div>
-
-        </br>
-
-        <div>
-            <h3>Symphonic Band</h3>
-            <span>Year: 2019 - 2023 &nbsp;&nbsp;&nbsp;&nbsp; Role: Member &nbsp;&nbsp;&nbsp;&nbsp; Type: Performing Arts</span>
-            <span>Status: Graduated</span>
-        </div>
-
-        </br>
-
-        <div>
-            <h3>Football</h3>
-            <span>Year: 2022 - 2023 &nbsp;&nbsp;&nbsp;&nbsp; Role: Captain &nbsp;&nbsp;&nbsp;&nbsp; Type: Sports</span>
-            <span>Status: Inactive</span>
-        </div>
-
-        </br>
-
-        <div>
-            <h3>Floorball</h3>
-            <span>Year: 2023 - &nbsp;&nbsp;&nbsp;&nbsp; Role: Logistics &nbsp;&nbsp;&nbsp;&nbsp; Type: Sports</span>
-            <span>Status: Active</span>
-        </div>
-        {% include 'navigation.html' %}
+        {% set page = "records" %}
+        {% block content %}
+            {% include 'navigation.html' %}
+        {% endblock %}
     </body>
-
-</html>
+    
+    </html>
