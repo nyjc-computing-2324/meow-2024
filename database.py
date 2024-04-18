@@ -611,7 +611,7 @@ class StudentActivity(JunctionTable):
         with sqlite3.connect(self.database_name) as conn:
             cursor = conn.cursor()
             query = f"""
-                INSERT INTO {self.database_name} ({self.pk1_name}, {self.pk2_name}) VALUES (?,?);
+                INSERT INTO {self.table_name} ({self.pk1_name}, {self.pk2_name}) VALUES (?,?);
             """
             params = (student_id, activity_id)
             cursor.execute(query, params)
@@ -629,7 +629,7 @@ class StudentActivity(JunctionTable):
             cursor = conn.cursor()
             query = f"""
                     SELECT *
-                    FROM {self.database_name}
+                    FROM {self.table_name}
                     WHERE {pk_name} = ?;
                     """
             params = (pk, )
@@ -644,7 +644,7 @@ class StudentActivity(JunctionTable):
         with sqlite3.connect(self.database_name) as conn:
             cursor = conn.cursor()
             query = f"""
-                    DELETE FROM {self.database_name}
+                    DELETE FROM {self.table_name}
                     WHERE {self.pk1_name} = ? AND {self.pk2_name} = ?;
                     """
             param = (student_id, activity_id)
@@ -685,7 +685,7 @@ class StudentCCA(JunctionTable):
         with sqlite3.connect(self.database_name) as conn:
             cursor = conn.cursor()
             query = f"""
-                INSERT INTO {self.database_name} ({self.pk1_name}, {self.pk2_name}, "role") VALUES (?,?,?);
+                INSERT INTO {self.table_name} ({self.pk1_name}, {self.pk2_name}, "role") VALUES (?,?,?);
             """
             params = (student_id, cca_id, role)
             cursor.execute(query, params)
@@ -736,7 +736,7 @@ class StudentCCA(JunctionTable):
         with sqlite3.connect(self.database_name) as conn:
             cursor = conn.cursor()
             query = f"""
-                    DELETE FROM {self.database_name}
+                    DELETE FROM {self.table_name}
                     WHERE {self.pk1_name} = ? AND {self.pk2_name} = ?;        
                     """
             params = (student_id, cca_id)
