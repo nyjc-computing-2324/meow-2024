@@ -10,29 +10,6 @@
     max-width : 1519px;
 }
 
-/* .topbar-section{
-    background-color: white;
-    height: 60px;
-    min-width : 100%;
-    display: flex;
-    align-items: center;
-    padding-left: 30px;
-    vertical-align: middle;
-    box-shadow: 0px 5px 5px #d9d9d9;
-}
-
-.logo-img1 {
-    height: 40px;
-    width: 40px;
-}
-
-.logo-text1 {
-    font-family : comfortaa;
-    font-size : 30px;
-    } */
-
-
-
 .record-text{
     position : relative;
     left : 950px;
@@ -92,7 +69,6 @@
 .general-text{
     font-family : comfortaa;
     font-size : 18px;
-    /* display: inline-block; */
     margin-top: 150px;
 }
 
