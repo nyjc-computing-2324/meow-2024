@@ -229,33 +229,84 @@ def delete_activity(activity_id: int):
     activity_info_backup.delete(activity_id)
 
 # FOR STUDENT ACTIVITY
-def create_studentactivity(student_id: int, activity_id: int):
+def create_studentactivity(student_id: int, activity_id: int) -> None:
+    """
+    if student_id does not exist in junction table, attribute error is raised
+    if activity_id does not exist in junction table, attribute error is raised
+    else data is inserted into student_activity and student_activity_backup
+    """
     if student_profile.retrieve("student_id", student_id) is None:
-        raise AttributeError("Invalid student id")
+        raise AttributeError("Invalid student id.")
     if activity_info.retrieve("activity_id", activity_id) is None:
-        raise AttributeError("Invalid activity id")
+        raise AttributeError("Invalid activity id.")
     student_activity.insert(student_id, activity_id)
     student_activity_backup.insert(student_id, activity_id)
 
-def retrieve_studentactivity(pk_name: str, pk: int):
-    pass
+def retrieve_studentactivity(pk_name: str, pk: int) -> list(tuple):
+    """
+    obtain information for an student activity
+    if student activity does not exists, attribute error is raised
+    else a list of tuple of (student_id, activity_id) is returned
+    """
+    record = student_activity.retrieve(pk_name, pk)
+    if record is None:
+        raise AttributeError("Student activity does not exist.")
+    return record
 
-def delete_studentactivity(student_id: int, activity_id: int):
-    pass
+def delete_studentactivity(student_id: int, activity_id: int) -> None:
+    """
+    if account does not exists, attribute error is raised
+    else delete account from student_activity and student_activity_backup
+    """
+    if student_activity.retrieve("student_id", student_id) is None:
+        raise AttributeError("Student activity does not exist.")
+    student_activity.delete(student_id, activity_id)
+    student_activity_backup.delete(student_id, activity_id)
 
 # FOR STUDENT CCA 
 def create_studentcca(student_id: int, cca_id: int, role: str):
+    """
+    if student_id does not exist in junction table, attribute error is raised
+    if cca_id does not exist in junction table, attribute error is raised
+    else data is inserted into student_cca and student_cca_backup
+    """
     if student_profile.retrieve("student_id", student_id) is None:
-        raise AttributeError("Invalid student id")
+        raise AttributeError("Invalid student id.")
     if cca_info.retrieve("cca_id", cca_id) is None:
-        raise AttributeError("Invalid cca id")
+        raise AttributeError("Invalid cca id.")
     student_cca.insert(student_id, cca_id, role)
     student_cca_backup.insert(student_id, cca_id, role)
 
 def update_studentcca(student_id: int, cca_id: int, new: str):
-    pass
+    """
+    if student_id does not exists, attribute error is raised
+    if cca_id does not exist, attribute error is raised
+    else student cca updated in student_cca and student_cca_backup
+    """
+    if student_cca.retrieve("student_id", student_id) is None:
+        raise AttributeError("Student cca does not exist.")
+    if student_cca.retrieve("cca_id", cca_id) is None:
+        raise AttributeError("Student cca does not exist.")
+    student_cca.update(student_id, cca_id, new)
+    student_cca_backup.update(student_id, cca_id, new)
 
-def retrieve_studentcca(pk_name: int, pk: int):
-    pass
+def retrieve_studentcca(pk_name: int, pk: int) -> list(tuple):
+    """
+    obtain information for an student cca
+    if student cca does not exists, attribute error is raised
+    else a list of tuple of (student_id, cca_id) is returned
+    """
+    record = student_cca.retrieve(pk_name, pk)
+    if record is None:
+        raise AttributeError("Student cca does not exist.")
+    return record
 
 def delete_studentcca(student_id: int, cca_id: int):
+    """
+    if account does not exists, attribute error is raised
+    else delete account from student_cca and student_cca_backup
+    """
+    if student_cca.retrieve("student_id", student_id) is None:
+        raise AttributeError("Student cca does not exist.")
+    student_cca.delete(student_id, cca_id)
+    student_cca_backup.delete(student_id, cca_id)
