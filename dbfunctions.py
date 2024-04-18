@@ -1,4 +1,4 @@
-from database import Account, Student, CCA, Activity
+from database import Account, Student, CCA, Activity, StudentActivity, StudentCCA
 import auth
 
 # instantiating table objects
@@ -18,6 +18,13 @@ activity_account = Activity("meow.db")
 activity_account_backup = Activity("backup.db")
 activity_account_testing = Activity("test.db")
 
+student_activity = StudentActivity('meow.db')
+student_activity_backup = StudentActivity('backup.db')
+student_activity_testing = StudentActivity('test.db')
+
+student_cca = StudentCCA('meow.db')
+student_cca_backup = StudentCCA('backup.db')
+student_cca_testing = StudentCCA('test.db')
 
 # FOR ACCOUNT TABLE
 def create_account(username: str, password: str):
@@ -159,5 +166,24 @@ def retrieve_activity():
 def delete_activity():
     pass
 
-# FOR JUNCTION TABLE
+# FOR STUDENT ACTIVITY
+def create_studentactivity():
+    pass
 
+def retrieve_studentactivity():
+    pass
+
+def delete_studentactivity():
+    pass
+
+# FOR STUDENT CCA 
+def create_studentcca(name: str, type: str):
+    pass
+
+def update_studentcca():
+    pass
+
+def retrieve_studentcca():
+    pass
+
+def delete_studentcca():
