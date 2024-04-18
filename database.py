@@ -115,7 +115,7 @@ class JunctionTable(Table):
     pk2_name: str
     fields: list[str]
 
-    def insert(self, record: dict):
+    def insert(self, record: dict) -> None:
         """
         inserts the record into the junction table
         
@@ -128,13 +128,15 @@ class JunctionTable(Table):
         keys of type str referring to the fields
         values of the correct type referring to the values to be put in the cells
         """
-        # check that all fields in record is valid
-        for field in record:
-            self._valid_field_else_error(field)
-        # check that record has all fields required
-        for field in self.fields:
-            if field not in record:
-                raise AttributeError(f"field {field} not in record argument")
+        if sorted(record) != sorted(self.fields):
+            raise AttributeError("Wrong record format, wrong fields")
+        # # check that all fields in record is valid
+        # for field in record:
+        #     self._valid_field_else_error(field)
+        # # check that record has all fields required
+        # for field in self.fields:
+        #     if field not in record:
+        #         raise AttributeError(f"field {field} not in record argument")
         with sqlite3.connect(self.database_name) as conn:
             cursor = conn.cursor()
             # formatting the query
@@ -149,6 +151,7 @@ class JunctionTable(Table):
                 params += (record[field], )
             cursor.execute(query, params)
             conn.commit()
+<<<<<<< HEAD
             #conn.close() called automatically
 
     def delete(self, pk1_value, pk2_value):
@@ -164,12 +167,19 @@ class JunctionTable(Table):
             param = (pk1_value, pk2_value)
             cursor.execute(query, param)
             conn.commit()
+=======
+>>>>>>> b7789a2 (studentcca refactoring, commenting out code to rely on parent class junctiontable)
 
     def retrieve_all(self, pk_name: str, pk: int) -> list[tuple]:
         """
         find existing records in the database
         pk_name can only be "student_id" or "cca_id"
         retrieves all data regarding the student or cca
+
+        e.g. using a StudentCCA object:
+        .retrieve_all("cca_id", 3)
+        returns
+        [(5, 3, "member"), (7. 3, "president"), (10, 3, "member")]
         """
         self._valid_field_else_error(pk_name)
         with sqlite3.connect(self.database_name) as conn:
@@ -186,6 +196,22 @@ class JunctionTable(Table):
             #conn.close() is called automatically
         return record
 
+<<<<<<< HEAD
+=======
+    def delete(self, pk1_value: int, pk2_value: int) -> None:
+        """remove existing records in the database using composite primary keys """
+        with sqlite3.connect(self.database_name) as conn:
+            cursor = conn.cursor()
+            query = f"""
+                    DELETE FROM {self.table_name}
+                    WHERE {self.pk1_name} = ?
+                    AND
+                    {self.pk2_name} = ?;
+                    """
+            param = (pk1_value, pk2_value)
+            cursor.execute(query, param)
+            conn.commit()
+>>>>>>> b7789a2 (studentcca refactoring, commenting out code to rely on parent class junctiontable)
 
 class Account(Table):
     table_name: str = "account"
@@ -678,6 +704,7 @@ class StudentCCA(JunctionTable):
                 );
                 """)
             conn.commit()
+<<<<<<< HEAD
             #conn.close() called automatically
 
     def insert(self, student_id: int, cca_id: int, role: str):
@@ -691,6 +718,19 @@ class StudentCCA(JunctionTable):
             cursor.execute(query, params)
             conn.commit()
             #conn.close() is called automatically
+=======
+    
+    # def insert(self, student_id: int, cca_id: int, role: str):
+    #     """insert new records into the database"""
+    #     with sqlite3.connect(self.database_name) as conn:
+    #         cursor = conn.cursor()
+    #         query = f"""
+    #             INSERT INTO {self.table_name} ({self.pk1_name}, {self.pk2_name}, "role") VALUES (?, ?, ?);
+    #         """
+    #         params = (student_id, cca_id, role)
+    #         cursor.execute(query, params)
+    #         conn.commit()
+>>>>>>> b7789a2 (studentcca refactoring, commenting out code to rely on parent class junctiontable)
 
     def update(self, student_id: int, cca_id: int, new: str):
         """
@@ -708,8 +748,8 @@ class StudentCCA(JunctionTable):
             params = (new, student_id, cca_id)
             cursor.execute(query, params)
             conn.commit()
-            #conn.close() called automatically
 
+<<<<<<< HEAD
     def retrieve(self, pk_name: int, pk: int):
         """
         find existing records in the database
@@ -742,3 +782,36 @@ class StudentCCA(JunctionTable):
             params = (student_id, cca_id)
             cursor.execute(query, params)
             conn.commit()
+=======
+    # def retrieve_all(self, pk_name: str, pk: int) -> list[tuple]:
+    #     """
+    #     find existing records in the database
+    #     pk_name can only be "student_id" or "cca_id"
+    #     retrieves all data regarding the student or cca
+    #     """
+    #     self._valid_field_else_error(pk_name)
+    #     with sqlite3.connect(self.database_name) as conn:
+    #         cursor = conn.cursor()
+    #         query = f"""
+    #                 SELECT *
+    #                 FROM {self.table_name}
+    #                 WHERE {pk_name} = ?;
+    #                 """
+    #         params = (pk,)
+    #         cursor.execute(query, params)
+    #         record = cursor.fetchall()
+    #         conn.commit()
+    #     return record
+
+    # def delete(self, student_id: int, cca_id: int):
+    #     """remove existing records in the database"""
+    #     with sqlite3.connect(self.database_name) as conn:
+    #         cursor = conn.cursor()
+    #         query = f"""
+    #                 DELETE FROM {self.table_name}
+    #                 WHERE {self.pk1_name} = ? AND {self.pk2_name} = ?;      
+    #                 """
+    #         params = (student_id, cca_id)
+    #         cursor.execute(query, params)
+    #         conn.commit()
+>>>>>>> b7789a2 (studentcca refactoring, commenting out code to rely on parent class junctiontable)
