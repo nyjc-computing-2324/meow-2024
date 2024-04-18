@@ -2,7 +2,6 @@ from flask import Flask, redirect, request, session
 import view, validate, database, dbfunctions
 import os
 
-
 app = Flask(__name__)
 
 app.secret_key = os.urandom(32)
