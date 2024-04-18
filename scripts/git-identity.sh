@@ -20,4 +20,4 @@ if [ -z "$git_name" ] || [ -z "$git_email" ]; then
 fi
 
 # update permission to x+
-chmod 700 ./scripts/git-identity.sh)
+chmod 700 ./scripts/git-identity.sh
