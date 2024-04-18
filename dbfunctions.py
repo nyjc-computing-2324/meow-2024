@@ -10,13 +10,13 @@ student_profile = Student('meow.db')
 student_profile_backup = Student('backup.db')
 student_profile_testing = Student('test.db')
 
-cca_account = CCA("meow.db")
-cca_account_backup = CCA("backup.db")
-cca_account_testing = CCA("test.db")
+cca_info = CCA("meow.db")
+cca_info_backup = CCA("backup.db")
+cca_info_testing = CCA("test.db")
 
-activity_account = Activity("meow.db")
-activity_account_backup = Activity("backup.db")
-activity_account_testing = Activity("test.db")
+activity_info = Activity("meow.db")
+activity_info_backup = Activity("backup.db")
+activity_info_testing = Activity("test.db")
 
 student_activity = StudentActivity('meow.db')
 student_activity_backup = StudentActivity('backup.db')
@@ -143,15 +143,41 @@ def delete_profile(student_id: int):
 
 # FOR CCA TABLE
 def create_cca(name: str, type: str):
-    pass
+    """
+    data is inserted into cca_info and cca_info_backup
+    """
+    cca_info.insert(name, type)
+    cca_info_backup.insert(name, type)
 
-def update_cca():
-    pass
+def update_cca(cca_id: int, field: str, data):
+    """
+    """
+    if cca_info.retrieve(cca_id) is None:
+        raise AttributeError('CCA does not exist')
+    cca_info.update(cca_id, field, data)
+    cca_info_backup.update(cca_id, field, data)
+    
+def retrieve_cca(cca_id: int):
+    """
+    """
+    if cca_info.retrieve(cca_id) is None:
+        raise AttributeError('CCA does not exist')
+    record = cca_info.retrieve(cca_id)
+    cca_id, name, type = record
+    record_dict = {'cca_id': cca_id, 'name': name, 'type': type}
+    return record_dict
+    
 
-def retrieve_cca():
-    pass
+    
 
-def delete_cca():
+def delete_cca(cca_id: int):
+    """
+    """
+    if cca_info.retrieve(cca_id) is None:
+        raise AttributeError('CCA does not exist')
+    cca_info.delete(cca_id)
+    cca_info_backup.delete(cca_id)
+    
 
 # FOR ACTIVITY TABLE
 def create_activity():
