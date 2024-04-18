@@ -603,29 +603,6 @@ class StudentActivity(JunctionTable):
     pk2_name: str = "activity_id"
     fields = ["student_id", "activity_id"]
 
-    def __init__(self, database_name):
-        """
-        create a table upon initialisation of the class
-        (student_id, activity_id) for pk
-
-        This class has no .update() method.
-        To "update", instead use .remove() and .insert()
-        """
-        self.database_name = database_name
-        with sqlite3.connect(self.database_name) as conn:
-            cursor = conn.cursor()
-            cursor.execute(f"""
-                CREATE TABLE IF NOT EXISTS {self.table_name} (
-                    {self.pk1_name} INTEGER,
-                    {self.pk2_name} INTEGER,
-                    PRIMARY KEY ({self.pk1_name}, {self.pk2_name}),
-                    FOREIGN KEY ({self.pk1_name}) REFERENCES student("student_id"),
-                    FOREIGN KEY ({self.pk2_name}) REFERENCES activity("activity_id")
-                );
-                """)
-            conn.commit()
-            #conn.close() called automatically
-
     # def insert(self, student_id: int, activity_id: int):
     #     """insert new records into the database"""
     #     with sqlite3.connect(self.database_name) as conn:
@@ -699,16 +676,16 @@ class StudentCCA(JunctionTable):
                 """)
             conn.commit()
     
-    # def insert(self, student_id: int, cca_id: int, role: str):
-    #     """insert new records into the database"""
-    #     with sqlite3.connect(self.database_name) as conn:
-    #         cursor = conn.cursor()
-    #         query = f"""
-    #             INSERT INTO {self.table_name} ({self.pk1_name}, {self.pk2_name}, "role") VALUES (?, ?, ?);
-    #         """
-    #         params = (student_id, cca_id, role)
-    #         cursor.execute(query, params)
-    #         conn.commit()
+    def insert(self, student_id: int, cca_id: int, role: str):
+        """insert new records into the database"""
+        with sqlite3.connect(self.database_name) as conn:
+            cursor = conn.cursor()
+            query = f"""
+                INSERT INTO {self.table_name} ({self.pk1_name}, {self.pk2_name}, "role") VALUES (?, ?, ?);
+            """
+            params = (student_id, cca_id, role)
+            cursor.execute(query, params)
+            conn.commit()
 
     def update(self, student_id: int, cca_id: int, new: str):
         """
