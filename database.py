@@ -626,50 +626,50 @@ class StudentActivity(JunctionTable):
             conn.commit()
             #conn.close() called automatically
 
-    def insert(self, student_id: int, activity_id: int):
-        """insert new records into the database"""
-        with sqlite3.connect(self.database_name) as conn:
-            cursor = conn.cursor()
-            query = f"""
-                INSERT INTO {self.table_name} ({self.pk1_name}, {self.pk2_name}) VALUES (?,?);
-            """
-            params = (student_id, activity_id)
-            cursor.execute(query, params)
-            conn.commit()
-            #conn.close() is called automatically
+    # def insert(self, student_id: int, activity_id: int):
+    #     """insert new records into the database"""
+    #     with sqlite3.connect(self.database_name) as conn:
+    #         cursor = conn.cursor()
+    #         query = f"""
+    #             INSERT INTO {self.table_name} ({self.pk1_name}, {self.pk2_name}) VALUES (?, ?);
+    #         """
+    #         params = (student_id, activity_id)
+    #         cursor.execute(query, params)
+    #         conn.commit()
+    #         #conn.close() is called automatically
 
-    def retrieve(self, pk_name: str, pk: int):
-        """
-        find existing records in the database
-        pk_name can only be "student_id" or "activity_id"
-        retrieves all data regarding the student or activity
-        """
-        self._valid_field_else_error(pk_name)
-        with sqlite3.connect(self.table_name) as conn:
-            cursor = conn.cursor()
-            query = f"""
-                    SELECT *
-                    FROM {self.table_name}
-                    WHERE {pk_name} = ?;
-                    """
-            params = (pk, )
-            cursor.execute(query, params)
-            record = cursor.fetchall()
-            conn.commit()
-            #conn.close() is called automatically
-        return record
+    # def retrieve_all(self, pk_name: str, pk: int):
+    #     """
+    #     find existing records in the database
+    #     pk_name can only be "student_id" or "activity_id"
+    #     retrieves all data regarding the student or activity
+    #     """
+    #     self._valid_field_else_error(pk_name)
+    #     with sqlite3.connect(self.table_name) as conn:
+    #         cursor = conn.cursor()
+    #         query = f"""
+    #                 SELECT *
+    #                 FROM {self.table_name}
+    #                 WHERE {pk_name} = ?;
+    #                 """
+    #         params = (pk, )
+    #         cursor.execute(query, params)
+    #         record = cursor.fetchall()
+    #         conn.commit()
+    #         #conn.close() is called automatically
+    #     return record
 
-    def delete(self, student_id: int, activity_id: int):
-        """remove existing records in the database"""
-        with sqlite3.connect(self.database_name) as conn:
-            cursor = conn.cursor()
-            query = f"""
-                    DELETE FROM {self.table_name}
-                    WHERE {self.pk1_name} = ? AND {self.pk2_name} = ?;
-                    """
-            param = (student_id, activity_id)
-            cursor.execute(query, param)
-            conn.commit()
+    # def delete(self, student_id: int, activity_id: int):
+    #     """remove existing records in the database"""
+    #     with sqlite3.connect(self.database_name) as conn:
+    #         cursor = conn.cursor()
+    #         query = f"""
+    #                 DELETE FROM {self.table_name}
+    #                 WHERE {self.pk1_name} = ? AND {self.pk2_name} = ?;
+    #                 """
+    #         param = (student_id, activity_id)
+    #         cursor.execute(query, param)
+    #         conn.commit()
 
 
 class StudentCCA(JunctionTable):
