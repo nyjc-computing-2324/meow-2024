@@ -625,7 +625,7 @@ class StudentActivity(JunctionTable):
         retrieves all data regarding the student or activity
         """
         self._valid_field_else_error(pk_name)
-        with sqlite3.connect(self.database_name) as conn:
+        with sqlite3.connect(self.table_name) as conn:
             cursor = conn.cursor()
             query = f"""
                     SELECT *
@@ -722,7 +722,7 @@ class StudentCCA(JunctionTable):
             cursor = conn.cursor()
             query = f"""
                     SELECT *
-                    FROM {self.database_name}
+                    FROM {self.table_name}
                     WHERE {pk_name} = ?;
                     """
             params = (pk,)
