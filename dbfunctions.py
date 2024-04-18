@@ -167,23 +167,33 @@ def delete_activity():
     pass
 
 # FOR STUDENT ACTIVITY
-def create_studentactivity():
+def create_studentactivity(student_id: int, activity_id: int):
+    if student_profile.retrieve("student_id", student_id) is None:
+        raise AttributeError("Invalid student id")
+    if activity_info.retrieve("activity_id", activity_id) is None:
+        raise AttributeError("Invalid activity id")
+    student_activity.insert(student_id, activity_id)
+    student_activity_backup.insert(student_id, activity_id)
+
+def retrieve_studentactivity(pk_name: str, pk: int):
     pass
 
-def retrieve_studentactivity():
-    pass
-
-def delete_studentactivity():
+def delete_studentactivity(student_id: int, activity_id: int):
     pass
 
 # FOR STUDENT CCA 
-def create_studentcca(name: str, type: str):
+def create_studentcca(student_id: int, cca_id: int, role: str):
+    if student_profile.retrieve("student_id", student_id) is None:
+        raise AttributeError("Invalid student id")
+    if cca_info.retrieve("cca_id", cca_id) is None:
+        raise AttributeError("Invalid cca id")
+    student_cca.insert(student_id, cca_id, role)
+    student_cca_backup.insert(student_id, cca_id, role)
+
+def update_studentcca(student_id: int, cca_id: int, new: str):
     pass
 
-def update_studentcca():
+def retrieve_studentcca(pk_name: int, pk: int):
     pass
 
-def retrieve_studentcca():
-    pass
-
-def delete_studentcca():
+def delete_studentcca(student_id: int, cca_id: int):

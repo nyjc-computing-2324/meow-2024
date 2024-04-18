@@ -1,5 +1,6 @@
 import sqlite3
 
+
 def quote_join(list_of_str: list[str], enquote: bool = False) -> str:
     """
     takes in a list of str
@@ -9,13 +10,14 @@ def quote_join(list_of_str: list[str], enquote: bool = False) -> str:
     """
     if enquote:
         return ", ".join([f'"{str_}"' for str_ in list_of_str])
-    
+
     return ", ".join(list_of_str)
+
 
 class Table:
     """parent class for all subsequent tables"""
     table_name: str
-    pk_name: str    #stands for primary key name
+    pk_name: str  #stands for primary key name
     fields: list[str]
 
     def __init__(self, database_name: str):
@@ -26,7 +28,7 @@ class Table:
         """checks if given fields are found in the table"""
         if field not in self.fields:
             raise AttributeError(f"Invalid field '{field}'")
-    
+
     def insert(self, record: dict) -> None:
         """
         inserts the record into the junction table
@@ -49,24 +51,24 @@ class Table:
         with sqlite3.connect(self.database_name) as conn:
             cursor = conn.cursor()
             # formatting the query
-            fieldstr = quote_join(self.fields, enquote = True)
+            fieldstr = quote_join(self.fields, enquote=True)
             qnmarks = quote_join(["?"] * len(self.fields))
             query = f"""
                     INSERT INTO {self.table_name} ({fieldstr}) VALUES ({qnmarks});
                     """
             # formatting the params
-            params = (record[self.fields[0]],)
+            params = (record[self.fields[0]], )
             for field in self.fields[1:]:
-                params += (record[field],)
+                params += (record[field], )
             cursor.execute(query, params)
             conn.commit()
-            #conn.close() called automatically 
+            #conn.close() called automatically
 
     def update(self, pk: int, field: str, new: str):
         """update existing records in the database"""
         self._valid_field_else_error(field)
         with sqlite3.connect(self.database_name) as conn:
-            cursor = conn.cursor()            
+            cursor = conn.cursor()
             query = f"""
                     UPDATE {self.table_name} 
                     SET {field} = ? 
@@ -76,7 +78,7 @@ class Table:
             cursor.execute(query, params)
             conn.commit()
             #conn.close() called automatically
-        
+
     def retrieve(self, pk: int):
         """find existing records in the database"""
         with sqlite3.connect(self.database_name) as conn:
@@ -86,7 +88,7 @@ class Table:
                     FROM {self.table_name}
                     WHERE {self.pk_name} = ?;
                     """
-            params = (pk,)
+            params = (pk, )
             cursor.execute(query, params)
             record = cursor.fetchone()
             conn.commit()
@@ -100,9 +102,10 @@ class Table:
                     DELETE FROM {self.table_name}
                     WHERE {self.pk_name} = ?;
                     """
-            params = (pk,)
+            params = (pk, )
             cursor.execute(query, params)
             conn.commit()
+
 
 class JunctionTable(Table):
     pk1_name: str
@@ -132,18 +135,18 @@ class JunctionTable(Table):
         with sqlite3.connect(self.database_name) as conn:
             cursor = conn.cursor()
             # formatting the query
-            fieldstr = quote_join(self.fields, enquote = True)
+            fieldstr = quote_join(self.fields, enquote=True)
             qnmarks = quote_join(["?"] * len(self.fields))
             query = f"""
                     INSERT INTO {self.table_name} ({fieldstr}) VALUES ({qnmarks});
                     """
             # formatting the params
-            params = (record[self.fields[0]],)
+            params = (record[self.fields[0]], )
             for field in self.fields[1:]:
-                params += (record[field],)
+                params += (record[field], )
             cursor.execute(query, params)
             conn.commit()
-            #conn.close() called automatically        
+            #conn.close() called automatically
 
     def delete(self, pk1_value, pk2_value):
         """remove existing records in the database"""
@@ -173,12 +176,13 @@ class JunctionTable(Table):
                     FROM {self.database_name}
                     WHERE {pk_name} = ?;
                     """
-            params = (pk,)
+            params = (pk, )
             cursor.execute(query, params)
             record = cursor.fetchall()
             conn.commit()
             #conn.close() is called automatically
         return record
+
 
 class Account(Table):
     table_name: str = "account"
@@ -192,16 +196,14 @@ class Account(Table):
         self.database_name = database_name
         with sqlite3.connect(database_name) as conn:
             cursor = conn.cursor()
-            cursor.execute(
-                f"""
+            cursor.execute(f"""
                 CREATE TABLE IF NOT EXISTS {self.table_name} (
                 "account_id" INTEGER PRIMARY KEY,
                 "username" TEXT NOT NULL UNIQUE,
                 "password" TEXT NOT NULL,
                 "salt" BYTES NOT NULL
                 );
-                """
-            )
+                """)
             conn.commit()
             #conn.close() called automatically
 
@@ -219,7 +221,7 @@ class Account(Table):
             cursor.execute(query, params)
             conn.commit()
             #conn.close() called automatically
-        
+
     def update(self, pk_name: str, pk, field: str, new):
         """
         update existing records in the database
@@ -228,12 +230,12 @@ class Account(Table):
         raises Attributes error if field is invalid
         checks for repeated username should already be done if username is being updated
         """
-        self._valid_field_else_error(field)           
+        self._valid_field_else_error(field)
         if pk_name not in ['account_id', 'username']:
             raise AttributeError(f"Invalid pk_name '{pk_name}'")
-        
+
         with sqlite3.connect(self.database_name) as conn:
-            cursor = conn.cursor()            
+            cursor = conn.cursor()
             query = f"""
                     UPDATE {self.table_name} 
                     SET {field} = ? 
@@ -252,7 +254,7 @@ class Account(Table):
         """
         if pk_name not in ['account_id', 'username']:
             raise AttributeError(f"Invalid pk_name '{pk_name}'")
-        
+
         with sqlite3.connect(self.database_name) as conn:
             cursor = conn.cursor()
             query = f"""
@@ -260,7 +262,7 @@ class Account(Table):
                     FROM {self.table_name}
                     WHERE {pk_name} = ?;
                     """
-            params = (pk,)
+            params = (pk, )
             cursor.execute(query, params)
             record = cursor.fetchone()
             conn.commit()
@@ -275,17 +277,18 @@ class Account(Table):
         """
         if pk_name not in ['account_id', 'username']:
             raise AttributeError(f"Invalid pk_name '{pk_name}'")
-            
+
         with sqlite3.connect(self.database_name) as conn:
             cursor = conn.cursor()
             query = f"""
                     DELETE FROM {self.table_name}
                     WHERE {pk_name} = ?;
                     """
-            param = (pk,)
+            param = (pk, )
             cursor.execute(query, param)
             conn.commit()
             #conn.close() called automatically
+
 
 class Student(Table):
     table_name: str = "student"
@@ -301,8 +304,7 @@ class Student(Table):
         self.database_name = database_name
         with sqlite3.connect(database_name) as conn:
             cursor = conn.cursor()
-            cursor.execute(
-                f"""
+            cursor.execute(f"""
                 CREATE TABLE IF NOT EXISTS {self.table_name} (
                     {self.pk_name} INTEGER PRIMARY KEY,
                     "name" TEXT NOT NULL,
@@ -311,8 +313,7 @@ class Student(Table):
                     "account_id" INTEGER NOT NULL UNIQUE,
                     FOREIGN KEY ("account_id") REFERENCES account("account_id")
                 );
-                """
-            )
+                """)
             conn.commit()
             #conn.close() called automatically
 
@@ -365,12 +366,12 @@ class Student(Table):
                     FROM "student"
                     WHERE {self.pk_name} == ?;
                     """
-            params = (student_id,)
+            params = (student_id, )
             cursor.execute(query, params)
             record = cursor.fetchone()
             conn.commit()
             #conn.close() called automatically
-            return record         
+            return record
 
     def delete(self, student_id: int):
         """remove existing records in the database"""
@@ -380,15 +381,16 @@ class Student(Table):
                     DELETE FROM {self.table_name}
                     WHERE {self.pk_name} = ?;
                     """
-            param = (student_id,)
+            param = (student_id, )
             cursor.execute(query, param)
             conn.commit()
+
 
 class CCA(Table):
     table_name: str = "cca"
     pk_name: str = "cca_id"
     fields = ["cca_id", "name", "type"]
-    
+
     def __init__(self, database_name):
         """
         create a table upon initialisation of the class
@@ -398,18 +400,15 @@ class CCA(Table):
         self.database_name = database_name
         with sqlite3.connect(self.database_name) as conn:
             cursor = conn.cursor()
-            cursor.execute(
-                f"""
+            cursor.execute(f"""
                 CREATE TABLE IF NOT EXISTS {self.table_name} (
                     {self.pk_name} INTEGER PRIMARY KEY,
                     "name" TEXT NOT NULL,
                     "type" TEXT NOT NULL, 
                 );
-                """
-            )
+                """)
             conn.commit()
             #conn.close() called automatically
-
 
     def insert(self, name: str, type: str):
         """
@@ -425,7 +424,7 @@ class CCA(Table):
             cursor.execute(query, params)
             conn.commit()
             # conn.close() is called automatically
-    
+
     def update(self, cca_id: int, field: str, new: str):
         """
         update existing records in the database
@@ -458,7 +457,7 @@ class CCA(Table):
                 FROM {self.table_name} ;
                 WHERE {self.pk_name} = ? ;
             """
-            params = (cca_id,)
+            params = (cca_id, )
             cursor.execute(query, params)
             conn.commit()
             # conn.close() is called automatically
@@ -471,9 +470,10 @@ class CCA(Table):
                     DELETE FROM {self.table_name}
                     WHERE {self.pk_name} = ?;
                     """
-            params = (cca_id,)
+            params = (cca_id, )
             cursor.execute(query, params)
             conn.commit()
+
 
 class Activity(Table):
     table_name: str = "activity"
@@ -489,8 +489,7 @@ class Activity(Table):
         self.database_name = database_name
         with sqlite3.connect(self.database_name) as conn:
             cursor = conn.cursor()
-            cursor.execute(
-                f"""
+            cursor.execute(f"""
                 CREATE TABLE IF NOT EXISTS {self.table_name} (
                     {self.pk_name} INTEGER PRIMARY KEY,
                     "name" TEXT NOT NULL,
@@ -498,8 +497,7 @@ class Activity(Table):
                     "location" TEXT NOT NULL,
                     FOREIGN KEY ("organiser_id") REFERENCES account("student_id")
                 );
-                """
-            )
+                """)
             conn.commit()
             #conn.close() called automatically
 
@@ -509,7 +507,7 @@ class Activity(Table):
         checks for repeated organiser_id should already be done
         """
         with sqlite3.connect(self.database_name) as conn:
-            cursor = conn.cursor()            
+            cursor = conn.cursor()
             query = f"""
                 INSERT INTO {self.table_name} ("name", "date", "location", "organiser_id")
                 VALUES( ?, ?, ?, ? );
@@ -552,7 +550,7 @@ class Activity(Table):
                 FROM {self.table_name}
                 WHERE {self.pk_name} = ?;
                 """
-            params = (activity_id,)
+            params = (activity_id, )
             cursor.execute(query, params)
             record = cursor.fetchone()
             conn.commit()
@@ -570,9 +568,10 @@ class Activity(Table):
                     DELETE FROM {self.table_name}
                     WHERE {self.pk_name} = ?;
                     """
-            params = (account_id,)
+            params = (account_id, )
             cursor.execute(query, params)
             conn.commit()
+
 
 class StudentActivity(JunctionTable):
 
@@ -580,7 +579,7 @@ class StudentActivity(JunctionTable):
     pk1_name: str = "student_id"
     pk2_name: str = "activity_id"
     fields = ["student_id", "activity_id"]
-    
+
     def __init__(self, database_name):
         """
         create a table upon initialisation of the class
@@ -592,8 +591,7 @@ class StudentActivity(JunctionTable):
         self.database_name = database_name
         with sqlite3.connect(self.database_name) as conn:
             cursor = conn.cursor()
-            cursor.execute(
-                f"""
+            cursor.execute(f"""
                 CREATE TABLE IF NOT EXISTS {self.table_name} (
                     {self.pk1_name} INTEGER,
                     {self.pk2_name} INTEGER,
@@ -601,8 +599,7 @@ class StudentActivity(JunctionTable):
                     FOREIGN KEY ({self.pk1_name}) REFERENCES student("student_id"),
                     FOREIGN KEY ({self.pk2_name}) REFERENCES activity("activity_id")
                 );
-                """
-            )
+                """)
             conn.commit()
             #conn.close() called automatically
 
@@ -632,7 +629,7 @@ class StudentActivity(JunctionTable):
                     FROM {self.database_name}
                     WHERE {pk_name} = ?;
                     """
-            params = (pk,)
+            params = (pk, )
             cursor.execute(query, params)
             record = cursor.fetchall()
             conn.commit()
@@ -651,13 +648,14 @@ class StudentActivity(JunctionTable):
             cursor.execute(query, param)
             conn.commit()
 
+
 class StudentCCA(JunctionTable):
 
     table_name: str = "studentcca"
     pk1_name: str = "student_id"
     pk2_name: str = "cca_id"
     fields = ["student_id", "cca_id", "role"]
-    
+
     def __init__(self, database_name):
         """
         create a table upon initialisation of the class
@@ -666,8 +664,7 @@ class StudentCCA(JunctionTable):
         self.database_name = database_name
         with sqlite3.connect(self.database_name) as conn:
             cursor = conn.cursor()
-            cursor.execute(
-                f"""
+            cursor.execute(f"""
                 CREATE TABLE IF NOT EXISTS {self.table_name} (
                     {self.pk1_name} INTEGER,
                     {self.pk2_name} INTEGER,
@@ -676,11 +673,10 @@ class StudentCCA(JunctionTable):
                     FOREIGN KEY ({self.pk1_name}) REFERENCES student("student_id"),
                     FOREIGN KEY ({self.pk2_name}) REFERENCES cca("cca_id")
                 );
-                """
-            )
+                """)
             conn.commit()
             #conn.close() called automatically
-    
+
     def insert(self, student_id: int, cca_id: int, role: str):
         """insert new records into the database"""
         with sqlite3.connect(self.database_name) as conn:
@@ -700,7 +696,7 @@ class StudentCCA(JunctionTable):
         To "update" student_id or cca_id, instead use .remove() and .insert()
         """
         with sqlite3.connect(self.database_name) as conn:
-            cursor = conn.cursor()            
+            cursor = conn.cursor()
             query = f"""
                     UPDATE {self.table_name} 
                     SET "role" = ? 
@@ -725,7 +721,7 @@ class StudentCCA(JunctionTable):
                     FROM {self.table_name}
                     WHERE {pk_name} = ?;
                     """
-            params = (pk,)
+            params = (pk, )
             cursor.execute(query, params)
             record = cursor.fetchall()
             conn.commit()
