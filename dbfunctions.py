@@ -4,9 +4,11 @@ import auth
 # instantiating table objects
 student_account = Account("meow.db")
 student_account_backup = Account("backup.db")
+student_account_testing = Account("test.db")
 
 student_profile = Student('meow.db')
 student_profile_backup = Student('backup.db')
+student_profile_testing = Student('test.db')
 
 
 # FOR ACCOUNT TABLE
