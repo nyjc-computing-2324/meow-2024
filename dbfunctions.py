@@ -1,4 +1,4 @@
-from database import Account, Student
+from database import Account, Student, CCA, Activity
 import auth
 
 # instantiating table objects
@@ -9,6 +9,14 @@ student_account_testing = Account("test.db")
 student_profile = Student('meow.db')
 student_profile_backup = Student('backup.db')
 student_profile_testing = Student('test.db')
+
+cca_account = CCA("meow.db")
+cca_account_backup = CCA("backup.db")
+cca_account_testing = CCA("test.db")
+
+activity_account = Activity("meow.db")
+activity_account_backup = Activity("backup.db")
+activity_account_testing = Activity("test.db")
 
 
 # FOR ACCOUNT TABLE
@@ -124,3 +132,32 @@ def delete_profile(student_id: int):
         raise AttributeError("Profile does not exist.")
     student_profile.delete(student_id)
     student_profile_backup.delete(student_id)
+
+
+# FOR CCA TABLE
+def create_cca(name: str, type: str):
+    pass
+
+def update_cca():
+    pass
+
+def retrieve_cca():
+    pass
+
+def delete_cca():
+
+# FOR ACTIVITY TABLE
+def create_activity():
+    pass
+
+def update_activity():
+    pass
+
+def retrieve_activity():
+    pass
+
+def delete_activity():
+    pass
+
+# FOR JUNCTION TABLE
+
