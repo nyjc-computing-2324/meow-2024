@@ -20,6 +20,9 @@ class Table:
     pk_name: str  #stands for primary key name
     fields: list[str]
 
+    # def __init__(self, get_conn):
+    #     self.get_conn = get_conn
+
     def __init__(self, database_name: str):
         """create a table upon initialisation of the class"""
         self.database_name = database_name
