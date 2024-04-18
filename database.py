@@ -159,6 +159,27 @@ class JunctionTable(Table):
             cursor.execute(query, param)
             conn.commit()
 
+    def retrieve_all(self, pk_name: str, pk: int) -> list[tuple]:
+        """
+        find existing records in the database
+        pk_name can only be "student_id" or "cca_id"
+        retrieves all data regarding the student or cca
+        """
+        self._valid_field_else_error(pk_name)
+        with sqlite3.connect(self.database_name) as conn:
+            cursor = conn.cursor()
+            query = f"""
+                    SELECT *
+                    FROM {self.database_name}
+                    WHERE {pk_name} = ?;
+                    """
+            params = (pk,)
+            cursor.execute(query, params)
+            record = cursor.fetchall()
+            conn.commit()
+            #conn.close() is called automatically
+        return record
+
 class Account(Table):
     table_name: str = "account"
     fields = ["account_id", "username", "password", "salt"]
@@ -239,7 +260,7 @@ class Account(Table):
                     FROM {self.table_name}
                     WHERE {pk_name} = ?;
                     """
-            params = (data,)
+            params = (pk,)
             cursor.execute(query, params)
             record = cursor.fetchone()
             conn.commit()
@@ -597,7 +618,7 @@ class StudentActivity(JunctionTable):
             conn.commit()
             #conn.close() is called automatically
 
-    def retrieve(self, pk: int, pk_name: str):
+    def retrieve(self, pk_name: str, pk: int):
         """
         find existing records in the database
         pk_name can only be "student_id" or "activity_id"
@@ -690,7 +711,7 @@ class StudentCCA(JunctionTable):
             conn.commit()
             #conn.close() called automatically
 
-    def retrieve(self, pk: int, pk_name: str):
+    def retrieve(self, pk_name: int, pk: int):
         """
         find existing records in the database
         pk_name can only be "student_id" or "cca_id"
