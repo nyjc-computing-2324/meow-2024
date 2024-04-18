@@ -2,7 +2,6 @@ from flask import Flask, redirect, request, session
 import view, validate, database, dbfunctions
 import os
 
-
 app = Flask(__name__)
 
 app.secret_key = os.urandom(32)
@@ -38,7 +37,6 @@ def login():
     else:
         username = request.form["username"]
         password = request.form["password"]
-
         if dbfunctions.login(username, password):
             session["logged_in"] = True
             return redirect("/home")
