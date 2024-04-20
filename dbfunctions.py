@@ -1,15 +1,59 @@
-from database import Account, Student
+from database import Account, Student, CCA, Activity
 import auth
+import os
+import psycopg2
+import sqlite3
+
+def sqlite_conn(uri):
+    return sqlite3.connect(uri)
+
+def postgres_conn(uri):
+    return psycopg2.connect(uri)
+
+def get_uri(env: str = ""):
+    env = env or os.getenv("ENVIRONMENT", default = "")
+    if env in ["main", "dev"]:
+        uri = os.getenv("DATABASE_URL")
+    elif env == "qa":
+        uri = ":memory:"
+    else:
+        uri = "meow.db"
+
+def conn_factory(env, uri):
+    """Returns a connection getter: a function that returns a connection when called"""
+    def get_conn():
+        if env in ["main", "dev"]:
+            conn = postgres_conn(uri)
+        elif env == "qa":
+            conn = sqlite_conn(uri)
+        else:
+            conn = sqlite_conn(uri)
+        return conn
+    return get_conn
+
+def get_account(env: str = "") -> Account:
+    """returns an instance of Account with an appropriate db conn"""
+    uri = get_uri(env)
+    return Account(conn_factory(env, uri))
+
+def get_student(env: str = "") -> Student:
+    """returns an instance of Student with an appropriate db conn"""
+    uri = get_uri(env)
+    return Student(conn_factory(env, uri))
+
+def get_cca(env: str = "") -> CCA:
+    """returns an instance of CCA with an appropriate db conn"""
+    uri = get_uri(env)
+    return CCA(conn_factory(env, uri))
+
+def get_activity(env: str = "") -> Activity:
+    """returns an instance of Activity with an appropriate db conn"""
+    uri = get_uri(env)
+    return Activity(conn_factory(env, uri))
 
 # instantiating table objects
-student_account = Account("meow.db")
-student_account_backup = Account("backup.db")
-student_account_testing = Account("test.db")
-
-student_profile = Student('meow.db')
-student_profile_backup = Student('backup.db')
-student_profile_testing = Student('test.db')
-
+student_account = get_account()
+student_profile = get_student()
 
 # FOR ACCOUNT TABLE
 def create_account(username: str, password: str):
