@@ -6,11 +6,6 @@
         <meta name="viewport" content="width=device-width, initial-scale=1.0">
     </head>
     <body>
-        {% set page = "profile" %}    
-        {% block content %}
-            {% include 'navigation.html' %}
-        {% endblock %}
-    <body>
         <section class="profile-section">
             <div class="profile-container">
                 <div class="profile-display-container">
@@ -57,6 +52,10 @@
                 </div>
             </div>
         </section>
+        {% set loggedin = True %}    
+        {% block content %}
+            {% include 'navigation.html' %}
+        {% endblock %}
     </body>
 </html>
 

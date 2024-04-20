@@ -6,11 +6,6 @@
     </head>
 
     <body>
-        {% set page = "landing" %}    
-        {% block content %}
-            {% include 'navigation.html' %}
-        {% endblock %}
-
         <section class="tagline-section">
             <div class = "tagline-container">
             <div class="slogan-container">
@@ -145,10 +140,9 @@
         </section>
     <hr>
     <script src="{{ url_for('static', filename='js/carousel.js') }}"></script>
+    {% set loggedin = False %}    
+    {% block content %}
+        {% include 'navigation.html' %}
+    {% endblock %}
     </body>
-    <footer class='footer'>
-        <a class="privacypolicy-text" href = "/pp" target="new">PRIVACY POLICY</a>
-        <a class="terms-text" href = "/toc" target="new">TERMS AND CONDITIONS</a>
-
-    </footer>
 </html>
