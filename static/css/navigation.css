@@ -100,3 +100,9 @@
     text-decoration: none;
     border-radius: 50%;
 }
+
+.footer{
+    text-align: right;
+    margin-top: 100px;
+    margin-right: 20px;
+}

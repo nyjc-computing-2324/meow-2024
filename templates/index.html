@@ -138,11 +138,11 @@
                     <input type="submit" class="submit-message" value="Submit">
             </div>
         </section>
+        {% set loggedin = False %}    
+        {% block content %}
+            {% include 'navigation.html' %}
+        {% endblock %}
     <hr>
     <script src="{{ url_for('static', filename='js/carousel.js') }}"></script>
-    {% set loggedin = False %}    
-    {% block content %}
-        {% include 'navigation.html' %}
-    {% endblock %}
     </body>
 </html>
