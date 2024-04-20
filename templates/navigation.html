@@ -8,7 +8,7 @@
     <body>
         {% block body %}
         {% endblock %}
-        {% if page == "landing" or page == "login" or page == "register" %}
+        {% if loggedin == False %}
         <section class="topbar-section">
             <img class="logo-img1" src="{{ url_for('static',filename= 'images/cat.svg') }}">
             <span class="logo-text1">
@@ -34,7 +34,7 @@
         </section>
         {% endif %}
 
-        {% if page == "home" or page == "profile" or page == "records" %}
+        {% if loggedin == True %}
         <section class="topbar-section">
             <img class="logo-img1" src="{{ url_for('static',filename= 'images/cat.svg') }}">
             <span class="logo-text1">
@@ -62,4 +62,13 @@
             </div>
         </section>
         {% endif %}
+
+        <section class="footer">
+        <div class="pp-text">
+            <a class="privacypolicy-text" href = "/pp" target="new">Privacy Policy</a>
+        </div>
+        <div class="tac-text">
+            <a class="tac" href = "/toc" target="new">Terms and Conditions</a>
+        </div>
+
     </body>

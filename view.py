@@ -7,11 +7,18 @@ def index():
     # display index.html which is the launch page
     return render_template("index.html")
 
-def view_edit_cca():
+def view_edit_activities():
     # display view_edit_cca.html
     if not completed:
         # redirects the user to temp
         return redirect("/temp")
+    return render_template("view_edit_activities.html")
+
+def view_edit_cca():
+    # display view_edit_cca.html
+    # if not completed:
+    #     # redirects the user to temp
+    #     return redirect("/temp")
     return render_template("view_edit_cca.html")
 
 def records_cca():

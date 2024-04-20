@@ -36,6 +36,7 @@
                 {% endif %}
                 {% if success_msg %}
                 <br/><h2>{{success_msg}}</h2>
+                redirect('/profile')
                 {% endif %}
               
               
@@ -44,7 +45,7 @@
         <div class="tagline-section">
             New to Meow? <a href="/register">Sign up for free!</a>
         </div>
-        {% set page = "login" %}    
+        {% set loggedin = False %}    
         {% block content %}
             {% include 'navigation.html' %}
         {% endblock %}
