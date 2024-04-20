@@ -70,6 +70,12 @@ input[type=file]{
     border-width: 10px;
 }
 
+.profile-picture{
+    height: 180px;
+    width: 180px;
+    border-radius: 50%;
+
+}
 .profile-name{
     text-align : center;
     width : 180px;
@@ -92,6 +98,20 @@ input[type=file]{
 
 }
 
+.save-profile-button{
+    margin-top : 50px;
+    text-align: center;
+    text-decoration: none;
+    font-size: 16px;
+    width : 178px;
+    border : none;
+    border-radius: 12px;
+    height : 40px;
+    background-color: #d9d9d9;
+    color : white;
+    font-family : comfortaa;
+
+}
 .download-profile-button{
     display : none;
     cursor: pointer;

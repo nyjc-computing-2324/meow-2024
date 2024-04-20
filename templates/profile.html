@@ -10,7 +10,9 @@
             <div class="profile-container">
                 <div class="profile-display-container">
                     <div class="profile-picture-container">
-                    <img>
+                    {if has_img == True}
+                    <img src = "{{ url_for('static', filename=file) }}" class = "profile-picture">
+                    {% endif %}
                     </div>
                 
                     <span class = "profile-name">
@@ -20,12 +22,18 @@
                     <span class = "profile-username">
                         <h3>@username</h3>
                     </span>
-                    <form name="edit-profile" action = "/profile" method="post">
-                        <input type="submit" class='edit-profile-button' value="edit">
+                    {% if edit == False %}
+                    <form action = "/profile" method="post">
+                        <input name="response" type="submit" class='edit-profile-button' value="edit">
                     </form>
-                    <form name="download-profile" action = "/profile" method="post">
+                    {% elif edit == True}
+                    <form action = "/profile" method="post">
+                        <input name="response" type="submit" class='save-profile-button' value="save">
+                    {% endif %}
+
+                    <form action = "/profile" method="post">
                         <button id="btn" class = "download-profile-label">Download profile</button>
-                        <input type="file" id="inputField" class = "download-profile-button">
+                        <input name="response" type="file" id="inputField" class = "download-profile-button" value = "download">
                     </form>
                 </div>
                 <div class="profile-description-container">
@@ -46,7 +54,11 @@
                         <span class="about-label">About myself:</span>
                         <br>
                         <div class="about">
-                        <textarea id="about-field" type="text" name="message" placeholder="Meow!"></textarea>
+                        {% if edit == True %}
+                        <textarea id="about-field" type="text" name="message" placeholder="Meow!">{{ msg }}</textarea>
+                        {% elif edit == False %}
+                        <textarea id="about-field" type="text" name="message" readonly placeholder="Meow!">{{ msg }}</textarea>
+                        {% endif %}
                         </div>
                     </div>
                 </div>
