@@ -192,46 +192,55 @@ def delete_profile(student_id: int):
 # FOR CCA TABLE
 def create_cca(name: str, type: str):
     """
+    if name already exists, attribute error is raised
+    type must be of 'sports', 'performing arts', 'uniform group',
+    'clubs and societies' or 'others'
     if type is invalid, raise attribute error
     else data is inserted into cca_info and cca_info_backup
     """
-    if not type in ['sports', 'performing arts', 'uniform group', 'clubs and societies']:
-        raise AttributeError('Invalid type')
+    if cca_info.retrieve("name", name) is not None:
+        raise AttributeError('Name already exists.')
+    if type not in ['sports', 'performing arts', 'uniform group', 'clubs and societies', 'others']:
+        raise AttributeError(f'Invalid type {type}')
     cca_info.insert(name, type)
     cca_info_backup.insert(name, type)
-
-def update_cca(cca_id: int, field: str, data):
+    
+def update_cca(pk_name: str, pk, field: str, data):
     """
+    if name already exists, attribute error is raised
+    pk_name can only be "cca_id" or "name"
     if cca does not exists, attribute error is raised
     else cca updated in cca_info and cca_info_backup
     """
-    if cca_info.retrieve(cca_id) is None:
-        raise AttributeError('CCA does not exist')
-    cca_info.update(cca_id, field, data)
-    cca_info_backup.update(cca_id, field, data)
+    if cca_info.retrieve(pk_name, pk) is None:
+        raise AttributeError('CCA record does not exist')
+    if pk_name == "name" and cca_info.retrieve("name", pk) is not None:
+        raise AttributeError('Name already exists.')
+    cca_info.update(pk_name, pk, field, data)
+    cca_info_backup.update(pk_name, pk, field, data)
     
-def retrieve_cca(cca_id: int) -> dict:
+def retrieve_cca(pk_name: str, pk) -> dict:
     """
     obtain information for a cca
     if cca does not exists, attribute error is raised
     else a dictionary of cca_id, name, type is returned
     """
-    if cca_info.retrieve(cca_id) is None:
-        raise AttributeError('CCA does not exist')
-    record = cca_info.retrieve(cca_id)
+    record = cca_info.retrieve(pk_name, pk)
+    if record is None:
+        raise AttributeError('CCA record does not exist')
     cca_id, name, type = record
     record_dict = {'cca_id': cca_id, 'name': name, 'type': type}
     return record_dict
     
-def delete_cca(cca_id: int):
+def delete_cca(pk_name: str, pk) -> None:
     """
     if cca does not exists, attribute error is raised
     else delete cca from cca_info and cca_info_backup
     """
-    if cca_info.retrieve(cca_id) is None:
-        raise AttributeError('CCA does not exist')
-    cca_info.delete(cca_id)
-    cca_info_backup.delete(cca_id)
+    if cca_info.retrieve(pk_name, pk) is None:
+        raise AttributeError('CCA record does not exist')
+    cca_info.delete(pk_name, pk)
+    cca_info_backup.delete(pk_name, pk)
     
 # FOR ACTIVITY TABLE
 def create_activity(name: str, date: str, location: str, organiser_id: int):

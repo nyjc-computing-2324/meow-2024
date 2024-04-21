@@ -378,7 +378,6 @@ class Account(Table):
             param = (pk, )
             cursor.execute(query, param)
             conn.commit()
-            #conn.close() called automatically
 
 
 class Student(Table):
@@ -476,7 +475,6 @@ class Student(Table):
 
 class CCA(Table):
     table_name: str = "cca"
-    pk_name: str = "cca_id"
     fields = ["cca_id", "name", "type"]
 
     def __init__(self, database_name):
@@ -489,8 +487,8 @@ class CCA(Table):
             cursor = conn.cursor()
             cursor.execute(f"""
                 CREATE TABLE IF NOT EXISTS {self.table_name} (
-                    {self.pk_name} INTEGER PRIMARY KEY,
-                    "name" TEXT NOT NULL,
+                    "cca_id" INTEGER PRIMARY KEY,
+                    "name" TEXT NOT NULL UNQIUE,
                     "type" TEXT NOT NULL, 
                 );
                 """)
@@ -500,6 +498,7 @@ class CCA(Table):
     def insert(self, name: str, type: str):
         """
         insert new records into the database
+        checks for repeated name should already be done
         """
         with sqlite3.connect(self.database_name) as conn:
             cursor = conn.cursor()
@@ -511,48 +510,63 @@ class CCA(Table):
             conn.commit()
             # conn.close() is called automatically
 
-    def update(self, cca_id: int, field: str, new: str):
+    def update(self, pk_name: str, pk, field: str, new: str):
         """
         update existing records in the database
+        pk_name can only be "cca_id" or "name"
         field can only be "name" or "type"
         raises Attributes error if field is invalid
+        checks for repeated name should already be done
         """
         self._valid_field_else_error(field)
+        if pk_name not in ['cca_id', 'name']:
+            raise AttributeError(f'Invalid pk_name {pk_name}')
         with sqlite3.connect(self.database_name) as conn:
             cursor = conn.cursor()
             query = f"""
                 UPDATE {self.table_name}
                 SET {field} = ?
-                WHERE {self.pk_name} = ? ;                
+                WHERE {pk_name} = ?;
             """
-            params = (new, cca_id)
+            params = (new, pk)
             cursor.execute(query, params)
             conn.commit()
-            # conn.close() is called automatically
 
-    def retrieve(self, cca_id: int):
-        """find existing records in the database"""
+    def retrieve(self, pk_name: str, pk):
+        """
+        find existing records in the database
+        pk_name can only be "cca_id" or "name"
+        """
+        if pk_name not in ['cca_id', 'name']:
+            raise AttributeError(f'Invalid pk_name {pk_name}')
         with sqlite3.connect('meow.db') as conn:
             cursor = conn.cursor()
             query = f"""
                 SELECT *
                 FROM {self.table_name} ;
-                WHERE {self.pk_name} = ? ;
+                WHERE {pk_name} = ? ;
             """
-            params = (cca_id, )
+            params = (pk, )
             cursor.execute(query, params)
+            record = cursor.fetchone()
             conn.commit()
             # conn.close() is called automatically
+            return record
 
-    def delete(self, cca_id: int):
-        """remove existing records in the database"""
+    def delete(self, pk_name: str, pk):
+        """
+        remove existing records in the database
+        pk_name can only be "cca_id" or "name"
+        """
+        if pk_name not in ['cca_id', 'name']:
+            raise AttributeError(f'Invalid pk_name {pk_name}')
         with sqlite3.connect(self.database_name) as conn:
             cursor = conn.cursor()
             query = f"""
                     DELETE FROM {self.table_name}
-                    WHERE {self.pk_name} = ?;
+                    WHERE {pk_name} = ?;
                     """
-            params = (cca_id, )
+            params = (pk, )
             cursor.execute(query, params)
             conn.commit()
 
@@ -648,7 +662,7 @@ class Activity(Table):
 
 
 class StudentActivity(JunctionTable):
-
+    
     table_name: str = "studentactivity"
     pk1_name: str = "student_id"
     pk2_name: str = "activity_id"
@@ -773,7 +787,6 @@ class StudentCCA(JunctionTable):
             record = cursor.fetchone()
             conn.commit()
         return record
-
 
     # def retrieve_all(self, pk_name: str, pk: int) -> list[tuple]:
     #     """
