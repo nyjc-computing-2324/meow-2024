@@ -61,7 +61,7 @@ def register():
         else:
             return view.register(error="Username does not meet requirements.")
 
-@app.route('/profile')
+@app.route('/profile', methods = ["GET", "POST"])
 def profile():
     return view.profile()
 
@@ -76,6 +76,10 @@ def records_cca():
 @app.route('/records_activities')
 def records_activities():
     return view.records_activities()
+
+@app.route('/view_edit_activities')
+def view_edit_activities():
+    return view.view_edit_activities()
 
 if __name__ == '__main__':
   app.run(host='0.0.0.0', port=80)
