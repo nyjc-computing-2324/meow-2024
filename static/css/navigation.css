@@ -84,6 +84,10 @@
 }
 
 .sign_up_button1{
+    text-decoration: none;
+    color : white;
+    text-align: center;
+    padding-top : 12px;
     margin-left : 10px;
     font-family : comfortaa;
     background-color: #2f99e9;
