@@ -10,7 +10,7 @@
             <div class="profile-container">
                 <div class="profile-display-container">
                     <div class="profile-picture-container">
-                    {if has_img == True}
+                    {% if has_img == True %}
                     <img src = "{{ url_for('static', filename=file) }}" class = "profile-picture">
                     {% endif %}
                     </div>
@@ -26,7 +26,7 @@
                     <form action = "/profile" method="post">
                         <input name="response" type="submit" class='edit-profile-button' value="edit">
                     </form>
-                    {% elif edit == True}
+                    {% elif edit == True %}
                     <form action = "/profile" method="post">
                         <input name="response" type="submit" class='save-profile-button' value="save">
                     {% endif %}
