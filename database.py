@@ -390,7 +390,6 @@ class Student(Table):
         """
         create a table upon initialisation of the class
         student_id for pk
-        yu xi
         """
         self.database_name = database_name
         with sqlite3.connect(database_name) as conn:
@@ -412,7 +411,6 @@ class Student(Table):
         """
         insert new records into the database
         checks for valid account_id should already be done
-        yu xi
         """
         with sqlite3.connect(self.database_name) as conn:
             cursor = conn.cursor()
@@ -448,7 +446,6 @@ class Student(Table):
     def retrieve(self, student_id: int):
         """
         find existing records in the database
-        xinyu
         """
         with sqlite3.connect(self.database_name) as conn:
             cursor = conn.cursor()
@@ -486,7 +483,6 @@ class CCA(Table):
         """
         create a table upon initialisation of the class
         cca_id for pk
-        jae zen
         """
         self.database_name = database_name
         with sqlite3.connect(self.database_name) as conn:
@@ -504,7 +500,6 @@ class CCA(Table):
     def insert(self, name: str, type: str):
         """
         insert new records into the database
-        yu xi
         """
         with sqlite3.connect(self.database_name) as conn:
             cursor = conn.cursor()
@@ -521,7 +516,6 @@ class CCA(Table):
         update existing records in the database
         field can only be "name" or "type"
         raises Attributes error if field is invalid
-        yu xi
         """
         self._valid_field_else_error(field)
         with sqlite3.connect(self.database_name) as conn:
@@ -537,10 +531,7 @@ class CCA(Table):
             # conn.close() is called automatically
 
     def retrieve(self, cca_id: int):
-        """
-        find existing records in the database
-        yu xi
-        """
+        """find existing records in the database"""
         with sqlite3.connect('meow.db') as conn:
             cursor = conn.cursor()
             query = f"""
@@ -575,7 +566,6 @@ class Activity(Table):
         """
         create a table upon initialisation of the class
         activity_id for pk
-        jae zen
         """
         self.database_name = database_name
         with sqlite3.connect(self.database_name) as conn:
@@ -614,7 +604,6 @@ class Activity(Table):
         field can only be "organiser_id" "name" "date" or "location"
         checks for valid organiser_id should already be done
         raises Attributes error if field is invalid
-        xinyu
         """
         self._valid_field_else_error(field)
         with sqlite3.connect(self.database_name) as conn:
@@ -630,10 +619,7 @@ class Activity(Table):
             #conn.close() called automatically
 
     def retrieve(self, activity_id: int):
-        """
-        find existing records in the database
-        xinyu
-        """
+        """find existing records in the database"""
         with sqlite3.connect(self.database_name) as conn:
             cursor = conn.cursor()
             query = f"""
@@ -649,10 +635,7 @@ class Activity(Table):
             return record
 
     def delete(self, account_id: int):
-        """
-        remove existing records in the database
-        STANLEY DID THIS THANK ME
-        """
+        """remove existing records in the database"""
         with sqlite3.connect(self.database_name) as conn:
             cursor = conn.cursor()
             query = f"""
