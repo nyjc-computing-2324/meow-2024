@@ -316,47 +316,56 @@ def delete_studentactivity(student_id: int, activity_id: int) -> None:
 # FOR STUDENT CCA 
 def create_studentcca(student_id: int, cca_id: int, role: str):
     """
-    if student_id does not exist in junction table, attribute error is raised
-    if cca_id does not exist in junction table, attribute error is raised
+    if student_id does not exist in student table, attribute error is raised
+    if cca_id does not exist in cca table, attribute error is raised
     else data is inserted into student_cca and student_cca_backup
     """
-    if student_profile.retrieve("student_id", student_id) is None:
+    if student_profile.retrieve(student_id) is None:
         raise AttributeError("Invalid student id.")
-    if cca_info.retrieve("cca_id", cca_id) is None:
+    if cca_info.retrieve(cca_id) is None:
         raise AttributeError("Invalid cca id.")
     student_cca.insert(student_id, cca_id, role)
     student_cca_backup.insert(student_id, cca_id, role)
 
 def update_studentcca(student_id: int, cca_id: int, new: str):
     """
-    if student_id does not exists, attribute error is raised
-    if cca_id does not exist, attribute error is raised
+    if student-cca combination does not exists, attribute error is raised
     else student cca updated in student_cca and student_cca_backup
     """
-    if student_cca.retrieve("student_id", student_id) is None:
-        raise AttributeError("Student cca does not exist.")
-    if student_cca.retrieve("cca_id", cca_id) is None:
-        raise AttributeError("Student cca does not exist.")
+    if student_cca.retrieve_one(student_id, cca_id) is None:
+        raise AttributeError("Student-cca combination does not exist.")
     student_cca.update(student_id, cca_id, new)
     student_cca_backup.update(student_id, cca_id, new)
 
-def retrieve_studentcca(pk_name: int, pk: int) -> list(tuple):
+def retrieve_one_studentcca(student_id: int, cca_id: int) -> dict:
     """
-    obtain information for an student cca
-    if student cca does not exists, attribute error is raised
+    obtain information for a student cca record
+    if student-cca combination does not exists, attribute error is raised
+    else a dict of student_id, cca_id, role is returned
+    """
+    record = student_cca.retrieve_one(student_id, cca_id)
+    if record is None:
+        raise AttributeError("Student-cca combination does not exist.")
+    student_id, cca_id, role = record
+    return {"student_id": student_id, "cca_id": cca_id, "role": role}
+
+def retrieve_all_studentcca(pk_name: str, pk: int) -> list[tuple]:
+    """
+    obtain information for multiple student cca records
+    if combination with the pk does not exists, attribute error is raised
     else a list of tuple of (student_id, cca_id) is returned
     """
-    record = student_cca.retrieve(pk_name, pk)
+    record = student_cca.retrieve_all(pk_name, pk)
     if record is None:
-        raise AttributeError("Student cca does not exist.")
+        raise AttributeError(f"No record for this {pk_name}.")
     return record
 
 def delete_studentcca(student_id: int, cca_id: int):
     """
-    if account does not exists, attribute error is raised
+    if student-cca combination does not exists, attribute error is raised
     else delete account from student_cca and student_cca_backup
     """
-    if student_cca.retrieve("student_id", student_id) is None:
-        raise AttributeError("Student cca does not exist.")
+    if student_cca.retrieve_one(student_id, cca_id) is None:
+        raise AttributeError("Student-cca combination does not exist.")
     student_cca.delete(student_id, cca_id)
     student_cca_backup.delete(student_id, cca_id)

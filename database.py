@@ -786,6 +786,25 @@ class StudentCCA(JunctionTable):
             cursor.execute(query, params)
             conn.commit()
 
+    def retrieve_one(self, student_id: int, cca_id: int):
+        """
+        retrieves the record regarding the particular student and cca
+        mainly used for finding the record concerning both the student and cca 
+        (e.g. role)
+        """
+        with sqlite3.connect(self.database_name) as conn:
+            cursor = conn.cursor()
+            query = f"""
+                    SELECT *
+                    FROM {self.database_name}
+                    WHERE "student_id" = ? AND "cca_id" = ?;
+                    """
+            params = (student_id, cca_id)
+            cursor.execute(query, params)
+            record = cursor.fetchone()
+            conn.commit()
+        return record
+
 
     # def retrieve_all(self, pk_name: str, pk: int) -> list[tuple]:
     #     """
