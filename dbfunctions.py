@@ -51,15 +51,6 @@ def get_activity(env: str = "") -> Activity:
     uri = get_uri(env)
     return Activity(conn_factory(env, uri))
 
-# instantiating table objects
-student_account = Account("meow.db")
-student_account_backup = Account("backup.db")
-student_account_testing = Account("test.db")
-
-student_profile = Student('meow.db')
-student_profile_backup = Student('backup.db')
-student_profile_testing = Student('test.db')
-
 cca_info = CCA("meow.db")
 cca_info_backup = CCA("backup.db")
 cca_info_testing = CCA("test.db")
@@ -75,6 +66,10 @@ student_activity_testing = StudentActivity('test.db')
 student_cca = StudentCCA('meow.db')
 student_cca_backup = StudentCCA('backup.db')
 student_cca_testing = StudentCCA('test.db')
+
+# instantiating table objects
+student_account = get_account()
+student_profile = get_student()
 
 # FOR ACCOUNT TABLE
 def create_account(username: str, password: str):
