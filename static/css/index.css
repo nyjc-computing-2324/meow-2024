@@ -84,18 +84,6 @@
     text-decoration:none
 }
 
-.sign_up_button1{
-    margin-left : auto;
-    font-family : comfortaa;
-    background-color: #2f99e9;
-    border-radius: 10px;
-    border : none;
-    width: 100px;
-    height: 40px;
-
-
-}
-
 .tagline-section{
     margin-right : auto;
     margin-left : auto;
@@ -137,7 +125,8 @@
 .sign_up_button2{
     margin-top : 10px;
     font-family : comfortaa;
-    background-color: #2f99e9;
+    background-color: #728ddf;
+    color : white;
     border-radius: 10px;
     border : none;
     width: 150px;
@@ -276,7 +265,7 @@
     font-family: comfortaa; 
     background-color : #f2f2f2;
     height : 50px;
-    width : 650px;
+    width : 500px;
     padding-left : 20px;
     border : none;
     border-radius: 10px;
@@ -318,21 +307,6 @@
     text-align : right;
     margin-left : auto;
     margin-right : auto;
-}
-
-.privacypolicy-text{
-    padding-right : 10px;
-    font-family : comfortaa;
-    text-decoration : none;
-    font-size : 12px;
-    font-weight : bold;
-}
-
-.terms-text{
-    font-family : comfortaa;
-    text-decoration : none;
-    font-size : 12px;
-    font-weight : bold;
 }
 
 .carousel {
