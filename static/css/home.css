@@ -13,8 +13,6 @@ section {font-family : comfortaa;
         font-size : 20px;
         /* margin-left: 10%; */
         /* margin-right: 10% */
-
-
 }
 
 .quick-access {background-color: white;
@@ -33,8 +31,6 @@ section {font-family : comfortaa;
             margin: 4px 2px;
 }
 
-
-
 .manage {background-color: #FBF2CF;
          color: black;
          text-align: center;
@@ -47,8 +43,6 @@ section {font-family : comfortaa;
          font-size: 16px;
          margin-left: 5%;
 }
-
-
 
 .profile {background-color: #FBF2CF;
           color: black;
@@ -63,15 +57,12 @@ section {font-family : comfortaa;
           float: right;
 }
 
-
 .ance {background-color: #d9d9d9;
       border-radius: 8px;
       height: 300px;
       width: 100%;   
       text-align: center;
 }
-
-
 
 .footer {background-color: white;
         color: black;
