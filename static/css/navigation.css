@@ -111,3 +111,21 @@
     margin-top: 100px;
     margin-right: 20px;
 }
+
+.privacypolicy-text{
+    padding-right : 10px;
+    color: #728ddf;
+    font-family : comfortaa;
+    text-decoration : none;
+    font-size : 12px;
+    font-weight : bold;
+}
+
+.terms-text{
+    padding-right : 10px;
+    font-family : comfortaa;
+    color: #728ddf;
+    text-decoration : none;
+    font-size : 12px;
+    font-weight : bold;
+}
