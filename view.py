@@ -69,6 +69,6 @@ def pp():
     # display pravacy-policy.html
     return render_template("privacy-policy.html")
 
-def toc():
+def tac():
     # display terms-and-conditions.html
     return render_template("terms-and-conditions.html")

@@ -27,9 +27,9 @@ def about():
 def pp():
     return view.pp()
 
-@app.route('/toc')
-def toc():
-    return view.toc()
+@app.route('/tac')
+def tac():
+    return view.tac()
 
 @app.route('/login', methods = ["GET", "POST"])
 def login():
