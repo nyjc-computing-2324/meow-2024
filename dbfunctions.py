@@ -281,35 +281,45 @@ def delete_activity(activity_id: int):
 # FOR STUDENT ACTIVITY
 def create_studentactivity(student_id: int, activity_id: int) -> None:
     """
-    if student_id does not exist in junction table, attribute error is raised
-    if activity_id does not exist in junction table, attribute error is raised
+    if student_id does not exist in student table, attribute error is raised
+    if activity_id does not exist in activity table, attribute error is raised
     else data is inserted into student_activity and student_activity_backup
     """
-    if student_profile.retrieve("student_id", student_id) is None:
+    if student_profile.retrieve(student_id) is None:
         raise AttributeError("Invalid student id.")
-    if activity_info.retrieve("activity_id", activity_id) is None:
+    if activity_info.retrieve(activity_id) is None:
         raise AttributeError("Invalid activity id.")
-    student_activity.insert(student_id, activity_id)
-    student_activity_backup.insert(student_id, activity_id)
+    student_activity.insert({"student_id": student_id, "activity_id": activity_id})
+    student_activity_backup.insert({"student_id": student_id, "activity_id": activity_id})
 
-def retrieve_studentactivity(pk_name: str, pk: int) -> list(tuple):
+def retrieve_studentactivity(pk_name: str, pk: int) -> list[tuple]:
     """
     obtain information for an student activity
-    if student activity does not exists, attribute error is raised
+    if combination with the pk does not exists, attribute error is raised
     else a list of tuple of (student_id, activity_id) is returned
     """
-    record = student_activity.retrieve(pk_name, pk)
+    record = student_activity.retrieve_all(pk_name, pk)
     if record is None:
-        raise AttributeError("Student activity does not exist.")
+        raise AttributeError(f"No record for this {pk_name}.")
     return record
 
 def delete_studentactivity(student_id: int, activity_id: int) -> None:
     """
-    if account does not exists, attribute error is raised
+    if student-activity combination does not exists, attribute error is raised
     else delete account from student_activity and student_activity_backup
     """
-    if student_activity.retrieve("student_id", student_id) is None:
+    record = student_activity.retrieve_all("student_id", student_id)
+    if record is None:
         raise AttributeError("Student activity does not exist.")
+    exists = False
+    index = 0
+    while not exists:
+        if index >= len(record):
+            raise AttributeError("Student activity does not exist.")
+        _student_id, _activity_id = record[index]
+        if activity_id == _activity_id:
+            exists = True
+        index += 1
     student_activity.delete(student_id, activity_id)
     student_activity_backup.delete(student_id, activity_id)
 
