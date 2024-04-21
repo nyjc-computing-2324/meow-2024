@@ -50,6 +50,10 @@ def profile():
     #     return redirect("/temp")
     return render_template("profile.html")
 
+def profile_edit():
+    #displays profile_edit.html
+    return render_template("profile_edit.html")
+
 def about():
     #display about.html
     #also doesn't exist yet

@@ -36,8 +36,8 @@ input[type=file]{
     margin-right: auto;
     border-radius: 8px;
     box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.2), 0 6px 20px 0 rgba(0, 0, 0, 0.19);
-    width : 70%;
-    max-width : 800px;
+    width : 80%;
+    max-width : 900px;
     min-width : 768px;
     height : 500px;
 
@@ -80,7 +80,6 @@ input[type=file]{
     width : 180px;
     font-family : comfortaa;
 }
-
 
 .edit-profile-button{
     margin-top : 50px;
@@ -164,11 +163,29 @@ input[type=file]{
     border-radius: 8px;
     text-align: center;
     height : 180px;
-    width : 70%;
-    max-width : 600px;
+    width : 80%;
+    max-width : 700px;
     min-width : 450px;
     font-family : comfortaa;
+    display: flex;
+    align-items: center; 
+    justify-content: center;
 
+}
+
+.edit-button{
+    text-decoration: none;
+    color: white;
+    height: 30px;
+    width: 60px;
+    background-color: #bdbcfb;
+    border-radius: 8px;
+    display: flex;
+    align-items: center; 
+    justify-content: center;
+    font-size: 15px;
+    margin-top: 1%;
+    margin-right: 1%;
 }
 
 #about-field{

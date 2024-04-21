@@ -2,7 +2,6 @@ from flask import Flask, redirect, request, session
 import view, validate, database, dbfunctions
 import os
 
-
 app = Flask(__name__)
 
 app.secret_key = os.urandom(32)
@@ -61,9 +60,15 @@ def register():
         else:
             return view.register(error="Username does not meet requirements.")
 
-@app.route('/profile', methods = ["GET", "POST"])
+@app.route('/profile')
 def profile():
     return view.profile()
+
+@app.route('/profile_edit', methods = ["GET", "POST"])
+def profile_edit():
+    if request.method == "POST":
+        return view.profile_edit()
+    return view.profile_edit()
 
 @app.route('/view_edit_cca')
 def view_edit_cca():
