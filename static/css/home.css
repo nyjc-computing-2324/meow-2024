@@ -74,13 +74,15 @@ section {
     height: 300px;
     width: 100%;
     text-align: center;
+    display: flex;
+    align-items: center; 
+    justify-content: center;
 }
 
 .ance-text{
     color: #737373;
     text-align: center;
     vertical-align: middle;
-    line-height: 300px;
 }
 
 .main-body {
