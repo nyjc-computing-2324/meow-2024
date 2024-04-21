@@ -67,7 +67,7 @@ def register():
         else:
             return view.register(error="Username does not meet requirements.")
 
-@app.route('/profile', methods = ["GET", "POST"])
+@app.route('/profile')
 def profile():
     if request.method == "POST":
         if request.form["response"] == "Edit":
