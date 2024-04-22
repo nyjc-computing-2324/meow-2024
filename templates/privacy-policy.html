@@ -2,7 +2,6 @@
 <html>
     <head>
         <link rel="stylesheet" type="text/css" href="{{ url_for('static', filename='css/pp_style.css') }}">
-            
         <title>
             Meow's Privacy Policy
         </title>
@@ -33,6 +32,7 @@
                     <span class="sect" id="triggerText6">
                         Section 6
                     </span>
+
                     <span class="sect" id="triggerText7">
                         Section 7
                     </span>
@@ -335,10 +335,6 @@
                 <p>Effective Date: January 1, 2024</p>
             </div>
         </div>
-        {% set page = "privacy" %}    
-        {% block content %}
-            {% include 'navigation.html' %}
-        {% endblock %}
         <script src="static/js/pp_script.js"></script>
     </body>
     {% set loggedin = False %}    

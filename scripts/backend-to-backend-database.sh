@@ -3,17 +3,17 @@
 # Import git identity check
 sh ./scripts/git-identity.sh
 
-# Merge backend into dev
+# Merge backend into backend-database
 git switch backend
 git pull
-git switch dev
+git switch backend-database
 git pull
 git merge backend
-echo "Merged backend into dev"
-git commit -m "Merged backend into dev"
+echo "Merged backend into backend-database"
+git commit -m "Merged backend into backend-database"
 git push
 
 # Update permissions to +x
-chmod 700 ./scripts/backend-to-dev.sh
+chmod 700 ./scripts/backend-to-backend-database.sh
 
 # Only devops can run
