@@ -12,7 +12,7 @@
         <section class="topbar-section">
             <img class="logo-img1" src="{{ url_for('static',filename= 'images/cat.svg') }}">
             <span class="logo-text1">
-                Meow
+                <a href="/home" class="logo-text1"> Meow </a>
             </span>
             <div class = "links-container">
                 <div class = "contact-container">
@@ -36,15 +36,12 @@
         {% if loggedin == True %}
         <section class="topbar-section">
             <img class="logo-img1" src="{{ url_for('static',filename= 'images/cat.svg') }}">
-            <span class="logo-text1">
-                <a href="/home"> Meow </a>
-            </span>
+            <div class="logo-text1">
+                <a href="/home" class="logo-text1"> Meow </a>
+            </div>
             <div class = "links-container">
                 <div class = "contact-container">
                 <a class="text" href="/records_cca" target="new">My Records</a>
-                </div>
-                <div class = "divider-container1">
-                <span class="text">|</span>
                 </div>
                 <div class = "faqs-container">
                 <a class="text" href = "/temp" target="new">Manage</a>
@@ -53,7 +50,9 @@
                 <span class="text">|</span>
                 </div>
                 <div class = "login-container">
-                <a class="text" href="/temp">Log Out</a>
+                    <form action="/" method="post">
+                        <input type="submit" class = "logout" value="Log Out" name="response">
+                    </form>
                 </div>
                 <form name="view-profile" action="/profile" method="get">
                     <input type="submit" class = "profile-button" src="userprofile.png" value="">
@@ -69,5 +68,6 @@
         <div class="tac-text">
             <a class="terms-text" href = "/toc" target="new">Terms and Conditions</a>
         </div>
+        </section>
 
     </body>

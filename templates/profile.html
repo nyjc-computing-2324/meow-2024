@@ -1,20 +1,21 @@
 <!DOCTYPE html>
 <html>
     <head>
-        <title>PROFILE</title>
+        <title>Profile</title>
         <link rel="stylesheet" type="text/css" href="{{ url_for('static', filename='css/profile.css') }}">
         <meta name="viewport" content="width=device-width, initial-scale=1.0">
     </head>
     <body>
         <section class="profile-section">
             <div class="profile-container">
+                
                 <div class="profile-display-container">
                     <div class="profile-picture-container">
-                    {if has_img == True}
+                    {% if has_img == True %}
                     <img src = "{{ url_for('static', filename=file) }}" class = "profile-picture">
                     {% endif %}
                     </div>
-                
+                    
                     <span class = "profile-name">
                         <h2>Zhuo Howren</h2>
                     </span>
@@ -22,20 +23,24 @@
                     <span class = "profile-username">
                         <h3>@username</h3>
                     </span>
-                    {% if edit == False %}
                     <form action = "/profile" method="post">
-                        <input name="response" type="submit" class='edit-profile-button' value="edit">
+                        {% if edit == False %}
+                        <input name="response" type="submit" class='edit-profile-button' value="Edit">
+                        {% elif edit == True %}
+                        <input name="response" type="submit" class='save-profile-button' value="Save">
+                        {% endif %}
                     </form>
-                    {% elif edit == True}
-                    <form action = "/profile" method="post">
-                        <input name="response" type="submit" class='save-profile-button' value="save">
-                    {% endif %}
 
                     <form action = "/profile" method="post">
+                        {% if edit == False %}
                         <button id="btn" class = "download-profile-label">Download profile</button>
                         <input name="response" type="file" id="inputField" class = "download-profile-button" value = "download">
+                        {% elif edit == True %}
+                        <input name="response" type="submit" class='cancel-profile-button' value="Cancel">
+                        {% endif %}
                     </form>
                 </div>
+                
                 <div class="profile-description-container">
                     <span class="profile-title"><h1>Profile Page</h1></span>
                     <div class="email-number-container">
@@ -51,17 +56,18 @@
                         </div>
                     </div>
                     <div class="about-container">
-                        <span class="about-label">About myself:</span>
+                        <span class="about-label">Description goes here</span>
                         <br>
                         <div class="about">
                         {% if edit == True %}
-                        <textarea id="about-field" type="text" name="message" placeholder="Meow!">{{ msg }}</textarea>
+                        <textarea id="about-field" class="about-text" type="text" name="message" placeholder="Meow!">{{ msg }}</textarea>
                         {% elif edit == False %}
-                        <textarea id="about-field" type="text" name="message" readonly placeholder="Meow!">{{ msg }}</textarea>
+                        <textarea id="about-field" class="about-text" type="text" name="message" readonly placeholder="Meow!">{{ msg }}</textarea>
                         {% endif %}
                         </div>
                     </div>
                 </div>
+                
             </div>
         </section>
         {% set loggedin = True %}    
