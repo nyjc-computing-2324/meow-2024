@@ -43,12 +43,12 @@ def home():
     #display home.html
     return render_template("home.html")
 
-def profile():
+def profile(edit = False, profile = None):
     # displays profile.html
     # if not completed:
     #     # redirects the user to temp.html
     #     return redirect("/temp")
-    return render_template("profile.html")
+    return render_template("profile.html", edit = edit, profile = profile)
 
 def profile_edit():
     #displays profile_edit.html

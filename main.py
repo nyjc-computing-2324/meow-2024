@@ -6,8 +6,10 @@ app = Flask(__name__)
 
 app.secret_key = os.urandom(32)
 
-@app.route('/')
+@app.route('/', methods = ["GET", "POST"])
 def index():
+    if request.method == "POST":
+        session["logged_in"] = False
     return view.index()
 
 @app.route('/temp')
@@ -39,6 +41,7 @@ def login():
         password = request.form["password"]
         if dbfunctions.login(username, password):
             session["logged_in"] = True
+            session["user"] = username
             return redirect("/home")
         else:
             return view.login(error="invalid username or password")
@@ -54,20 +57,26 @@ def register():
             if validate.password_isvalid(password):
                 dbfunctions.create_account(username, password)
                 session["logged_in"] = True
+                session["user"] = username
                 return redirect("/home")
             else:
                 return view.register(error="Password does not meet requirements.")
         else:
             return view.register(error="Username does not meet requirements.")
 
-@app.route('/profile')
+@app.route('/profile', methods = ["GET", "POST"])
 def profile():
+    if request.method == "POST":
+        if request.form["response"] == "Edit":
+            return view.profile(edit = True)
+        elif request.form["response"] == "Save":
+            return view.profile(edit = False)
+        elif request.form["response"] == "Cancel":
+            return view.profile(edit = False)
     return view.profile()
 
 @app.route('/profile_edit', methods = ["GET", "POST"])
 def profile_edit():
-    if request.method == "POST":
-        return view.profile_edit()
     return view.profile_edit()
 
 @app.route('/view_edit_cca')

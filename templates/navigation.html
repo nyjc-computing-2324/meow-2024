@@ -43,9 +43,6 @@
                 <div class = "contact-container">
                 <a class="text" href="/records_cca" target="new">My Records</a>
                 </div>
-                <div class = "divider-container1">
-                <span class="text">|</span>
-                </div>
                 <div class = "faqs-container">
                 <a class="text" href = "/temp" target="new">Manage</a>
                 </div>
@@ -53,7 +50,9 @@
                 <span class="text">|</span>
                 </div>
                 <div class = "login-container">
-                <a class="text" href="/">Log Out</a>
+                    <form action="/" method="post">
+                        <input type="submit" class = "logout" value="Log Out" name="response">
+                    </form>
                 </div>
                 <form name="view-profile" action="/profile" method="get">
                     <input type="submit" class = "profile-button" src="userprofile.png" value="">
@@ -69,5 +68,6 @@
         <div class="tac-text">
             <a class="terms-text" href = "/tac" target="new">Terms and Conditions</a>
         </div>
+        </section>
 
     </body>

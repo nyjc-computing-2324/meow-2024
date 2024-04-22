@@ -23,18 +23,21 @@
                     <span class = "profile-username">
                         <h3>@username</h3>
                     </span>
-                    {% if edit == False %}
                     <form action = "/profile" method="post">
-                        <input name="response" type="submit" class='edit-profile-button' value="edit">
+                        {% if edit == False %}
+                        <input name="response" type="submit" class='edit-profile-button' value="Edit">
+                        {% elif edit == True %}
+                        <input name="response" type="submit" class='save-profile-button' value="Save">
+                        {% endif %}
                     </form>
-                    {% elif edit == True %}
-                    <form action = "/profile" method="post">
-                        <input name="response" type="submit" class='save-profile-button' value="save">
-                    {% endif %}
 
                     <form action = "/profile" method="post">
+                        {% if edit == False %}
                         <button id="btn" class = "download-profile-label">Download profile</button>
                         <input name="response" type="file" id="inputField" class = "download-profile-button" value = "download">
+                        {% elif edit == True %}
+                        <input name="response" type="submit" class='cancel-profile-button' value="Cancel">
+                        {% endif %}
                     </form>
                 </div>
                 
@@ -57,15 +60,13 @@
                         <br>
                         <div class="about">
                         {% if edit == True %}
-                        <textarea id="about-field" type="text" name="message" placeholder="Meow!">{{ msg }}</textarea>
+                        <textarea id="about-field" class="about-text" type="text" name="message" placeholder="Meow!">{{ msg }}</textarea>
                         {% elif edit == False %}
-                        <textarea id="about-field" type="text" name="message" readonly placeholder="Meow!">{{ msg }}</textarea>
+                        <textarea id="about-field" class="about-text" type="text" name="message" readonly placeholder="Meow!">{{ msg }}</textarea>
                         {% endif %}
                         </div>
                     </div>
                 </div>
-                
-                <a class = "edit-button" href = "/profile_edit">Edit</a>
                 
             </div>
         </section>
