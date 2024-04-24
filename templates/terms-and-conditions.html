@@ -67,9 +67,12 @@
 
             </div>
         </div>
-        <script src="js/pp_script.js"></script>
-    </body>
-
-
+        <script src="static/js/pp_script.js"></script>
+        {% set loggedin = False %}    
+        {% block content %}
+            {% include 'navigation.html' %}
+        {% endblock %}
+        </body>
+        <hr>
 
 </html>
