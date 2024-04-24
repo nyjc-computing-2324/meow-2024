@@ -1,6 +1,6 @@
 <!-- view/edit my cca page -->
 
-<!DOCTYPE html>
+<!-- <!DOCTYPE html>
 <html>
     <head>
         <link rel="stylesheet" type="text/css" href="{{ url_for('static', filename='css/view_edit_cca.css') }}">
@@ -17,9 +17,9 @@
                         <p>Status: Graduated</p>
                     </span>
                 </div>
-                
+
                 </br>
-                
+
                 <div class="left-textbox">
                     <h2>About</h2>
                     </br>
@@ -29,7 +29,7 @@
                     <p>Date left: 01/01/2018</p>
                 </div>
             </div>
-    
+
             <div class="middle-textbox">
                 <h2>Achievments</h2>
                 </br>
@@ -49,15 +49,11 @@
                 <p>2018 VIA soup kitchen</p>
             </div>
         </div>
-        {% set loggedin = True %}    
-        {% block content %}
-            {% include 'navigation.html' %}
-        {% endblock %}
     </body>
 
 </html>
+ -->
 
-<!-- 
 <!DOCTYPE html>
 <html lang="en">
 <head>
@@ -98,7 +94,10 @@
             <input type="text" id="box3" name="box3" placeholder="Enter text">
         </div>
     </div>
+    {% set loggedin = True %}    
+    {% block content %}
+        {% include 'navigation.html' %}
+    {% endblock %}
 </body>
 </html>
--->
 
