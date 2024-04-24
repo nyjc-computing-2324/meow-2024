@@ -7,11 +7,18 @@ def index():
     # display index.html which is the launch page
     return render_template("index.html")
 
-def view_edit_cca():
+def view_edit_activities():
     # display view_edit_cca.html
     if not completed:
         # redirects the user to temp
         return redirect("/temp")
+    return render_template("view_edit_activities.html")
+
+def view_edit_cca():
+    # display view_edit_cca.html
+    # if not completed:
+    #     # redirects the user to temp
+    #     return redirect("/temp")
     return render_template("view_edit_cca.html")
 
 def records_cca():
@@ -36,12 +43,16 @@ def home():
     #display home.html
     return render_template("home.html")
 
-def profile():
+def profile(edit = False, profile = None):
     # displays profile.html
     # if not completed:
     #     # redirects the user to temp.html
     #     return redirect("/temp")
-    return render_template("profile.html")
+    return render_template("profile.html", edit = edit, profile = profile)
+
+def profile_edit():
+    #displays profile_edit.html
+    return render_template("profile_edit.html")
 
 def about():
     #display about.html
@@ -62,6 +73,6 @@ def pp():
     # display pravacy-policy.html
     return render_template("privacy-policy.html")
 
-def toc():
+def tac():
     # display terms-and-conditions.html
     return render_template("terms-and-conditions.html")
