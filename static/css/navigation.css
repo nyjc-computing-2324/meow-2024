@@ -9,7 +9,8 @@
     box-sizing : border-box;
     max-width : 100%;
 }
-
+/* position : fixed to fix topbar at top of page */
+/* z-index : 1 to ensure topbar is always the frontmost object*/
 .topbar-section{
     background-color: white;
     height: 80px;
@@ -29,7 +30,7 @@
     width: 61px;
     margin-right: auto;
 }
-
+/* text-decoration : none to remove underline in hyperlink */
 .logo-text1 {
     margin-right : auto;
     font-family : comfortaa;
@@ -56,6 +57,7 @@
     right : 60px;
 }
 
+/* text-decoration : none to remove underline in hyperlink */
 .text{
     font-family : comfortaa;
     color : black;

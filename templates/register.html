@@ -5,6 +5,7 @@
         <title>Register</title>
     </head>
     <body>
+        {# Box for signing up#}
         <section class = register-box>
             <br>
             <img class="logo-img2" src="{{ url_for('static',filename= 'images/cat.svg') }}">
@@ -12,15 +13,19 @@
                 <h3>sign up</h3>
             </div>
             <form name="register" action="/register" method="post">
+                {# Name field #}
                 <div class = "name-field-container">
                     <input id="name-field" type="text" name="name" placeholder="name">
                 </div>
+                {# Username field #}
                 <div class="username-field-container">
                     <input id="username-field" type="text" name="username" placeholder="username">
                 </div>
+                {# Password field #}
                 <div class="password-field-container">
                     <input id="pass-field" type="password" name="password" placeholder="password">
                 </div>
+                {# Checkbox for terms and service #}
                 <div class = 'TOS-checkbox-container'>
                     <input type="checkbox" id="TOS-checkbox" name="TOS-checkbox" value="True">
                   <label for="TOS-checkbox"> I hereby agree to Meow's Terms and Conditions and acknowledge the Privacy Policy</label>
