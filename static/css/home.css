@@ -28,12 +28,12 @@ section {
     background-color: #FAF0C5;
     color: black;
     text-align: center;
-    border-radius: 8px;
+    border-radius: 8px; /* make corners round */
     width: 30%;
     height: 80px;
     text-decoration: none;
-    padding-top: 24px;
-    display: inline-block;
+    padding-top: 24px; /* align text to center of box */
+    display: inline-block; /* align to manage and profile */
     font-size: 30px;
     margin: 2.2%;
     margin-left: 0%;
@@ -43,12 +43,12 @@ section {
     background-color: #FAF0C5;
     color: black;
     text-align: center;
-    border-radius: 8px;
+    border-radius: 8px; /* make corners round */
     width: 30%;
     height: 80px;
     text-decoration: none;
-    padding-top: 24px;
-    display: inline-block;
+    padding-top: 24px; /* align text to center of box */
+    display: inline-block; /* align to records and profile */
     font-size: 30px;
     margin: 2.2%;
 }
@@ -57,18 +57,18 @@ section {
     background-color: #FAF0C5;
     color: black;
     text-align: center;
-    border-radius: 8px;
+    border-radius: 8px; /* make corners round */
     width: 30%;
     height: 80px;
     text-decoration: none;
-    padding-top: 24px;
-    display: inline-block;
+    padding-top: 24px; /* align text to center of box */
+    display: inline-block; /* align to records and profile */
     font-size: 30px;
     margin: 2.2%;
     margin-right: 0%;
 }
 
-.ance {
+.ance { /* announcement box */
     background-color: #d9d9d9;
     border-radius: 8px;
     height: 300px;
@@ -79,7 +79,7 @@ section {
     justify-content: center;
 }
 
-.ance-text{
+.ance-text{  /* text in announcement box */
     color: #737373;
     text-align: center;
     vertical-align: middle;
