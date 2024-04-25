@@ -11,28 +11,18 @@
             <h1>Welcome Back!</h1>
             <h2>Quick access</h2>
             <div class="quick-access"></div>
-            <div class="myrecords">
-                <a style="text-decoration:none" href="/records_cca" target="new"> My Records</a>
-            </div>
-            <div class="manage">
-                <a style="text-decoration:none" href="/manage" target="new"> Manage</a>
-            </div>
-            <div class="profile">
-                <a style="text-decoration:none" href="/profile" target="new"> Profile</a>
-            </div>
+            <a class="records" href="/records_cca" target="new"> My Records</a>
+            <a class="manage" href="/manage" target="new"> Manage</a>
+            <a class="profile" href="/profile" target="new"> Profile</a>
         </section>
         <br>
         <section>
             <h2>Announcements</h2>
             <br>
             <div class="ance">
-                blank
+                <a class="ance-text">No announcements</a>
             </div>
         </section>
-
-        <footer class='footer'>
-            <a class="privacypolicy-text" href = "/pp" target="new">PRIVACY POLICY</a>
-        </footer>
         </div>
         {% set loggedin = True %}    
         {% block content %}

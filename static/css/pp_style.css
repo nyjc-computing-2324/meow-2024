@@ -26,6 +26,7 @@
     min-width: 200px;
 }
 
+
 /* Hide scrollbar for WebKit browsers */
 .sub-container::-webkit-scrollbar {
     display: none;
@@ -35,6 +36,7 @@
 .sub-container {
     scrollbar-width: none;
 }
+
 
 .sub-container {
     display: flex;
@@ -50,7 +52,6 @@
     background-color: #f0f0f0; /* Background color for the subsection */
     top: 70px;
 }
-
 
 .content-container {
     flex-grow: 1; /* Take up remaining space */
