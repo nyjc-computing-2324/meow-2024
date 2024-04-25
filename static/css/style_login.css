@@ -3,14 +3,16 @@
     src: url(Comfortaa-Light.ttf);
 }
 
-* {
+* { 
+    /* applies css to the entire page */
     padding: 0;
     margin: 0;
     box-sizing: border-box;
     max-width: 100%;
 }
 
-.login-box {
+.login-box { 
+    /* css for the login box */
     margin-top: 250px;
     margin-left: auto;
     margin-right: auto;
@@ -21,6 +23,7 @@
 }
 
 .username-field-container {
+    /* css for username container */
     margin-top: 20px;
     margin-left: auto;
     margin-right: auto;
@@ -30,6 +33,7 @@
 }
 
 #user-field {
+    /* css for username container */
     font-family: comfortaa;
     background-color: #FBF2CF;
     height: 50px;
@@ -44,6 +48,7 @@
 }
 
 .password-field-container {
+    /* css for password container */
     margin-top: 20px;
     margin-left: auto;
     margin-right: auto;
@@ -53,6 +58,7 @@
 }
 
 #pass-field {
+    /* css for password container */
     font-family: comfortaa;
     background-color: #FBF2CF;
     height: 50px;
@@ -67,6 +73,7 @@
 }
 
 .login {
+    /* css for login button */
     margin: auto;
     font-family: comfortaa;
     background-color: #8AADF4;
@@ -78,6 +85,7 @@
 }
 
 .login-button-container {
+    /* css for login button container */
     margin-top: 30px;
     margin: auto;
     width: 500px;
@@ -86,6 +94,7 @@
 }
 
 .logo-img1 {
+    /* css for logo image */
     display: block;
     height: 61px;
     width: 61px;
@@ -94,11 +103,13 @@
 }
 
 .logo-text1 {
+    /* css for logo text "meow" */
     text-align: center;
     font-family: comfortaa;
 }
 
 .forget-pass {
+    /* css for "forget password" */
     margin-left: 15px;
     font-family: comfortaa;
     text-decoration: none;
@@ -107,6 +118,7 @@
 }
 
 .tagline-section {
+    /* css for tagline */
     text-align: center;
     margin-top: 20px;
     font-family: comfortaa;
