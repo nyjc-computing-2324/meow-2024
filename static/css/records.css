@@ -25,14 +25,14 @@
 }
 
 .cca-activity-text-button {
-    border: none;
+    border: none; /*by default is will have a bblack border*/
     border-radius: 20px;
     background: white;
     width: 10%;
     height: 40px;
     position: relative;
-    top: -20px;
-    cursor: pointer;
+    top: -20px; /*shifts the button up from its original location*/
+    cursor: pointer; /*changes the cursor to a pointer when the cursor is hovering above the button*/
 }
 
 .circle {
@@ -74,7 +74,7 @@
     color: white;
     float: right;
     text-align: center;
-    padding: 9px 0px;
+    padding: 9px 0px; /*1st value repr the top & bottom padding, 2nd value repr the left & right padding*/
     margin: 10px 20px;
     font-size: 30px;
     cursor: pointer;
