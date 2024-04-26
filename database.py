@@ -1,7 +1,6 @@
 import sqlite3
 from typing import Callable
 
-
 def init_tables(get_conn: Callable):
     """creates the table for all table in database"""
     conn = get_conn()
@@ -154,9 +153,6 @@ class Table:
     pk_name: str  #stands for primary key name
     fields: list[str]
 
-    # def __init__(self, get_conn):
-    #     self.get_conn = get_conn
-
     def __init__(self, get_conn: Callable):
         """create a table upon initialisation of the class"""
         self.get_conn = get_conn
@@ -208,10 +204,6 @@ class Table:
         query = f"""
                 INSERT INTO {self.table_name} ({fieldstr}) VALUES ({qnmarks});
                 """
-        # formatting the params
-        # params = (record[self.fields[0]], )
-        # for field in self.fields[1:]:
-        #     params += (record[field], )
         self._execute_query(query, tuple(record.values()), commit=True)
         
     def update(self, pk: int, field: str, new: str):
@@ -238,8 +230,10 @@ class Table:
         record = self._execute_query(query, params, fetch=True)
         return record
 
-    def delete(self, pk: int):
+    def delete(self, pk: int, pk_name:str = ""):
         """remove existing records in the database"""
+        if pk_name == "":
+            pk_name = self.pk_name
         query = f"""
                 DELETE FROM {self.table_name}
                 WHERE {self.pk_name} = ?;
@@ -366,6 +360,9 @@ class Account(Table):
         raises Attributes error if field is invalid
         checks for repeated username should already be done if username is being updated
         """
+        if pk_name not in [self.pk_name, "username"]:
+            raise ValueError("")
+
         self._valid_field_else_error(field)
         if pk_name not in ['account_id', 'username']:
             raise AttributeError(f"Invalid pk_name '{pk_name}'")
@@ -436,16 +433,16 @@ class Student(Table):
             );
         """, params=None, commit=True)
 
-    def insert(self, record: dict):
-        """
-        insert new records into the database
-        checks for valid account_id should already be done
-        """
-        # check that record has all fields required
-        for field in self.fields:
-            if field not in record:
-                raise AttributeError(f"field {field} not in record argument")
-        super().insert(record)
+    # def insert(self, record: dict):
+    #     """
+    #     insert new records into the database
+    #     checks for valid account_id should already be done
+    #     """
+    #     # check that record has all fields required
+    #     for field in self.fields:
+    #         if field not in record:
+    #             raise AttributeError(f"field {field} not in record argument")
+    #     super().insert(record)
     #     with sqlite3.connect(self.database_name) as conn:
     #         cursor = conn.cursor()
     #         query = f"""
