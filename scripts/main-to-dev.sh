@@ -3,17 +3,17 @@
 # Import git identity check
 sh ./scripts/git-identity.sh
 
-# Merge main into devops-security
+# Merge main into dev
 git switch main
 git pull
-git switch devops-security
+git switch dev
 git pull
 git merge main
-echo "Merged main into devops-security"
-git commit -m "Merged main into devops-security"
+echo "Merged main into dev"
+git commit -m "Merged main into dev"
 git push
 
 # Update permissions to +x
-chmod 700 ./scripts/main-to-devops-security.sh
+chmod 700 ./scripts/main-to-dev.sh
 
 # Only devops can run

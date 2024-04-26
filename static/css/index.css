@@ -93,7 +93,6 @@
     width: 100px;
     height: 40px;
 
-
 }
 /* flex-direction : column Arrange elements in row */
 .tagline-section{
@@ -342,15 +341,72 @@
     margin-right : auto;
 }
 
-.privacypolicy-text{
-    padding-right : 10px;
-    font-family : comfortaa;
-    text-decoration : none;
-    font-size : 12px;
-    font-weight : bold;
+.carousel {
+    display : flex;
+    justify-content: center;
+    width : 100%;
 }
 
-.terms-text{
+.carousel__track-container {
+    display : flex;
+    justify-content: center;
+    width : 800px;
+    height: 320px;
+    overflow: hidden;
+}
+
+.carousel__track {
+    padding: 0;
+    margin: 0;
+    list-style: none;
+    display : flex;
+    justify-content: center;
+    width : 800px;
+    height: 320px;
+}
+
+.carousel__slide {
+    position: absolute;
+    display : flex;
+    justify-content: center;
+    width : 800px;
+    height: 320px;
+}
+
+.carousel__button {
+    position: relative;
+    top: 120px;
+    background: transparent;
+    border: 0;
+    cursor: pointer;
+    width: 48px;
+    height: 48px;
+}
+
+.carousel__button--left {
+    right: 25px;
+}
+
+.carousel__button--right {
+    left: 25px;
+}
+
+
+.feature-item{
+    min-height: 320px;
+    border-radius: 20px;
+    min-width: 250px;
+    background-image : linear-gradient(#ffffff, #8AADF4);
+}
+
+.features-text-container{
+    position : relative;
+    flex-direction: column;
+    text-align : left;
+    left : 50px;
+    top : 100px;
+}
+.features-text{
     font-family : comfortaa;
     text-decoration : none;
     font-size : 12px;

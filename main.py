@@ -465,5 +465,9 @@ def manage():
     return view.manage()
 
 
+@app.route('/view_edit_activities')
+def view_edit_activities():
+    return view.view_edit_activities()
+
 if __name__ == '__main__':
     app.run(host='0.0.0.0', port=80)

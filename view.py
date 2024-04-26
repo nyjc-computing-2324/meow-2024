@@ -105,7 +105,6 @@ def join_activity(edit, data={"name": "", "status": ""}, msg=[""], name=[]):
                            msg=msg,
                            names=name)
 
-
 def about():
     #display about.html
     if not completed:
