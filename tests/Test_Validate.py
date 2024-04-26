@@ -1,6 +1,5 @@
 from unittest import *
 from validate import *
-from database import *
 #IMPORTANT Please Read
 """
 We will be using the unittest module instead to test frontend and backend.

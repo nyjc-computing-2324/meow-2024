@@ -2,6 +2,7 @@ from unittest import *
 from database import Account
 import auth
 import sqlite3
+from dbfunctions import *
 #IMPORTANT Please Read
 """
 We will be using the unittest module instead to test frontend and backend.
@@ -26,7 +27,7 @@ CURRENT TASKS/ISSUES:
 class Test_Account(TestCase):
 
     def setUp(self):
-        self.account = Account(':memory:')
+        self.account = get_cca('qa')
         self.name = '@aBc'
         self.password = 'Abcd1234'
         self.password_hash, self.salt = auth.create_hash(self.password)
@@ -34,7 +35,7 @@ class Test_Account(TestCase):
 
     def test_insert(self):
         """
-        Checks if the provided data is correctly inserted into
+        Checks if the provided data is correctly inx de4serted into
         the Account table with the insert method, ie. if the name
         attribute of the retrieved record matches with the
         inserted record's name
