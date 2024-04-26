@@ -23,7 +23,7 @@
                             {% if "name" in profile %}
                                 {{ profile["name"] }}
                             {% else %}
-                                Zhuo Howren
+                                meow
                             {% endif %}
                         </h2>
                     </span>
@@ -33,7 +33,7 @@
                             {% if "username" in profile %}
                                 {{ profile["username"] }}
                             {% else %}
-                                username
+                                meow
                             {% endif %}
                         </h3>
                     </span>
@@ -64,7 +64,7 @@
                                 {% if "email" in profile %}
                                     {{ profile["email"] }}
                                 {% else %}
-                                    zhuohowren123@gmail.com
+                                    meow@meow.com
                                 {% endif %}
                             </span>
                         </div>
@@ -75,7 +75,7 @@
                                 {% if "number" in profile %}
                                     {{ profile["number"] }}
                                 {% else %}
-                                    +65 98765432
+                                    +65 meow
                                 {% endif %}
                             </span>    
                         </div>
@@ -88,7 +88,11 @@
                         <div class="about">
                             {% if edit == True %}
                             <textarea id="about-field" type="text" name="message" placeholder="Meow!">
-{% if "about" in profile %}{{ profile["about"] }}{% endif %}
+                                {% if "about" in profile %}
+                                    {{ profile["about"] }}
+                                {% else %}
+                                    {{ "meow!" }}
+                                {% endif %}
                             </textarea>
                             {% elif edit == False %}
                             <textarea id="about-field" type="text" name="message" placeholder="Meow!" readonly>
