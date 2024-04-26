@@ -13,6 +13,7 @@ def log():
     if session.get("logged_in") == None:
         session["logged_in"] = False
 
+
 @app.route('/', methods=["GET", "POST"])
 def index():
     log()
