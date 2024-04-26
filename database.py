@@ -6,7 +6,7 @@ def init_tables(get_conn: Callable):
     """creates the table for all table in database"""
     conn = get_conn()
     cursor = conn.cursor()
-    cursor.execute(
+    cursor.executescript(
         """
         CREATE TABLE IF NOT EXISTS "account" (
         "account_id" INTEGER PRIMARY KEY,
@@ -14,12 +14,6 @@ def init_tables(get_conn: Callable):
         "password" TEXT NOT NULL,
         "salt" BYTES NOT NULL
         );
-        """
-        )
-    conn.commit()
-
-    cursor.execute(
-        """
         CREATE TABLE IF NOT EXISTS "student" (
             "student_id" INTEGER PRIMARY KEY,
             "name" TEXT NOT NULL,
@@ -28,23 +22,11 @@ def init_tables(get_conn: Callable):
             "account_id" INTEGER NOT NULL UNIQUE,
             FOREIGN KEY ("account_id") REFERENCES account("account_id")
         );
-        """
-    )
-    conn.commit()
-
-    cursor.execute(
-        """
         CREATE TABLE IF NOT EXISTS "cca" (
             "cca_id" INTEGER PRIMARY KEY,
             "name" TEXT NOT NULL,
             "type" TEXT NOT NULL 
         );
-        """
-    )
-    conn.commit()
-
-    cursor.execute(
-        """
         CREATE TABLE IF NOT EXISTS "activity" (
             "activity_id" INTEGER PRIMARY KEY,
             "name" TEXT NOT NULL,
@@ -53,12 +35,6 @@ def init_tables(get_conn: Callable):
             "organiser_id" INTEGER,
             FOREIGN KEY ("organiser_id") REFERENCES account("student_id")
         );
-        """
-    )
-    conn.commit()
-
-    cursor.execute(
-        """
         CREATE TABLE IF NOT EXISTS "studentactivity" (
             "student_id" INTEGER NOT NULL,
             "activity_id" INTEGER NOT NULL,
@@ -66,12 +42,6 @@ def init_tables(get_conn: Callable):
             FOREIGN KEY ("student_id") REFERENCES student("student_id"),
             FOREIGN KEY ("activity_id") REFERENCES activity("activity_id")
         );
-        """
-    )
-    conn.commit()
-
-    cursor.execute(
-        """
         CREATE TABLE IF NOT EXISTS "studentcca" (
             "student_id" INTEGER,
             "cca_id" INTEGER,
@@ -83,6 +53,7 @@ def init_tables(get_conn: Callable):
         """
     )
     conn.commit()
+    conn.close()
 
 def quote_join(list_of_str: list[str], enquote: bool = False) -> str:
     """
@@ -486,7 +457,7 @@ class CCA(Table):
             cursor.execute(f"""
                 CREATE TABLE IF NOT EXISTS {self.table_name} (
                     "cca_id" INTEGER PRIMARY KEY,
-                    "name" TEXT NOT NULL UNQIUE,
+                    "name" TEXT NOT NULL UNIQUE,
                     "type" TEXT NOT NULL, 
                 );
                 """)
