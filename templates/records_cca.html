@@ -7,27 +7,12 @@
     </head>
 
     <body>
-        <!-- <section class="topbar-section">
-            <img class="logo-img1" src="{{ url_for('static',filename= 'images/cat.svg') }}">
-            <span class="logo-text1">
-                Meow
-            </span>
-            <a class="record-text" href="/temp" target="new">My Records</a>
-            <span class="divider">|</span>
-            <a class="manage-text" href = "/temp" target="new">Manage</a>
-            <span class="divider">|</span>
-            <a class="logout-text" href="/temp" target="new">Log out</a>
-            <!--<span class="topbar-circle"></span>
-        </section> -->
-
-        </br>
-
         <div class="myrecord-textbox">
             <h3 class="myrecord-text">My records</h3>
         </div>
-        
+
         <div>
-            <button class="cca-activity-text-button">CCA</button><button class="cca-activity-text-button">Activities</button>
+            <button class="cca-activity-text-button">CCA </br> <span style="color: white">h</span> </button><a href="/records_activities" target="_self"><button class="cca-activity-text-button" style="background: linear-gradient(180deg, whitesmoke 50%, white 50%)"> Activities </br> <span style="color: white">h</span></button> </a>
         </div>
 
         <div class="general-text">
@@ -68,12 +53,12 @@
             </div>
         </div>
 
-        <button class="plus-button"> + </button>
-        
-        {% set page = "records" %}
+
+        <a href="/view_edit_cca" target="_self"><button class="plus-button"> + </button> </a>
+
+        {% set loggedin = True %}
         {% block content %}
             {% include 'navigation.html' %}
         {% endblock %}
     </body>
-    
     </html>

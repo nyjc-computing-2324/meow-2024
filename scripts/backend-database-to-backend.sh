@@ -17,4 +17,3 @@ git push
 chmod 700 ./scripts/backend-database-to-backend.sh
 
 # Only devops can run
-

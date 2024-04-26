@@ -1,0 +1,46 @@
+<!DOCTYPE html>
+<html>
+    <head>
+        <title>Edit Profile</title>
+        <link rel="stylesheet" type="text/css" href="{{ url_for('static', filename='css/profile_edit.css') }}">
+        <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    </head>
+    <body>
+        <section class="main">
+            <h1>Edit Profile</h1>
+            <form action="/" method="post" class = "inner">
+                <div class="field-container">
+                    <div class="text-inputs-container">
+                        <div class="row">
+                            <label for="username" class="input-label">Username:</a>
+                            <input type="text" name=username value="Content" class="input" id="username">
+                        </div>
+                        <div class="row">
+                            <label for="name" class="input-label">Name:</a>
+                            <input type="text" name=name value="Content" class="input" id="name">
+                        </div>
+                        <div class="row">
+                            <label for="number" class="input-label">Phone Number:</a>
+                            <input type="text" name=number value="Content" class="input" id="number">
+                        </div>
+                        <div class="row">
+                            <label for="email" class="input-label">Email:</a>
+                            <input type="text" name=email value="Content" class="input" id="email">
+                        </div>
+                    </div>
+                    <div class="desc-container">
+                        <label for="desc" class="desc-label">About:</label>
+                        <textarea id="desc" class="desc-field">Content</textarea>
+                    </div>
+                </div>
+                <div class="submission-container">
+                    <input type="submit" value="Save" name="response" class="submit-buttons">
+                    <input type="submit" value="Cancel" name="response" class="submit-buttons">
+                </div>
+            </form>
+        </section>
+        {% set loggedin = True %}    
+        {% block content %}
+            {% include 'navigation.html' %}
+        {% endblock %}
+    </body>
