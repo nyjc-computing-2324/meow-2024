@@ -11,6 +11,7 @@ def postgres_conn(uri):
     return psycopg2.connect(uri)
 
 def get_uri(env: str = ""):
+    """identifies and returns the uri/database name based on app screts of the repl"""
     env = env or os.getenv("ENVIRONMENT", default = "")
     if env in ["main", "dev"]:
         uri = os.getenv("DATABASE_URL")
@@ -18,13 +19,15 @@ def get_uri(env: str = ""):
         uri = ":memory:"
     else:
         uri = "meow.db"
+    return uri
 
 def conn_factory(env, uri):
     """Returns a connection getter: a function that returns a connection when called"""
     def get_conn():
-        if env in ["main", "dev"]:
+        _env = env or os.getenv("ENVIRONMENT", default = "")
+        if _env in ["main", "dev"]:
             conn = postgres_conn(uri)
-        elif env == "qa":
+        elif _env == "qa":
             conn = sqlite_conn(uri)
         else:
             conn = sqlite_conn(uri)
@@ -51,43 +54,42 @@ def get_activity(env: str = "") -> Activity:
     uri = get_uri(env)
     return Activity(conn_factory(env, uri))
 
-cca_info = CCA("meow.db")
-cca_info_backup = CCA("backup.db")
-cca_info_testing = CCA("test.db")
+# cca_info = CCA("meow.db")
+# cca_info_backup = CCA("backup.db")
+# cca_info_testing = CCA("test.db")
 
-activity_info = Activity("meow.db")
-activity_info_backup = Activity("backup.db")
-activity_info_testing = Activity("test.db")
+# activity_info = Activity("meow.db")
+# activity_info_backup = Activity("backup.db")
+# activity_info_testing = Activity("test.db")
 
-student_activity = StudentActivity('meow.db')
-student_activity_backup = StudentActivity('backup.db')
-student_activity_testing = StudentActivity('test.db')
+# student_activity = StudentActivity('meow.db')
+# student_activity_backup = StudentActivity('backup.db')
+# student_activity_testing = StudentActivity('test.db')
 
-student_cca = StudentCCA('meow.db')
-student_cca_backup = StudentCCA('backup.db')
-student_cca_testing = StudentCCA('test.db')
+# student_cca = StudentCCA('meow.db')
+# student_cca_backup = StudentCCA('backup.db')
+# student_cca_testing = StudentCCA('test.db')
 
 # instantiating table objects
-student_account = get_account()
+account = get_account()
 student_profile = get_student()
 
 # FOR ACCOUNT TABLE
 def create_account(username: str, password: str):
     """
     if username already exists, attribute error is raised
-    else data is inserted into student_account and student_account_backup
+    else data is inserted into account and account_backup
     """
     # check for repeated username
-    if student_account.retrieve("username", username) is not None:
+    if account.retrieve(username, "username") is not None:
         raise AttributeError("Username already exists")
     password, salt = auth.create_hash(password)
-    student_account.insert(username, password, salt)
-    student_account_backup.insert(username, password, salt)
+    account.insert({'username': username, 'password': password, 'salt': salt})
 
 def login(username: str , password: str) -> bool:
     # checks for valid username and password is already done 
 
-    data = student_account.retrieve("username", username)
+    data = account.retrieve(username, "username")
     # account not found
     if data is None:
         return False
@@ -99,17 +101,17 @@ def login(username: str , password: str) -> bool:
 def update_account(pk_name: str, pk, field: str, data):
     """
     if account does not exists, attribute error is raised
-    else account updated in student_account and student_account_backup
+    else account updated in account and account_backup
     field can only be "username", "password" or "salt"
     pk_name can only be "account_id" or "username"
     if username already exists and is to be updated, attribute error is raised
     """
-    if student_account.retrieve(pk_name, pk) is None:
+    if account.retrieve(pk, pk_name) is None:
         raise AttributeError("Account does not exist")
-    if field == "username" and student_account.retrieve("username", data) is not None:
+    if field == "username" and account.retrieve(data, "username") is not None:
         raise AttributeError("Username already exist")
-    student_account.update(pk_name, pk, field, data)
-    student_account_backup.update(pk_name, pk, field, data)
+    account.update(pk, pk_name, field, data)
+    account_backup.update(pk, pk_name, field, data)
 
 def retrieve_account(pk_name: str, pk) -> dict:
     """
@@ -118,7 +120,7 @@ def retrieve_account(pk_name: str, pk) -> dict:
     else a dictionary of account_id, username, password, salt is returned
     pk_name can only be "account_id" or "username"
     """
-    record = student_account.retrieve(pk_name, pk)
+    record = account.retrieve(pk, pk_name)
     if record is None:
         raise AttributeError("Account does not exist")
     account_id, username, password, salt = record
@@ -127,13 +129,13 @@ def retrieve_account(pk_name: str, pk) -> dict:
 def delete_account(pk_name: str, pk):
     """
     if account does not exists, attribute error is raised
-    else delete account from student_account and student_account_backup
+    else delete account from account and account_backup
     pk_name can only be "account_id" or "username"
     """
-    if student_account.retrieve(pk_name, pk) is None:
+    if account.retrieve(pk, pk_name) is None:
         raise AttributeError("Account does not exist")
-    student_account.delete(pk_name, pk)
-    student_account_backup.delete(pk_name, pk)
+    account.delete(pk, pk_name)
+    account_backup.delete(pk, pk_name)
 
 
 # FOR STUDENT TABLE
@@ -142,7 +144,7 @@ def create_profile(name, _class, email, account_id):
     if account_id does not exist in account table, attribute error is raised
     else data is inserted into student_profile and student_profile_backup
     """
-    if student_account.retrieve("account_id", account_id) is None:
+    if account.retrieve(account_id, "account_id") is None:
         raise AttributeError("Invalid account id")
     student_profile.insert(name, _class, email, account_id)
     student_profile_backup.insert(name, _class, email, account_id)
@@ -151,12 +153,12 @@ def update_profile(student_id: int, field: str, data):
     """
     if profile does not exists, attribute error is raised
     if account_id does not exist in account table, attribute error is raised
-    else account updated in student_account and student_account_backup
+    else account updated in account and account_backup
     field can only be "account_id", "name", "class" or "email"
     """
     if student_profile.retrieve(student_id) is None:
         raise AttributeError("Student profile does not exist")
-    if field == "account_id" and student_account.retrieve("account_id", data) is None:
+    if field == "account_id" and account.retrieve(data, "account_id") is None:
         raise AttributeError("Invalid account id")
     student_profile.update(student_id, field, data)
     student_profile_backup.update(student_id, field, data)
@@ -207,12 +209,12 @@ def update_cca(pk_name: str, pk, field: str, data):
     if cca does not exists, attribute error is raised
     else cca updated in cca_info and cca_info_backup
     """
-    if cca_info.retrieve(pk_name, pk) is None:
+    if cca_info.retrieve(pk, pk_name) is None:
         raise AttributeError('CCA record does not exist')
     if pk_name == "name" and cca_info.retrieve("name", pk) is not None:
         raise AttributeError('Name already exists.')
-    cca_info.update(pk_name, pk, field, data)
-    cca_info_backup.update(pk_name, pk, field, data)
+    cca_info.update(pk, pk_name, field, data)
+    cca_info_backup.update(pk, pk_name, field, data)
     
 def retrieve_cca(pk_name: str, pk) -> dict:
     """
@@ -220,7 +222,7 @@ def retrieve_cca(pk_name: str, pk) -> dict:
     if cca does not exists, attribute error is raised
     else a dictionary of cca_id, name, type is returned
     """
-    record = cca_info.retrieve(pk_name, pk)
+    record = cca_info.retrieve(pk, pk_name)
     if record is None:
         raise AttributeError('CCA record does not exist')
     cca_id, name, type = record
@@ -232,10 +234,10 @@ def delete_cca(pk_name: str, pk) -> None:
     if cca does not exists, attribute error is raised
     else delete cca from cca_info and cca_info_backup
     """
-    if cca_info.retrieve(pk_name, pk) is None:
+    if cca_info.retrieve(pk, pk_name) is None:
         raise AttributeError('CCA record does not exist')
-    cca_info.delete(pk_name, pk)
-    cca_info_backup.delete(pk_name, pk)
+    cca_info.delete(pk, pk_name)
+    cca_info_backup.delete(pk, pk_name)
     
 # FOR ACTIVITY TABLE
 def create_activity(name: str, date: str, location: str, organiser_id: int):
@@ -304,7 +306,7 @@ def retrieve_studentactivity(pk_name: str, pk: int) -> list[tuple]:
     if combination with the pk does not exists, attribute error is raised
     else a list of tuple of (student_id, activity_id) is returned
     """
-    record = student_activity.retrieve_all(pk_name, pk)
+    record = student_activity.retrieve_all(pk, pk_name)
     if record is None:
         raise AttributeError(f"No record for this {pk_name}.")
     return record
@@ -372,7 +374,7 @@ def retrieve_all_studentcca(pk_name: str, pk: int) -> list[tuple]:
     if combination with the pk does not exists, attribute error is raised
     else a list of tuple of (student_id, cca_id) is returned
     """
-    record = student_cca.retrieve_all(pk_name, pk)
+    record = student_cca.retrieve_all(pk, pk_name)
     if record is None:
         raise AttributeError(f"No record for this {pk_name}.")
     return record
