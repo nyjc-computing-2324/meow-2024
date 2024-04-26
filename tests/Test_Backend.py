@@ -125,6 +125,7 @@ class Test_Student(TestCase):
         self._class = 4444
         self.email = 'racist@gmail.com'
         self.acc_id = 666
+        self.student.delete(1)
         self.student.insert(self.name, self._class, self.email, self.acc_id)
     
     def test_insert(self):
@@ -207,6 +208,7 @@ class Test_Student(TestCase):
 
         self.student.delete(1)
         self.assertIsNone(self.student.retrieve(1), 'Delete method failed.')
+        self.student.insert(self.name, self._class, self.email, self.acc_id)
 
 
 
