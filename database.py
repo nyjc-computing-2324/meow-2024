@@ -65,6 +65,87 @@ def quote_join(list_of_str: list[str], enquote: bool = False) -> str:
         return ", ".join([f'"{str_}"' for str_ in list_of_str])
     return ", ".join(list_of_str)
 
+def init_tables(conn):
+    cursor = conn.cursor()
+    cursor.execute(
+        """
+        CREATE TABLE IF NOT EXISTS "account" (
+        "account_id" INTEGER PRIMARY KEY,
+        "username" TEXT NOT NULL UNIQUE,
+        "password" TEXT NOT NULL,
+        "salt" BYTES NOT NULL
+        );
+        """
+        )
+    conn.commit()
+    #conn.close() called automatically
+
+    cursor.execute(
+        """
+        CREATE TABLE IF NOT EXISTS "student" (
+            "student_id" INTEGER PRIMARY KEY,
+            "name" TEXT NOT NULL,
+            "class" INTEGER NOT NULL, 
+            "email" TEXT NOT NULL,
+            "account_id" INTEGER NOT NULL UNIQUE,
+            FOREIGN KEY ("account_id") REFERENCES account("account_id")
+        );
+        """
+    )
+    conn.commit()
+
+    cursor.execute(
+        """
+        CREATE TABLE IF NOT EXISTS "cca" (
+            "cca_id" INTEGER PRIMARY KEY,
+            "name" TEXT NOT NULL,
+            "type" TEXT NOT NULL 
+        );
+        """
+    )
+    conn.commit()
+
+    cursor.execute(
+        """
+        CREATE TABLE IF NOT EXISTS "activity" (
+            "activity_id" INTEGER PRIMARY KEY,
+            "name" TEXT NOT NULL,
+            "date" TEXT NOT NULL, 
+            "location" TEXT NOT NULL,
+            "organiser_id" INTEGER,
+            FOREIGN KEY ("organiser_id") REFERENCES account("student_id")
+        );
+        """
+    )
+    conn.commit()
+
+    cursor.execute(
+        """
+        CREATE TABLE IF NOT EXISTS "studentactivity" (
+            "student_id" INTEGER NOT NULL,
+            "activity_id" INTEGER NOT NULL,
+            PRIMARY KEY ("student_id", "activity_id"),
+            FOREIGN KEY ("student_id") REFERENCES student("student_id"),
+            FOREIGN KEY ("activity_id") REFERENCES activity("activity_id")
+        );
+        """
+    )
+    conn.commit()
+
+    cursor.execute(
+        """
+        CREATE TABLE IF NOT EXISTS "studentcca" (
+            "student_id" INTEGER,
+            "cca_id" INTEGER,
+            "role" TEXT NOT NULL,
+            PRIMARY KEY ("student_id", "cca_id"),
+            FOREIGN KEY ("student_id") REFERENCES student("student_id"),
+            FOREIGN KEY ("cca_id") REFERENCES cca("cca_id")
+        );
+        """
+    )
+    conn.commit()
+
 class Table:
     """parent class for all subsequent tables"""
     table_name: str
@@ -569,6 +650,7 @@ class CCA(Table):
     #         params = (pk, )
     #         cursor.execute(query, params)
     #         conn.commit()
+
 
 
 class Activity(Table):
