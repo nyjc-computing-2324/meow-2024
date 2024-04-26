@@ -88,7 +88,6 @@ def create_account(username: str, password: str):
 
 def login(username: str , password: str) -> bool:
     # checks for valid username and password is already done 
-
     data = account.retrieve(username, "username")
     # account not found
     if data is None:
