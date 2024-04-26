@@ -12,6 +12,7 @@ def index():
         session["logged_in"] = False
     return view.index()
 
+
 @app.route('/temp')
 def temp():
     return view.temp()
@@ -19,6 +20,10 @@ def temp():
 @app.route('/home')
 def home():
     return view.home()
+
+@app/.route('/edit_activities')
+def edit_activities():
+    return view.edit_activities()
 
 @app.route('/about')
 def about():
@@ -79,9 +84,13 @@ def profile():
 def profile_edit():
     return view.profile_edit()
 
-@app.route('/view_edit_cca')
-def view_edit_cca():
-    return view.view_edit_cca()
+@app.route('/view_cca')
+def view_cca():
+    return view.view_cca()
+
+@app.route('/edit_cca')
+def edit_cca():
+    return view.edit_cca()
 
 @app.route('/records_cca')
 def records_cca():
@@ -91,9 +100,9 @@ def records_cca():
 def records_activities():
     return view.records_activities()
 
-@app.route('/view_edit_activities')
-def view_edit_activities():
-    return view.view_edit_activities()
+@app.route('/view_activities')
+def view_activities():
+    return view.view_activities()
 
 if __name__ == '__main__':
   app.run(host='0.0.0.0', port=80)
