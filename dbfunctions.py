@@ -98,6 +98,13 @@ def login(username: str , password: str) -> bool:
     # salting and hashing of password implemented 
     return auth.check_password(password, database_password, database_salt)
 
+def username_taken(username) -> bool:
+    #checks if the username is already in use
+    data = account.retrieve(username, "username")
+    if data is None:
+        return True
+    return False
+
 def update_account(pk_name: str, pk, field: str, data):
     """
     if account does not exists, attribute error is raised
