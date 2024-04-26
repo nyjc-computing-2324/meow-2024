@@ -59,7 +59,6 @@ def about():
     log()
     return view.about()
 
-
 @app.route('/pp')
 def pp():
     log()
@@ -80,9 +79,8 @@ def login():
     else:
         username = request.form["username"]
         password = request.form["password"]
-        if dbfunctions.login(username, password):
+        if validate.user_isvalid(username, password):
             session["logged_in"] = True
-            session["user"] = username
             return redirect("/home")
         else:
             return view.login(error="Invalid username or password")
@@ -464,10 +462,6 @@ def manage():
         return redirect("/login")
     return view.manage()
 
-
-@app.route('/view_edit_activities')
-def view_edit_activities():
-    return view.view_edit_activities()
 
 if __name__ == '__main__':
     app.run(host='0.0.0.0', port=80)

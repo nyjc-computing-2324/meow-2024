@@ -3,14 +3,10 @@
     src: url(Comfortaa-Light.ttf);
 }
 
-h1 {
-    font-size: 50px;
+h1 {font-size: 50px;
 }
 
-h2 {
-    font-size: 30px;
-    margin: 20px;
-    margin-left: 0px;
+h2 {font-size: 30px;
 }
 
 section {
@@ -18,8 +14,7 @@ section {
     font-size : 20px;
 }
 
-.quick-access {
-    background-color: white;
+.quick-access {background-color: white;
 }
 
 .records {
@@ -80,12 +75,10 @@ section {
 .ance-text{  /* text in announcement box */
     color: #737373;
     text-align: center;
-    vertical-align: middle;
 }
 
 .main-body {
-    background-color: white;
-    margin-top: 120px;
-    margin-left: 5%;
-    margin-right: 5%;
+        margin-top: 150px;
+        margin-left: 30%;
+        margin-right: 30%;
 }

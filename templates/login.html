@@ -2,7 +2,7 @@
 <html>
     <head>
         <link rel="stylesheet" type="text/css" href="{{ url_for('static', filename='css/style_login.css') }}">
-        <title>Login</title>
+        <title>Login HERE!</title>
     </head>
 
     <body>
@@ -28,20 +28,23 @@
                 </div>
 
                 <div class="forget-pass">
-                    <label for="pass" type="text" name="forgor"><a href="https://tinyurl.com/forgerpass" class = "forget-pass">Forgot password?</a></label>
+                    <label for="pass" type="text" name="forgor"><a href="#forgetpass">Forget password?</a></label>
                 </div>
 
-
-            </form>
-            <div class="error_msg">
-                <p>{{ error_msg }}</p>
-            </div>
-
+                {% if error_msg %}
+                <div style="border: 2px solid red;"><p>{{error_msg}}<p></div>
+                {% endif %}
+                {% if success_msg %}
+                <br/><h2>{{success_msg}}</h2>
+                {% endif %}
+              
+              
+        </form>
         </section>
         <div class="tagline-section">
             New to Meow? <a href="/register">Sign up for free!</a>
         </div>
-        {% set loggedin = False %}    
+        {% set page = "login" %}    
         {% block content %}
             {% include 'navigation.html' %}
         {% endblock %}
