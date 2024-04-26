@@ -3,6 +3,7 @@ from flask import Flask, redirect, request, session
 import view, validate, dbfunctions
 import os
 
+
 app = Flask(__name__)
 
 app.secret_key = os.urandom(32)
@@ -69,10 +70,13 @@ def register():
         password = request.form["password"]
         if validate.username_isvalid(username):
             if validate.password_isvalid(password):
-                dbfunctions.create_account(username, password)
-                session["logged_in"] = True
-                session["user"] = username
-                return redirect("/home")
+                if dbfunctions.username_taken(username):
+                    dbfunctions.create_account(username, password)
+                    session["logged_in"] = True
+                    session["user"] = username
+                    return redirect("/home")
+                else:
+                    return view.register(error="Username is already taken")
             else:
                 return view.register(
                     error="Password does not meet requirements.")
