@@ -8,7 +8,6 @@ app = Flask(__name__)
 
 app.secret_key = os.urandom(32)
 
-
 @app.route('/', methods=["GET", "POST"])
 def index():
     if request.method == "POST":
@@ -86,9 +85,9 @@ def register():
 
 @app.route('/profile', methods=["GET", "POST"])
 def profile():
-    info = {
-        "about": "meow!"
-    }  #bfunctions.retrieve_account("username", session.get("user"))
+    session["logged_in"] = True
+    session["user"] = "awpgikxdigj"
+    info = dbfunctions.retrieve_account("username", session.get("user"))
     if request.method == "POST":
         if request.form["response"] == "Edit":
             return view.profile(edit=True, profile=info)

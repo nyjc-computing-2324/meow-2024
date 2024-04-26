@@ -7,6 +7,7 @@
     </head>
     <body>
         <section class="profile-section">
+            <form action = "/profile" method="post" onkeydown="return event.key != 'Enter';">
             <div class="profile-container">
                 
                 <div class="profile-display-container">
@@ -20,38 +21,42 @@
                     
                     <span class = "profile-name">
                         <h2>
-                            {% if "name" in profile %}
-                                {{ profile["name"] }}
-                            {% else %}
-                                meow
+                            {% if edit == False %}
+                                {% if "name" in profile %}
+                                    {{ profile["name"] }}
+                                {% else %}
+                                    meow
+                                {% endif %}
+                            {% elif edit == True %}
+                                {% if "name" in profile %}
+                                    <input type="text" value="{{ profile['name'] }}" class="name-input" name="name">
+                                {% else %}
+                                    <input type="text" value="meow" class="name-input" name="name">
+                                {% endif %}
                             {% endif %}
                         </h2>
                     </span>
                 
                     <span class = "profile-username">
                         <h3>@
-                            {% if "username" in profile %}
-                                {{ profile["username"] }}
-                            {% else %}
+                            {%- if "username" in profile -%}
+                                {{- profile["username"] -}}
+                            {%- else -%}
                                 meow
-                            {% endif %}
+                            {%- endif -%}
                         </h3>
                     </span>
-                    <form action = "/profile" method="post">
                         {% if edit == False %}
                         <input name="response" type="submit" class='edit-profile-button' value="Edit">
                         {% elif edit == True %}
                         <input name="response" type="submit" class='save-profile-button' value="Save">
                         {% endif %}
-                    </form>
-                    <form action = "/profile" method="post">
                         {% if edit == False %}
                         <button id="btn" class = "download-profile-label">Download profile</button>
                         <input name="response" type="file" id="inputField" class = "download-profile-button" value = "download">
                         {% elif edit == True %}
                         <input name="response" type="submit" class='cancel-profile-button' value="Cancel">
                         {% endif %}
-                    </form>
                 </div>
                 
                 <div class="profile-description-container">
@@ -61,10 +66,18 @@
                             <span class="email-label">email:</span>
                             <br>
                             <span class="email-content">
-                                {% if "email" in profile %}
-                                    {{ profile["email"] }}
-                                {% else %}
-                                    meow@meow.com
+                                {% if edit == False %}
+                                    {% if "email" in profile %}
+                                        {{ profile["name"] }}
+                                    {% else %}
+                                        meow@meow.com
+                                    {% endif %}
+                                {% elif edit == True %}
+                                    {% if "email" in profile %}
+                                        <input type="text" value="{{ profile['email'] }}" class="email-input" name="email">
+                                    {% else %}
+                                        <input type="text" value="meow@meow.com" class="email-input" name="email">
+                                    {% endif %}
                                 {% endif %}
                             </span>
                         </div>
@@ -72,10 +85,18 @@
                             <span class="number-label">number:</span>
                             <br>
                             <span class="number-content">
-                                {% if "number" in profile %}
-                                    {{ profile["number"] }}
-                                {% else %}
-                                    +65 meow
+                                {% if edit == False %}
+                                    {% if "number" in profile %}
+                                        {{ profile["number"] }}
+                                    {% else %}
+                                        +65 meow
+                                    {% endif %}
+                                {% elif edit == True %}
+                                    {% if "number" in profile %}
+                                        <input type="text" value="{{ profile['number'] }}" class="number-input" name="number">
+                                    {% else %}
+                                        <input type="text" value="+65 meow" class="number-input" name="number">
+                                    {% endif %}
                                 {% endif %}
                             </span>    
                         </div>
@@ -88,15 +109,15 @@
                         <div class="about">
                             {% if edit == True %}
                             <textarea id="about-field" type="text" name="message" placeholder="Meow!">
-                                {% if "about" in profile %}
-                                    {{ profile["about"] }}
-                                {% else %}
-                                    {{ "meow!" }}
-                                {% endif %}
+                                {%- if "about" in profile -%}
+                                    {{- profile["about"] -}}
+                                {%- endif -%}
                             </textarea>
                             {% elif edit == False %}
                             <textarea id="about-field" type="text" name="message" placeholder="Meow!" readonly>
-{% if "about" in profile %}{{ profile["about"] }}{% endif %}
+                                {%- if "about" in profile -%}
+                                    {{- profile["about"] -}}
+                                {%- endif -%}
                             </textarea>
                             {% endif %}
                         </div>
@@ -105,6 +126,7 @@
                 
             </div>
         </section>
+        </form>
         {% set loggedin = True %}    
         {% block content %}
             {% include 'navigation.html' %}

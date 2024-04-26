@@ -181,12 +181,13 @@ input[type=file]{
 .email-container{
     margin-left : 20px;
     font-family : comfortaa;
+    width: 50%;
 
 }
 .number-container{
     margin-left : 50px;
     font-family : comfortaa;
-
+    width: 50%;
 }
 
 .about-container{
@@ -209,7 +210,7 @@ input[type=file]{
     background-color : #FBF2CF;
     text-align: center;
     border : none;
-    /* outline : none; */
+    outline : none;
     resize : none;
     border-radius: 10px;
     font-family : comfortaa;
@@ -227,4 +228,30 @@ input[type=file]{
   [class*="profile-section"] {
     width: 100%;
   }
+}
+
+.name-input{
+    text-align : center;
+    width : 180px;
+    font-family : comfortaa;
+    font-size: 30px;
+    border: None;
+    font-weight: 900;
+    outline : none;
+}
+
+.email-input{
+    width : 100%;
+    font-family : comfortaa;
+    font-size: 20px;
+    border: None;
+    outline : none;
+}
+
+.number-input{
+    width : 100%;
+    font-family : comfortaa;
+    font-size: 20px;
+    border: None;
+    outline : none;
 }
