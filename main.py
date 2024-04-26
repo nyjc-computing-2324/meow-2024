@@ -71,14 +71,15 @@ def register():
 
 @app.route('/profile', methods = ["GET", "POST"])
 def profile():
+    info = dbfunctions.retrieve_account("username", session.get("user"))
     if request.method == "POST":
         if request.form["response"] == "Edit":
-            return view.profile(edit = True)
+            return view.profile(edit = True, profile = info)
         elif request.form["response"] == "Save":
-            return view.profile(edit = False)
+            return view.profile(edit = False, profile = info)
         elif request.form["response"] == "Cancel":
-            return view.profile(edit = False)
-    return view.profile()
+            return view.profile(edit = False, profile = info)
+    return view.profile(profile = info)
 
 @app.route('/profile_edit', methods = ["GET", "POST"])
 def profile_edit():

@@ -198,13 +198,10 @@ input[type=file]{
     max-width : 700px;
     min-width : 450px;
     font-family : comfortaa;
-    padding-top: 10px;
-}
-
-.about-text{
-    margin-top: 10px;
-    border: none;
-    outline: none;
+    display: flex;
+    vertical-align: center;
+    justify-content: center;
+    flex-direction: column;
 }
 
 #about-field{
@@ -216,10 +213,12 @@ input[type=file]{
     border-radius: 10px;
     font-family : comfortaa;
     max-width : 560px;
-    width : 70%;
-    height : 140px;
+    width : 80%;
+    height : 100px;
     font-family : comfortaa;
-
+    display: block;
+    margin-left: 10%;
+    margin-right: 10%;
 }
 
 @media only screen and (max-width: 768px) {

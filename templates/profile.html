@@ -19,11 +19,23 @@
                     </div>
                     
                     <span class = "profile-name">
-                        <h2>Zhuo Howren</h2>
+                        <h2>
+                            {% if "name" in profile %}
+                                {{ profile["name"] }}
+                            {% else %}
+                                Zhuo Howren
+                            {% endif %}
+                        </h2>
                     </span>
                 
                     <span class = "profile-username">
-                        <h3>@username</h3>
+                        <h3>@
+                            {% if "username" in profile %}
+                                {{ profile["username"] }}
+                            {% else %}
+                                username
+                            {% endif %}
+                        </h3>
                     </span>
                     <form action = "/profile" method="post">
                         {% if edit == False %}
@@ -48,23 +60,41 @@
                         <div class="email-container">
                             <span class="email-label">email:</span>
                             <br>
-                            <span class="email-content">zhuohowren123@gmail.com</span>
+                            <span class="email-content">
+                                {% if "email" in profile %}
+                                    {{ profile["email"] }}
+                                {% else %}
+                                    zhuohowren123@gmail.com
+                                {% endif %}
+                            </span>
                         </div>
                         <div class="number-container">
                             <span class="number-label">number:</span>
                             <br>
-                            <span class="number-content">+65 98765432</span>    
+                            <span class="number-content">
+                                {% if "number" in profile %}
+                                    {{ profile["number"] }}
+                                {% else %}
+                                    +65 98765432
+                                {% endif %}
+                            </span>    
                         </div>
                     </div>
                     <div class="about-container">
-                        <span class="about-label">Description goes here</span>
+                        <span class="about-label">
+                            About Me:
+                        </span>
                         <br>
                         <div class="about">
-                        {% if edit == True %}
-                        <textarea id="about-field" class="about-text" type="text" name="message" placeholder="Meow!">{{ msg }}</textarea>
-                        {% elif edit == False %}
-                        <textarea id="about-field" class="about-text" type="text" name="message" readonly placeholder="Meow!">{{ msg }}</textarea>
-                        {% endif %}
+                            {% if edit == True %}
+                            <textarea id="about-field" type="text" name="message" placeholder="Meow!">
+{% if "about" in profile %}{{ profile["about"] }}{% endif %}
+                            </textarea>
+                            {% elif edit == False %}
+                            <textarea id="about-field" type="text" name="message" placeholder="Meow!" readonly>
+{% if "about" in profile %}{{ profile["about"] }}{% endif %}
+                            </textarea>
+                            {% endif %}
                         </div>
                     </div>
                 </div>
