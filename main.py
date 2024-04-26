@@ -21,7 +21,7 @@ def temp():
 def home():
     return view.home()
 
-@app/.route('/edit_activities')
+@app.route('/edit_activities')
 def edit_activities():
     return view.edit_activities()
 
