@@ -1,78 +1,42 @@
 <!DOCTYPE html>
 <html>
     <head>
-        <title>Profile</title>
-        <link rel="stylesheet" type="text/css" href="{{ url_for('static', filename='css/profile.css') }}">
-        <meta name="viewport" content="width=device-width, initial-scale=1.0">
+        <title>PROFILE</title>
     </head>
+    {% set page = "profile" %}    
+    {% block content %}
+        {% include 'navigation.html' %}
+    {% endblock %}
     <body>
-        <section class="profile-section">
-            <div class="profile-container">
-                
-                <div class="profile-display-container">
-                    <div class="profile-picture-container">
-                    {% if has_img == True %}
-                    <img src = "{{ url_for('static', filename=file) }}" class = "profile-picture">
-                    {% endif %}
-                    </div>
-                    
-                    <span class = "profile-name">
-                        <h2>Zhuo Howren</h2>
-                    </span>
-                
-                    <span class = "profile-username">
-                        <h3>@username</h3>
-                    </span>
-                    <form action = "/profile" method="post">
-                        {% if edit == False %}
-                        <input name="response" type="submit" class='edit-profile-button' value="Edit">
-                        {% elif edit == True %}
-                        <input name="response" type="submit" class='save-profile-button' value="Save">
-                        {% endif %}
-                    </form>
-                    <form action = "/profile" method="post">
-                        {% if edit == False %}
-                        <button id="btn" class = "download-profile-label">Download profile</button>
-                        <input name="response" type="file" id="inputField" class = "download-profile-button" value = "download">
-                        {% elif edit == True %}
-                        <input name="response" type="submit" class='cancel-profile-button' value="Cancel">
-                        {% endif %}
-                    </form>
-                </div>
-                
-                <div class="profile-description-container">
-                    <span class="profile-title"><h1>Profile Page</h1></span>
-                    <div class="email-number-container">
-                        <div class="email-container">
-                            <span class="email-label">email:</span>
-                            <br>
-                            <span class="email-content">zhuohowren123@gmail.com</span>
-                        </div>
-                        <div class="number-container">
-                            <span class="number-label">number:</span>
-                            <br>
-                            <span class="number-content">+65 98765432</span>    
-                        </div>
-                    </div>
-                    <div class="about-container">
-                        <span class="about-label">Description goes here</span>
-                        <br>
-                        <div class="about">
-                        {% if edit == True %}
-                        <textarea id="about-field" class="about-text" type="text" name="message" placeholder="Meow!">{{ msg }}</textarea>
-                        {% elif edit == False %}
-                        <textarea id="about-field" class="about-text" type="text" name="message" readonly placeholder="Meow!">{{ msg }}</textarea>
-                        {% endif %}
-                        </div>
-                    </div>
-                </div>
-                
-            </div>
-        </section>
-        {% set loggedin = True %}    
-        {% block content %}
-            {% include 'navigation.html' %}
-        {% endblock %}
+        <div class= "header">
+            <h1>Profile Page</h1>
+        </div>
+
+        <div class= "email">
+            <h2>email:</h2>
+            <p>zhuohaowren123@gmail.com</p>
+        </div>
+
+        <div class= "number">
+            <h2>number:</h2>
+            <p>+65 98765432</p>
+        </div>
+
+        <div class="name">
+            <h2>Zhuo Howren</h2>
+            <p>@username</p>
+        </div>
+
+        <div class="edit-download">
+            <h3><div button class="button-round">edit</button></h3>
+            <h3><div button class="button-round">download profile</button></h3>
+        </div>
+
+        <div class= "about">
+            <h2>About myself:</h2>
+            <p>Lorem ipsum dolor sit amet, consectetur adipiscing elit. Curabitur in iaculis ex. Etiam volutpat laoreet urna. Morbi ut tortor nec nulla commodo malesuada sit amet vel lacus. Fusce eget efficitur libero. Morbi dapibus porta quam laoreet placerat.</h3>
+        </div>
+
     </body>
 </html>
-
+        

@@ -11,7 +11,7 @@
 }
 
 .login-box {
-    margin-top: 250px;
+    margin-top: 150px;
     margin-left: auto;
     margin-right: auto;
     box-shadow: 0px 5px 5px 5px #d9d9d9;
@@ -99,17 +99,10 @@
 }
 
 .forget-pass {
-    margin-left: 15px;
-    font-family: comfortaa;
-    text-decoration: none;
-    color: #8AADF4;
-    margin-top: 10px;
+    margin-left: 28px;
 }
 
 .tagline-section {
     text-align: center;
     margin-top: 20px;
-    font-family: comfortaa;
-    text-decoration: none;
-    color: black
 }

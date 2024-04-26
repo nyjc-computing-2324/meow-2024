@@ -10,6 +10,29 @@
     max-width : 1519px;
 }
 
+/* .topbar-section{
+    background-color: white;
+    height: 60px;
+    min-width : 100%;
+    display: flex;
+    align-items: center;
+    padding-left: 30px;
+    vertical-align: middle;
+    box-shadow: 0px 5px 5px #d9d9d9;
+}
+
+.logo-img1 {
+    height: 40px;
+    width: 40px;
+}
+
+.logo-text1 {
+    font-family : comfortaa;
+    font-size : 30px;
+    } */
+
+
+
 .record-text{
     position : relative;
     left : 950px;
@@ -69,6 +92,7 @@
 .general-text{
     font-family : comfortaa;
     font-size : 18px;
+    /* display: inline-block; */
     margin-top: 150px;
 }
 
@@ -112,83 +136,4 @@
     height: 400px;
     display: inline-block;
     margin-right: 15px;
-}
-
-
-.back-button {
-    position: absolute;
-    top: 20px;
-    left: 20px;
-    font-size: 24px;
-    text-decoration: none;
-    color: #000;
-}
-
-.back-button:hover {
-    color: #999; /* Change color on hover */
-}
-
-
-.container {
-    display: flex;
-    flex-direction: row;
-    height: 100%;
-    padding: 20px;
-    margin-top: 60px;
-}
-
-.box-container {
-    display: flex;
-    flex-direction: column;
-    flex: 1; /* Let the box container grow to fill available space */
-    margin-right: 20px;
-
-}
-
-.box {
-    flex: 1;
-    background-color: #FBF2CF;
-    /* border: 1px solid #ccc; */
-    padding: 10px;
-    height: 100vh;
-    box-sizing: border-box;
-    border-radius: 10px;
-    margin-right: 20px;
-}
-
-.overlay-box {
-    flex: 0.3; /* Set the width of the overlay box */
-    background-color: #f0f0f0; /* Semi-transparent background */
-    border: 1px solid #ccc;
-    padding: 10px;
-    box-sizing: border-box;
-    border-radius: 10px;
-    margin-bottom: 10px;
-}
-
-.overlay-content {
-    display: flex;
-    align-items: center;
-    justify-content: space-between;
-}
-
-.right-content {
-    flex: 1;
-}
-
-.picture {
-    flex: 1;
-    text-align: center; /* Center the image */
-}
-
-.picture img {
-    max-width: 100%; /* Ensure the image doesn't exceed its container */
-}
-
-
-
-
-/* Ensure the last box doesn't have right margin to prevent extra space */
-.box:last-child {
-    margin-right: 0;
 }
