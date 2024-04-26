@@ -1,9 +1,6 @@
 # Ignore local files
 .local
 
-# Ignore replit files
-replit.nix
-
 # Ignore bash scripts
 *.sh
 

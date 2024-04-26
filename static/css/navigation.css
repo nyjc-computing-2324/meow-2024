@@ -21,7 +21,6 @@
     position: fixed; 
     top: 0; 
     width: 100%; 
-    z-index : 1;
 }
 
 .logo-img1 {
@@ -34,8 +33,6 @@
     margin-right : auto;
     font-family : comfortaa;
     font-size : 32px;
-    color: black;
-    text-decoration: none;
     }
 
 .links-container{
@@ -44,33 +41,36 @@
     justify-content: flex-end;
     width: 100%;
     margin-right: 30px;
-    margin-left: 100px;
 }
 .contact-container{
     position : relative;
     right : 80px;
 }
 
+.contact-text{
+    font-family : comfortaa;
+    color : black;
+    text-decoration:none
+}
 .faqs-container{
     position : relative;
     right : 60px;
 }
 
-.text{
+.faqs-text{
     font-family : comfortaa;
     color : black;
-    text-decoration: none;
-    font-size: 15px;
-}
-
-.divider-container1{
-    position : relative;
-    right :70px;
+    text-decoration:none
 }
 
 .divider-container{
     position : relative;
     right : 40px;
+}
+
+.divider-text{
+    font-family : comfortaa;
+    color : black;
 }
 
 .login-container{
@@ -81,71 +81,16 @@
 .login-text{
     font-family : comfortaa;
     color : black;
-    text-decoration:none;
+    text-decoration:none
 }
 
 .sign_up_button1{
-    text-decoration: none;
-    color : white;
-    text-align: center;
-    padding-top : 12px;
-    margin-left : 10px;
+    margin-left : auto;
     font-family : comfortaa;
-    background-color: #728ddf;
+    background-color: #2f99e9;
     border-radius: 10px;
     border : none;
     width: 100px;
     height: 40px;
-}
 
-.profile-button{
-    border: none;
-    color: white;
-    width : 50px;
-    height : 50px;
-    text-decoration: none;
-    border-radius: 50%;
-}
-
-.footer{
-    text-align: right;
-    margin-top: 100px;
-    margin-right: 20px;
-}
-
-.privacypolicy-text{
-    padding-right : 10px;
-    color: #728ddf;
-    font-family : comfortaa;
-    text-decoration : none;
-    font-size : 12px;
-    font-weight : bold;
-}
-
-.terms-text{
-    padding-right : 10px;
-    font-family : comfortaa;
-    color: #728ddf;
-    text-decoration : none;
-    font-size : 12px;
-    font-weight : bold;
-
-}
-
-.logout{
-    text-align: center;
-    text-decoration: none;
-    border : none;
-    color : black;
-    font-family : comfortaa;
-    background-color: white;
-    font-size: 15px;
-
-.profile-button{
-    border: none;
-    color: white;
-    width : 50px;
-    height : 50px;
-    text-decoration: none;
-    border-radius: 50%;
 }
