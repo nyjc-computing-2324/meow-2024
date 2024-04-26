@@ -100,7 +100,6 @@ def delete_all_info(username: str) -> None:
     delete_profile(username)
     delete_account(username)
 
-
 # FOR ACCOUNT TABLE
 def create_account(username: str, password: str) -> None:
     """
