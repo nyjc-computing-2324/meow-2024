@@ -318,6 +318,8 @@ class JunctionTable(Table):
 
 
 
+
+
 class Account(Table):
     table_name: str = "account"
     fields = ["account_id", "username", "password", "salt"]
