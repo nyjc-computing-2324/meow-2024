@@ -1,4 +1,5 @@
 import sqlite3
+from typing import Callable
 
 def init_tables(conn):
     """creates the table for all table in database"""
@@ -99,20 +100,41 @@ def quote_join(list_of_str: list[str], enquote: bool = False) -> str:
 class Table:
     """parent class for all subsequent tables"""
     table_name: str
+    get_conn: Callable
     pk_name: str  #stands for primary key name
     fields: list[str]
 
     # def __init__(self, get_conn):
     #     self.get_conn = get_conn
 
-    def __init__(self, database_name: str):
+    def __init__(self, get_conn: Callable):
         """create a table upon initialisation of the class"""
-        self.database_name = database_name
+        self.get_conn = get_conn()
 
     def _valid_field_else_error(self, field) -> None:
         """checks if given fields are found in the table"""
         if field not in self.fields:
             raise AttributeError(f"Invalid field '{field}'")
+
+    def _execute_query(
+        self,
+        query: str, params: tuple | None,
+        *,
+        commit: bool = False,
+        fetch: bool = False
+    ):
+        conn = self.get_conn()
+        cursor = conn.cursor()
+        if params:
+            cursor.execute(query, params)
+        else:
+            cursor.execute(query)
+        assert not (commit and fetch), "commit and fetch are both True"
+        if fetch:
+            record = cursor.fetchone()
+            return record
+        if commit:
+            conn.commit()
 
     def insert(self, record: dict) -> None:
         """
@@ -133,64 +155,48 @@ class Table:
         for field in self.fields:
             if field not in record:
                 raise AttributeError(f"field {field} not in record argument")
-        with sqlite3.connect(self.database_name) as conn:
-            cursor = conn.cursor()
-            # formatting the query
-            fieldstr = quote_join(self.fields, enquote=True)
-            qnmarks = quote_join(["?"] * len(self.fields))
-            query = f"""
-                    INSERT INTO {self.table_name} ({fieldstr}) VALUES ({qnmarks});
-                    """
-            # formatting the params
-            params = (record[self.fields[0]], )
-            for field in self.fields[1:]:
-                params += (record[field], )
-            cursor.execute(query, params)
-            conn.commit()
-            #conn.close() called automatically
-
+        # formatting the query
+        fieldstr = quote_join(self.fields, enquote=True)
+        qnmarks = quote_join(["?"] * len(self.fields))
+        query = f"""
+                INSERT INTO {self.table_name} ({fieldstr}) VALUES ({qnmarks});
+                """
+        # formatting the params
+        params = (record[self.fields[0]], )
+        for field in self.fields[1:]:
+            params += (record[field], )
+        self._execute_query(query, params, commit=True)
+        
     def update(self, pk: int, field: str, new: str):
         """update existing records in the database"""
         self._valid_field_else_error(field)
-        with sqlite3.connect(self.database_name) as conn:
-            cursor = conn.cursor()
-            query = f"""
-                    UPDATE {self.table_name} 
-                    SET {field} = ? 
-                    WHERE {self.pk_name} = ? 
-                    """
-            params = (new, pk)
-            cursor.execute(query, params)
-            conn.commit()
-            #conn.close() called automatically
+        query = f"""
+                UPDATE {self.table_name} 
+                SET {field} = ? 
+                WHERE {self.pk_name} = ? 
+                """
+        params = (new, pk)
+        self._execute_query(query, params, commit=True)
 
     def retrieve(self, pk: int):
         """find existing records in the database"""
-        with sqlite3.connect(self.database_name) as conn:
-            cursor = conn.cursor()
-            query = f"""
-                    SELECT *
-                    FROM {self.table_name}
-                    WHERE {self.pk_name} = ?;
-                    """
-            params = (pk, )
-            cursor.execute(query, params)
-            record = cursor.fetchone()
-            conn.commit()
-            return record
+        query = f"""
+                SELECT *
+                FROM {self.table_name}
+                WHERE {self.pk_name} = ?;
+                """
+        params = (pk, )
+        record = self._execute_query(query, params, fetch=True)
+        return record
 
     def delete(self, pk: int):
         """remove existing records in the database"""
-        with sqlite3.connect(self.database_name) as conn:
-            cursor = conn.cursor()
-            query = f"""
-                    DELETE FROM {self.table_name}
-                    WHERE {self.pk_name} = ?;
-                    """
-            params = (pk, )
-            cursor.execute(query, params)
-            conn.commit()
-
+        query = f"""
+                DELETE FROM {self.table_name}
+                WHERE {self.pk_name} = ?;
+                """
+        params = (pk, )
+        self._execute_query(query, params, commit=True)
 
 class JunctionTable(Table):
     pk1_name: str
@@ -275,43 +281,41 @@ class JunctionTable(Table):
             cursor.execute(query, param)
             conn.commit()
 
+
+
 class Account(Table):
     table_name: str = "account"
     fields = ["account_id", "username", "password", "salt"]
 
-    def __init__(self, database_name: str):
+    def __init__(self, get_conn: Callable):
         """
         create a table upon initialisation of the class
         account id for primary key
         """
-        self.database_name = database_name
-        with sqlite3.connect(database_name) as conn:
-            cursor = conn.cursor()
-            cursor.execute(f"""
-                CREATE TABLE IF NOT EXISTS {self.table_name} (
-                "account_id" INTEGER PRIMARY KEY,
-                "username" TEXT NOT NULL UNIQUE,
-                "password" TEXT NOT NULL,
-                "salt" BYTES NOT NULL
-                );
-                """)
-            conn.commit()
-            #conn.close() called automatically
+        super().__init__(get_conn)
+        self._execute_query(f"""
+           CREATE TABLE IF NOT EXISTS {self.table_name} (
+           "account_id" INTEGER PRIMARY KEY,
+           "username" TEXT NOT NULL UNIQUE,
+           "password" TEXT NOT NULL,
+           "salt" BYTES NOT NULL
+           );
+        """, params=None, commit=True)
 
-    def insert(self, username: str, password: str, salt: bytes):
-        """
-        insert new records into the database
-        checks for repeated username should already be done
-        """
-        with sqlite3.connect(self.database_name) as conn:
-            cursor = conn.cursor()
-            query = f"""
-                    INSERT INTO {self.table_name} ("username", "password", "salt") VALUES (?, ?, ?);
-                    """
-            params = (username, password, salt)
-            cursor.execute(query, params)
-            conn.commit()
-            #conn.close() called automatically
+    # def insert(self, username: str, password: str, salt: bytes):
+    #     """
+    #     insert new records into the database
+    #     checks for repeated username should already be done
+    #     """
+    #     with sqlite3.connect(self.database_name) as conn:
+    #         cursor = conn.cursor()
+    #         query = f"""
+    #                 INSERT INTO {self.table_name} ("username", "password", "salt") VALUES (?, ?, ?);
+    #                 """
+    #         params = (username, password, salt)
+    #         cursor.execute(query, params)
+    #         conn.commit()
+    #         #conn.close() called automatically
 
     def update(self, pk_name: str, pk, field: str, new):
         """
