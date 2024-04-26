@@ -11,6 +11,7 @@ def postgres_conn(uri):
     return psycopg2.connect(uri)
 
 def get_uri(env: str = ""):
+    """identifies and returns the uri/database name based on app screts of the repl"""
     env = env or os.getenv("ENVIRONMENT", default = "")
     if env in ["main", "dev"]:
         uri = os.getenv("DATABASE_URL")
@@ -18,10 +19,12 @@ def get_uri(env: str = ""):
         uri = ":memory:"
     else:
         uri = "meow.db"
+    return uri
 
 def conn_factory(env, uri):
     """Returns a connection getter: a function that returns a connection when called"""
     def get_conn():
+        env = env or os.getenv("ENVIRONMENT", default = "")
         if env in ["main", "dev"]:
             conn = postgres_conn(uri)
         elif env == "qa":
@@ -81,8 +84,7 @@ def create_account(username: str, password: str):
     if student_account.retrieve("username", username) is not None:
         raise AttributeError("Username already exists")
     password, salt = auth.create_hash(password)
-    student_account.insert(username, password, salt)
-    student_account_backup.insert(username, password, salt)
+    student_account.insert({'username': username, 'password': password, 'salt': salt})
 
 def login(username: str , password: str) -> bool:
     # checks for valid username and password is already done 
