@@ -122,3 +122,10 @@
     color : white;
     cursor: pointer;
 }
+
+.error_msg {color: red;
+            font-weight: bold;
+            font-family: comfortaa;
+            text-align: center;
+            margin-top: 15px;
+}
