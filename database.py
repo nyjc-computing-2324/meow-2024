@@ -189,7 +189,7 @@ class Table:
 
     def __init__(self, get_conn: Callable):
         """create a table upon initialisation of the class"""
-        self.get_conn = get_conn()
+        self.get_conn = get_conn
 
     def _valid_field_else_error(self, field) -> None:
         """checks if given fields are found in the table"""
@@ -231,21 +231,17 @@ class Table:
         # check that all fields in record is valid
         for field in record:
             self._valid_field_else_error(field)
-        # check that record has all fields required
-        for field in self.fields:
-            if field not in record:
-                raise AttributeError(f"field {field} not in record argument")
         # formatting the query
-        fieldstr = quote_join(self.fields, enquote=True)
-        qnmarks = quote_join(["?"] * len(self.fields))
+        fieldstr = quote_join(list(record.keys()), enquote=True)
+        qnmarks = quote_join(["?"] * len(record))
         query = f"""
                 INSERT INTO {self.table_name} ({fieldstr}) VALUES ({qnmarks});
                 """
         # formatting the params
-        params = (record[self.fields[0]], )
-        for field in self.fields[1:]:
-            params += (record[field], )
-        self._execute_query(query, params, commit=True)
+        # params = (record[self.fields[0]], )
+        # for field in self.fields[1:]:
+        #     params += (record[field], )
+        self._execute_query(query, tuple(record.values()), commit=True)
         
     def update(self, pk: int, field: str, new: str):
         """update existing records in the database"""
@@ -258,14 +254,16 @@ class Table:
         params = (new, pk)
         self._execute_query(query, params, commit=True)
 
-    def retrieve(self, pk: int):
+    def retrieve(self, pk: int, pk_name: str = ""):
         """find existing records in the database"""
+        if pk_name == "":
+            pk_name = self.pk_name
         query = f"""
                 SELECT *
                 FROM {self.table_name}
-                WHERE {self.pk_name} = ?;
+                WHERE {pk_name} = ?;
                 """
-        params = (pk, )
+        params = (pk,)
         record = self._execute_query(query, params, fetch=True)
         return record
 
@@ -421,7 +419,7 @@ class Account(Table):
             conn.commit()
             #conn.close() called automatically
 
-    def retrieve(self, pk_name: str, pk) -> tuple:
+    def retrieve(self, pk: int, pk_name: str) -> tuple:
         """
         find existing records in the database
         pk_name can only be "account_id" or "username"
@@ -429,20 +427,15 @@ class Account(Table):
         """
         if pk_name not in ['account_id', 'username']:
             raise AttributeError(f"Invalid pk_name '{pk_name}'")
-
-        with sqlite3.connect(self.database_name) as conn:
-            cursor = conn.cursor()
-            query = f"""
-                    SELECT *
-                    FROM {self.table_name}
-                    WHERE {pk_name} = ?;
-                    """
-            params = (pk, )
-            cursor.execute(query, params)
-            record = cursor.fetchone()
-            conn.commit()
-            #conn.close() called automatically
-            return record
+        record = self._execute_query(f"""
+            SELECT *
+            FROM {self.table_name}
+            WHERE {pk_name} = ?;
+            """,
+            params=(pk,),
+            fetch=True
+        )
+        return record
 
     def delete(self, pk_name: str, pk):
         """
@@ -469,92 +462,93 @@ class Student(Table):
     pk_name: str = "student_id"
     fields = ["student_id", "name", "class", "email", "account_id"]
 
-    def __init__(self, database_name):
+    def __init__(self, get_conn: Callable):
         """
         create a table upon initialisation of the class
         student_id for pk
         """
-        self.database_name = database_name
-        with sqlite3.connect(database_name) as conn:
-            cursor = conn.cursor()
-            cursor.execute(f"""
-                CREATE TABLE IF NOT EXISTS {self.table_name} (
-                    {self.pk_name} INTEGER PRIMARY KEY,
-                    "name" TEXT NOT NULL,
-                    "class" INTEGER NOT NULL, 
-                    "email" TEXT NOT NULL,
-                    "account_id" INTEGER NOT NULL UNIQUE,
-                    FOREIGN KEY ("account_id") REFERENCES account("account_id")
-                );
-                """)
-            conn.commit()
-            #conn.close() called automatically
+        super().__init__(get_conn)
+        self._execute_query(f"""
+            CREATE TABLE IF NOT EXISTS {self.table_name} (
+                {self.pk_name} INTEGER PRIMARY KEY,
+                "name" TEXT NOT NULL,
+                "class" INTEGER NOT NULL, 
+                "email" TEXT NOT NULL,
+                "account_id" INTEGER NOT NULL UNIQUE,
+                FOREIGN KEY ("account_id") REFERENCES account("account_id")
+            );
+        """, params=None, commit=True)
 
-    def insert(self, name: str, _class: int, email: str, account_id: int):
+    def insert(self, record: dict):
         """
         insert new records into the database
         checks for valid account_id should already be done
         """
-        with sqlite3.connect(self.database_name) as conn:
-            cursor = conn.cursor()
-            query = f"""
-                INSERT INTO {self.table_name}("name", "class", "email", "account_id") 
-                VALUES (?, ?, ?, ?);
-            """
-            params = (name, _class, email, account_id)
-            cursor.execute(query, params)
-            conn.commit()
-            #conn.close() called automatically
+        # check that record has all fields required
+        for field in self.fields:
+            if field not in record:
+                raise AttributeError(f"field {field} not in record argument")
+        super().insert(record)
+    #     with sqlite3.connect(self.database_name) as conn:
+    #         cursor = conn.cursor()
+    #         query = f"""
+    #             INSERT INTO {self.table_name}("name", "class", "email", "account_id") 
+    #             VALUES (?, ?, ?, ?);
+    #         """
+    #         params = (name, _class, email, account_id)
+    #         cursor.execute(query, params)
+    #         conn.commit()
+    #         #conn.close() called automatically
 
-    def update(self, student_id: int, field: str, new):
-        """
-        update existing records in the database
-        field can only be "account_id", "name", "class" or "email"
-        checks for valid account_id should already be done
-        raises Attributes error if field is invalid
-        """
-        self._valid_field_else_error(field)
-        with sqlite3.connect(self.database_name) as conn:
-            cursor = conn.cursor()
-            query = f"""
-                    UPDATE {self.table_name} 
-                    SET {field} = ? 
-                    WHERE "student_id" = ? 
-                    """
-            params = (new, student_id)
-            cursor.execute(query, params)
-            conn.commit()
-            #conn.close() called automatically
+    # def update(self, student_id: int, field: str, new):
+    #     """
+    #     update existing records in the database
+    #     field can only be "account_id", "name", "class" or "email"
+    #     checks for valid account_id should already be done
+    #     raises Attributes error if field is invalid
+    #     """
+    #     self._valid_field_else_error(field)
+    #     with sqlite3.connect(self.database_name) as conn:
+    #         cursor = conn.cursor()
+    #         query = f"""
+    #                 UPDATE {self.table_name} 
+    #                 SET {field} = ? 
+    #                 WHERE "student_id" = ? 
+    #                 """
+    #         params = (new, student_id)
+    #         cursor.execute(query, params)
+    #         conn.commit()
+    #         #conn.close() called automatically
 
-    def retrieve(self, student_id: int):
-        """
-        find existing records in the database
-        """
-        with sqlite3.connect(self.database_name) as conn:
-            cursor = conn.cursor()
-            query = f"""
-                    SELECT *
-                    FROM "student"
-                    WHERE {self.pk_name} == ?;
-                    """
-            params = (student_id, )
-            cursor.execute(query, params)
-            record = cursor.fetchone()
-            conn.commit()
-            #conn.close() called automatically
-            return record
+    # def retrieve(self, student_id: int):
+    #     """
+    #     find existing records in the database
+    #     """
+    #     with sqlite3.connect(self.database_name) as conn:
+    #         cursor = conn.cursor()
+    #         query = f"""
+    #                 SELECT *
+    #                 FROM "student"
+    #                 WHERE {self.pk_name} == ?;
+    #                 """
+    #         params = (student_id, )
+    #         cursor.execute(query, params)
+    #         record = cursor.fetchone()
+    #         conn.commit()
+    #         #conn.close() called automatically
+    #         return record
 
-    def delete(self, student_id: int):
-        """remove existing records in the database"""
-        with sqlite3.connect(self.database_name) as conn:
-            cursor = conn.cursor()
-            query = f"""
-                    DELETE FROM {self.table_name}
-                    WHERE {self.pk_name} = ?;
-                    """
-            param = (student_id, )
-            cursor.execute(query, param)
-            conn.commit()
+    # def delete(self, student_id: int):
+    #     """remove existing records in the database"""
+    #     with sqlite3.connect(self.database_name) as conn:
+    #         cursor = conn.cursor()
+    #         query = f"""
+    #                 DELETE FROM {self.table_name}
+    #                 WHERE {self.pk_name} = ?;
+    #                 """
+    #         param = (student_id, )
+    #         cursor.execute(query, param)
+    #         conn.commit()
 
 
 class CCA(Table):
