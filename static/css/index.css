@@ -147,6 +147,7 @@
     height: 50px;
     font-size : 18px;
     font-weight : bold;
+    cursor: pointer;
 }
 
 .description-section{
@@ -314,6 +315,7 @@
     width: 100px;
     height: 40px;
     color : white;
+    cursor: pointer;
 }
 
 .footer{

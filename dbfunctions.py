@@ -52,8 +52,8 @@ def get_activity(env: str = "") -> Activity:
     return Activity(conn_factory(env, uri))
 
 # instantiating table objects
-student_account = get_account()
-student_profile = get_student()
+#student_account = get_account()
+#student_profile = get_student()
 
 # FOR ACCOUNT TABLE
 def create_account(username: str, password: str):

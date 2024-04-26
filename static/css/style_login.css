@@ -81,7 +81,8 @@
     border: none;
     width: 450px;
     height: 40px;
-    color: white
+    color: white;
+    cursor: pointer;
 }
 
 .login-button-container {
