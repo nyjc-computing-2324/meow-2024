@@ -6,7 +6,10 @@ def username_isvalid(username) -> bool:
     checks username during registration for these criteria:
     1. all char are ascii printable char except horizontal tab, space and line feed (newline)
     """
-    if all(char in string.printable for char in username):
+    if len(username) == 0:
+        return False
+    
+    if not all(char in string.printable for char in username):
         return False
         
     if chr(9) in username or chr(10) in username or chr(32) in username:

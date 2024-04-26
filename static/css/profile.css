@@ -1,0 +1,226 @@
+@font-face {
+    font-family: comfortaa;
+    src: url(Comfortaa-Light.ttf);
+}
+
+
+h1 {
+    font-size: 50px;
+}
+
+h2 {font-size: 30px;
+}
+
+h4 {color: black;
+    font-weight: normal;
+}
+
+p {color: #8cb5f8;
+   font-size: 20px;
+}
+
+*{
+    box-sizing : True;
+}
+
+input[type=file]{
+    width:90px;
+    color:transparent;
+}
+
+.profile-section{
+    background: linear-gradient(#d9d9d9 0%, #d9d9d9 30%, white 30%, white 100%);
+    margin-top : 150px;
+    font-family: comfortaa;
+    font-size: 20px;
+    margin-left: auto;
+    margin-right: auto;
+    border-radius: 8px;
+    box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.2), 0 6px 20px 0 rgba(0, 0, 0, 0.19);
+    width : 80%;
+    max-width : 900px;
+    min-width : 768px;
+    height : 500px;
+
+}
+
+.profile-container{
+    display : flex;
+}
+
+.profile-display-container{
+    display : flex;
+    flex-direction : column;
+    align-items:center;
+    position: relative;
+    top : 50px;
+    width : 200px;
+    margin-left : 50px;
+    margin-right : 20px;
+    height : 450px;
+}
+
+.profile-picture-container{
+    height: 200px;
+    width: 200px;
+    background-color: #bdbcfb;
+    border-radius: 50%;
+    border-style: solid;
+    border-color: white;
+    border-width: 10px;
+}
+
+.profile-picture{
+    height: 180px;
+    width: 180px;
+    border-radius: 50%;
+
+}
+.profile-name{
+    text-align : center;
+    width : 180px;
+    font-family : comfortaa;
+}
+
+.edit-profile-button{
+    margin-top : 50px;
+    text-align: center;
+    text-decoration: none;
+    font-size: 16px;
+    width : 178px;
+    border : none;
+    border-radius: 12px;
+    height : 40px;
+    background-color: #d9d9d9;
+    color : white;
+    font-family : comfortaa;
+}
+
+.save-profile-button{
+    margin-top : 50px;
+    text-align: center;
+    text-decoration: none;
+    font-size: 16px;
+    width : 178px;
+    border : none;
+    border-radius: 12px;
+    height : 40px;
+    background-color: #d9d9d9;
+    color : white;
+    font-family : comfortaa;
+}
+
+.cancel-profile-button{
+    text-align: center;
+    text-decoration: none;
+    font-size: 16px;
+    width : 178px; 
+    border : none;
+    border-radius: 12px;
+    height : 40px;
+    background-color: #d9d9d9;
+    color : white;
+    margin-top : 10px;
+    font-family : comfortaa;
+}
+
+.save-profile-button{
+    margin-top : 50px;
+    text-align: center;
+    text-decoration: none;
+    font-size: 16px;
+    width : 178px;
+    border : none;
+    border-radius: 12px;
+    height : 40px;
+    background-color: #d9d9d9;
+    color : white;
+    font-family : comfortaa;
+
+}
+.download-profile-button{
+    display : none;
+    cursor: pointer;
+}
+
+.download-profile-label{
+    text-align: center;
+    text-decoration: none;
+    font-size: 16px;
+    width : 178px; 
+    border : none;
+    border-radius: 12px;
+    height : 40px;
+    background-color: #bdbcfb;
+    color : white;
+    margin-top : 10px;
+    font-family : comfortaa;
+
+}
+
+.profile-description-container{
+    display : flex;
+    flex-direction : column;
+    margin-top : 75px;
+    width : 70%;
+}
+
+.email-number-container{
+    display : flex;
+    flex-direction : row;
+    align-items : center;
+    height : 150px;
+    width : 90%;
+}
+
+.email-container{
+    margin-left : 20px;
+    font-family : comfortaa;
+
+}
+.number-container{
+    margin-left : 50px;
+    font-family : comfortaa;
+
+}
+
+.about-container{
+    margin-left : 20px;
+    background-color: #FBF2CF;
+    border-radius: 8px;
+    text-align: center;
+    height : 180px;
+    width : 80%;
+    max-width : 700px;
+    min-width : 450px;
+    font-family : comfortaa;
+    padding-top: 10px;
+}
+
+.about-text{
+    margin-top: 10px;
+    border: none;
+    outline: none;
+}
+
+#about-field{
+    background-color : #FBF2CF;
+    text-align: center;
+    border : none;
+    /* outline : none; */
+    resize : none;
+    border-radius: 10px;
+    font-family : comfortaa;
+    max-width : 560px;
+    width : 70%;
+    height : 140px;
+    font-family : comfortaa;
+
+}
+
+@media only screen and (max-width: 768px) {
+  /* For mobile phones: */
+  [class*="profile-section"] {
+    width: 100%;
+  }
+}

@@ -2,94 +2,63 @@
 <!DOCTYPE html>
 <html>
     <head>
-        <title>RECORD ACTIVITY</title>
-        <style>
-            h5{
-                text-align: right;
-            }
-            th, td {
-              border: 1px gray;
-              border-radius: 10px;
-            }
-            table {
-              border-collapse: collapse;
-              width: 100%;
-            }
-        </style>
+        <link rel="stylesheet" type="text/css" href="{{ url_for('static', filename='css/records.css') }}">
+        <title>CCA Record</title>
     </head>
 
     <body>
-        <h3>My records</h3>
-        </br>
-        <table>
-            <th>
-                <td>
-                    CCA
-                </td>
-                <td>
-                    Activities
-                </td>
-            </th>
-        </table>
+        <div class="myrecord-textbox">
+            <h3 class="myrecord-text">My Activities</h3>
+        </div>
+        
+        <div>
+            <a href="/records_cca" target="_self"><button class="cca-activity-text-button" style="background: linear-gradient(180deg, whitesmoke 50%, white 50%)">CCA </br> <span style="color: white">h</span> </button></a><button class="cca-activity-text-button">Activities </br> <span style="color: white">h</span></button>
+        </div>
 
-        </br>
+        <div class="general-text">
+            <div class="general-textbox">
+                <span class="circle"></span>
+                <span>
+                    <h3>Walk for Rice</h3>
+                    <span>Organiser: NYJC &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; Year: 2023 </span>
+                    <span class="status-text">Status: Completed</span>
+                </span>
+            </div>
 
-        <table>
-            <tr>
-            <th>
-                Walk For Rice
-            </th>
-            <td>
-                <pre>Year: 2023</pre>
-                <h5>
-                    Status: Completed
-                </h5>
-            </td>
-            </tr>
+            <div class="general-textbox">
+                <span class="circle"></span>
+                <span>
+                    <h3>Sports carnival ref</h3>
+                    <span>Organiser: NYJC &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; Year: 2023 </span>
+                    <span class="status-text">Status: Completed</span>
+                </span>
+            </div>
 
-            </br>
+            <div class="general-textbox">
+                <span class="circle"></span>
+                <span>
+                    <h3>ISLE Batam</h3>
+                    <span>Organiser: Floorball &nbsp;&nbsp;&nbsp; Year: 2023 </span>
+                    <span class="status-text">Status: <span style="color:mediumseagreen">Ongoing</span> </span>
+                </span>
+            </div>
 
-            <tr>
-            <th>
-                Sports Carnival ref
-            </th>
-            <td>
-                <pre>Year: 2023</pre>
-                <h5>
-                    Status: Completed
-                </h5>
-            </td>
-            </tr>
+            <div class="general-textbox">
+                <span class="circle"></span>
+                <span>
+                    <h3>Silver Homes</h3>
+                    <span>Organiser: SC &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; Year: 2023 </span>
+                    <span class="status-text">Status: Completed</span>
+                </span>
+            </div>
+        </div>
 
-            </br>
-
-            <tr>
-            <th>
-                ISLE Batam
-            </th>
-            <td>
-                <pre>Year: 2023</pre>
-                <h5>
-                    Status: Ongoing
-                </h5>
-            </td>
-            </tr>
-
-            </br>
-
-            <tr>
-            <th>
-                Silver Homes
-            </th>
-            <td>
-                <pre>Year: 2023</pre>
-                <h5>
-                    Status: Completed
-                </h5>
-            </td>
-            </tr>
-        </table>
-        {% include 'navigation.html' %}
+        <a href="/view_edit_activities" target="_self"><button class="plus-button"> + </button> </a>
+        
+        {% set loggedin = True %}
+        {% block content %}
+            {% include 'navigation.html' %}
+        {% endblock %}
     </body>
-
-</html>
+    
+    </html>

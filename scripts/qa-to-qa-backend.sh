@@ -3,17 +3,17 @@
 # Import git identity check
 sh ./scripts/git-identity.sh
 
-# Merge qa-frontend into qa
-git switch qa-frontend
-git pull
+# Merge qa into qa-backend
 git switch qa
 git pull
-git merge qa-frontend
-echo "Merged qa-frontend into qa"
-git commit -m "Merged qa-frontend into qa"
+git switch qa-backend
+git pull
+git merge qa
+echo "Merged qa into qa-backend"
+git commit -m "Merged qa into qa-backend"
 git push
 
 # Update permissions to +x
-chmod 700 ./scripts/qa-frontend-to-qa.sh
+chmod 700 ./scripts/qa-to-qa-backend.sh
 
 # Only devops can run
