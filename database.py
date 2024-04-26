@@ -1,11 +1,12 @@
 import sqlite3
 from typing import Callable
 
-def init_tables(conn):
+
+def init_tables(get_conn: Callable):
     """creates the table for all table in database"""
-    
+    conn = get_conn()
     cursor = conn.cursor()
-    cursor.execute(
+    cursor.executescript(
         """
         CREATE TABLE IF NOT EXISTS "account" (
         "account_id" INTEGER PRIMARY KEY,
@@ -13,13 +14,6 @@ def init_tables(conn):
         "password" TEXT NOT NULL,
         "salt" BYTES NOT NULL
         );
-        """
-        )
-    conn.commit()
-    #conn.close() called automatically
-
-    cursor.execute(
-        """
         CREATE TABLE IF NOT EXISTS "student" (
             "student_id" INTEGER PRIMARY KEY,
             "name" TEXT NOT NULL,
@@ -28,23 +22,11 @@ def init_tables(conn):
             "account_id" INTEGER NOT NULL UNIQUE,
             FOREIGN KEY ("account_id") REFERENCES account("account_id")
         );
-        """
-    )
-    conn.commit()
-
-    cursor.execute(
-        """
         CREATE TABLE IF NOT EXISTS "cca" (
             "cca_id" INTEGER PRIMARY KEY,
             "name" TEXT NOT NULL,
             "type" TEXT NOT NULL 
         );
-        """
-    )
-    conn.commit()
-
-    cursor.execute(
-        """
         CREATE TABLE IF NOT EXISTS "activity" (
             "activity_id" INTEGER PRIMARY KEY,
             "name" TEXT NOT NULL,
@@ -53,12 +35,6 @@ def init_tables(conn):
             "organiser_id" INTEGER,
             FOREIGN KEY ("organiser_id") REFERENCES account("student_id")
         );
-        """
-    )
-    conn.commit()
-
-    cursor.execute(
-        """
         CREATE TABLE IF NOT EXISTS "studentactivity" (
             "student_id" INTEGER NOT NULL,
             "activity_id" INTEGER NOT NULL,
@@ -66,12 +42,6 @@ def init_tables(conn):
             FOREIGN KEY ("student_id") REFERENCES student("student_id"),
             FOREIGN KEY ("activity_id") REFERENCES activity("activity_id")
         );
-        """
-    )
-    conn.commit()
-
-    cursor.execute(
-        """
         CREATE TABLE IF NOT EXISTS "studentcca" (
             "student_id" INTEGER,
             "cca_id" INTEGER,
@@ -83,6 +53,7 @@ def init_tables(conn):
         """
     )
     conn.commit()
+    conn.close()
 
 def quote_join(list_of_str: list[str], enquote: bool = False) -> str:
     """
@@ -93,7 +64,6 @@ def quote_join(list_of_str: list[str], enquote: bool = False) -> str:
     """
     if enquote:
         return ", ".join([f'"{str_}"' for str_ in list_of_str])
-
     return ", ".join(list_of_str)
 
 def init_tables(conn):
@@ -215,6 +185,7 @@ class Table:
             return record
         if commit:
             conn.commit()
+        conn.close()
 
     def insert(self, record: dict) -> None:
         """
@@ -303,21 +274,19 @@ class JunctionTable(Table):
         # for field in self.fields:
         #     if field not in record:
         #         raise AttributeError(f"field {field} not in record argument")
-        with sqlite3.connect(self.database_name) as conn:
-            cursor = conn.cursor()
-            # formatting the query
-            fieldstr = quote_join(self.fields, enquote=True)
-            qnmarks = quote_join(["?"] * len(self.fields))
-            query = f"""
-                    INSERT INTO {self.table_name} ({fieldstr}) VALUES ({qnmarks});
-                    """
-            # formatting the params
-            params = (record[self.fields[0]], )
-            for field in self.fields[1:]:
-                params += (record[field], )
-            cursor.execute(query, params)
-            conn.commit()
-            #conn.close() called automatically
+        
+        # formatting the query
+        fieldstr = quote_join(self.fields, enquote=True)
+        qnmarks = quote_join(["?"] * len(self.fields))
+        query = f"""
+                INSERT INTO {self.table_name} ({fieldstr}) VALUES ({qnmarks});
+                """
+        # formatting the params
+        params = (record[self.fields[0]], )
+        for field in self.fields[1:]:
+            params += (record[field], )
+
+        self._execute_query(query, params, commit=True)
 
     def retrieve_all(self, pk_name: str, pk: int) -> list[tuple]:
         """
@@ -331,33 +300,27 @@ class JunctionTable(Table):
         [(5, 3, "member"), (7. 3, "president"), (10, 3, "member")]
         """
         self._valid_field_else_error(pk_name)
-        with sqlite3.connect(self.database_name) as conn:
-            cursor = conn.cursor()
-            query = f"""
-                    SELECT *
-                    FROM {self.database_name}
-                    WHERE {pk_name} = ?;
-                    """
-            params = (pk, )
-            cursor.execute(query, params)
-            record = cursor.fetchall()
-            conn.commit()
-            #conn.close() is called automatically
-        return record
+        
+        query = f"""
+                SELECT *
+                FROM {self.database_name}
+                WHERE {pk_name} = ?;
+                """
+        params = (pk, )
+        return self._execute_query(query, params, fetch=True)
 
     def delete(self, pk1_value: int, pk2_value: int) -> None:
         """remove existing records in the database using composite primary keys """
-        with sqlite3.connect(self.database_name) as conn:
-            cursor = conn.cursor()
-            query = f"""
-                    DELETE FROM {self.table_name}
-                    WHERE {self.pk1_name} = ?
-                    AND
-                    {self.pk2_name} = ?;
-                    """
-            param = (pk1_value, pk2_value)
-            cursor.execute(query, param)
-            conn.commit()
+        query = f"""
+                DELETE FROM {self.table_name}
+                WHERE {self.pk1_name} = ?
+                AND
+                {self.pk2_name} = ?;
+                """
+        param = (pk1_value, pk2_value)
+        self._execute_query(query, param, commit=True)
+
+
 
 
 
@@ -407,17 +370,13 @@ class Account(Table):
         if pk_name not in ['account_id', 'username']:
             raise AttributeError(f"Invalid pk_name '{pk_name}'")
 
-        with sqlite3.connect(self.database_name) as conn:
-            cursor = conn.cursor()
-            query = f"""
-                    UPDATE {self.table_name} 
-                    SET {field} = ? 
-                    WHERE {pk_name} = ? 
-                    """
-            params = (new, pk)
-            cursor.execute(query, params)
-            conn.commit()
-            #conn.close() called automatically
+        query = f"""
+                UPDATE {self.table_name} 
+                SET {field} = ? 
+                WHERE {pk_name} = ? 
+                """
+        params = (new, pk)
+        self._execute_query(query, params, commit=True)
 
     def retrieve(self, pk: int, pk_name: str) -> tuple:
         """
@@ -446,15 +405,13 @@ class Account(Table):
         if pk_name not in ['account_id', 'username']:
             raise AttributeError(f"Invalid pk_name '{pk_name}'")
 
-        with sqlite3.connect(self.database_name) as conn:
-            cursor = conn.cursor()
-            query = f"""
-                    DELETE FROM {self.table_name}
-                    WHERE {pk_name} = ?;
-                    """
-            param = (pk, )
-            cursor.execute(query, param)
-            conn.commit()
+        query = f"""
+                DELETE FROM {self.table_name}
+                WHERE {pk_name} = ?;
+                """
+        param = (pk, )
+        self._execute_query(query, params, commit=True)
+            
 
 
 class Student(Table):
@@ -555,23 +512,19 @@ class CCA(Table):
     table_name: str = "cca"
     fields = ["cca_id", "name", "type"]
 
-    def __init__(self, database_name):
+    def __init__(self, get_conn: Callable):
         """
         create a table upon initialisation of the class
-        cca_id for pk
+        student_id for pk
         """
-        self.database_name = database_name
-        with sqlite3.connect(self.database_name) as conn:
-            cursor = conn.cursor()
-            cursor.execute(f"""
-                CREATE TABLE IF NOT EXISTS {self.table_name} (
-                    "cca_id" INTEGER PRIMARY KEY,
-                    "name" TEXT NOT NULL UNQIUE,
-                    "type" TEXT NOT NULL, 
-                );
-                """)
-            conn.commit()
-            #conn.close() called automatically
+        super().__init__(get_conn)
+        self._execute_query(f"""
+            CREATE TABLE IF NOT EXISTS {self.table_name} (
+                "cca_id" INTEGER PRIMARY KEY,
+                "name" TEXT NOT NULL UNIQUE,
+                "type" TEXT NOT NULL, 
+            );
+        """, params=None, commit=True)
 
     def insert(self, name: str, type: str):
         """
@@ -654,26 +607,22 @@ class Activity(Table):
     pk_name = "activity_id"
     fields = ["activity_id", "name", "date", "location", "organiser_id"]
 
-    def __init__(self, database_name):
+    def __init__(self, get_conn: Callable):
         """
         create a table upon initialisation of the class
-        activity_id for pk
+        student_id for pk
         """
-        self.database_name = database_name
-        with sqlite3.connect(self.database_name) as conn:
-            cursor = conn.cursor()
-            cursor.execute(f"""
-                CREATE TABLE IF NOT EXISTS {self.table_name} (
-                    {self.pk_name} INTEGER PRIMARY KEY,
-                    "name" TEXT NOT NULL,
-                    "date" TEXT NOT NULL, 
-                    "location" TEXT NOT NULL,
-                    "organiser_id" INTEGER, 
-                    FOREIGN KEY ("organiser_id") REFERENCES account("student_id")
-                );
-                """)
-            conn.commit()
-            #conn.close() called automatically
+        super().__init__(get_conn)
+        self._execute_query(f"""
+            CREATE TABLE IF NOT EXISTS {self.table_name} (
+                {self.pk_name} INTEGER PRIMARY KEY,
+                "name" TEXT NOT NULL,
+                "date" TEXT NOT NULL, 
+                "location" TEXT NOT NULL,
+                "organiser_id" INTEGER, 
+                FOREIGN KEY ("organiser_id") REFERENCES account("student_id")
+            );
+        """, params=None, commit=True)
 
     def insert(self, name: str, date: str, location: str, organiser_id: int):
         """
