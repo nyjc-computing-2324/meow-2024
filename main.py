@@ -1,6 +1,6 @@
 from typing import Dict
 from flask import Flask, redirect, request, session
-import view, validate, dbfunctions, database
+import view, validate, dbfunctions
 import os
 
 app = Flask(__name__)
@@ -97,7 +97,8 @@ def register():
                 else:
                     return view.register(error="Username is already taken")
             else:
-                return view.register(error="Password does not meet requirements.")
+                return view.register(
+                    error="Password does not meet requirements.")
         else:
             return view.register(error="Username does not meet requirements.")
 
