@@ -126,3 +126,9 @@
     text-decoration: none;
     color: black
 }
+
+.error_msg {color: red;
+            font-weight: bold;
+            text-align: center;
+            font-family: comfortaa;
+}
