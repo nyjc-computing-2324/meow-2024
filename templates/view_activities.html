@@ -1,103 +1,60 @@
-<!-- view/edit my cca page -->
-
-<!-- <!DOCTYPE html>
+<!DOCTYPE HTML>
 <html>
     <head>
-        <link rel="stylesheet" type="text/css" href="{{ url_for('static', filename='css/view_edit_cca.css') }}">
-        <title>CCA</title>
+        <link rel="stylesheet" type="text/css" href="{{ url_for('static', filename='css/view_activities.css') }}">
+            
+        <title>
+            Meow's activity view
+        </title>
     </head>
-
     <body>
-        <div class="general-text">
-            <div class="general-left-textbox">
-                <div>
-                    <span class="profile-circle"></span>
-                    <span class="profile-text">
-                        <h2>Robotics</h2>
-                        <p>Status: Graduated</p>
-                    </span>
-                </div>
-
-                </br>
-
-                <div class="left-textbox">
-                    <h2>About</h2>
-                    </br>
-                    <p>Type: Clubs and Societies</p>
-                    <p>Role: Vice President</p>
-                    <p>Date joined: 01/01/2015</p>
-                    <p>Date left: 01/01/2018</p>
+        <div class="contain">
+            <div class="top-sect">
+                <div class="top-content"
+                    <div class="top-sect-picture">
+                        <span class="circle"></span>
+                    </div>
+                    <div class="top-sect-header">
+                        header
+                    </div>
+                    <br>
+                    <div class="top-sect-organiser">
+                        organiser
+                    </div>
                 </div>
             </div>
-
-            <div class="middle-textbox">
-                <h2>Achievments</h2>
-                </br>
-                <p>2015 NRPC 8th place</p>
-                <p>2016 WRO participation</p>
-                <p>2016 NRC runner up</p>
-                <p>2017 NRC participation</p>
-                <p>2018 WRO participation</p>
-                <p>2018 WRO best designed robot</p>
+            
+            <div class="bot-sect">
+                <div class="sub-contain">
+                    <div class="left-text">
+                        <div class="bottom-header">
+                            about
+                        </div>
+                        <br>
+                        <div class="bottom-text">
+                            date
+                        </div>
+                        <br>
+                        <div class="bottom-text">
+                            brief
+                        </div>
+                        
+                    </div>
+                    
+                    <div class="right-text">
+                        <div class= "bottom-header">
+                            reflection
+                        </div>
+                        <br>
+                        <div class="bottom-text">
+                        reflection text
+                        <div>
+                    </div>
+                </div>
+                
             </div>
-
-            <div class="right-textbox">
-                <h2>Participation</h2>
-                </br>
-                <p>2016 beach cleaning</p>
-                <p>2017 VIA Fei Yue old folks home</p>
-                <p>2018 VIA soup kitchen</p>
-            </div>
+            
         </div>
+
     </body>
-
 </html>
- -->
-
-<!DOCTYPE html>
-<html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Editable Boxes</title>
-    <link rel="stylesheet" type="text/css" href="pp_style.css">
-</head>
-<body>
-    <a href="#" class="back-button">&larr;</a>
-    <div class="container">
-        <div class="box-container">
-            <div class="overlay-box">
-                <div class="overlay-content">
-                    <div class="picture">
-                        <img src="your_image.jpg" alt="Picture">
-                    </div>
-                    <div class="right-content">
-                        <h3>Right Header</h3>
-                        <p>Right Subheader</p>
-                    </div>
-                </div>
-            </div>
-            <div class="box">
-                <label for="box1">Box 1:</label>
-                <input type="text" id="box1" name="box1" placeholder="Enter text">
-            </div>
-
-
-        </div>
-        <div class="box">
-            <label for="box2">Box 2:</label>
-            <input type="text" id="box2" name="box2" placeholder="Enter text">
-        </div>
-
-        <div class="box">
-            <label for="box3">Box 3:</label>
-            <input type="text" id="box3" name="box3" placeholder="Enter text">
-        </div>
-    </div>
-    {% set loggedin = True %}    
-    {% block content %}
-        {% include 'navigation.html' %}
-    {% endblock %}
-</body>
-</html>
-
