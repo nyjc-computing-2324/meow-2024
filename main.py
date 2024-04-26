@@ -1,7 +1,10 @@
 from flask import Flask, redirect, request, session
-import view, validate, database
+import view, validate, database, dbfunctions
+import os
 
 app = Flask(__name__)
+
+app.secret_key = os.urandom(32)
 
 @app.route('/')
 def index():
@@ -13,11 +16,19 @@ def temp():
 
 @app.route('/home')
 def home():
-    return view.temp()
+    return view.home()
 
 @app.route('/about')
 def about():
-    return view.temp()
+    return view.about()
+
+@app.route('/pp')
+def pp():
+    return view.pp()
+
+@app.route('/toc')
+def toc():
+    return view.toc()
 
 @app.route('/login', methods = ["GET", "POST"])
 def login():
@@ -26,7 +37,7 @@ def login():
     else:
         username = request.form["username"]
         password = request.form["password"]
-        if validate.user_isvalid(username, password):
+        if dbfunctions.login(username, password):
             session["logged_in"] = True
             return redirect("/home")
         else:
@@ -41,13 +52,29 @@ def register():
         password = request.form["password"]
         if validate.username_isvalid(username):
             if validate.password_isvalid(password):
-                database.create_account(username, password)
+                dbfunctions.create_account(username, password)
                 session["logged_in"] = True
                 return redirect("/home")
             else:
                 return view.register(error="Password does not meet requirements.")
         else:
             return view.register(error="Username does not meet requirements.")
+
+@app.route('/profile')
+def profile():
+    return view.profile()
+
+@app.route('/view_edit_cca')
+def view_edit_cca():
+    return view.view_edit_cca()
+
+@app.route('/records_cca')
+def records_cca():
+    return view.records_cca()
+
+@app.route('/records_activities')
+def records_activities():
+    return view.records_activities()
 
 if __name__ == '__main__':
   app.run(host='0.0.0.0', port=80)
