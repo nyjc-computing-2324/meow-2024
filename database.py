@@ -1,6 +1,7 @@
 import sqlite3
 from typing import Callable
 
+
 def init_tables(get_conn: Callable):
     """creates the table for all table in database"""
     conn = get_conn()
@@ -313,6 +314,7 @@ class JunctionTable(Table):
                 """
         param = (pk1_value, pk2_value)
         self._execute_query(query, param, commit=True)
+
 
 
 
