@@ -159,6 +159,7 @@ input[type=file]{
     color : white;
     margin-top : 10px;
     font-family : comfortaa;
+    cursor: pointer;
 
 }
 
