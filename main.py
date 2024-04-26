@@ -1,5 +1,5 @@
 from flask import Flask, redirect, request, session
-import view, validate, database, dbfunctions
+import view, validate
 import os
 
 app = Flask(__name__)
