@@ -57,7 +57,7 @@ def login():
             session["user"] = username
             return redirect("/home")
         else:
-            return view.login(error="invalid username or password")
+            return view.login(error="Invalid username or password")
 
 
 @app.route('/register', methods=["GET", "POST"])

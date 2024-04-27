@@ -127,8 +127,10 @@
     color: black
 }
 
-.error_msg {color: red;
-            font-weight: bold;
-            text-align: center;
-            font-family: comfortaa;
+.error_msg {
+    color: red;
+    font-weight: bold;
+    text-align: center;
+    font-family: comfortaa;
+    margin-top: 20px;
 }
