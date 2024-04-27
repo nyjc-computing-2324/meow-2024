@@ -5,9 +5,11 @@ import psycopg2
 import sqlite3
 
 def sqlite_conn(uri):
+    """establish a connection with sqlite"""
     return sqlite3.connect(uri)
 
 def postgres_conn(uri):
+    """establish a connection with postgres"""
     return psycopg2.connect(uri)
 
 def get_uri(env: str = ""):
@@ -54,6 +56,16 @@ def get_activity(env: str = "") -> Activity:
     uri = get_uri(env)
     return Activity(conn_factory(env, uri))
 
+def get_student_activity(env: str = "") -> StudentActivity:
+    """returns an instance of Activity with an appropriate db conn"""
+    uri = get_uri(env)
+    return StudentActivity(conn_factory(env, uri))
+
+def get_student_cca(env: str = "") -> StudentCCA:
+    """returns an instance of Activity with an appropriate db conn"""
+    uri = get_uri(env)
+    return StudentCCA(conn_factory(env, uri))
+
 # cca_info = CCA("meow.db")
 # cca_info_backup = CCA("backup.db")
 # cca_info_testing = CCA("test.db")
@@ -72,7 +84,11 @@ def get_activity(env: str = "") -> Activity:
 
 # instantiating table objects
 account = get_account()
-student_profile = get_student()
+student = get_student()
+cca = get_cca()
+activity = get_activity()
+student_activity = get_student_activity()
+student_cca = get_student_cca()
 
 # FOR ACCOUNT TABLE
 def create_account(username: str, password: str):
