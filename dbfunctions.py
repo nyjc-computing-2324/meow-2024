@@ -57,30 +57,14 @@ def get_activity(env: str = "") -> Activity:
     return Activity(conn_factory(env, uri))
 
 def get_student_activity(env: str = "") -> StudentActivity:
-    """returns an instance of Activity with an appropriate db conn"""
+    """returns an instance of StudentActivity with an appropriate db conn"""
     uri = get_uri(env)
     return StudentActivity(conn_factory(env, uri))
 
 def get_student_cca(env: str = "") -> StudentCCA:
-    """returns an instance of Activity with an appropriate db conn"""
+    """returns an instance of StudentCCA with an appropriate db conn"""
     uri = get_uri(env)
     return StudentCCA(conn_factory(env, uri))
-
-# cca_info = CCA("meow.db")
-# cca_info_backup = CCA("backup.db")
-# cca_info_testing = CCA("test.db")
-
-# activity_info = Activity("meow.db")
-# activity_info_backup = Activity("backup.db")
-# activity_info_testing = Activity("test.db")
-
-# student_activity = StudentActivity('meow.db')
-# student_activity_backup = StudentActivity('backup.db')
-# student_activity_testing = StudentActivity('test.db')
-
-# student_cca = StudentCCA('meow.db')
-# student_cca_backup = StudentCCA('backup.db')
-# student_cca_testing = StudentCCA('test.db')
 
 # instantiating table objects
 account = get_account()
@@ -91,73 +75,72 @@ student_activity = get_student_activity()
 student_cca = get_student_cca()
 
 # FOR ACCOUNT TABLE
-def create_account(username: str, password: str):
+def create_account(username: str, password: str) -> None:
     """
     if username already exists, attribute error is raised
-    else data is inserted into account and account_backup
+    else data is inserted into account table
     """
     # check for repeated username
-    if account.retrieve(username, "username") is not None:
+    if account.retrieve_account_id(username) is not None:
         raise AttributeError("Username already exists")
     password, salt = auth.create_hash(password)
     account.insert({'username': username, 'password': password, 'salt': salt})
 
 def login(username: str , password: str) -> bool:
     # checks for valid username and password is already done 
-    data = account.retrieve(username, "username")
+    account_id = account.retrieve_account_id(username)
     # account not found
-    if data is None:
+    if account_id is None:
         return False
+    data = account.retrieve(account_id)
 
-    account_id, database_username, database_password, database_salt = data
+    account_id, database_username, database_password, salt = data
     # salting and hashing of password implemented 
-    return auth.check_password(password, database_password, database_salt)
+    return auth.check_password(password, database_password, salt)
 
-def username_taken(username) -> bool:
-    #checks if the username is already in use
-    data = account.retrieve(username, "username")
-    if data is None:
+def username_taken(username: str) -> bool:
+    """checks if the username is already in use"""
+    account_id = account.retrieve_account_id(username)
+    if account_id is None:
         return True
     return False
 
-def update_account(pk_name: str, pk, field: str, data):
+def update_account(username: str, field: str, data) -> None:
     """
     if account does not exists, attribute error is raised
-    else account updated in account and account_backup
+    else account updated in account table
     field can only be "username", "password" or "salt"
-    pk_name can only be "account_id" or "username"
     if username already exists and is to be updated, attribute error is raised
     """
-    if account.retrieve(pk, pk_name) is None:
+    account_id = account.retrieve_account_id(username)
+    if account_id is None:
         raise AttributeError("Account does not exist")
-    if field == "username" and account.retrieve(data, "username") is not None:
+    if field == "username" and username_taken(data):
         raise AttributeError("Username already exist")
-    account.update(pk, pk_name, field, data)
-    account_backup.update(pk, pk_name, field, data)
+    account.update(account_id, field, data)
 
-def retrieve_account(pk_name: str, pk) -> dict:
+def retrieve_account(username: str) -> dict:
     """
     obtain information for an account
     if account does not exists, attribute error is raised
     else a dictionary of account_id, username, password, salt is returned
-    pk_name can only be "account_id" or "username"
     """
-    record = account.retrieve(pk, pk_name)
-    if record is None:
+    account_id = account.retrieve_account_id(username)
+    if account_id is None:
         raise AttributeError("Account does not exist")
-    account_id, username, password, salt = record
-    return {'account_id': account_id, 'username': username, 'password': password, 'salt': salt}
+    record = account.retrieve(account_id)
+    account_id, database_username, password, salt = record
+    return {'account_id': account_id, 'username': database_username, 'password': password, 'salt': salt}
 
-def delete_account(pk_name: str, pk):
+def delete_account(username):
     """
     if account does not exists, attribute error is raised
     else delete account from account and account_backup
-    pk_name can only be "account_id" or "username"
     """
-    if account.retrieve(pk, pk_name) is None:
+    account_id = account.retrieve_account_id(username)
+    if account_id is None:
         raise AttributeError("Account does not exist")
-    account.delete(pk, pk_name)
-    account_backup.delete(pk, pk_name)
+    account.delete(account_id)
 
 
 # FOR STUDENT TABLE
