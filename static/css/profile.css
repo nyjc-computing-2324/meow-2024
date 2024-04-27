@@ -93,6 +93,7 @@ input[type=file]{
     background-color: #d9d9d9;
     color : white;
     font-family : comfortaa;
+    cursor: pointer;
 }
 
 .save-profile-button{
@@ -107,6 +108,7 @@ input[type=file]{
     background-color: #d9d9d9;
     color : white;
     font-family : comfortaa;
+    cursor: pointer;
 }
 
 .cancel-profile-button{
@@ -121,6 +123,7 @@ input[type=file]{
     color : white;
     margin-top : 10px;
     font-family : comfortaa;
+    cursor: pointer;
 }
 
 .save-profile-button{
@@ -182,6 +185,7 @@ input[type=file]{
     color : white;
     margin-top : 10px;
     font-family : comfortaa;
+    cursor: pointer;
 
 }
 
@@ -203,12 +207,13 @@ input[type=file]{
 .email-container{
     margin-left : 20px;
     font-family : comfortaa;
+    width: 50%;
 
 }
 .number-container{
     margin-left : 50px;
     font-family : comfortaa;
-
+    width: 50%;
 }
 
 .about-container{
@@ -221,13 +226,10 @@ input[type=file]{
     max-width : 700px;
     min-width : 450px;
     font-family : comfortaa;
-    padding-top: 10px;
-}
-
-.about-text{
-    margin-top: 10px;
-    border: none;
-    outline: none;
+    display: flex;
+    vertical-align: center;
+    justify-content: center;
+    flex-direction: column;
 }
 
 .about-text{
@@ -240,15 +242,17 @@ input[type=file]{
     background-color : #FBF2CF;
     text-align: center;
     border : none;
-    /* outline : none; */
+    outline : none;
     resize : none;
     border-radius: 10px;
     font-family : comfortaa;
     max-width : 560px;
-    width : 70%;
-    height : 140px;
+    width : 80%;
+    height : 100px;
     font-family : comfortaa;
-
+    display: block;
+    margin-left: 10%;
+    margin-right: 10%;
 }
 
 @media only screen and (max-width: 768px) {
@@ -256,4 +260,30 @@ input[type=file]{
   [class*="profile-section"] {
     width: 100%;
   }
+}
+
+.name-input{
+    text-align : center;
+    width : 180px;
+    font-family : comfortaa;
+    font-size: 30px;
+    border: None;
+    font-weight: 900;
+    outline : none;
+}
+
+.email-input{
+    width : 100%;
+    font-family : comfortaa;
+    font-size: 20px;
+    border: None;
+    outline : none;
+}
+
+.number-input{
+    width : 100%;
+    font-family : comfortaa;
+    font-size: 20px;
+    border: None;
+    outline : none;
 }
