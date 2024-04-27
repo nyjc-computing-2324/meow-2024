@@ -185,10 +185,7 @@ class Table:
             return record
         if commit:
             conn.commit()
-<<<<<<< HEAD
-=======
         conn.close()
->>>>>>> d601ccf4c1461c0b1601a4f27ee08e660756ac5e
 
     def insert(self, record: dict) -> None:
         """
@@ -249,10 +246,8 @@ class Table:
                 """
         params = (pk, )
         self._execute_query(query, params, commit=True)
-<<<<<<< HEAD
 
-=======
->>>>>>> d601ccf4c1461c0b1601a4f27ee08e660756ac5e
+
 
 class JunctionTable(Table):
     pk1_name: str
@@ -326,11 +321,6 @@ class JunctionTable(Table):
                 """
         param = (pk1_value, pk2_value)
         self._execute_query(query, param, commit=True)
-
-
-
-
-
 
 
 class Account(Table):

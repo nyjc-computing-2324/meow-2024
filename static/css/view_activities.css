@@ -1,0 +1,96 @@
+/* Define font-face for custom font */
+@font-face {
+    font-family: comfortaa;
+    src: url(Comfortaa-Light.ttf);
+}
+
+/* Reset default padding, margin, and ensure content fits within viewport */
+* {
+    padding: 0;
+    margin: 0;
+    box-sizing: border-box;
+    max-width: 100%;
+    font-family: comfortaa; /* Apply custom font to all elements */
+}
+
+.contain {
+    display: flex;
+    flex-direction: column;
+    height: 100%;
+}
+
+.top-sect {
+    flex-grow: 1; /* Take up remaining space */
+    padding: 20px; /* Add padding for spacing */
+    height: 150px;
+    text-align: left;
+    background-color: #d9d9d9;
+    /* border: 1px solid #ccc; */
+
+}
+
+.top-content{
+    margin-left: 30px ;
+
+}
+
+.circle {
+    height: 100px;
+    width: 100px;
+    border-radius: 50%;
+    background-color: #8AADF4;
+    float: left;
+    margin-right: 10px;
+}
+
+.top-sect-header {
+    font-size: 50px;
+}
+
+.top-sect-organiser{
+    font-size: 30px;
+
+}
+
+.bot-sect {
+    flex-grow: 1; /* Take up remaining space */
+    padding: 20px; /* Add padding for spacing */
+}
+
+.bottom-header {
+    font-size: 40px;
+}
+
+.bottom-text{
+    font-size: 20px;
+}
+
+.sub-contain {
+    display: flex;
+    flex-direction: row;
+    height: 100%;
+    margin: 0 30px 20px 30px ;
+}
+
+.left-text {
+    flex: 1;
+    background-color: #FBF2CF;
+    /* border: 1px solid #ccc; */
+    padding: 10px;
+    height: 100vh;
+    box-sizing: border-box;
+    border-radius: 10px;
+    margin-right: 30px;
+
+}
+
+.right-text {
+    flex: 1;
+    background-color: #FBF2CF;
+    /* border: 1px solid #ccc; */
+    padding: 10px;
+    height: 100vh;
+    box-sizing: border-box;
+    border-radius: 10px;
+
+}
