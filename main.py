@@ -85,8 +85,6 @@ def register():
 
 @app.route('/profile', methods=["GET", "POST"])
 def profile():
-    session["logged_in"] = True
-    session["user"] = "awpgikxdigj"
     info = dbfunctions.retrieve_account("username", session.get("user"))
     if request.method == "POST":
         if request.form["response"] == "Edit":
