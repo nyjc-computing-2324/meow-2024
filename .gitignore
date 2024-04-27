@@ -5,7 +5,7 @@
 replit.nix
 
 # Ignore bash scripts
-*.sh
+
 
 # Ignore database files
 *.db
