@@ -107,14 +107,14 @@ def username_taken(username: str) -> bool:
 
 def update_account(username: str, field: str, data) -> None:
     """
-    if account does not exists, attribute error is raised
+    if username does not exist in account table, attribute error is raised
     else account updated in account table
     field can only be "username", "password" or "salt"
-    if username already exists and is to be updated, attribute error is raised
+    if new username given already exists, attribute error is raised
     """
     account_id = account.retrieve_account_id(username)
     if account_id is None:
-        raise AttributeError("Account does not exist")
+        raise AttributeError("No account linked to username")
     if field == "username" and username_taken(data):
         raise AttributeError("Username already exist")
     account.update(account_id, field, data)
@@ -122,51 +122,57 @@ def update_account(username: str, field: str, data) -> None:
 def retrieve_account(username: str) -> dict:
     """
     obtain information for an account
-    if account does not exists, attribute error is raised
+    if username does not exist in account table, attribute error is raised
     else a dictionary of account_id, username, password, salt is returned
     """
     account_id = account.retrieve_account_id(username)
     if account_id is None:
-        raise AttributeError("Account does not exist")
+        raise AttributeError("No account linked to username")
     record = account.retrieve(account_id)
     account_id, database_username, password, salt = record
     return {'account_id': account_id, 'username': database_username, 'password': password, 'salt': salt}
 
-def delete_account(username):
+def delete_account(username) -> None:
     """
-    if account does not exists, attribute error is raised
-    else delete account from account and account_backup
+    if username does not exist in account table, attribute error is raised
+    else delete account from account table
     """
     account_id = account.retrieve_account_id(username)
     if account_id is None:
-        raise AttributeError("Account does not exist")
+        raise AttributeError("No account linked to username")
     account.delete(account_id)
 
 
 # FOR STUDENT TABLE
-def create_profile(name, _class, email, account_id):
+def create_profile(name, _class, email, username) -> None:
     """
     if account_id does not exist in account table, attribute error is raised
-    else data is inserted into student_profile and student_profile_backup
+    else data is inserted into student table
     """
-    if account.retrieve(account_id, "account_id") is None:
-        raise AttributeError("Invalid account id")
-    student_profile.insert(name, _class, email, account_id)
-    student_profile_backup.insert(name, _class, email, account_id)
+    account_id = account.retrieve_account_id(username)
+    if account_id is None:
+        raise AttributeError("No account linked to username")
+    student.insert({'name': name, '_class': email, 'email': email, 'account_id': account_id})
 
-def update_profile(student_id: int, field: str, data):
+def update_profile(username: str, field: str, data):
     """
     if profile does not exists, attribute error is raised
-    if account_id does not exist in account table, attribute error is raised
-    else account updated in account and account_backup
+    if username does not exist in account table, attribute error is raised
+    if new username does not exist in account table for updates to account_id,
+    attribute error is raised
+    else account updated in student table
     field can only be "account_id", "name", "class" or "email"
+    if field is account_id, pass in new username as data
     """
-    if student_profile.retrieve(student_id) is None:
+    account_id = account.retrieve_account_id(username)
+    if account_id is None:
+        raise AttributeError("No account linked to username")
+    student_id = student.retrieve_student_id(account_id)
+    if student_id is None:
         raise AttributeError("Student profile does not exist")
-    if field == "account_id" and account.retrieve(data, "account_id") is None:
-        raise AttributeError("Invalid account id")
-    student_profile.update(student_id, field, data)
-    student_profile_backup.update(student_id, field, data)
+    if field == "account_id" and account.retrieve_account_id(data) is None:
+        raise AttributeError("No account linked to new username")
+    student.update(student_id, field, data)
 
 def retrieve_profile(student_id: int):
     """

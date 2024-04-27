@@ -337,22 +337,35 @@ class Student(Table):
     pk_name = "student_id"
     fields = ["student_id", "name", "class", "email", "account_id"]
 
-    def __init__(self, get_conn: Callable):
-        """
-        create a table upon initialisation of the class
-        student_id for pk
-        """
-        super().__init__(get_conn)
-        self._execute_query(f"""
-            CREATE TABLE IF NOT EXISTS {self.table_name} (
-                {self.pk_name} INTEGER PRIMARY KEY,
-                "name" TEXT NOT NULL,
-                "class" INTEGER NOT NULL, 
-                "email" TEXT NOT NULL,
-                "account_id" INTEGER NOT NULL UNIQUE,
-                FOREIGN KEY ("account_id") REFERENCES account("account_id")
-            );
-        """, params=None, commit=True)
+    def retrieve_student_id(self, account_id: int) -> int | None:
+        query = f"""
+                SELECT *
+                FROM {self.table_name}
+                WHERE "account_id" = ?;
+                """
+        params = (account_id,)
+        record = self._execute_query(query, params, fetch=True)
+        if record is not None:
+            student_id, *rest = record
+            return student_id
+        return record
+
+    # def __init__(self, get_conn: Callable):
+    #     """
+    #     create a table upon initialisation of the class
+    #     student_id for pk
+    #     """
+    #     super().__init__(get_conn)
+    #     self._execute_query(f"""
+    #         CREATE TABLE IF NOT EXISTS {self.table_name} (
+    #             {self.pk_name} INTEGER PRIMARY KEY,
+    #             "name" TEXT NOT NULL,
+    #             "class" INTEGER NOT NULL, 
+    #             "email" TEXT NOT NULL,
+    #             "account_id" INTEGER NOT NULL UNIQUE,
+    #             FOREIGN KEY ("account_id") REFERENCES account("account_id")
+    #         );
+    #     """, params=None, commit=True)
 
     # def insert(self, record: dict):
     #     """
@@ -424,7 +437,6 @@ class Student(Table):
     #         param = (student_id, )
     #         cursor.execute(query, param)
     #         conn.commit()
-
 
 class CCA(Table):
     table_name: str = "cca"
