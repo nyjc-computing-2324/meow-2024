@@ -66,87 +66,6 @@ def quote_join(list_of_str: list[str], enquote: bool = False) -> str:
         return ", ".join([f'"{str_}"' for str_ in list_of_str])
     return ", ".join(list_of_str)
 
-def init_tables(conn):
-    cursor = conn.cursor()
-    cursor.execute(
-        """
-        CREATE TABLE IF NOT EXISTS "account" (
-        "account_id" INTEGER PRIMARY KEY,
-        "username" TEXT NOT NULL UNIQUE,
-        "password" TEXT NOT NULL,
-        "salt" BYTES NOT NULL
-        );
-        """
-        )
-    conn.commit()
-    #conn.close() called automatically
-
-    cursor.execute(
-        """
-        CREATE TABLE IF NOT EXISTS "student" (
-            "student_id" INTEGER PRIMARY KEY,
-            "name" TEXT NOT NULL,
-            "class" INTEGER NOT NULL, 
-            "email" TEXT NOT NULL,
-            "account_id" INTEGER NOT NULL UNIQUE,
-            FOREIGN KEY ("account_id") REFERENCES account("account_id")
-        );
-        """
-    )
-    conn.commit()
-
-    cursor.execute(
-        """
-        CREATE TABLE IF NOT EXISTS "cca" (
-            "cca_id" INTEGER PRIMARY KEY,
-            "name" TEXT NOT NULL,
-            "type" TEXT NOT NULL 
-        );
-        """
-    )
-    conn.commit()
-
-    cursor.execute(
-        """
-        CREATE TABLE IF NOT EXISTS "activity" (
-            "activity_id" INTEGER PRIMARY KEY,
-            "name" TEXT NOT NULL,
-            "date" TEXT NOT NULL, 
-            "location" TEXT NOT NULL,
-            "organiser_id" INTEGER,
-            FOREIGN KEY ("organiser_id") REFERENCES account("student_id")
-        );
-        """
-    )
-    conn.commit()
-
-    cursor.execute(
-        """
-        CREATE TABLE IF NOT EXISTS "studentactivity" (
-            "student_id" INTEGER NOT NULL,
-            "activity_id" INTEGER NOT NULL,
-            PRIMARY KEY ("student_id", "activity_id"),
-            FOREIGN KEY ("student_id") REFERENCES student("student_id"),
-            FOREIGN KEY ("activity_id") REFERENCES activity("activity_id")
-        );
-        """
-    )
-    conn.commit()
-
-    cursor.execute(
-        """
-        CREATE TABLE IF NOT EXISTS "studentcca" (
-            "student_id" INTEGER,
-            "cca_id" INTEGER,
-            "role" TEXT NOT NULL,
-            PRIMARY KEY ("student_id", "cca_id"),
-            FOREIGN KEY ("student_id") REFERENCES student("student_id"),
-            FOREIGN KEY ("cca_id") REFERENCES cca("cca_id")
-        );
-        """
-    )
-    conn.commit()
-
 class Table:
     """parent class for all subsequent tables"""
     table_name: str
@@ -170,6 +89,7 @@ class Table:
         commit: bool = False,
         fetch: bool = False
     ):
+        """executes the query based on the connection, given query and params"""
         conn = self.get_conn()
         cursor = conn.cursor()
         if params:
@@ -189,12 +109,12 @@ class Table:
         inserts the record into the junction table
 
         Checks for redundancies should already be done
-        i.e. if pk == 5 already exists in the table,
-        dont insert another record with pk == 5
+        i.e. if unqiue field name == panda already exists in the table,
+        dont insert another record with name == panda
 
         record argument that is passed should have:
         keys of type str referring to the fields
-        values of type str referring to the values to be put in the cells
+        values of corresponding types referring to the values to be put in the cells
         """
         # check that all fields in record is valid
         for field in record:
@@ -207,7 +127,7 @@ class Table:
                 """
         self._execute_query(query, tuple(record.values()), commit=True)
         
-    def update(self, pk: int, field: str, new: str):
+    def update(self, pk: int, field: str, new: str) -> None:
         """update existing records in the database"""
         self._valid_field_else_error(field)
         query = f"""
@@ -218,23 +138,19 @@ class Table:
         params = (new, pk)
         self._execute_query(query, params, commit=True)
 
-    def retrieve(self, pk: int, pk_name: str = ""):
+    def retrieve(self, pk: int) -> tuple | None:
         """find existing records in the database"""
-        if pk_name == "":
-            pk_name = self.pk_name
         query = f"""
                 SELECT *
                 FROM {self.table_name}
-                WHERE {pk_name} = ?;
+                WHERE {self.pk_name} = ?;
                 """
         params = (pk,)
         record = self._execute_query(query, params, fetch=True)
         return record
 
-    def delete(self, pk: int, pk_name:str = ""):
+    def delete(self, pk: int):
         """remove existing records in the database"""
-        if pk_name == "":
-            pk_name = self.pk_name
         query = f"""
                 DELETE FROM {self.table_name}
                 WHERE {self.pk_name} = ?;
@@ -315,29 +231,35 @@ class JunctionTable(Table):
         param = (pk1_value, pk2_value)
         self._execute_query(query, param, commit=True)
 
-
-
-
-
-
 class Account(Table):
-    table_name: str = "account"
+    table_name = "account"
+    pk_name = "account_id"
     fields = ["account_id", "username", "password", "salt"]
 
-    def __init__(self, get_conn: Callable):
-        """
-        create a table upon initialisation of the class
-        account id for primary key
-        """
-        super().__init__(get_conn)
-        self._execute_query(f"""
-           CREATE TABLE IF NOT EXISTS {self.table_name} (
-           "account_id" INTEGER PRIMARY KEY,
-           "username" TEXT NOT NULL UNIQUE,
-           "password" TEXT NOT NULL,
-           "salt" BYTES NOT NULL
-           );
-        """, params=None, commit=True)
+    def retrieve_account_id(self, name: str):
+        query = f"""
+                SELECT *
+                FROM {self.table_name}
+                WHERE {self.pk_name} = ?;
+                """
+        params = (pk,)
+        record = self._execute_query(query, params, fetch=True)
+        return record
+
+    # def __init__(self, get_conn: Callable):
+    #     """
+    #     create a table upon initialisation of the class
+    #     account id for primary key
+    #     """
+    #     super().__init__(get_conn)
+    #     self._execute_query(f"""
+    #        CREATE TABLE IF NOT EXISTS {self.table_name} (
+    #        "account_id" INTEGER PRIMARY KEY,
+    #        "username" TEXT NOT NULL UNIQUE,
+    #        "password" TEXT NOT NULL,
+    #        "salt" BYTES NOT NULL
+    #        );
+    #     """, params=None, commit=True)
 
     # def insert(self, username: str, password: str, salt: bytes):
     #     """
@@ -354,68 +276,63 @@ class Account(Table):
     #         conn.commit()
     #         #conn.close() called automatically
 
-    def update(self, pk_name: str, pk, field: str, new):
-        """
-        update existing records in the database
-        field can only be "username", "password" or "salt"
-        pk_name can only be "account_id" or "username"
-        raises Attributes error if field is invalid
-        checks for repeated username should already be done if username is being updated
-        """
-        if pk_name not in [self.pk_name, "username"]:
-            raise ValueError("")
+    # def update(self, pk_name: str, pk, field: str, new):
+    #     """
+    #     update existing records in the database
+    #     field can only be "username", "password" or "salt"
+    #     pk_name can only be "account_id" or "username"
+    #     raises Attributes error if field is invalid
+    #     checks for repeated username should already be done if username is being updated
+    #     """
+    #     self._valid_field_else_error(field)
+    #     if pk_name not in ['account_id', 'username']:
+    #         raise AttributeError(f"Invalid pk_name '{pk_name}'")
 
-        self._valid_field_else_error(field)
-        if pk_name not in ['account_id', 'username']:
-            raise AttributeError(f"Invalid pk_name '{pk_name}'")
+    #     query = f"""
+    #             UPDATE {self.table_name} 
+    #             SET {field} = ? 
+    #             WHERE {pk_name} = ? 
+    #             """
+    #     params = (new, pk)
+    #     self._execute_query(query, params, commit=True)
 
-        query = f"""
-                UPDATE {self.table_name} 
-                SET {field} = ? 
-                WHERE {pk_name} = ? 
-                """
-        params = (new, pk)
-        self._execute_query(query, params, commit=True)
+    # def retrieve(self, pk: int, pk_name: str) -> tuple:
+    #     """
+    #     find existing records in the database
+    #     pk_name can only be "account_id" or "username"
+    #     raises Attributes error if field is invalid
+    #     """
+    #     if pk_name not in ['account_id', 'username']:
+    #         raise AttributeError(f"Invalid pk_name '{pk_name}'")
+    #     record = self._execute_query(f"""
+    #         SELECT *
+    #         FROM {self.table_name}
+    #         WHERE {pk_name} = ?;
+    #         """,
+    #         params=(pk,),
+    #         fetch=True
+    #     )
+    #     return record
 
-    def retrieve(self, pk: int, pk_name: str) -> tuple:
-        """
-        find existing records in the database
-        pk_name can only be "account_id" or "username"
-        raises Attributes error if field is invalid
-        """
-        if pk_name not in ['account_id', 'username']:
-            raise AttributeError(f"Invalid pk_name '{pk_name}'")
-        record = self._execute_query(f"""
-            SELECT *
-            FROM {self.table_name}
-            WHERE {pk_name} = ?;
-            """,
-            params=(pk,),
-            fetch=True
-        )
-        return record
+    # def delete(self, pk_name: str, pk):
+    #     """
+    #     remove existing records in the database
+    #     pk_name can only be "account_id" or "username"
+    #     raises Attributes error if field is invalid
+    #     """
+    #     if pk_name not in ['account_id', 'username']:
+    #         raise AttributeError(f"Invalid pk_name '{pk_name}'")
 
-    def delete(self, pk_name: str, pk):
-        """
-        remove existing records in the database
-        pk_name can only be "account_id" or "username"
-        raises Attributes error if field is invalid
-        """
-        if pk_name not in ['account_id', 'username']:
-            raise AttributeError(f"Invalid pk_name '{pk_name}'")
-
-        query = f"""
-                DELETE FROM {self.table_name}
-                WHERE {pk_name} = ?;
-                """
-        param = (pk, )
-        self._execute_query(query, params, commit=True)
-            
-
+    #     query = f"""
+    #             DELETE FROM {self.table_name}
+    #             WHERE {pk_name} = ?;
+    #             """
+    #     param = (pk, )
+    #     self._execute_query(query, params, commit=True)
 
 class Student(Table):
-    table_name: str = "student"
-    pk_name: str = "student_id"
+    table_name = "student"
+    pk_name = "student_id"
     fields = ["student_id", "name", "class", "email", "account_id"]
 
     def __init__(self, get_conn: Callable):
