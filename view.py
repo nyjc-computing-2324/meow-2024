@@ -59,7 +59,6 @@ def profile(edit = False, profile = None):
     # if not completed:
     #     # redirects the user to temp.html
     #     return redirect("/temp")
-    print(profile)
     return render_template("profile.html", edit = edit, profile = profile)
 
 def profile_edit():
