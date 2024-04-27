@@ -236,14 +236,17 @@ class Account(Table):
     pk_name = "account_id"
     fields = ["account_id", "username", "password", "salt"]
 
-    def retrieve_account_id(self, name: str):
+    def retrieve_account_id(self, username: str) -> int | None:
         query = f"""
                 SELECT *
                 FROM {self.table_name}
-                WHERE {self.pk_name} = ?;
+                WHERE "username" = ?;
                 """
-        params = (pk,)
+        params = (username,)
         record = self._execute_query(query, params, fetch=True)
+        if record is not None:
+            account_id, *rest = record
+            return account_id
         return record
 
     # def __init__(self, get_conn: Callable):
