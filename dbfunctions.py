@@ -160,7 +160,7 @@ def update_profile(username: str, field: str, data):
     if username does not exist in account table, attribute error is raised
     if new username does not exist in account table for updates to account_id,
     attribute error is raised
-    else account updated in student table
+    else profile updated in student table
     field can only be "account_id", "name", "class" or "email"
     if field is account_id, pass in new username as data
     """
@@ -174,27 +174,36 @@ def update_profile(username: str, field: str, data):
         raise AttributeError("No account linked to new username")
     student.update(student_id, field, data)
 
-def retrieve_profile(student_id: int):
+def retrieve_profile(username: str):
     """
     obtain information for an account
-    if account does not exists, attribute error is raised
+    if profile does not exists, attribute error is raised
+    if username does not exist in account table, attribute error is raised
     else a dictionary of student_id, name, class, email, account_id is returned
     """
-    record = student_profile.retrieve(student_id)
-    if record is None:
-        raise AttributeError("Profile does not exist.")
+    account_id = account.retrieve_account_id(username)
+    if account_id is None:
+        raise AttributeError("No account linked to username")
+    student_id = student.retrieve_student_id(account_id)
+    if student_id is None:
+        raise AttributeError("Student profile does not exist")
+    record = student.retrieve(student_id)
     student_id, name, _class, email, account_id = record
     return {'student_id': student_id, 'name': name, 'class': _class, 'email': email, 'account_id': account_id}
 
-def delete_profile(student_id: int):
+def delete_profile(username: str):
     """
-    if account does not exists, attribute error is raised
-    else delete account from student_profile and student_profile_backup
+    if profile does not exists, attribute error is raised
+    if username does not exist in account table, attribute error is raised
+    else delete profile from student table
     """
-    if student_profile.retrieve(student_id) is None:
-        raise AttributeError("Profile does not exist.")
-    student_profile.delete(student_id)
-    student_profile_backup.delete(student_id)
+    account_id = account.retrieve_account_id(username)
+    if account_id is None:
+        raise AttributeError("No account linked to username")
+    student_id = student.retrieve_student_id(account_id)
+    if student_id is None:
+        raise AttributeError("Student profile does not exist")
+    student.delete(student_id)
 
 
 # FOR CCA TABLE
