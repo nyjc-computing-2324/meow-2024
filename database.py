@@ -23,7 +23,7 @@ def init_tables(get_conn: Callable):
         );
         CREATE TABLE IF NOT EXISTS "cca" (
             "cca_id" INTEGER PRIMARY KEY,
-            "name" TEXT NOT NULL,
+            "name" TEXT NOT NULL UNIQUE,
             "type" TEXT NOT NULL 
         );
         CREATE TABLE IF NOT EXISTS "activity" (
@@ -236,6 +236,7 @@ class Account(Table):
     fields = ["account_id", "username", "password", "salt"]
 
     def retrieve_account_id(self, username: str) -> int | None:
+        """obtain account_id based using username"""
         query = f"""
                 SELECT *
                 FROM {self.table_name}
@@ -338,6 +339,7 @@ class Student(Table):
     fields = ["student_id", "name", "class", "email", "account_id"]
 
     def retrieve_student_id(self, account_id: int) -> int | None:
+        """obtain student_id using account_id from account table"""
         query = f"""
                 SELECT *
                 FROM {self.table_name}
@@ -442,94 +444,108 @@ class CCA(Table):
     table_name: str = "cca"
     fields = ["cca_id", "name", "type"]
 
-    def __init__(self, get_conn: Callable):
-        """
-        create a table upon initialisation of the class
-        student_id for pk
-        """
-        super().__init__(get_conn)
-        self._execute_query(f"""
-            CREATE TABLE IF NOT EXISTS {self.table_name} (
-                "cca_id" INTEGER PRIMARY KEY,
-                "name" TEXT NOT NULL UNIQUE,
-                "type" TEXT NOT NULL, 
-            );
-        """, params=None, commit=True)
-
-    def insert(self, name: str, type: str):
-        """
-        insert new records into the database
-        checks for repeated name should already be done
-        """
-        with sqlite3.connect(self.database_name) as conn:
-            cursor = conn.cursor()
-            query = f"""
-                INSERT INTO {self.table_name} ("name", "type") VALUES (?, ?);
-            """
-            params = (name, type)
-            cursor.execute(query, params)
-            conn.commit()
-            # conn.close() is called automatically
-
-    def update(self, pk_name: str, pk, field: str, new: str):
-        """
-        update existing records in the database
-        pk_name can only be "cca_id" or "name"
-        field can only be "name" or "type"
-        raises Attributes error if field is invalid
-        checks for repeated name should already be done
-        """
-        self._valid_field_else_error(field)
-        if pk_name not in ['cca_id', 'name']:
-            raise AttributeError(f'Invalid pk_name {pk_name}')
-        with sqlite3.connect(self.database_name) as conn:
-            cursor = conn.cursor()
-            query = f"""
-                UPDATE {self.table_name}
-                SET {field} = ?
-                WHERE {pk_name} = ?;
-            """
-            params = (new, pk)
-            cursor.execute(query, params)
-            conn.commit()
-
-    def retrieve(self, pk_name: str, pk):
-        """
-        find existing records in the database
-        pk_name can only be "cca_id" or "name"
-        """
-        if pk_name not in ['cca_id', 'name']:
-            raise AttributeError(f'Invalid pk_name {pk_name}')
-        with sqlite3.connect('meow.db') as conn:
-            cursor = conn.cursor()
-            query = f"""
+    def retrieve_cca_id(self, name: str) -> int | None:
+        """obtain cca_id using name of cca"""
+        query = f"""
                 SELECT *
-                FROM {self.table_name} ;
-                WHERE {pk_name} = ? ;
-            """
-            params = (pk, )
-            cursor.execute(query, params)
-            record = cursor.fetchone()
-            conn.commit()
-            # conn.close() is called automatically
-            return record
+                FROM {self.table_name}
+                WHERE "name" = ?;
+                """
+        params = (name,)
+        record = self._execute_query(query, params, fetch=True)
+        if record is not None:
+            cca_id, *rest = record
+            return cca_id
+        return record
 
-    def delete(self, pk_name: str, pk):
-        """
-        remove existing records in the database
-        pk_name can only be "cca_id" or "name"
-        """
-        if pk_name not in ['cca_id', 'name']:
-            raise AttributeError(f'Invalid pk_name {pk_name}')
-        with sqlite3.connect(self.database_name) as conn:
-            cursor = conn.cursor()
-            query = f"""
-                    DELETE FROM {self.table_name}
-                    WHERE {pk_name} = ?;
-                    """
-            params = (pk, )
-            cursor.execute(query, params)
-            conn.commit()
+    # def __init__(self, get_conn: Callable):
+    #     """
+    #     create a table upon initialisation of the class
+    #     student_id for pk
+    #     """
+    #     super().__init__(get_conn)
+    #     self._execute_query(f"""
+    #         CREATE TABLE IF NOT EXISTS {self.table_name} (
+    #             "cca_id" INTEGER PRIMARY KEY,
+    #             "name" TEXT NOT NULL UNIQUE,
+    #             "type" TEXT NOT NULL, 
+    #         );
+    #     """, params=None, commit=True)
+
+    # def insert(self, name: str, type: str):
+    #     """
+    #     insert new records into the database
+    #     checks for repeated name should already be done
+    #     """
+    #     with sqlite3.connect(self.database_name) as conn:
+    #         cursor = conn.cursor()
+    #         query = f"""
+    #             INSERT INTO {self.table_name} ("name", "type") VALUES (?, ?);
+    #         """
+    #         params = (name, type)
+    #         cursor.execute(query, params)
+    #         conn.commit()
+    #         # conn.close() is called automatically
+
+    # def update(self, pk_name: str, pk, field: str, new: str):
+    #     """
+    #     update existing records in the database
+    #     pk_name can only be "cca_id" or "name"
+    #     field can only be "name" or "type"
+    #     raises Attributes error if field is invalid
+    #     checks for repeated name should already be done
+    #     """
+    #     self._valid_field_else_error(field)
+    #     if pk_name not in ['cca_id', 'name']:
+    #         raise AttributeError(f'Invalid pk_name {pk_name}')
+    #     with sqlite3.connect(self.database_name) as conn:
+    #         cursor = conn.cursor()
+    #         query = f"""
+    #             UPDATE {self.table_name}
+    #             SET {field} = ?
+    #             WHERE {pk_name} = ?;
+    #         """
+    #         params = (new, pk)
+    #         cursor.execute(query, params)
+    #         conn.commit()
+
+    # def retrieve(self, pk_name: str, pk):
+    #     """
+    #     find existing records in the database
+    #     pk_name can only be "cca_id" or "name"
+    #     """
+    #     if pk_name not in ['cca_id', 'name']:
+    #         raise AttributeError(f'Invalid pk_name {pk_name}')
+    #     with sqlite3.connect('meow.db') as conn:
+    #         cursor = conn.cursor()
+    #         query = f"""
+    #             SELECT *
+    #             FROM {self.table_name} ;
+    #             WHERE {pk_name} = ? ;
+    #         """
+    #         params = (pk, )
+    #         cursor.execute(query, params)
+    #         record = cursor.fetchone()
+    #         conn.commit()
+    #         # conn.close() is called automatically
+    #         return record
+
+    # def delete(self, pk_name: str, pk):
+    #     """
+    #     remove existing records in the database
+    #     pk_name can only be "cca_id" or "name"
+    #     """
+    #     if pk_name not in ['cca_id', 'name']:
+    #         raise AttributeError(f'Invalid pk_name {pk_name}')
+    #     with sqlite3.connect(self.database_name) as conn:
+    #         cursor = conn.cursor()
+    #         query = f"""
+    #                 DELETE FROM {self.table_name}
+    #                 WHERE {pk_name} = ?;
+    #                 """
+    #         params = (pk, )
+    #         cursor.execute(query, params)
+    #         conn.commit()
 
 
 class Activity(Table):
