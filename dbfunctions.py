@@ -81,14 +81,14 @@ def create_account(username: str, password: str) -> None:
     else data is inserted into account table
     """
     # check for repeated username
-    if account.retrieve_account_id(username) is not None:
+    if account.retrieve_primary_key(username) is not None:
         raise AttributeError("Username already exists")
     password, salt = auth.create_hash(password)
     account.insert({'username': username, 'password': password, 'salt': salt})
 
 def login(username: str , password: str) -> bool:
     # checks for valid username and password is already done 
-    account_id = account.retrieve_account_id(username)
+    account_id = account.retrieve_primary_key(username)
     # account not found
     if account_id is None:
         return False
@@ -100,7 +100,7 @@ def login(username: str , password: str) -> bool:
 
 def username_taken(username: str) -> bool:
     """checks if the username is already in use"""
-    account_id = account.retrieve_account_id(username)
+    account_id = account.retrieve_primary_key(username)
     if account_id is None:
         return True
     return False
@@ -112,7 +112,7 @@ def update_account(username: str, field: str, data) -> None:
     else account updated in account table
     field can only be "username", "password" or "salt"
     """
-    account_id = account.retrieve_account_id(username)
+    account_id = account.retrieve_primary_key(username)
     if account_id is None:
         raise AttributeError("No account linked to username")
     if field == "username" and username_taken(data):
@@ -125,7 +125,7 @@ def retrieve_account(username: str) -> dict:
     if username does not exist in account table, attribute error is raised
     else a dictionary of account_id, username, password, salt is returned
     """
-    account_id = account.retrieve_account_id(username)
+    account_id = account.retrieve_primary_key(username)
     if account_id is None:
         raise AttributeError("No account linked to username")
     record = account.retrieve(account_id)
@@ -137,7 +137,7 @@ def delete_account(username) -> None:
     if username does not exist in account table, attribute error is raised
     else delete account from account table
     """
-    account_id = account.retrieve_account_id(username)
+    account_id = account.retrieve_primary_key(username)
     if account_id is None:
         raise AttributeError("No account linked to username")
     account.delete(account_id)
@@ -149,7 +149,7 @@ def create_profile(name, _class, email, username) -> None:
     if account_id does not exist in account table, attribute error is raised
     else data is inserted into student table
     """
-    account_id = account.retrieve_account_id(username)
+    account_id = account.retrieve_primary_key(username)
     if account_id is None:
         raise AttributeError("No account linked to username")
     student.insert({'name': name, '_class': email, 'email': email, 'account_id': account_id})
@@ -164,13 +164,13 @@ def update_profile(username: str, field: str, data) -> None:
     field can only be "account_id", "name", "class" or "email"
     if field is account_id, pass in new username as data
     """
-    account_id = account.retrieve_account_id(username)
+    account_id = account.retrieve_primary_key(username)
     if account_id is None:
         raise AttributeError("No account linked to username")
-    student_id = student.retrieve_student_id(account_id)
+    student_id = student.retrieve_primary_key(account_id)
     if student_id is None:
         raise AttributeError("Student profile does not exist")
-    if field == "account_id" and account.retrieve_account_id(data) is None:
+    if field == "account_id" and account.retrieve_primary_key(data) is None:
         raise AttributeError("No account linked to new username")
     student.update(student_id, field, data)
 
@@ -181,10 +181,10 @@ def retrieve_profile(username: str) -> dict:
     if username does not exist in account table, attribute error is raised
     else a dictionary of student_id, name, class, email, account_id is returned
     """
-    account_id = account.retrieve_account_id(username)
+    account_id = account.retrieve_primary_key(username)
     if account_id is None:
         raise AttributeError("No account linked to username")
-    student_id = student.retrieve_student_id(account_id)
+    student_id = student.retrieve_primary_key(account_id)
     if student_id is None:
         raise AttributeError("Student profile does not exist")
     record = student.retrieve(student_id)
@@ -197,10 +197,10 @@ def delete_profile(username: str) -> None:
     if username does not exist in account table, attribute error is raised
     else delete profile from student table
     """
-    account_id = account.retrieve_account_id(username)
+    account_id = account.retrieve_primary_key(username)
     if account_id is None:
         raise AttributeError("No account linked to username")
-    student_id = student.retrieve_student_id(account_id)
+    student_id = student.retrieve_primary_key(account_id)
     if student_id is None:
         raise AttributeError("Student profile does not exist")
     student.delete(student_id)
@@ -215,7 +215,7 @@ def create_cca(name: str, type: str) -> None:
     if type is invalid, attribute error is raised
     else data is inserted into cca table
     """
-    if cca.retrieve_cca_id(name) is not None:
+    if cca.retrieve_primary_key(name) is not None:
         raise AttributeError("Name already exists")
     if type not in ['sports', 'performing arts', 'uniform group', 'clubs and societies', 'others']:
         raise AttributeError(f'Invalid type {type}')
@@ -228,10 +228,10 @@ def update_cca(name: str, field: str, data) -> None:
     else cca updated in cca table
     field can only be "username", "password" or "salt"
     """
-    cca_id = cca.retrieve_cca_id(name)
+    cca_id = cca.retrieve_primary_key(name)
     if cca_id is None:
         raise AttributeError("No info linked to name")
-    if field == "name" and cca.retrieve_cca_id(data):
+    if field == "name" and cca.retrieve_primary_key(data):
         raise AttributeError("Name already exist")
     cca.update(cca_id, field, data)
 
@@ -241,7 +241,7 @@ def retrieve_cca(name: str) -> dict:
     if cca does not exists in cca table, attribute error is raised
     else a dictionary of cca_id, name, type is returned
     """
-    cca_id = cca.retrieve_cca_id(name)
+    cca_id = cca.retrieve_primary_key(name)
     if cca_id is None:
         raise AttributeError("No info linked to name")
     record = cca.retrieve(cca_id)
@@ -253,7 +253,7 @@ def delete_cca(name: str) -> None:
     if cca does not exists in cca table, attribute error is raised
     else delete cca from cca table
     """
-    cca_id = cca.retrieve_cca_id(name)
+    cca_id = cca.retrieve_primary_key(name)
     if cca_id is None:
         raise AttributeError("No info linked to name")
     cca.delete(cca_id)

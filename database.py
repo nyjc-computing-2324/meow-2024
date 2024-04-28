@@ -29,7 +29,7 @@ def init_tables(get_conn: Callable):
         );
         CREATE TABLE IF NOT EXISTS "activity" (
             "activity_id" INTEGER PRIMARY KEY,
-            "name" TEXT NOT NULL,
+            "name" TEXT NOT NULL UNIQUE,
             "date" TEXT NOT NULL, 
             "location" TEXT NOT NULL,
             "organiser_id" INTEGER,
@@ -72,6 +72,7 @@ class Table:
     get_conn: Callable
     pk_name: str  #stands for primary key name
     fields: list[str]
+    unique_field: str  #used to obtain the primary key
 
     def __init__(self, get_conn: Callable):
         """create a table upon initialisation of the class"""
@@ -147,6 +148,20 @@ class Table:
                 """
         params = (pk,)
         record = self._execute_query(query, params, fetch=True)
+        return record
+
+    def retrieve_primary_key(self, unique_field) -> int | None:
+        """obtain primary key using unique field in the table"""
+        query = f"""
+                SELECT *
+                FROM {self.table_name}
+                WHERE {self.unique_field} = ?;
+                """
+        params = (unique_field,)
+        record = self._execute_query(query, params, fetch=True)
+        if record is not None:
+            primary_key, *rest = record
+            return primary_key
         return record
 
     def delete(self, pk: int):
@@ -235,20 +250,21 @@ class Account(Table):
     table_name = "account"
     pk_name = "account_id"
     fields = ["account_id", "username", "password", "salt"]
+    unique_field = "username"
 
-    def retrieve_account_id(self, username: str) -> int | None:
-        """obtain account_id based using username"""
-        query = f"""
-                SELECT *
-                FROM {self.table_name}
-                WHERE "username" = ?;
-                """
-        params = (username,)
-        record = self._execute_query(query, params, fetch=True)
-        if record is not None:
-            account_id, *rest = record
-            return account_id
-        return record
+    # def retrieve_account_id(self, username: str) -> int | None:
+    #     """obtain account_id using username"""
+    #     query = f"""
+    #             SELECT *
+    #             FROM {self.table_name}
+    #             WHERE "username" = ?;
+    #             """
+    #     params = (username,)
+    #     record = self._execute_query(query, params, fetch=True)
+    #     if record is not None:
+    #         account_id, *rest = record
+    #         return account_id
+    #     return record
 
     # def __init__(self, get_conn: Callable):
     #     """
@@ -338,20 +354,21 @@ class Student(Table):
     table_name = "student"
     pk_name = "student_id"
     fields = ["student_id", "name", "class", "email", "account_id"]
+    unique_field = "account_id"
 
-    def retrieve_student_id(self, account_id: int) -> int | None:
-        """obtain student_id using account_id from account table"""
-        query = f"""
-                SELECT *
-                FROM {self.table_name}
-                WHERE "account_id" = ?;
-                """
-        params = (account_id,)
-        record = self._execute_query(query, params, fetch=True)
-        if record is not None:
-            student_id, *rest = record
-            return student_id
-        return record
+    # def retrieve_student_id(self, account_id: int) -> int | None:
+    #     """obtain student_id using account_id from account table"""
+    #     query = f"""
+    #             SELECT *
+    #             FROM {self.table_name}
+    #             WHERE "account_id" = ?;
+    #             """
+    #     params = (account_id,)
+    #     record = self._execute_query(query, params, fetch=True)
+    #     if record is not None:
+    #         student_id, *rest = record
+    #         return student_id
+    #     return record
 
     # def __init__(self, get_conn: Callable):
     #     """
@@ -442,22 +459,24 @@ class Student(Table):
     #         conn.commit()
 
 class CCA(Table):
-    table_name: str = "cca"
+    table_name = "cca"
+    pk_name = "cca_id"
     fields = ["cca_id", "name", "type"]
+    unique_field = "name"
 
-    def retrieve_cca_id(self, name: str) -> int | None:
-        """obtain cca_id using name of cca"""
-        query = f"""
-                SELECT *
-                FROM {self.table_name}
-                WHERE "name" = ?;
-                """
-        params = (name,)
-        record = self._execute_query(query, params, fetch=True)
-        if record is not None:
-            cca_id, *rest = record
-            return cca_id
-        return record
+    # def retrieve_cca_id(self, name: str) -> int | None:
+    #     """obtain cca_id using name of cca"""
+    #     query = f"""
+    #             SELECT *
+    #             FROM {self.table_name}
+    #             WHERE "name" = ?;
+    #             """
+    #     params = (name,)
+    #     record = self._execute_query(query, params, fetch=True)
+    #     if record is not None:
+    #         cca_id, *rest = record
+    #         return cca_id
+    #     return record
 
     # def __init__(self, get_conn: Callable):
     #     """
@@ -553,87 +572,88 @@ class Activity(Table):
     table_name: str = "activity"
     pk_name = "activity_id"
     fields = ["activity_id", "name", "date", "location", "organiser_id"]
+    unique_field = "name"
 
-    def __init__(self, get_conn: Callable):
-        """
-        create a table upon initialisation of the class
-        student_id for pk
-        """
-        super().__init__(get_conn)
-        self._execute_query(f"""
-            CREATE TABLE IF NOT EXISTS {self.table_name} (
-                {self.pk_name} INTEGER PRIMARY KEY,
-                "name" TEXT NOT NULL,
-                "date" TEXT NOT NULL, 
-                "location" TEXT NOT NULL,
-                "organiser_id" INTEGER, 
-                FOREIGN KEY ("organiser_id") REFERENCES account("student_id")
-            );
-        """, params=None, commit=True)
+    # def __init__(self, get_conn: Callable):
+    #     """
+    #     create a table upon initialisation of the class
+    #     student_id for pk
+    #     """
+    #     super().__init__(get_conn)
+    #     self._execute_query(f"""
+    #         CREATE TABLE IF NOT EXISTS {self.table_name} (
+    #             {self.pk_name} INTEGER PRIMARY KEY,
+    #             "name" TEXT NOT NULL,
+    #             "date" TEXT NOT NULL, 
+    #             "location" TEXT NOT NULL,
+    #             "organiser_id" INTEGER, 
+    #             FOREIGN KEY ("organiser_id") REFERENCES account("student_id")
+    #         );
+    #     """, params=None, commit=True)
 
-    def insert(self, name: str, date: str, location: str, organiser_id: int):
-        """
-        insert new records into the database
-        checks for repeated organiser_id should already be done
-        """
-        with sqlite3.connect(self.database_name) as conn:
-            cursor = conn.cursor()
-            query = f"""
-                INSERT INTO {self.table_name} ("name", "date", "location", "organiser_id")
-                VALUES( ?, ?, ?, ? );
-                """
-            params = (name, date, location, organiser_id)
-            cursor.execute(query, params)
-            conn.commit()
-            #conn.close() called automatically
+    # def insert(self, name: str, date: str, location: str, organiser_id: int):
+    #     """
+    #     insert new records into the database
+    #     checks for repeated organiser_id should already be done
+    #     """
+    #     with sqlite3.connect(self.database_name) as conn:
+    #         cursor = conn.cursor()
+    #         query = f"""
+    #             INSERT INTO {self.table_name} ("name", "date", "location", "organiser_id")
+    #             VALUES( ?, ?, ?, ? );
+    #             """
+    #         params = (name, date, location, organiser_id)
+    #         cursor.execute(query, params)
+    #         conn.commit()
+    #         #conn.close() called automatically
 
-    def update(self, activity_id: int, field: str, new: str):
-        """
-        update existing records in the database
-        field can only be "organiser_id" "name" "date" or "location"
-        checks for valid organiser_id should already be done
-        raises Attributes error if field is invalid
-        """
-        self._valid_field_else_error(field)
-        with sqlite3.connect(self.database_name) as conn:
-            cursor = conn.cursor()
-            query = f"""
-                UPDATE {self.table_name}
-                SET {field} = ?
-                WHERE {self.pk_name} = ?;
-                """
-            params = (new, activity_id)
-            cursor.execute(query, params)
-            conn.commit()
-            #conn.close() called automatically
+    # def update(self, activity_id: int, field: str, new: str):
+    #     """
+    #     update existing records in the database
+    #     field can only be "organiser_id" "name" "date" or "location"
+    #     checks for valid organiser_id should already be done
+    #     raises Attributes error if field is invalid
+    #     """
+    #     self._valid_field_else_error(field)
+    #     with sqlite3.connect(self.database_name) as conn:
+    #         cursor = conn.cursor()
+    #         query = f"""
+    #             UPDATE {self.table_name}
+    #             SET {field} = ?
+    #             WHERE {self.pk_name} = ?;
+    #             """
+    #         params = (new, activity_id)
+    #         cursor.execute(query, params)
+    #         conn.commit()
+    #         #conn.close() called automatically
 
-    def retrieve(self, activity_id: int):
-        """find existing records in the database"""
-        with sqlite3.connect(self.database_name) as conn:
-            cursor = conn.cursor()
-            query = f"""
-                SELECT *
-                FROM {self.table_name}
-                WHERE {self.pk_name} = ?;
-                """
-            params = (activity_id, )
-            cursor.execute(query, params)
-            record = cursor.fetchone()
-            conn.commit()
-            #conn.close() called automatically
-            return record
+    # def retrieve(self, activity_id: int):
+    #     """find existing records in the database"""
+    #     with sqlite3.connect(self.database_name) as conn:
+    #         cursor = conn.cursor()
+    #         query = f"""
+    #             SELECT *
+    #             FROM {self.table_name}
+    #             WHERE {self.pk_name} = ?;
+    #             """
+    #         params = (activity_id, )
+    #         cursor.execute(query, params)
+    #         record = cursor.fetchone()
+    #         conn.commit()
+    #         #conn.close() called automatically
+    #         return record
 
-    def delete(self, account_id: int):
-        """remove existing records in the database"""
-        with sqlite3.connect(self.database_name) as conn:
-            cursor = conn.cursor()
-            query = f"""
-                    DELETE FROM {self.table_name}
-                    WHERE {self.pk_name} = ?;
-                    """
-            params = (account_id, )
-            cursor.execute(query, params)
-            conn.commit()
+    # def delete(self, account_id: int):
+    #     """remove existing records in the database"""
+    #     with sqlite3.connect(self.database_name) as conn:
+    #         cursor = conn.cursor()
+    #         query = f"""
+    #                 DELETE FROM {self.table_name}
+    #                 WHERE {self.pk_name} = ?;
+    #                 """
+    #         params = (account_id, )
+    #         cursor.execute(query, params)
+    #         conn.commit()
 
 
 class StudentActivity(JunctionTable):
