@@ -219,7 +219,7 @@ def create_cca(name: str, type: str):
         raise AttributeError("Name already exists")
     if type not in ['sports', 'performing arts', 'uniform group', 'clubs and societies', 'others']:
         raise AttributeError(f'Invalid type {type}')
-    cca.insert(name, type)
+    cca.insert({'name': name, 'type': type})
     
 def update_cca(pk_name: str, pk, field: str, data):
     """
