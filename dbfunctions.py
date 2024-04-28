@@ -147,11 +147,15 @@ def delete_account(username) -> None:
 def create_profile(name, _class, email, username) -> None:
     """
     if account_id does not exist in account table, attribute error is raised
+    if username already exists as a foreign key in student table,
+    attribute error is raised
     else data is inserted into student table
     """
     account_id = account.retrieve_primary_key(username)
     if account_id is None:
         raise AttributeError("No account linked to username")
+    if student.retrieve_primary_key(account_id) is not None:
+        raise AttributeError("Username already exists as a foriegn key in student table")
     student.insert({'name': name, '_class': email, 'email': email, 'account_id': account_id})
 
 def update_profile(username: str, field: str, data) -> None:
@@ -159,6 +163,8 @@ def update_profile(username: str, field: str, data) -> None:
     if profile does not exists in student table, attribute error is raised
     if username does not exist in account table, attribute error is raised
     if new username does not exist in account table for updates to account_id,
+    attribute error is raised
+    if username already exists as a foreign key in student table,
     attribute error is raised
     else profile updated in student table
     field can only be "account_id", "name", "class" or "email"
@@ -170,8 +176,14 @@ def update_profile(username: str, field: str, data) -> None:
     student_id = student.retrieve_primary_key(account_id)
     if student_id is None:
         raise AttributeError("Student profile does not exist")
-    if field == "account_id" and account.retrieve_primary_key(data) is None:
-        raise AttributeError("No account linked to new username")
+    
+    if field == "account_id":
+        new_account_id = account.retrieve_primary_key(data)
+        if new_account_id is None:
+            raise AttributeError("No account linked to new username")
+        if student.retrieve_primary_key(new_account_id) is not None:
+            raise AttributeError("Username already exists as a foriegn key in student table")
+            
     student.update(student_id, field, data)
 
 def retrieve_profile(username: str) -> dict:
@@ -259,29 +271,50 @@ def delete_cca(name: str) -> None:
     cca.delete(cca_id)
     
 # FOR ACTIVITY TABLE
-def create_activity(name: str, date: str, location: str, organiser_id: int) -> None:
+def create_activity(name: str, date: str, location: str, username: str) -> None:
     """
-    if organiser_id does not exist in student table, attribute error is raised
-    else data is inserted into activity_info and activity_info_backup
+    if organiser_id(username) does not exist in student table, attribute error is raised
+    if username already exists as a foreign key in activity table,
+    attribute error is raised
+    else data is inserted into activity table
     """
-    if student_profile.retrieve(organiser_id) is None:
-        raise AttributeError('Invalid student id.')
-    activity_info.insert(name, date, location, organiser_id)
-    activity_info_backup.insert(name, date, location, organiser_id)
+    account_id = account.retrieve_primary_key(username)
+    if account_id is None:
+        raise AttributeError("No account linked to username")
+    organiser_id = student.retrieve_primary_key(account_id)
+    if organiser_id is None:
+        raise AttributeError("Student profile does not exist")
+    if activity.retrieve_primary_key(account_id) is not None:
+        raise AttributeError("Username already exists as a foriegn key in activity table")
+    activity.insert({'name': name, 'date': date, 'location': location, 'organiser_id': organiser_id})
 
-def update_activity(activity_id: int, field: str, data) -> None:
+def update_activity(username: str, field: str, data) -> None:
     """
     if activity does not exists, attribute error is raised
     if organiser_id does not exist in student table, attribute error is raised
     else activity updated in activity_info and activity_info_backup
     """
-    if activity_info.retrieve(activity_id) is None:
+    account_id = account.retrieve_primary_key(username)
+    if account_id is None:
+        raise AttributeError("No account linked to username")
+    organiser_id = student.retrieve_primary_key(account_id)
+    if organiser_id is None:
+        raise AttributeError("Student profile does not exist")
+    activity_id = activity.retrieve_primary_key(organiser_id)
+    if activity_id is None:
         raise AttributeError('Activity does not exist.')
-    if field == "organiser_id" and student_profile.retrieve(data) is None:
-        raise AttributeError('Invalid student id.')
-    activity_info.update(activity_id, field, data)
-    activity_info_backup.update(activity_id, field, data)
-
+        
+    if field == "organiser_id":
+        new_account_id = student.retrieve_primary_key(data)
+        if new_account_id is None:
+            raise AttributeError("No account linked to new username")
+        new_organiser_id = student.retrieve_primary_key(new_account_id)
+        if new_organiser_id is None:
+            raise AttributeError("Student profile does not exist for new username")
+        if activity.retrieve_primary_key(new_organiser_id) is not None:
+            raise AttributeError("Username already exists as a foriegn key in avtivity table")
+    activity.update({'activity_id': activity_id, 'field': field, 'data': data})
+    
 def retrieve_activity(activity_id: int) -> dict:
     """
     retrieve information for an activity
