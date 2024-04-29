@@ -88,7 +88,8 @@ class Table:
         query: str, params: tuple | None,
         *,
         commit: bool = False,
-        fetch: bool = False
+        fetch: bool = False,
+        fetchall: bool = False
     ):
         """executes the query based on the connection, given query and params"""
         conn = self.get_conn()
@@ -100,6 +101,9 @@ class Table:
         assert not (commit and fetch), "commit and fetch are both True"
         if fetch:
             record = cursor.fetchone()
+            return record
+        if fetchall:
+            record = cursor.fetchall()
             return record
         if commit:
             conn.commit()
@@ -174,50 +178,50 @@ class Table:
         self._execute_query(query, params, commit=True)
 
 class JunctionTable(Table):
+    table_name: str
     pk1_name: str
     pk2_name: str
     fields: list[str]
 
-    def insert(self, record: dict) -> None:
-        """
-        inserts the record into the junction table
+    # def insert(self, record: dict) -> None:
+    #     """
+    #     inserts the record into the junction table
         
-        Checks for redundancies should already be done
-        i.e. insert({"student_id": 5. "activity_id": 3})
-        should not be called if {"student_id": 5. "activity_id": 3} 
-        already exists in the database, do the check beforehand.
+    #     Checks for redundancies should already be done
+    #     i.e. insert({"student_id": 5. "activity_id": 3})
+    #     should not be called if {"student_id": 5. "activity_id": 3} 
+    #     already exists in the database, do the check beforehand.
 
-        record argument that is passed should have:
-        keys of type str referring to the fields
-        values of the correct type referring to the values to be put in the cells
-        """
-        if sorted(record) != sorted(self.fields):
-            raise AttributeError("Wrong record format, wrong fields")
-        # # check that all fields in record is valid
-        # for field in record:
-        #     self._valid_field_else_error(field)
-        # # check that record has all fields required
-        # for field in self.fields:
-        #     if field not in record:
-        #         raise AttributeError(f"field {field} not in record argument")
+    #     record argument that is passed should have:
+    #     keys of type str referring to the fields
+    #     values of the correct type referring to the values to be put in the cells
+    #     """
+    #     if sorted(record) != sorted(self.fields):
+    #         raise AttributeError("Wrong record format, wrong fields")
+    #     # # check that all fields in record is valid
+    #     # for field in record:
+    #     #     self._valid_field_else_error(field)
+    #     # # check that record has all fields required
+    #     # for field in self.fields:
+    #     #     if field not in record:
+    #     #         raise AttributeError(f"field {field} not in record argument")
         
-        # formatting the query
-        fieldstr = quote_join(self.fields, enquote=True)
-        qnmarks = quote_join(["?"] * len(self.fields))
-        query = f"""
-                INSERT INTO {self.table_name} ({fieldstr}) VALUES ({qnmarks});
-                """
-        # formatting the params
-        params = (record[self.fields[0]], )
-        for field in self.fields[1:]:
-            params += (record[field], )
+    #     # formatting the query
+    #     fieldstr = quote_join(self.fields, enquote=True)
+    #     qnmarks = quote_join(["?"] * len(self.fields))
+    #     query = f"""
+    #             INSERT INTO {self.table_name} ({fieldstr}) VALUES ({qnmarks});
+    #             """
+    #     # formatting the params
+    #     params = (record[self.fields[0]], )
+    #     for field in self.fields[1:]:
+    #         params += (record[field], )
 
-        self._execute_query(query, params, commit=True)
+    #     self._execute_query(query, params, commit=True)
 
-    def retrieve_all(self, pk_name: str, pk: int) -> list[tuple]:
+    def retrieve_all(self, pk_name: str, pk: int) -> list[tuple] | None:
         """
         find existing records in the database
-        pk_name can only be "student_id" or "cca_id"
         retrieves all data regarding the student or cca
 
         e.g. using a StudentCCA object:
@@ -229,11 +233,11 @@ class JunctionTable(Table):
         
         query = f"""
                 SELECT *
-                FROM {self.database_name}
+                FROM {self.table_name}
                 WHERE {pk_name} = ?;
                 """
         params = (pk, )
-        return self._execute_query(query, params, fetch=True)
+        return self._execute_query(query, params, fetchall=True)
 
     def delete(self, pk1_value: int, pk2_value: int) -> None:
         """remove existing records in the database using composite primary keys """
@@ -716,53 +720,50 @@ class StudentCCA(JunctionTable):
     pk2_name: str = "cca_id"
     fields = ["student_id", "cca_id", "role"]
 
-    def __init__(self, database_name):
-        """
-        create a table upon initialisation of the class
-        (cca_id, student_id) for pk
-        """
-        self.database_name = database_name
-        with sqlite3.connect(self.database_name) as conn:
-            cursor = conn.cursor()
-            cursor.execute(f"""
-                CREATE TABLE IF NOT EXISTS {self.table_name} (
-                    {self.pk1_name} INTEGER,
-                    {self.pk2_name} INTEGER,
-                    "role" TEXT NOT NULL,
-                    PRIMARY KEY ({self.pk1_name}, {self.pk2_name}),
-                    FOREIGN KEY ({self.pk1_name}) REFERENCES student("student_id"),
-                    FOREIGN KEY ({self.pk2_name}) REFERENCES cca("cca_id")
-                );
-                """)
-            conn.commit()
+    # def __init__(self, database_name):
+    #     """
+    #     create a table upon initialisation of the class
+    #     (cca_id, student_id) for pk
+    #     """
+    #     self.database_name = database_name
+    #     with sqlite3.connect(self.database_name) as conn:
+    #         cursor = conn.cursor()
+    #         cursor.execute(f"""
+    #             CREATE TABLE IF NOT EXISTS {self.table_name} (
+    #                 {self.pk1_name} INTEGER,
+    #                 {self.pk2_name} INTEGER,
+    #                 "role" TEXT NOT NULL,
+    #                 PRIMARY KEY ({self.pk1_name}, {self.pk2_name}),
+    #                 FOREIGN KEY ({self.pk1_name}) REFERENCES student("student_id"),
+    #                 FOREIGN KEY ({self.pk2_name}) REFERENCES cca("cca_id")
+    #             );
+    #             """)
+    #         conn.commit()
     
-    def insert(self, student_id: int, cca_id: int, role: str):
-        """insert new records into the database"""
-        with sqlite3.connect(self.database_name) as conn:
-            cursor = conn.cursor()
-            query = f"""
-                INSERT INTO {self.table_name} ({self.pk1_name}, {self.pk2_name}, "role") VALUES (?, ?, ?);
-            """
-            params = (student_id, cca_id, role)
-            cursor.execute(query, params)
-            conn.commit()
+    # def insert(self, student_id: int, cca_id: int, role: str):
+    #     """insert new records into the database"""
+    #     with sqlite3.connect(self.database_name) as conn:
+    #         cursor = conn.cursor()
+    #         query = f"""
+    #             INSERT INTO {self.table_name} ({self.pk1_name}, {self.pk2_name}, "role") VALUES (?, ?, ?);
+    #         """
+    #         params = (student_id, cca_id, role)
+    #         cursor.execute(query, params)
+    #         conn.commit()
 
-    def update(self, student_id: int, cca_id: int, new: str):
+    def update(self, student_id: int, cca_id: int, new_role: str):
         """
         update existing records in the database
         only role could be updated
         To "update" student_id or cca_id, instead use .remove() and .insert()
         """
-        with sqlite3.connect(self.database_name) as conn:
-            cursor = conn.cursor()
-            query = f"""
-                    UPDATE {self.table_name} 
-                    SET "role" = ? 
-                    WHERE {self.pk1_name} = ? AND {self.pk2_name};
-                    """
-            params = (new, student_id, cca_id)
-            cursor.execute(query, params)
-            conn.commit()
+        query = f"""
+                UPDATE {self.table_name} 
+                SET "role" = ? 
+                WHERE {self.pk1_name} = ? AND {self.pk2_name};
+                """
+        params = (new_role, student_id, cca_id)
+        self._execute_query(query, params)
 
     def retrieve_one(self, student_id: int, cca_id: int):
         """
@@ -770,18 +771,13 @@ class StudentCCA(JunctionTable):
         mainly used for finding the record concerning both the student and cca 
         (e.g. role)
         """
-        with sqlite3.connect(self.database_name) as conn:
-            cursor = conn.cursor()
-            query = f"""
-                    SELECT *
-                    FROM {self.database_name}
-                    WHERE "student_id" = ? AND "cca_id" = ?;
-                    """
-            params = (student_id, cca_id)
-            cursor.execute(query, params)
-            record = cursor.fetchone()
-            conn.commit()
-        return record
+        query = f"""
+                SELECT *
+                FROM {self.table_name}
+                WHERE "student_id" = ? AND "cca_id" = ?;
+                """
+        params = (student_id, cca_id)
+        return self._execute_query(query, params)
 
     # def retrieve_all(self, pk_name: str, pk: int) -> list[tuple]:
     #     """
