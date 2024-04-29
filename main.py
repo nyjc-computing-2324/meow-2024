@@ -3,7 +3,6 @@ from flask import Flask, redirect, request, session
 import view, validate, dbfunctions
 import os
 
-
 app = Flask(__name__)
 
 app.secret_key = os.urandom(32)
@@ -67,31 +66,38 @@ def register():
     else:
         username = request.form["username"]
         password = request.form["password"]
+        name = request.form["name"]
         if validate.username_isvalid(username):
             if validate.password_isvalid(password):
                 if dbfunctions.username_taken(username):
                     dbfunctions.create_account(username, password)
+                    dbfunctions.create_profile(name, "0000", "meow@meow.com", "77777777", "Meow!", username)
                     session["logged_in"] = True
                     session["user"] = username
                     return redirect("/home")
                 else:
                     return view.register(error="Username is already taken")
             else:
-                return view.register(
-                    error="Password does not meet requirements.")
+                return view.register(error="Password does not meet requirements.")
         else:
             return view.register(error="Username does not meet requirements.")
 
 
 @app.route('/profile', methods=["GET", "POST"])
 def profile():
-    info = dbfunctions.retrieve_account("username", session.get("user"))
+    info = dbfunctions.retrieve_profile(session.get("user"))
     if request.method == "POST":
         if request.form["response"] == "Edit":
             return view.profile(edit=True, profile=info)
-        elif request.form["response"] == "Save":
-            return view.profile(edit=False, profile=info)
         elif request.form["response"] == "Cancel":
+            return view.profile(edit=False, profile=info)
+        elif request.form["response"] == "Save":
+            output = request.form
+            fields = output.keys()
+            for key in fields:
+                if key != "response":
+                    dbfunctions.update_profile(session.get("user"), key, output[key])
+            info = dbfunctions.retrieve_profile(session.get("user"))
             return view.profile(edit=False, profile=info)
     return view.profile(profile=info)
 
