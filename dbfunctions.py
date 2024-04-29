@@ -1,4 +1,4 @@
-from database import Account, Student, CCA, Activity, StudentActivity, StudentCCA
+from database import Account, Student, CCA, Activity, StudentActivity, StudentCCA, init_tables
 import auth
 import os
 import psycopg2
@@ -144,7 +144,7 @@ def delete_account(username) -> None:
 
 
 # FOR STUDENT TABLE
-def create_profile(name, _class, email, username) -> None:
+def create_profile(name, _class, email, number, about, username) -> None:
     """
     if account_id does not exist in account table, attribute error is raised
     if username already exists as a foreign key in student table,
@@ -156,7 +156,7 @@ def create_profile(name, _class, email, username) -> None:
         raise AttributeError("No account linked to username")
     if student.retrieve_primary_key(account_id) is not None:
         raise AttributeError("Username already exists as a foriegn key in student table")
-    student.insert({'name': name, '_class': email, 'email': email, 'account_id': account_id})
+    student.insert({'name': name, 'class': _class, 'email': email, 'number': number, 'about': about, 'account_id': account_id})
 
 def update_profile(username: str, field: str, data) -> None:
     """
@@ -183,7 +183,8 @@ def update_profile(username: str, field: str, data) -> None:
             raise AttributeError("No account linked to new username")
         if student.retrieve_primary_key(new_account_id) is not None:
             raise AttributeError("Username already exists as a foriegn key in student table")
-            
+
+    print(student_id, field, data)
     student.update(student_id, field, data)
 
 def retrieve_profile(username: str) -> dict:
@@ -200,8 +201,8 @@ def retrieve_profile(username: str) -> dict:
     if student_id is None:
         raise AttributeError("Student profile does not exist")
     record = student.retrieve(student_id)
-    student_id, name, _class, email, account_id = record
-    return {'student_id': student_id, 'name': name, 'class': _class, 'email': email, 'account_id': account_id}
+    student_id, name, _class, email, account_id, number, about = record
+    return {'student_id': student_id, 'name': name, 'class': _class, 'email': email, 'number': number, 'about': about, 'account_id': account_id, 'username': username}
 
 def delete_profile(username: str) -> None:
     """

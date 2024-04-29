@@ -20,6 +20,8 @@ def init_tables(get_conn: Callable):
             "class" INTEGER NOT NULL, 
             "email" TEXT NOT NULL,
             "account_id" INTEGER NOT NULL UNIQUE,
+            "number" INTEGER,
+            "about" TEXT,
             FOREIGN KEY ("account_id") REFERENCES account("account_id")
         );
         CREATE TABLE IF NOT EXISTS "cca" (
@@ -77,6 +79,7 @@ class Table:
     def __init__(self, get_conn: Callable):
         """create a table upon initialisation of the class"""
         self.get_conn = get_conn
+        init_tables(self.get_conn)
 
     def _valid_field_else_error(self, field) -> None:
         """checks if given fields are found in the table"""
@@ -357,7 +360,7 @@ class Account(Table):
 class Student(Table):
     table_name = "student"
     pk_name = "student_id"
-    fields = ["student_id", "name", "class", "email", "account_id"]
+    fields = ["student_id", "name", "class", "email", "number", "about", "account_id"]
     unique_field = "account_id"
 
     # def retrieve_student_id(self, account_id: int) -> int | None:
