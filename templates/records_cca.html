@@ -2,7 +2,7 @@
 <!DOCTYPE html>
 <html>
     <head>
-        <link rel="stylesheet" type="text/css" href="{{ url_for('static', filename='css/records.css') }}">
+        <link rel="stylesheet" type="text/css" href="{{ url_for('static', filename='css/css_test.css') }}">
         <title>CCA Record</title>
     </head>
 
@@ -20,14 +20,15 @@
         </div>
 
         <div class="general-text">
-            <a href="/view_cca" target="_self"><div class="general-textbox">
+            <div class="general-textbox">
                 <span class="circle"></span>
                 <span>
-                    <h3>Robotics</h3>
+                    <a href="/view_cca" class = "hyperlink" target="_self"><h3>Robotics</h3> </a>
+                    
                     <span>Year: 2015 - 2018 &nbsp;&nbsp;&nbsp;&nbsp; Role: Vice President &nbsp;&nbsp;&nbsp;&nbsp; Type: Clubs and societies </span> <!--4 &nbsp; creates a tab spacing-->
                     <span class="status-text">Status: Graduated</span> <!-- when span is placed in different lines, it creates a space between them-->
                 </span>
-            </div> </a>
+            </div> 
 
             <div class="general-textbox">
                 <span class="circle"></span>
@@ -58,7 +59,7 @@
         </div>
 
 
-        <a href="/view_cca" target="_self"><button class="plus-button"> + </button> </a>
+        <a href="/view_edit_cca" target="_self"><button class="plus-button"> + </button> </a>
 
         {% set loggedin = True %}
         {% block content %}
