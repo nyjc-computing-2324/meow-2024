@@ -34,6 +34,7 @@
 
 }
 
+
 .arrow {
     border: solid #555353;
     background-color: #d9d9d9;
@@ -47,6 +48,7 @@
   transform: rotate(135deg);
   -webkit-transform: rotate(135deg);
 }
+
 
 .circle {
     height: 100px;
@@ -106,7 +108,6 @@
     height: 100vh;
     box-sizing: border-box;
     border-radius: 10px;
-
 }
 
 img {
