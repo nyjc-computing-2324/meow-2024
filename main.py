@@ -1,9 +1,14 @@
 from typing import Dict
 from flask import Flask, redirect, request, session
-import view, validate, dbfunctions
+import view, validate, dbfunctions, database
 import os
 
 app = Flask(__name__)
+
+env = "qa"
+uri = dbfunctions.get_uri(env)
+conn = dbfunctions.conn_factory(env, uri)
+database.init_tables(conn)
 
 app.secret_key = os.urandom(32)
 
@@ -134,3 +139,4 @@ def view_activities():
 
 if __name__ == '__main__':
     app.run(host='0.0.0.0', port=80)
+    # database.init_tables(dbfunctions.conn_factory('qa',":memory:"))
