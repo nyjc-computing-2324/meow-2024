@@ -86,14 +86,18 @@ def register():
         username = request.form["username"]
         password = request.form["password"]
         name = request.form["name"]
+        tos = request.form.get("TOS-checkbox")
         if validate.username_isvalid(username):
             if validate.password_isvalid(password):
-                if dbfunctions.username_taken(username):
-                    dbfunctions.create_account(username, password)
-                    dbfunctions.create_profile(name, "0000", "meow@meow.com", "77777777", "Meow!", username)
-                    session["logged_in"] = True
-                    session["user"] = username
-                    return redirect("/home")
+                if not dbfunctions.username_taken(username):
+                    if tos == "True":
+                        dbfunctions.create_account(username, password)
+                        dbfunctions.create_profile(name, "0000", "meow@meow.com", "77777777", "Meow!", username)
+                        session["logged_in"] = True
+                        session["user"] = username
+                        return redirect("/home")
+                    else:
+                        return view.register(error="Must agree to terms and conditions")
                 else:
                     return view.register(error="Username is already taken")
             else:

@@ -108,8 +108,8 @@ def username_taken(username: str) -> bool:
     """checks if the username is already in use"""
     account_id = account.retrieve_primary_key(username)
     if account_id is None:
-        return True
-    return False
+        return False
+    return True
 
 def update_account(username: str, field: str, data) -> None:
     """
