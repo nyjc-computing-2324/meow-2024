@@ -139,4 +139,3 @@ def view_activities():
 
 if __name__ == '__main__':
     app.run(host='0.0.0.0', port=80)
-    # database.init_tables(dbfunctions.conn_factory('qa',":memory:"))
