@@ -30,7 +30,6 @@ def conn_factory(env, uri):
         if _env in ["main", "dev"]:
             conn = postgres_conn(uri)
         elif _env == "qa":
-            print("BENIS")
             conn = sqlite_conn(uri)
         else:
             conn = sqlite_conn(uri)
@@ -38,7 +37,7 @@ def conn_factory(env, uri):
     return get_conn
 
 def make_tables():
-    env = "qa"
+    env = ""
     uri = get_uri(env)
     conn = conn_factory(env, uri)
     init_tables(conn)
