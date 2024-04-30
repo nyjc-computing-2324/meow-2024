@@ -97,8 +97,6 @@
 }
 /* flex-direction : column Arrange elements in row */
 .tagline-section{
-    margin-right : auto;
-    margin-left : auto;
     padding-top : 250px;
     padding-bottom : 100px;
     display : flex;
@@ -109,17 +107,19 @@
 /* flex-direction : column Arrange elements in columns */
 
 .tagline-container{
+    margin-left : auto;
     position : relative;
     left : 150px;
-    align-content: left;
+    align-content: center;
     display : flex;
     flex-direction : column;
 }
 
 .cat_gif{
+    margin-right : auto;
     position : relative;
     left : 100px;
-    width : 700px;
+    width : 600px;
     z-index : -1;
 }
 
