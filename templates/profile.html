@@ -68,7 +68,7 @@
                             <span class="email-content">
                                 {% if edit == False %}
                                     {% if "email" in profile %}
-                                        {{ profile["name"] }}
+                                        {{ profile["email"] }}
                                     {% else %}
                                         meow@meow.com
                                     {% endif %}
@@ -108,13 +108,13 @@
                         <br>
                         <div class="about">
                             {% if edit == True %}
-                            <textarea id="about-field" type="text" name="message" placeholder="Meow!">
+                            <textarea id="about-field" type="text" name="about" placeholder="Meow!">
                                 {%- if "about" in profile -%}
                                     {{- profile["about"] -}}
                                 {%- endif -%}
                             </textarea>
                             {% elif edit == False %}
-                            <textarea id="about-field" type="text" name="message" placeholder="Meow!" readonly>
+                            <textarea id="about-field" type="text" name="about" placeholder="Meow!" readonly>
                                 {%- if "about" in profile -%}
                                     {{- profile["about"] -}}
                                 {%- endif -%}
