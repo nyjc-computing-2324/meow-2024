@@ -31,16 +31,11 @@
                     <label for="pass" type="text" name="forgor"><a href="#forgetpass" class = "forget-pass">Forgot password?</a></label>
                 </div>
 
-                {% if error_msg %}
-                <div style="border: 2px solid red;"><p>{{error_msg}}<p></div>
-                {% endif %}
-                {% if success_msg %}
-                <br/><h2>{{success_msg}}</h2>
-                redirect('/profile')
-                {% endif %}
-              
-              
-        </form>
+
+            </form>
+            <div class="error_msg">
+                <p>{{ error_msg }}</p>
+            </div>
         </section>
         <div class="tagline-section">
             New to Meow? <a href="/register">Sign up for free!</a>
