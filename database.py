@@ -79,7 +79,6 @@ class Table:
     def __init__(self, get_conn: Callable):
         """create a table upon initialisation of the class"""
         self.get_conn = get_conn
-        init_tables(self.get_conn)
 
     def _valid_field_else_error(self, field) -> None:
         """checks if given fields are found in the table"""
