@@ -2,7 +2,7 @@
 <!DOCTYPE html>
 <html>
     <head>
-        <link rel="stylesheet" type="text/css" href="{{ url_for('static', filename='css/css_test.css') }}">
+        <link rel="stylesheet" type="text/css" href="{{ url_for('static', filename='css/records.css') }}">
         <title>CCA Record</title>
     </head>
 
@@ -58,7 +58,7 @@
         </div>
 
 
-        <a href="/edit_cca" target="_self"><button class="plus-button"> + </button> </a>
+        <a href="/view_cca" target="_self"><button class="plus-button"> + </button> </a>
 
         {% set loggedin = True %}
         {% block content %}
