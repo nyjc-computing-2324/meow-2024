@@ -84,22 +84,45 @@
     text-decoration:none
 }
 
+.sign_up_button1{
+    margin-left : auto;
+    font-family : comfortaa;
+    background-color: #2f99e9;
+    border-radius: 10px;
+    border : none;
+    width: 100px;
+    height: 40px;
+
+
+}
+/* flex-direction : column Arrange elements in row */
 .tagline-section{
     margin-right : auto;
     margin-left : auto;
     padding-top : 250px;
     padding-bottom : 100px;
-    align-items: center;
     display : flex;
-    flex-direction : column;
+    flex-direction : row;
     min-width : 100%;
 }
 
+/* flex-direction : column Arrange elements in columns */
+
 .tagline-container{
+    position : relative;
+    left : 150px;
     align-content: left;
     display : flex;
     flex-direction : column;
 }
+
+.cat_gif{
+    position : relative;
+    left : 100px;
+    width : 700px;
+    z-index : -1;
+}
+
 .slogan-container{
     width : 500px;
     text-align : left;
@@ -133,7 +156,9 @@
     height: 50px;
     font-size : 18px;
     font-weight : bold;
+    cursor: pointer;
 }
+
 
 .description-section{
     background-image: linear-gradient(#8AADF4, #FBF2CF);
@@ -216,6 +241,14 @@
     background-color : #6666db;
 }
 
+.person-img1, .person-img2, .person-img3{
+    border-radius : 50%;
+    width : 100px;
+    height : 100px;
+    position : relative;
+    top : 50px;
+}
+/* flex-direction : column Arrange elements in rows */
 .ending-description{
     background-color : white;
     height : 450px;
@@ -226,6 +259,7 @@
     flex-direction : row;
 }
 
+/* flex-direction : column Arrange elements in columns */
 .reader-engagement-container{
     display : flex;
     flex-direction : column;
@@ -275,7 +309,7 @@
 #message-field{
     font-family: comfortaa; 
     background-color : #f2f2f2;
-    width: 650px;
+    width: 500px;
     height : 200px;
     padding-left : 20px;
     padding-top : 15px;
@@ -289,9 +323,7 @@
     bottom : 50px;
 }
 
-.message{
-    width : 500px;
-}
+
 
 .submit-message{
     font-family : comfortaa;
@@ -301,6 +333,7 @@
     width: 100px;
     height: 40px;
     color : white;
+    cursor: pointer;
 }
 
 .footer{
@@ -309,6 +342,22 @@
     margin-right : auto;
 }
 
+.privacypolicy-text{
+    padding-right : 10px;
+    font-family : comfortaa;
+    text-decoration : none;
+    font-size : 12px;
+    font-weight : bold;
+}
+
+.terms-text{
+    font-family : comfortaa;
+    text-decoration : none;
+    font-size : 12px;
+    font-weight : bold;
+}
+
+/* Create a carousel */
 .carousel {
     display : flex;
     justify-content: center;
@@ -367,6 +416,7 @@
     background-image : linear-gradient(#ffffff, #8AADF4);
 }
 
+/* flex-direction : column Arrange elements in columns */
 .features-text-container{
     position : relative;
     flex-direction: column;
