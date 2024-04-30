@@ -14,16 +14,20 @@ def view_activities():
     #     return redirect("/temp")
     return render_template("view_activities.html")
 
+def view_cca():
+    # display view_cca.html
+    return render_template("view_cca.html")
+
 def edit_activities():
     # display edit_activiies.html
     return render_template("edit_activities.html")
 
-def view_edit_cca():
+def edit_cca():
     # display view_edit_cca.html
     # if not completed:
     #     # redirects the user to temp
     #     return redirect("/temp")
-    return render_template("view_edit_cca.html")
+    return render_template("edit_cca.html")
 
 def records_cca():
     # display records_cca.html
