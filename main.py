@@ -7,6 +7,8 @@ app = Flask(__name__)
 
 app.secret_key = os.urandom(32)
 
+dbfunctions.make_tables()
+
 @app.route('/', methods=["GET", "POST"])
 def index():
     if request.method == "POST":
@@ -21,11 +23,15 @@ def temp():
 
 @app.route('/home')
 def home():
+    if not session["logged_in"]:
+        return redirect("/login")
     return view.home()
 
 
 @app.route('/edit_activities')
 def edit_activities():
+    if not session["logged_in"]:
+        return redirect("/login")
     return view.edit_activities()
 
 
@@ -85,6 +91,8 @@ def register():
 
 @app.route('/profile', methods=["GET", "POST"])
 def profile():
+    if not session["logged_in"]:
+        return redirect("/login")
     info = dbfunctions.retrieve_profile(session.get("user"))
     if request.method == "POST":
         if request.form["response"] == "Edit":
@@ -104,31 +112,43 @@ def profile():
 
 @app.route('/profile_edit', methods=["GET", "POST"])
 def profile_edit():
+    if not session["logged_in"]:
+        return redirect("/login")
     return view.profile_edit()
 
 
 @app.route('/view_cca')
 def view_cca():
+    if not session["logged_in"]:
+        return redirect("/login")
     return view.view_cca()
 
 
 @app.route('/edit_cca')
 def edit_cca():
+    if not session["logged_in"]:
+        return redirect("/login")
     return view.edit_cca()
 
 
 @app.route('/records_cca')
 def records_cca():
+    if not session["logged_in"]:
+        return redirect("/login")
     return view.records_cca()
 
 
 @app.route('/records_activities')
 def records_activities():
+    if not session["logged_in"]:
+        return redirect("/login")
     return view.records_activities()
 
 
 @app.route('/view_activities')
 def view_activities():
+    if not session["logged_in"]:
+        return redirect("/login")
     return view.view_activities()
 
 

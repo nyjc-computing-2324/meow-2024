@@ -30,11 +30,18 @@ def conn_factory(env, uri):
         if _env in ["main", "dev"]:
             conn = postgres_conn(uri)
         elif _env == "qa":
+            print("BENIS")
             conn = sqlite_conn(uri)
         else:
             conn = sqlite_conn(uri)
         return conn
     return get_conn
+
+def make_tables():
+    env = "qa"
+    uri = get_uri(env)
+    conn = conn_factory(env, uri)
+    init_tables(conn)
 
 def get_account(env: str = "") -> Account:
     """returns an instance of Account with an appropriate db conn"""
