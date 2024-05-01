@@ -259,6 +259,18 @@ class Account(Table):
     fields = ["account_id", "username", "password", "salt"]
     unique_field = "username"
 
+    def __init__(self, get_conn: Callable):
+        self.get_conn = get_conn
+        query = """
+        CREATE TABLE IF NOT EXISTS "account" (
+        "account_id" INTEGER PRIMARY KEY,
+        "username" TEXT NOT NULL UNIQUE,
+        "password" TEXT NOT NULL,
+        "salt" BYTES NOT NULL
+        );
+        """
+        super()._execute_query(query, params = None, commit = True)
+
     # def retrieve_account_id(self, username: str) -> int | None:
     #     """obtain account_id using username"""
     #     query = f"""

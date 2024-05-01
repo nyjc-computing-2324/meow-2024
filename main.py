@@ -1,6 +1,6 @@
 from typing import Dict
 from flask import Flask, redirect, request, session
-import view, validate, dbfunctions
+import view, validate, dbfunctions, database
 import os
 
 app = Flask(__name__)
