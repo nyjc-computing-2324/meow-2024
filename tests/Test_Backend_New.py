@@ -4,14 +4,14 @@ from unittest import *
 from auth import create_hash
 
 #Instantiating table objects
-account = get_account('qa')
-student_profile = get_student('qa')
-test_cca = get_cca('qa')
-test_activity = get_activity('qa')
+# student_profile = get_student('qa')
+# test_cca = get_cca('qa')
+# test_activity = get_activity('qa')
 
 class Test_Account(TestCase):
     def setUp(self):
         # Set up connection to an in-memory SQLite database(jic)
+        self.account = get_account('qa')
         self.connection = sqlite3.connect(':memory:')
         self.cursor = self.connection.cursor()
 
@@ -26,7 +26,7 @@ class Test_Account(TestCase):
         ''')
         self.connection.commit()
     
-    def test_create_account(self, account = account): #Account object taken in just in case for future testing
+    def test_create_account(self, account): #Account object taken in just in case for future testing
         """
         Test checks whether the create_account function works.
         
