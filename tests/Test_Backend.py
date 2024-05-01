@@ -35,7 +35,7 @@ class Test_Account(TestCase):
 
     def test_insert(self):
         """
-        Checks if the provided data is correctly inx de4serted into
+        Checks if the provided data is correctly inserted into
         the Account table with the insert method, ie. if the name
         attribute of the retrieved record matches with the
         inserted record's name
