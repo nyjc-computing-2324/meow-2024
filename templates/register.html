@@ -20,10 +20,18 @@
                 {# Username field #}
                 <div class="username-field-container">
                     <input id="username-field" type="text" name="username" placeholder="username">
+                    <div class="tooltip">
+                        ?
+                        <span class="tooltiptext">Username cannot contain tab, space, and newline</span>
+                    </div>
                 </div>
                 {# Password field #}
                 <div class="password-field-container">
                     <input id="pass-field" type="password" name="password" placeholder="password">
+                    <div class="tooltip">
+                        ?
+                        <span class="tooltiptext">Password must contain one upper-case letter, one-lower-case letter, one number, and must be at least 8 characters long</span>
+                    </div>
                 </div>
                 {# Checkbox for terms and service #}
                 <div class = 'TOS-checkbox-container'>
