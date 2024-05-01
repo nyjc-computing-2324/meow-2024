@@ -67,8 +67,8 @@ def get_student_cca(env: str = "") -> StudentCCA:
     return StudentCCA(conn_factory(env, uri))
 
 # instantiating table objects
-account = get_account("qa")
-student = get_student("qa")
+account = get_account()
+student = get_student()
 cca = get_cca()
 activity = get_activity()
 student_activity = get_student_activity()

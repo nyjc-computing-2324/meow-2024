@@ -1,3 +1,4 @@
+from typing import Optional
 from dbfunctions import *
 from database import init_tables
 from unittest import *
@@ -26,7 +27,7 @@ class Test_Account(TestCase):
         ''')
         self.connection.commit()
     
-    def test_create_account(self, account): #Account object taken in just in case for future testing
+    def test_create_account(self): #Account object taken in just in case for future testing
         """
         Test checks whether the create_account function works.
         

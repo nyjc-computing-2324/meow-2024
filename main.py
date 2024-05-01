@@ -5,11 +5,6 @@ import os
 
 app = Flask(__name__)
 
-env = "qa"
-uri = dbfunctions.get_uri(env)
-conn = dbfunctions.conn_factory(env, uri)
-database.init_tables(conn)
-
 app.secret_key = os.urandom(32)
 
 @app.route('/', methods=["GET", "POST"])
