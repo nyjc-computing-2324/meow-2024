@@ -1,4 +1,4 @@
-from typing import Optional
+import sqlite3
 from dbfunctions import *
 from database import init_tables
 from unittest import *
@@ -27,26 +27,17 @@ class Test_Account(TestCase):
         ''')
         self.connection.commit()
     
-    def test_create_account(self): #Account object taken in just in case for future testing
+    def test_create_account(self):
         """
-        Test checks whether the create_account function works.
-        
-        As of late, it does not due to the insert method of account
-        misbehaving with our in-memory testing database, hence we
-        cannot directly call the create_account function
-        Hence, we are testing its record insertion logic manually via
-        
-        1. Manual sql INSERT query
-        2. Account object's insert method
+        Test checks whether the create_account function
+        works.
         """
         #Initialise tables
         init_tables(conn_factory('qa', ':memory:'))
 
         #Test Case
-        username1 = 'name1'
-        password1 = 'Password1'
-        username2 = 'name2'
-        password2 = 'Password2'
+        username = 'name1'
+        password = 'Password1'
 
         #Check for presence of account table
         query = """
@@ -74,10 +65,10 @@ class Test_Account(TestCase):
             self.assertEqual(result['username'], username, f"Record inserted incorrectly, result={result}")
 
         #Insert Record via manual sql query
-        create_account(username1, password1)
+        create_account(username, password)
 
         #Check the record inserted via manual sql query
-        check_for_record(username1)        
+        check_for_record(username)        
 
 
     
@@ -103,3 +94,64 @@ def login():
 
 #     def tearDown(self) -> None:
 #     return super().tearDown()
+
+
+class Test_CCA(TestCase):
+    def setUp(self):
+        # Set up connection to an in-memory SQLite database(jic)
+        self.cca = get_cca('qa')
+        self.connection = sqlite3.connect(':memory:')
+        self.cursor = self.connection.cursor()
+        self.name = 'NYRCS'
+        self.type = 'clubs and societies'
+
+        # Create the 'cca' table using direct SQL query
+        self.cursor.execute('''
+        CREATE TABLE IF NOT EXISTS "cca" (
+            "cca_id" INTEGER PRIMARY KEY,
+            "name" TEXT NOT NULL UNIQUE,
+            "type" TEXT NOT NULL 
+        );
+        ''')
+        self.connection.commit()
+
+        #initialise tables
+        init_tables(conn_factory('qa', ':memory:'))
+
+    def test_table(self):
+        """
+        Test checks for presence of cca table
+        """
+        query = """
+            SELECT name
+            FROM sqlite_master
+            WHERE  type='table' 
+            AND name = ?;
+            """
+        params = ('cca',)
+        self.cursor.execute(query,params)
+        tables = self.cursor.fetchall()
+        self.assertNotEqual(tables, [], msg="No 'cca' table created in database")
+    
+    def test_create_cca(self):
+        """
+        Test checks whether the create_account function
+        works.
+        """
+        create_cca(self.name, self.type)
+
+        result = retrieve_cca(self.name)
+        #Assertions
+        self.assertTrue(isinstance(result,dict))
+        self.assertIsNotNone(result,f"Record not inserted at all, result = {result}")
+        self.assertEqual(result['name'], self.name, f"Record inserted incorrectly, result={result}")
+
+    def test_update_cca(self):
+        create_cca(self.name, self.type)
+        update_cca(self.name,'name','Biz Club')
+
+        result = retrieve_cca('Biz Club')
+        #Assertions
+        self.assertTrue(isinstance(result,dict))
+        self.assertIsNotNone(result,f"Record not inserted at all, result = {result}")
+        self.assertEqual(result['name'], 'Biz Club', f"Record inserted incorrectly, result={result}")
