@@ -141,10 +141,13 @@ class Test_Profile(TestCase):
 
 class Test_CCA(TestCase):
     def setUp(self):
-        # Set up connection to an in-memory SQLite database(jic)
+        """
+        Runs before every test
+        """
+        #Set up connection to an in-memory SQLite database too for ensuring table creation
         self.cca = get_cca('qa')
-        self.connection = sqlite3.connect(':memory:')
-        self.cursor = self.connection.cursor()
+        self.conn = sqlite3.connect(':memory:')
+        self.cursor = self.conn.cursor()
         self.name = 'NYRCS'
         self.type = 'clubs and societies'
 
@@ -156,7 +159,7 @@ class Test_CCA(TestCase):
             "type" TEXT NOT NULL 
         );
         ''')
-        self.connection.commit()
+        self.conn.commit()
 
         #initialise tables
         init_tables(conn_factory('qa', ':memory:'))
@@ -178,28 +181,171 @@ class Test_CCA(TestCase):
     
     def test_create_cca(self):
         """
-        Test checks whether the create_account function
-        works.
+        Test checks whether the create_cca function works.
         """
         create_cca(self.name, self.type)
-
         result = retrieve_cca(self.name)
         #Assertions
-        self.assertTrue(isinstance(result,dict))
-        self.assertIsNotNone(result,f"Record not inserted at all, result = {result}")
+        self.assertTrue(isinstance(result,dict), "Record retrieved is not a dict")
+        self.assertIsNotNone(result,"Record not inserted at all")
         self.assertEqual(result['name'], self.name, f"Record inserted incorrectly, result={result}")
 
     def test_update_cca(self):
-        create_cca(self.name, self.type)
+        """
+        Test checks whether the update_cca function works
+        """
+        try:
+            create_cca(self.name, self.type)
+        except AttributeError:
+            pass
+            
         update_cca(self.name,'name','Biz Club')
 
         result = retrieve_cca('Biz Club')
+        self.name = 'Biz Club'
         #Assertions
-        self.assertTrue(isinstance(result,dict))
-        self.assertIsNotNone(result,f"Record not inserted at all, result = {result}")
-        self.assertEqual(result['name'], 'Biz Club', f"Record inserted incorrectly, result={result}")
+        self.assertTrue(isinstance(result,dict),"Record retrieved is not a dict")
+        self.assertIsNotNone(result,"Record not found after updating")
+        self.assertEqual(result['name'], 'Biz Club', f"Record updated incorrectly, result={result}")
         
+    def test_retrieve_cca(self):
+        """
+        Tests if retrieve_cca function works
+        """
+        try:
+            create_cca(self.name, self.type)
+        except AttributeError:
+            pass
+            
+        result = retrieve_cca(self.name)
         
+        #Assertions
+        self.assertTrue(isinstance(result,dict),"Record retrieved is not a dict")
+        self.assertIsNotNone(result,"Record not found at all")
+        self.assertEqual(result['name'], self.name, f"Record retrieved incorrectly, result={result}")
+
+    def test_delete_record(self):
+        """
+        Tests if the delete_cca function works
+        """
+        try:
+            create_cca(self.name, self.type)
+        except AttributeError:
+            pass
+            
+        delete_cca(self.name)
+        #Assertions
+        with self.assertRaises(AttributeError, msg = "CCA record not deleted"):
+            retrieve_cca(self.name)
     
     def tearDown(self) -> None:
+        """
+        Runs after every test
+        """
+        self.conn.close()
+
+
+class Test_Activity(TestCase):
+    def setUp(self):
+        """
+        Runs before every test
+        """
+        #Set up connection to an in-memory SQLite database too for ensuring table creation
+        self.account = get_account('qa')
+        self.student = get_student('qa')
+        self.activity = get_activity('qa')
+        self.conn = sqlite3.connect(':memory:')
+        self.cursor = self.conn.cursor()
+        self.name = 'Walk For Rice'
+        self.date = '14/11/24'
+        self.location = 'Stadium'
+        self.username = 'name'
+        self.password = 'Password1'
+        try:
+            create_account(self.username, self.password)
+            create_profile('John Doe','2328','abc@gmail.com','12345678','Bla Bla',self.username)
+        except AttributeError:
+            pass
+
+        # Create the 'cca' table using direct SQL query
+        self.cursor.execute('''
+        CREATE TABLE IF NOT EXISTS "activity" (
+            "activity_id" INTEGER PRIMARY KEY,
+            "name" TEXT NOT NULL UNIQUE,
+            "date" TEXT NOT NULL, 
+            "location" TEXT NOT NULL,
+            "organiser_id" INTEGER,
+            FOREIGN KEY ("organiser_id") REFERENCES account("student_id")
+        );
+        ''')
+        self.conn.commit()
+
+        #initialise tables
+        init_tables(conn_factory('qa', ':memory:'))
+
+    def test_table(self):
+        """
+        Test checks for presence of cca table
+        """
+        query = """
+            SELECT name
+            FROM sqlite_master
+            WHERE  type='table' 
+            AND name = ?;
+            """
+        params = ('activity',)
+        self.cursor.execute(query,params)
+        tables = self.cursor.fetchall()
+        self.assertNotEqual(tables, [], msg="No 'cca' table created in database")
+
+    def test_create_activity(self):
+        create_activity(self.name,self.date,self.location,self.username)
+        result = retrieve_activity(self.name)
+        #Assertions
+        self.assertTrue(isinstance(result,dict), "Record retrieved is not a dict")
+        self.assertIsNotNone(result,"Record not inserted at all")
+        self.assertEqual(result['name'], self.name, f"Record inserted incorrectly, result={result}")
+
+    def test_update_activity(self):
+        # try:
+        #     create_activity(self.name,self.date,self.location,self.username)
+        # except AttributeError:
+        #     return self.activity
+        
+        update_activity(self.name, 'name', 'Wild Run')
+        self.name = 'Wild Run'
+        update_activity(self.name,'location','NYJC')
+        self.location = 'NYJC'
+
+        result = retrieve_activity(self.name)
+        #Assertions
+        self.assertTrue(isinstance(result,dict), "Record retrieved is not a dict")
+        self.assertIsNotNone(result,"Record not inserted at all")
+        self.assertEqual(result['name'], self.name, f"Record inserted incorrectly, result={result}")
+        self.assertEqual(result['location'], self.location, f"Record inserted incorrectly, result={result}")
+
+    def test_retrieve_activity(self):
+        try:
+            create_activity(self.name,self.date,self.location,self.username)
+        except AttributeError:
+            pass
+        
+        result = retrieve_activity(self.name)
+        #Assertions
+        self.assertTrue(isinstance(result,dict), "Record retrieved is not a dict")
+        self.assertIsNotNone(result,"Record not inserted at all")
+        self.assertEqual(result['name'], self.name, f"Record inserted incorrectly, result={result}")
+
+    def test_delete_activity(self):
+        try:
+            create_activity(self.name,self.date,self.location,self.username)
+        except AttributeError:
+            pass
+
+        delete_activity(self.name)
+        #Assertions
+        with self.assertRaises(AttributeError, msg = "CCA record not deleted"):
+            retrieve_activity(self.name)
+        
+    def tearDown(self):
         self.conn.close()
