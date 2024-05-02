@@ -48,10 +48,40 @@ def make_tables():
     uri = get_uri(env)
     conn = conn_factory(env, uri)
     init_tables(conn)
-    create_cca("Dragonboat", "sports")
-    create_cca("NYRCS", "clubs and societies")
-    create_cca("Meow Club", 'others')
+    
+    create_cca("Badminton", "Sport")
+    create_cca("Basketball", "Sport")
+    create_cca("Dragonboat", "Sport")
+    create_cca("Floorball", "Sport")
+    create_cca("Netball", "Sport")
+    create_cca("Squash", "Sport")
+    create_cca("Table Tennis", "Sport")
+    create_cca("Tchoukball", "Sport")
+    create_cca("Tennis", "Sport")
+    create_cca("Touch Rugby", "Sport")
+    create_cca("Volleyball", "Sport")
 
+    create_cca("Chinese Cultural Society", "Aesthetics Group")
+    create_cca("Chinese Orchestra", "Aesthetics Group")
+    create_cca("Choir", "Aesthetics Group")
+    create_cca("Dance Society", "Aesthetics Group")
+    create_cca("English Drama Club", "Aesthetics Group")
+    create_cca("Guzheng Ensemble", "Aesthetics Group")
+    create_cca("Photographic Society", "Aesthetics Group")
+    create_cca("Symphonic Band", "Aesthetics Group")
+
+    create_cca("AEP Club", "Club & Society")
+    create_cca("AVA Club", "Club & Society")
+    create_cca("Biz Club", "Club & Society")
+    create_cca("Channel News Nanyang", "Club & Society")
+    create_cca("Gym Club", "Club & Society")
+    create_cca("Interact Club", "Club & Society")
+    create_cca("Malay Cultural Society", "Club & Society")
+    create_cca("Nanyang Debaters and Orators", "Club & Society")
+    create_cca("Outdoor Activities Club", "Club & Society")
+    create_cca("Red Cross Youth", "Club & Society")
+    create_cca("Robotics Club", "Club & Society")
+    create_cca("The Drum", "Club & Society")
 
 def get_account(env: str = "") -> Account:
     """returns an instance of Account with an appropriate db conn"""
@@ -294,8 +324,8 @@ def create_cca(name: str, type: str) -> None:
     if cca.retrieve_primary_key(name) is not None:
         return
     if type not in [
-            'sports', 'performing arts', 'uniform group',
-            'clubs and societies', 'others', "meow"
+            'Sport', 'Aesthetics Group', 'uniform group',
+            'Club & Society', 'others', "meow"
     ]:
         raise AttributeError(f'Invalid type {type}')
     cca.insert({'name': name, 'type': type})
