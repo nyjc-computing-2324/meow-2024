@@ -41,6 +41,9 @@ def make_tables():
     uri = get_uri(env)
     conn = conn_factory(env, uri)
     init_tables(conn)
+    create_cca("Dragonboat", "sports")
+    create_cca("NYRCS", "clubs and societies")
+    create_cca("Meow Club", 'others')
 
 def get_account(env: str = "") -> Account:
     """returns an instance of Account with an appropriate db conn"""
