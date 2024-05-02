@@ -9,6 +9,16 @@ app.secret_key = os.urandom(32)
 
 dbfunctions.make_tables()
 
+all_ccas = dbfunctions.get_all_cca()
+names, types = [], []
+
+for cca in all_ccas:
+    names.append(cca["name"])
+    types.append(cca["type"])
+print(names)
+print(types)
+
+
 def log():
     if session.get("logged_in") == None:
         session["logged_in"] = False
