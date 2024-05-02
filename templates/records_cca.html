@@ -52,11 +52,7 @@
                         <span>&nbsp;&nbsp;&nbsp;&nbsp;</span>
                         <span class="type_content">
                             <span class="type-label">Type: </span>
-                            {% if edit == False %}
                                 {{ cca["type"] }}
-                            {% else %}
-                                <input type="text" value="{{ cca['type'] }}" class="type-input" name="type">
-                            {% endif %}
                         </span>
                         {% if delete == True %}
                         <button type="submit", name="response", value="{{ cca['name'] }}", class="delete_button">
@@ -74,8 +70,10 @@
                 </div> 
                 {% endfor %}
             </div>
-
-            {% if edit == False %}
+            
+            {% if delete == True %}
+            <input name="response" type="submit" class="done_cca" value="Done">
+            {% elif edit == False %}
             <input name="response" type="submit" class="edit_cca" value="Edit">
             <input name="response" type="submit" class="remove_cca" value="-">
             <input name="response" type="submit" class="add_cca" value="+">

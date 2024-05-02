@@ -14,7 +14,12 @@
                         <div class="row">
                             <label for="name" class="input-label">Name:</a>
                             {% if edit == True %}
-                                <input type="text" name="name" value="{{ data['name'] }}" class="input">
+                                <select name="name", class="input">
+                                    <option name="{{ data['name'] }}">{{ data['name'] }}</option>
+                                    {% for name in names %}
+                                    <option name="{{name}}">{{name}}</option>
+                                    {% endfor %}
+                                </select>
                             {% else %}
                                 <span class="input">{{ data["name"] }}</span>
                             {% endif %}
@@ -46,23 +51,26 @@
                             {% endif %}
                         </div>
                         <div class="row">
-                            <label for="role" class="input-label">Type:</a>
-                            {% if edit == True %}
-                                <input type="text" name="type" value="{{ data['type'] }}" class="input">
-                            {% else %}
-                                <span class="input">{{ data["type"] }}</span>
-                            {% endif %}
-                        </div>
-                        <div class="row">
                             <label for="role" class="input-label">Status:</a>
                             {% if edit == True %}
-                                <input type="text" name="status" value="{{ data['status'] }}" class="input">
+                                <select name="status" class="input">
+                                    <option name="{{ data['status'] }}">{{ data['status'] }}</option>
+                                    <option name="Active">Active</option>
+                                    <option name="Inactive">Inactive</option>
+                                    <option name="Graduated">Graduated</option>
+                                </select>
                             {% else %}
                                 <span class="input">{{ data["status"] }}</span>
                             {% endif %}
                         </div>
                     </div>
                 </div>
+                {% if msg[0] == "pass" %}
+                <label class="pass_msg">{{ msg[1] }}</label>
+                {% endif %}
+                {% if msg[0] == "error" %}
+                <label class="error_msg">{{ msg[1] }}</label>
+                {% endif %}
                 {% if edit == True %}
                 <div class="submission-container">
                     <input type="submit" value="Save" name="response" class="submit-buttons">

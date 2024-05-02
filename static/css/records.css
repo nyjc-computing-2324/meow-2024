@@ -200,3 +200,19 @@
     margin: 15px;
 }
 
+.done_cca {
+    font-family: comfortaa;
+    font-size: 20px;
+    border: none;
+    height: 55px;
+    width: 70px;
+    border-radius: 50%;
+    background-color: #8AADF4;
+    color: white;
+    float: right;
+    text-align: center;
+    padding: 9px 0px; /*1st value repr the top & bottom padding, 2nd value repr the left & right padding*/
+    margin: 10px 5px;
+    cursor: pointer;
+}
+

@@ -10,13 +10,11 @@ app.secret_key = os.urandom(32)
 dbfunctions.make_tables()
 
 all_ccas = dbfunctions.get_all_cca()
-names, types = [], []
+cca_names, cca_types = [], []
 
 for cca in all_ccas:
-    names.append(cca["name"])
-    types.append(cca["type"])
-print(names)
-print(types)
+    cca_names.append(cca["name"])
+    cca_types.append(cca["type"])
 
 
 def log():
@@ -155,6 +153,7 @@ def add_cca():
         return redirect("/login")
     ccas = dbfunctions.retrieve_all_studentcca("username", session.get("user"))
     data = []
+    names = []
     for info in ccas:
         data.append({
             "name": info[1][1],
@@ -163,12 +162,12 @@ def add_cca():
             "type": info[1][2],
             "status": info[4]
         })
+        names.append(info[1][1])
     default = {
         "name": "",
         "start year": "",
         "end year": "",
         "role": "",
-        "type": "",
         "status": ""
     }
     if request.method == "POST":
@@ -176,23 +175,35 @@ def add_cca():
             return view.records_cca(cca_data=data, edit=False)
         elif request.form["response"] == "Save":
             cca_info = request.form
-            dbfunctions.create_cca(cca_info["name"], cca_info["type"])
-            dbfunctions.create_studentcca(
-                session.get("user"), cca_info["name"], cca_info["role"],
-                f"{cca_info['start-year']} - {cca_info['end-year']}",
-                cca_info["status"])
-            return view.add_cca(edit=False,
-                                data={
-                                    "name": cca_info["name"],
-                                    "start year": cca_info['start-year'],
-                                    "end year": cca_info['end-year'],
-                                    "role": cca_info["role"],
-                                    "type": cca_info["type"],
-                                    "status": cca_info["status"]
-                                })
+            if cca_info["name"] in names:
+                return view.add_cca(
+                    edit=True,
+                    data=default,
+                    names=cca_names,
+                    msg=["error", "You are already in this CCA"])
+            elif cca_info["name"] == "":
+                return view.add_cca(
+                    edit=True,
+                    data=default,
+                    names=cca_names,
+                    msg=["error", "CCA name cannot be left blank"])
+            else:
+                dbfunctions.create_studentcca(
+                    session.get("user"), cca_info["name"], cca_info["role"],
+                    f"{cca_info['start-year']} - {cca_info['end-year']}",
+                    cca_info["status"])
+                return view.add_cca(edit=False,
+                                    data={
+                                        "name": cca_info["name"],
+                                        "start year": cca_info['start-year'],
+                                        "end year": cca_info['end-year'],
+                                        "role": cca_info["role"],
+                                        "status": cca_info["status"]
+                                    },
+                                    msg=["pass", "CCA added!"])
         elif request.form["response"] == "Okay":
             return view.records_cca(cca_data=data, edit=False)
-    return view.add_cca(edit=True, data=default)
+    return view.add_cca(edit=True, data=default, names=cca_names)
 
 
 @app.route('/view_cca')
@@ -231,14 +242,13 @@ def records_cca():
         "start year": "",
         "end year": "",
         "role": "",
-        "type": "",
         "status": ""
     }
     if not session["logged_in"]:
         return redirect("/login")
     if request.method == "POST":
         if request.form["response"] == "+":
-            return view.add_cca(edit=True, data=default)
+            return view.add_cca(edit=True, data=default, names=cca_names)
         elif request.form["response"] == "-":
             return view.records_cca(cca_data=data, edit=False, delete=True)
         elif request.form["response"] == "Edit":
@@ -255,11 +265,24 @@ def records_cca():
                 dbfunctions.update_studentcca(session.get("user"),
                                               data[i]["name"], "year",
                                               edits["year"][i])
-        elif request.form["response"] == "Cancel":
+        elif request.form["response"] == "Cancel" or request.form[
+                "response"] == "Done":
             pass
         elif request.form["response"] in names:
             dbfunctions.delete_studentcca(session.get("user"),
                                           request.form["response"])
+            ccas = dbfunctions.retrieve_all_studentcca("username",
+                                                       session.get("user"))
+            data = []
+            for info in ccas:
+                data.append({
+                    "name": info[1][1],
+                    "year": info[3],
+                    "role": info[2],
+                    "type": info[1][2],
+                    "status": info[4]
+                })
+            return view.records_cca(cca_data=data, edit=False, delete=True)
     ccas = dbfunctions.retrieve_all_studentcca("username", session.get("user"))
     data = []
     for info in ccas:
