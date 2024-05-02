@@ -125,8 +125,18 @@ class Test_Profile(TestCase):
         self.assertNotEqual(record["name"], record1["name"], "Update function failed, name update unsuccessful")
         self.assertNotEqual(record["class"], record1["class"], "Update function failed, class update unsuccessful")
 
-#     def tearDown(self) -> None:
-#     return super().tearDown()
+    def test_retrieve_profile(self):
+        record = retrieve_profile(self.username)
+        self.assertEqual(type(record), dict, "Retrieve does not return a dictionary")
+        self.assertEqual(record["class"], self.class1, "Retrieved incorrect information")
+
+    def test_delete_profile(self):
+        delete_profile(self.username)
+        try:
+            result = retrieve_profile(self.username)
+            self.assertNotEqual(type(result),dict, "Delete function failed")
+        except AttributeError:
+            self.assertEqual(1,1,"idk how this one even fails but good job if it does i guess")
 
 
 class Test_CCA(TestCase):
