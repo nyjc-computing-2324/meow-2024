@@ -85,8 +85,21 @@ def delete_all_info(username: str) -> None:
     """
     deletes all information (account, student profile, studentcca and studentaccount)
     """
+    studentcca_data = retrieve_all_studentcca("username", username)
+    if studentcca_data is not None:
+        for info in studentcca_data:
+            student, cca, *rest = info
+            cca_id, name, *rest = cca
+            delete_studentcca(username, name)
+    studentactivity_data = retrieve_studentactivity("username", username)
+    if studentactivity_data is not None:
+        for info in studentactivity_data:
+            student, activity = info
+            activity_id, name, *rest = activity
+            delete_studentactivity(username, name)
+    delete_profile(username)
     delete_account(username)
-    delete_student(username)
+
 
 # FOR ACCOUNT TABLE
 def create_account(username: str, password: str) -> None:
@@ -383,7 +396,7 @@ def create_studentactivity(username: str, activity_name: str) -> None:
 
     student_activity.insert({"student_id": student_id, "activity_id": activity_id})
 
-def retrieve_studentactivity(field: str, unique_field) -> list[list[dict]]:
+def retrieve_studentactivity(field: str, unique_field) -> list[list[dict]] | None:
     """
     retrieve information for all student activity regarding the student or activity
     field can only be "name" or "username" representing activity and student respectively
@@ -414,7 +427,7 @@ def retrieve_studentactivity(field: str, unique_field) -> list[list[dict]]:
         raise AttributeError(f"Invalid field {field}")
         
     if records is None:
-        raise AttributeError(f"No record for field {field}.")
+        return None
     new_record = []
     for record in records:
         student_id, activity_id = record
@@ -502,15 +515,13 @@ def update_studentcca(username: str, cca_name: str, field: str, data):
     
     student_cca.update(student_id, cca_id, field, data)
 
-def retrieve_one_studentcca(username: str, cca_name: str) -> dict:
+def retrieve_one_studentcca(username: str, cca_name: str) -> dict | None:
     """
     retrieve information for a student cca record
     
     if profile does not exists in student table, attribute error is raised
     if username does not exist in account table, attribute error is raised
     if cca does not exist in cca table, attribute error is raised
-    if student-cca combination does not exist in studentcca table, 
-    attribute error is raised
     
     else a dict of student_id, cca_id, role is returned
     """
@@ -527,11 +538,11 @@ def retrieve_one_studentcca(username: str, cca_name: str) -> dict:
 
     record = student_cca.retrieve_one(student_id, cca_id)
     if record is None:
-        raise AttributeError("Student-cca combination does not exist.")
+        return None
     student_id, cca_id, role, year, status = record
     return {"student_id": student_id, "cca_id": cca_id, "role": role, "year": year, "status": status}
 
-def retrieve_all_studentcca(field: str, unique_field) -> list[list[dict]]:
+def retrieve_all_studentcca(field: str, unique_field) -> list[list[dict]] | None:
     """
     obtain information for all student cca regarding the student or cca
     field can only be "name" or "username" representing cca or student respectively
@@ -539,8 +550,6 @@ def retrieve_all_studentcca(field: str, unique_field) -> list[list[dict]]:
     if profile does not exists in student table, attribute error is raised
     if username does not exist in account table, attribute error is raised
     if cca does not exist in cca table, attribute error is raised
-    if student-cca combination does not exist in studentcca table, 
-    attribute error is raised
     
     else a list of list of dictionary is returned
     [[{student data}, {cca data}, role, year, status], [{student data}, {cca data}] ..., ...]
@@ -564,7 +573,7 @@ def retrieve_all_studentcca(field: str, unique_field) -> list[list[dict]]:
         raise AttributeError(f"Invalid field {field}")
 
     if records is None:
-        raise AttributeError(f"No record for field {field}.")
+        return None
     new_record = []
     for record in records:
         student_id, cca_id, role, year, status = record
