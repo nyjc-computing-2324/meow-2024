@@ -36,12 +36,12 @@ def edit_cca():
     return render_template("edit_cca.html")
 
 
-def records_cca(cca_data=[], edit=False):
+def records_cca(cca_data=[], edit=False, delete=False):
     # display records_cca.html
     # if not completed:
     #     # redirects the user to temp
     #     return redirect("/temp")
-    return render_template("records_cca.html", my_ccas=cca_data, edit=edit)
+    return render_template("records_cca.html", my_ccas=cca_data, edit=edit, delete=delete)
 
 
 def records_activities():

@@ -184,3 +184,18 @@
     outline : none;
     background-color: transparent;
 }
+
+.delete_button {
+    height: 30px;
+    width: 30px;
+    background: transparent;
+    border: 0;
+    float: right;
+    cursor: pointer;
+    align-self: center;
+}
+
+.no_cca {
+    margin: 15px;
+}
+
