@@ -20,42 +20,17 @@
         </div>
 
         <div class="general-text">
+            {% for cca in my_ccas %}
             <div class="general-textbox">
                 <span class="circle"></span>
                 <span>
-                    <a href="/view_cca" class = "hyperlink" target="_self"><h3>Robotics</h3> </a>
-                    
-                    <span>Year: 2015 - 2018 &nbsp;&nbsp;&nbsp;&nbsp; Role: Vice President &nbsp;&nbsp;&nbsp;&nbsp; Type: Clubs and societies </span> <!--4 &nbsp; creates a tab spacing-->
-                    <span class="status-text">Status: Graduated</span> <!-- when span is placed in different lines, it creates a space between them-->
+                    <a href="/view_cca" class = "hyperlink" target="_self"><h3>{{ cca["name"] }}</h3> </a>
+
+                    <span>Year: {{ cca["year"] }}&nbsp;&nbsp;&nbsp;&nbsp; Role: {{ cca["role"] }} &nbsp;&nbsp;&nbsp;&nbsp; Type: {{ cca["type"] }} </span> <!--4 &nbsp; creates a tab spacing-->
+                    <span class="status-text">Status: {{ cca["status"] }}</span> <!-- when span is placed in different lines, it creates a space between them-->
                 </span>
             </div> 
-
-            <div class="general-textbox">
-                <span class="circle"></span>
-                <span>
-                    <h3>Symphonic Band</h3>
-                    <span>Year: 2019 - 2023 &nbsp;&nbsp;&nbsp;&nbsp; Role: Member &nbsp;&nbsp;&nbsp;&nbsp; Type: Performing Arts </span>
-                    <span class="status-text">Status: Graduated</span>
-                </span>
-            </div>
-
-            <div class="general-textbox">
-                <span class="circle"></span>
-                <span>
-                    <h3>Football</h3>
-                    <span>Year: 2022 - 2023 &nbsp;&nbsp;&nbsp;&nbsp; Role: Captain &nbsp;&nbsp;&nbsp;&nbsp; Type: Sports </span>
-                    <span class="status-text">Status: <span style="color:red">Inactive</span> </span>
-                </span>
-            </div>
-
-            <div class="general-textbox">
-                <span class="circle"></span>
-                <span>
-                    <h3>Floorball</h3>
-                    <span>Year: 2023 - &nbsp;&nbsp;&nbsp;&nbsp; Role: Logistics &nbsp;&nbsp;&nbsp;&nbsp; Type: Sports </span>
-                    <span class="status-text">Status: <span style="color:mediumseagreen">Active</span> </span>
-                </span>
-            </div>
+            {% endfor %}
         </div>
 
 
