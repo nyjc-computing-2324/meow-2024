@@ -543,7 +543,7 @@ def retrieve_all_studentcca(field: str, unique_field) -> list[list[dict]]:
     attribute error is raised
     
     else a list of list of dictionary is returned
-    [[{student data}, {cca data}], [{student data}, {cca data}], ...]
+    [[{student data}, {cca data}, role, year, status], [{student data}, {cca data}] ..., ...]
     """
     if field.lower() == "name": 
         cca_id = cca.retrieve_primary_key(unique_field)
@@ -567,8 +567,8 @@ def retrieve_all_studentcca(field: str, unique_field) -> list[list[dict]]:
         raise AttributeError(f"No record for field {field}.")
     new_record = []
     for record in records:
-        student_id, cca_id = record
-        new_record.append([student.retrieve(student_id), cca.retrieve(cca_id)])
+        student_id, cca_id, role, year, status = record
+        new_record.append([student.retrieve(student_id), cca.retrieve(cca_id), role, year, status])
     return new_record
 
 def delete_studentcca(username: str, cca_name: str) -> None:
