@@ -41,7 +41,10 @@ def records_cca(cca_data=[], edit=False, delete=False):
     # if not completed:
     #     # redirects the user to temp
     #     return redirect("/temp")
-    return render_template("records_cca.html", my_ccas=cca_data, edit=edit, delete=delete)
+    return render_template("records_cca.html",
+                           my_ccas=cca_data,
+                           edit=edit,
+                           delete=delete)
 
 
 def records_activities():
@@ -70,9 +73,9 @@ def profile(edit=False, profile=None):
     return render_template("profile.html", edit=edit, profile=profile)
 
 
-def add_cca(edit, data):
+def add_cca(edit, data, names=[], msg=[""]):
     #displays profile_edit.html
-    return render_template("add_cca.html", edit=edit, data=data)
+    return render_template("add_cca.html", edit=edit, data=data, names=names, msg=msg)
 
 
 def about():
