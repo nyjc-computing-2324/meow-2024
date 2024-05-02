@@ -34,6 +34,46 @@ def conn_factory(env, uri):
         return conn
     return get_conn
 
+def make_tables():
+    env = ""
+    uri = get_uri(env)
+    conn = conn_factory(env, uri)
+    init_tables(conn)
+    
+    create_cca("Badminton", "Sport")
+    create_cca("Basketball", "Sport")
+    create_cca("Dragonboat", "Sport")
+    create_cca("Floorball", "Sport")
+    create_cca("Netball", "Sport")
+    create_cca("Squash", "Sport")
+    create_cca("Table Tennis", "Sport")
+    create_cca("Tchoukball", "Sport")
+    create_cca("Tennis", "Sport")
+    create_cca("Touch Rugby", "Sport")
+    create_cca("Volleyball", "Sport")
+
+    create_cca("Chinese Cultural Society", "Aesthetics Group")
+    create_cca("Chinese Orchestra", "Aesthetics Group")
+    create_cca("Choir", "Aesthetics Group")
+    create_cca("Dance Society", "Aesthetics Group")
+    create_cca("English Drama Club", "Aesthetics Group")
+    create_cca("Guzheng Ensemble", "Aesthetics Group")
+    create_cca("Photographic Society", "Aesthetics Group")
+    create_cca("Symphonic Band", "Aesthetics Group")
+
+    create_cca("AEP Club", "Club & Society")
+    create_cca("AVA Club", "Club & Society")
+    create_cca("Biz Club", "Club & Society")
+    create_cca("Channel News Nanyang", "Club & Society")
+    create_cca("Gym Club", "Club & Society")
+    create_cca("Interact Club", "Club & Society")
+    create_cca("Malay Cultural Society", "Club & Society")
+    create_cca("Nanyang Debaters and Orators", "Club & Society")
+    create_cca("Outdoor Activities Club", "Club & Society")
+    create_cca("Red Cross Youth", "Club & Society")
+    create_cca("Robotics Club", "Club & Society")
+    create_cca("The Drum", "Club & Society")
+
 def get_account(env: str = "") -> Account:
     """returns an instance of Account with an appropriate db conn"""
     uri = get_uri(env)
@@ -54,23 +94,6 @@ def get_activity(env: str = "") -> Activity:
     uri = get_uri(env)
     return Activity(conn_factory(env, uri))
 
-# cca_info = CCA("meow.db")
-# cca_info_backup = CCA("backup.db")
-# cca_info_testing = CCA("test.db")
-
-# activity_info = Activity("meow.db")
-# activity_info_backup = Activity("backup.db")
-# activity_info_testing = Activity("test.db")
-
-# student_activity = StudentActivity('meow.db')
-# student_activity_backup = StudentActivity('backup.db')
-# student_activity_testing = StudentActivity('test.db')
-
-# student_cca = StudentCCA('meow.db')
-# student_cca_backup = StudentCCA('backup.db')
-# student_cca_testing = StudentCCA('test.db')
-
-# instantiating table objects
 account = get_account()
 student_profile = get_student()
 
@@ -78,7 +101,7 @@ student_profile = get_student()
 def create_account(username: str, password: str):
     """
     if username already exists, attribute error is raised
-    else data is inserted into account and account_backup
+    else data is inserted into account
     """
     # check for repeated username
     if account.retrieve(username, "username") is not None:
@@ -195,12 +218,14 @@ def create_cca(name: str, type: str):
     if type is invalid, raise attribute error
     else data is inserted into cca_info and cca_info_backup
     """
-    if cca_info.retrieve("name", name) is not None:
-        raise AttributeError('Name already exists.')
-    if type not in ['sports', 'performing arts', 'uniform group', 'clubs and societies', 'others']:
+    if cca.retrieve_primary_key(name) is not None:
+        return
+    if type not in [
+            'Sport', 'Aesthetics Group', 'uniform group',
+            'Club & Society', 'others', "meow"
+    ]:
         raise AttributeError(f'Invalid type {type}')
     cca_info.insert(name, type)
-    cca_info_backup.insert(name, type)
     
 def update_cca(pk_name: str, pk, field: str, data):
     """
@@ -214,7 +239,6 @@ def update_cca(pk_name: str, pk, field: str, data):
     if pk_name == "name" and cca_info.retrieve("name", pk) is not None:
         raise AttributeError('Name already exists.')
     cca_info.update(pk, pk_name, field, data)
-    cca_info_backup.update(pk, pk_name, field, data)
     
 def retrieve_cca(pk_name: str, pk) -> dict:
     """
@@ -237,7 +261,6 @@ def delete_cca(pk_name: str, pk) -> None:
     if cca_info.retrieve(pk, pk_name) is None:
         raise AttributeError('CCA record does not exist')
     cca_info.delete(pk, pk_name)
-    cca_info_backup.delete(pk, pk_name)
     
 # FOR ACTIVITY TABLE
 def create_activity(name: str, date: str, location: str, organiser_id: int):
@@ -248,7 +271,6 @@ def create_activity(name: str, date: str, location: str, organiser_id: int):
     if student_profile.retrieve(organiser_id) is None:
         raise AttributeError('Invalid student id.')
     activity_info.insert(name, date, location, organiser_id)
-    activity_info_backup.insert(name, date, location, organiser_id)
 
 def update_activity(activity_id: int, field: str, data):
     """
@@ -261,7 +283,6 @@ def update_activity(activity_id: int, field: str, data):
     if field == "organiser_id" and student_profile.retrieve(data) is None:
         raise AttributeError('Invalid student id.')
     activity_info.update(activity_id, field, data)
-    activity_info_backup.update(activity_id, field, data)
 
 def retrieve_activity(activity_id: int) -> dict:
     """
@@ -283,7 +304,6 @@ def delete_activity(activity_id: int):
     if activity_info.retrieve(activity_id) is None:
         raise AttributeError('Activity does not exist')
     activity_info.delete(activity_id)
-    activity_info_backup.delete(activity_id)
 
 
 # FOR STUDENT ACTIVITY
@@ -298,7 +318,6 @@ def create_studentactivity(student_id: int, activity_id: int) -> None:
     if activity_info.retrieve(activity_id) is None:
         raise AttributeError("Invalid activity id.")
     student_activity.insert({"student_id": student_id, "activity_id": activity_id})
-    student_activity_backup.insert({"student_id": student_id, "activity_id": activity_id})
 
 def retrieve_studentactivity(pk_name: str, pk: int) -> list[tuple]:
     """
@@ -329,7 +348,6 @@ def delete_studentactivity(student_id: int, activity_id: int) -> None:
             exists = True
         index += 1
     student_activity.delete(student_id, activity_id)
-    student_activity_backup.delete(student_id, activity_id)
 
 
 # FOR STUDENT CCA 
@@ -337,24 +355,22 @@ def create_studentcca(student_id: int, cca_id: int, role: str):
     """
     if student_id does not exist in student table, attribute error is raised
     if cca_id does not exist in cca table, attribute error is raised
-    else data is inserted into student_cca and student_cca_backup
+    else data is inserted into student_cca
     """
     if student_profile.retrieve(student_id) is None:
         raise AttributeError("Invalid student id.")
     if cca_info.retrieve(cca_id) is None:
         raise AttributeError("Invalid cca id.")
     student_cca.insert(student_id, cca_id, role)
-    student_cca_backup.insert(student_id, cca_id, role)
 
 def update_studentcca(student_id: int, cca_id: int, new: str):
     """
     if student-cca combination does not exists, attribute error is raised
-    else student cca updated in student_cca and student_cca_backup
+    else student cca updated in student_cca and
     """
     if student_cca.retrieve_one(student_id, cca_id) is None:
         raise AttributeError("Student-cca combination does not exist.")
     student_cca.update(student_id, cca_id, new)
-    student_cca_backup.update(student_id, cca_id, new)
 
 def retrieve_one_studentcca(student_id: int, cca_id: int) -> dict:
     """
@@ -382,9 +398,8 @@ def retrieve_all_studentcca(pk_name: str, pk: int) -> list[tuple]:
 def delete_studentcca(student_id: int, cca_id: int):
     """
     if student-cca combination does not exists, attribute error is raised
-    else delete account from student_cca and student_cca_backup
+    else delete account from student_cca
     """
     if student_cca.retrieve_one(student_id, cca_id) is None:
         raise AttributeError("Student-cca combination does not exist.")
     student_cca.delete(student_id, cca_id)
-    student_cca_backup.delete(student_id, cca_id)
