@@ -9,7 +9,6 @@ app.secret_key = os.urandom(32)
 
 dbfunctions.make_tables()
 
-
 def log():
     if session.get("logged_in") == None:
         session["logged_in"] = False

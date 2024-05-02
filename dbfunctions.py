@@ -300,6 +300,17 @@ def delete_cca(name: str) -> None:
     if cca_id is None:
         raise AttributeError("No info linked to name")
     cca.delete(cca_id)
+
+def get_all_cca():
+    """
+    gets all information about all ccas
+    """
+    out = []
+    data = cca.get_all_entries()
+    for entry in data:
+        id, name, type = entry
+        out.append({"id": id, "name": name, "type": type})
+    return out
     
 # FOR ACTIVITY TABLE
 def create_activity(name: str, date: str, location: str, username: str) -> None:

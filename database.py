@@ -181,6 +181,15 @@ class Table:
         params = (pk, )
         self._execute_query(query, params, commit=True)
 
+    def get_all_entries(self):
+        """gets all entries in the table"""
+        query = f"""
+                SELECT *
+                FROM {self.table_name}
+                """
+        record = self._execute_query(query, (), fetchall=True)
+        return record
+
 class JunctionTable(Table):
     table_name: str
     pk1_name: str
