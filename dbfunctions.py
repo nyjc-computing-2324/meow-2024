@@ -100,8 +100,8 @@ def delete_all_info(username: str) -> None:
     """
     deletes all information (account, student profile, studentcca and studentaccount)
     """
+    delete_profile(username)
     delete_account(username)
-    delete_student(username)
 
 
 # FOR ACCOUNT TABLE
@@ -234,7 +234,6 @@ def update_profile(username: str, field: str, data) -> None:
             raise AttributeError(
                 "Username already exists as a foriegn key in student table")
 
-    print(student_id, field, data)
     student.update(student_id, field, data)
 
 
