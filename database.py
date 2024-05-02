@@ -6,8 +6,7 @@ def init_tables(get_conn: Callable):
     """creates the table for all table in database"""
     conn = get_conn()
     cursor = conn.cursor()
-    cursor.executescript(
-        """
+    cursor.executescript("""
         CREATE TABLE IF NOT EXISTS "account" (
         "account_id" INTEGER PRIMARY KEY,
         "username" TEXT NOT NULL UNIQUE,
@@ -26,7 +25,7 @@ def init_tables(get_conn: Callable):
         );
         CREATE TABLE IF NOT EXISTS "cca" (
             "cca_id" INTEGER PRIMARY KEY,
-            "name" TEXT NOT NULL UNIQUE,
+            "name" TEXT NOT NULL,
             "type" TEXT NOT NULL 
         );
         CREATE TABLE IF NOT EXISTS "activity" (
@@ -48,16 +47,16 @@ def init_tables(get_conn: Callable):
             "student_id" INTEGER,
             "cca_id" INTEGER,
             "role" TEXT NOT NULL,
-            "year" INTEGER NOT NUUL,
+            "year" TEXT NOT NULL,
             "status" TEXT NOT NULL,
             PRIMARY KEY ("student_id", "cca_id"),
             FOREIGN KEY ("student_id") REFERENCES student("student_id"),
             FOREIGN KEY ("cca_id") REFERENCES cca("cca_id")
         );
-        """
-    )
+        """)
     conn.commit()
     conn.close()
+
 
 def quote_join(list_of_str: list[str], enquote: bool = False) -> str:
     """
@@ -69,6 +68,7 @@ def quote_join(list_of_str: list[str], enquote: bool = False) -> str:
     if enquote:
         return ", ".join([f'"{str_}"' for str_ in list_of_str])
     return ", ".join(list_of_str)
+
 
 class Table:
     """parent class for all subsequent tables"""
@@ -87,14 +87,13 @@ class Table:
         if field not in self.fields:
             raise AttributeError(f"Invalid field '{field}'")
 
-    def _execute_query(
-        self,
-        query: str, params: tuple | None,
-        *,
-        commit: bool = False,
-        fetch: bool = False,
-        fetchall: bool = False
-    ):
+    def _execute_query(self,
+                       query: str,
+                       params: tuple | None,
+                       *,
+                       commit: bool = False,
+                       fetch: bool = False,
+                       fetchall: bool = False):
         """executes the query based on the connection, given query and params"""
         conn = self.get_conn()
         cursor = conn.cursor()
@@ -135,7 +134,7 @@ class Table:
                 INSERT INTO {self.table_name} ({fieldstr}) VALUES ({qnmarks});
                 """
         self._execute_query(query, tuple(record.values()), commit=True)
-        
+
     def update(self, pk: int, field: str, new: str) -> None:
         """update existing records in the database"""
         self._valid_field_else_error(field)
@@ -154,7 +153,7 @@ class Table:
                 FROM {self.table_name}
                 WHERE {self.pk_name} = ?;
                 """
-        params = (pk,)
+        params = (pk, )
         record = self._execute_query(query, params, fetch=True)
         return record
 
@@ -165,7 +164,7 @@ class Table:
                 FROM {self.table_name}
                 WHERE {self.unique_field} = ?;
                 """
-        params = (unique_field,)
+        params = (unique_field, )
         record = self._execute_query(query, params, fetch=True)
         if record is not None:
             primary_key, *rest = record
@@ -181,6 +180,7 @@ class Table:
         params = (pk, )
         self._execute_query(query, params, commit=True)
 
+
 class JunctionTable(Table):
     table_name: str
     pk1_name: str
@@ -190,10 +190,10 @@ class JunctionTable(Table):
     # def insert(self, record: dict) -> None:
     #     """
     #     inserts the record into the junction table
-        
+
     #     Checks for redundancies should already be done
     #     i.e. insert({"student_id": 5. "activity_id": 3})
-    #     should not be called if {"student_id": 5. "activity_id": 3} 
+    #     should not be called if {"student_id": 5. "activity_id": 3}
     #     already exists in the database, do the check beforehand.
 
     #     record argument that is passed should have:
@@ -209,7 +209,7 @@ class JunctionTable(Table):
     #     # for field in self.fields:
     #     #     if field not in record:
     #     #         raise AttributeError(f"field {field} not in record argument")
-        
+
     #     # formatting the query
     #     fieldstr = quote_join(self.fields, enquote=True)
     #     qnmarks = quote_join(["?"] * len(self.fields))
@@ -234,7 +234,7 @@ class JunctionTable(Table):
         [(5, 3, "member"), (7. 3, "president"), (10, 3, "member")]
         """
         self._valid_field_else_error(pk_name)
-        
+
         query = f"""
                 SELECT *
                 FROM {self.table_name}
@@ -254,6 +254,7 @@ class JunctionTable(Table):
         param = (pk1_value, pk2_value)
         self._execute_query(query, param, commit=True)
 
+
 class Account(Table):
     table_name = "account"
     pk_name = "account_id"
@@ -270,7 +271,7 @@ class Account(Table):
         "salt" BYTES NOT NULL
         );
         """
-        super()._execute_query(query, params = None, commit = True)
+        super()._execute_query(query, params=None, commit=True)
 
     # def retrieve_account_id(self, username: str) -> int | None:
     #     """obtain account_id using username"""
@@ -329,9 +330,9 @@ class Account(Table):
     #         raise AttributeError(f"Invalid pk_name '{pk_name}'")
 
     #     query = f"""
-    #             UPDATE {self.table_name} 
-    #             SET {field} = ? 
-    #             WHERE {pk_name} = ? 
+    #             UPDATE {self.table_name}
+    #             SET {field} = ?
+    #             WHERE {pk_name} = ?
     #             """
     #     params = (new, pk)
     #     self._execute_query(query, params, commit=True)
@@ -370,10 +371,13 @@ class Account(Table):
     #     param = (pk, )
     #     self._execute_query(query, params, commit=True)
 
+
 class Student(Table):
     table_name = "student"
     pk_name = "student_id"
-    fields = ["student_id", "name", "class", "email", "number", "about", "account_id"]
+    fields = [
+        "student_id", "name", "class", "email", "number", "about", "account_id"
+    ]
     unique_field = "account_id"
 
     # def retrieve_student_id(self, account_id: int) -> int | None:
@@ -400,7 +404,7 @@ class Student(Table):
     #         CREATE TABLE IF NOT EXISTS {self.table_name} (
     #             {self.pk_name} INTEGER PRIMARY KEY,
     #             "name" TEXT NOT NULL,
-    #             "class" INTEGER NOT NULL, 
+    #             "class" INTEGER NOT NULL,
     #             "email" TEXT NOT NULL,
     #             "account_id" INTEGER NOT NULL UNIQUE,
     #             FOREIGN KEY ("account_id") REFERENCES account("account_id")
@@ -420,7 +424,7 @@ class Student(Table):
     #     with sqlite3.connect(self.database_name) as conn:
     #         cursor = conn.cursor()
     #         query = f"""
-    #             INSERT INTO {self.table_name}("name", "class", "email", "account_id") 
+    #             INSERT INTO {self.table_name}("name", "class", "email", "account_id")
     #             VALUES (?, ?, ?, ?);
     #         """
     #         params = (name, _class, email, account_id)
@@ -439,9 +443,9 @@ class Student(Table):
     #     with sqlite3.connect(self.database_name) as conn:
     #         cursor = conn.cursor()
     #         query = f"""
-    #                 UPDATE {self.table_name} 
-    #                 SET {field} = ? 
-    #                 WHERE "student_id" = ? 
+    #                 UPDATE {self.table_name}
+    #                 SET {field} = ?
+    #                 WHERE "student_id" = ?
     #                 """
     #         params = (new, student_id)
     #         cursor.execute(query, params)
@@ -478,6 +482,7 @@ class Student(Table):
     #         cursor.execute(query, param)
     #         conn.commit()
 
+
 class CCA(Table):
     table_name = "cca"
     pk_name = "cca_id"
@@ -508,7 +513,7 @@ class CCA(Table):
     #         CREATE TABLE IF NOT EXISTS {self.table_name} (
     #             "cca_id" INTEGER PRIMARY KEY,
     #             "name" TEXT NOT NULL UNIQUE,
-    #             "type" TEXT NOT NULL, 
+    #             "type" TEXT NOT NULL,
     #         );
     #     """, params=None, commit=True)
 
@@ -604,9 +609,9 @@ class Activity(Table):
     #         CREATE TABLE IF NOT EXISTS {self.table_name} (
     #             {self.pk_name} INTEGER PRIMARY KEY,
     #             "name" TEXT NOT NULL,
-    #             "date" TEXT NOT NULL, 
+    #             "date" TEXT NOT NULL,
     #             "location" TEXT NOT NULL,
-    #             "organiser_id" INTEGER, 
+    #             "organiser_id" INTEGER,
     #             FOREIGN KEY ("organiser_id") REFERENCES account("student_id")
     #         );
     #     """, params=None, commit=True)
@@ -677,7 +682,7 @@ class Activity(Table):
 
 
 class StudentActivity(JunctionTable):
-    
+
     table_name: str = "studentactivity"
     pk1_name: str = "student_id"
     pk2_name: str = "activity_id"
@@ -755,7 +760,7 @@ class StudentCCA(JunctionTable):
     #             );
     #             """)
     #         conn.commit()
-    
+
     # def insert(self, student_id: int, cca_id: int, role: str):
     #     """insert new records into the database"""
     #     with sqlite3.connect(self.database_name) as conn:
@@ -777,10 +782,10 @@ class StudentCCA(JunctionTable):
         query = f"""
                 UPDATE {self.table_name} 
                 SET {field} = ? 
-                WHERE {self.pk1_name} = ? AND {self.pk2_name};
+                WHERE {self.pk1_name} = ? AND {self.pk2_name} = ?;
                 """
         params = (data, student_id, cca_id)
-        self._execute_query(query, params)
+        self._execute_query(query, params, commit=True)
 
     def retrieve_one(self, student_id: int, cca_id: int):
         """
@@ -794,7 +799,7 @@ class StudentCCA(JunctionTable):
                 WHERE "student_id" = ? AND "cca_id" = ?;
                 """
         params = (student_id, cca_id)
-        return self._execute_query(query, params)
+        return self._execute_query(query, params, fetch=True)
 
     # def retrieve_all(self, pk_name: str, pk: int) -> list[tuple]:
     #     """
@@ -822,7 +827,7 @@ class StudentCCA(JunctionTable):
     #         cursor = conn.cursor()
     #         query = f"""
     #                 DELETE FROM {self.table_name}
-    #                 WHERE {self.pk1_name} = ? AND {self.pk2_name} = ?;      
+    #                 WHERE {self.pk1_name} = ? AND {self.pk2_name} = ?;
     #                 """
     #         params = (student_id, cca_id)
     #         cursor.execute(query, params)

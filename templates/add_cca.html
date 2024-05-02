@@ -1,0 +1,82 @@
+<!DOCTYPE html>
+<html>
+    <head>
+        <title>Add CCA</title>
+        <link rel="stylesheet" type="text/css" href="{{ url_for('static', filename='css/add_cca.css') }}">
+        <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    </head>
+    <body>
+        <section class="main">
+            <h1>Add a CCA</h1>
+            <form action="/add_cca" method="post" class = "inner">
+                <div class="field-container">
+                    <div class="text-inputs-container1">
+                        <div class="row">
+                            <label for="name" class="input-label">Name:</a>
+                            {% if edit == True %}
+                                <input type="text" name="name" value="{{ data['name'] }}" class="input">
+                            {% else %}
+                                <span class="input">{{ data["name"] }}</span>
+                            {% endif %}
+                        </div>
+                        <div class="row">
+                            <label for="start-year" class="input-label">Start Year:</a>
+                            {% if edit == True %}
+                                <input type="text" name="start-year" value="{{ data['start year'] }}" class="input">
+                            {% else %}
+                                <span class="input">{{ data["start year"] }}</span>
+                            {% endif %}
+                        </div>
+                        <div class="row">
+                            <label for="end-year" class="input-label">End Year:</a>
+                            {% if edit == True %}
+                                <input type="text" name="end-year" value="{{ data['end year'] }}" class="input">
+                            {% else %}
+                                <span class="input">{{ data["end year"] }}</span>
+                            {% endif %}
+                        </div>
+                    </div>
+                    <div class="text-inputs-container2">
+                        <div class="row">
+                            <label for="role" class="input-label">Role:</a>
+                            {% if edit == True %}
+                                <input type="text" name="role" value="{{ data['role'] }}" class="input">
+                            {% else %}
+                                <span class="input">{{ data["role"] }}</span>
+                            {% endif %}
+                        </div>
+                        <div class="row">
+                            <label for="role" class="input-label">Type:</a>
+                            {% if edit == True %}
+                                <input type="text" name="type" value="{{ data['type'] }}" class="input">
+                            {% else %}
+                                <span class="input">{{ data["type"] }}</span>
+                            {% endif %}
+                        </div>
+                        <div class="row">
+                            <label for="role" class="input-label">Status:</a>
+                            {% if edit == True %}
+                                <input type="text" name="status" value="{{ data['status'] }}" class="input">
+                            {% else %}
+                                <span class="input">{{ data["status"] }}</span>
+                            {% endif %}
+                        </div>
+                    </div>
+                </div>
+                {% if edit == True %}
+                <div class="submission-container">
+                    <input type="submit" value="Save" name="response" class="submit-buttons">
+                    <input type="submit" value="Cancel" name="response" class="submit-buttons">
+                </div>
+                {% else %}
+                <div class="submission-container">
+                    <input type="submit" value="Okay" name="response" class="okay-buttons">
+                </div>
+                {% endif %}
+            </form>
+        </section>
+        {% set loggedin = True %}    
+        {% block content %}
+            {% include 'navigation.html' %}
+        {% endblock %}
+    </body>
