@@ -106,6 +106,7 @@ class Test_Profile(TestCase):
         self.conn = self.profile.get_conn()
         self.cursor = conn.cursor()
         create_profile(self.name1, self._class1, self.email1, self.number, self.about, self.username)
+        
     def test_create_profile(self):
         #Check for presence of student table
         query = """
@@ -119,8 +120,8 @@ class Test_Profile(TestCase):
         tables = self.cursor.fetchall()
         self.assertNotEqual(tables, [], msg="No 'student' table created in database")
         data = retrieve_profile(self.username)
-        self.assertEqual(type(data), dict, "Create function failed")
-        self.assertEqual(data['username'], self.username, "")
+        self.assertEqual(type(data), dict, "Retrieve does not return dictionary")
+        self.assertEqual(data['username'], self.username, "Create function failed")
         
         
     def test_update_profile(self):
@@ -129,9 +130,24 @@ class Test_Profile(TestCase):
         for param in upd:
             update_profile(self.username, upd)
         record1 = retrieve_profile(self.username)
-        self.assertNotEqual(record[1], record1[1], "Update function failed, update unsuccessful")
-        self.asser
+        self.assertEqual(type(record), dict, "Retrieve does not return dictionary")
+        self.assertNotEqual(record["name"], record1["name"], "Update function failed, name update unsuccessful")
+        self.assertNotEqual(record["class"], record1["class"], "Update function failed, class update unsuccessful")
+
+    def test_retrieve_profile(self):
+        record = retrieve_profile(self.username)
+        self.assertEqual(type(record), dict, "Retrieve does not return a dictionary")
+        self.assertEqual(record["class"], self.class1, "Retrieved incorrect information")
+
+    def test_delete_profile(self):
+        delete_profile(self.username)
+        try:
+            result = retrieve_profile(self.username)
+            self.assertNotEqual(type(result),dict, "Delete function failed")
+        except AttributeError:
+            self.assertEqual(1,1,"idk how this one even fails but good job if it does i guess")
         
+        
+    
     def tearDown(self) -> None:
-        return super().tearDown()
-#     functions: create, update, retrieve, delete
+        self.conn.close()
