@@ -80,6 +80,14 @@ activity = get_activity()
 student_activity = get_student_activity()
 student_cca = get_student_cca()
 
+# FOR ALL TABLE
+def delete_all_info(username: str) -> None:
+    """
+    deletes all information (account, student profile, studentcca and studentaccount)
+    """
+    delete_account(username)
+    delete_student(username)
+
 # FOR ACCOUNT TABLE
 def create_account(username: str, password: str) -> None:
     """
@@ -448,7 +456,7 @@ def delete_studentactivity(username: str, activity_name: str) -> None:
 
 
 # FOR STUDENT CCA 
-def create_studentcca(username: str, cca_name: str, role: str):
+def create_studentcca(username: str, cca_name: str, role: str, year: int, status: str):
     """
     if profile does not exists in student table, attribute error is raised
     if username does not exist in account table, attribute error is raised
@@ -466,10 +474,11 @@ def create_studentcca(username: str, cca_name: str, role: str):
     if cca_id is None:
         raise AttributeError("No cca linked to name")
         
-    student_cca.insert({'student_id': student_id, 'cca_id': cca_id, 'role': role})
+    student_cca.insert({'student_id': student_id, 'cca_id': cca_id, 'role': role, 'year': year, 'status': status})
     
-def update_studentcca(username: str, cca_name: str, new_role: str):
+def update_studentcca(username: str, cca_name: str, field: str, data):
     """
+    field can only be "role", "year", "status"
     if profile does not exists in student table, attribute error is raised
     if username does not exist in account table, attribute error is raised
     if cca does not exist in cca table, attribute error is raised
@@ -491,7 +500,7 @@ def update_studentcca(username: str, cca_name: str, new_role: str):
     if student_cca.retrieve_one(student_id, cca_id) is None:
         raise AttributeError("Student-cca combination does not exist.")
     
-    student_cca.update(student_id, cca_id, new_role)
+    student_cca.update(student_id, cca_id, field, data)
 
 def retrieve_one_studentcca(username: str, cca_name: str) -> dict:
     """
@@ -519,8 +528,8 @@ def retrieve_one_studentcca(username: str, cca_name: str) -> dict:
     record = student_cca.retrieve_one(student_id, cca_id)
     if record is None:
         raise AttributeError("Student-cca combination does not exist.")
-    student_id, cca_id, role = record
-    return {"student_id": student_id, "cca_id": cca_id, "role": role}
+    student_id, cca_id, role, year, status = record
+    return {"student_id": student_id, "cca_id": cca_id, "role": role, "year": year, "status": status}
 
 def retrieve_all_studentcca(field: str, unique_field) -> list[list[dict]]:
     """
@@ -534,7 +543,7 @@ def retrieve_all_studentcca(field: str, unique_field) -> list[list[dict]]:
     attribute error is raised
     
     else a list of list of dictionary is returned
-    [[{student data}, {cca data}], [{student data}, {cca data}], ...]
+    [[{student data}, {cca data}, role, year, status], [{student data}, {cca data}] ..., ...]
     """
     if field.lower() == "name": 
         cca_id = cca.retrieve_primary_key(unique_field)
@@ -558,8 +567,8 @@ def retrieve_all_studentcca(field: str, unique_field) -> list[list[dict]]:
         raise AttributeError(f"No record for field {field}.")
     new_record = []
     for record in records:
-        student_id, cca_id = record
-        new_record.append([student.retrieve(student_id), cca.retrieve(cca_id)])
+        student_id, cca_id, role, year, status = record
+        new_record.append([student.retrieve(student_id), cca.retrieve(cca_id), role, year, status])
     return new_record
 
 def delete_studentcca(username: str, cca_name: str) -> None:
