@@ -20,6 +20,9 @@
         </div>
         <form method="post" action="/records_cca">
             <div class="general-text">
+                {% if my_ccas | length == 0 %}
+                <h1 class="no_cca">You dont have any CCAs yet</h1>
+                {% endif %}
                 {% for cca in my_ccas %}
                 <div class="general-textbox">
                     <span class="circle"></span>
@@ -55,6 +58,11 @@
                                 <input type="text" value="{{ cca['type'] }}" class="type-input" name="type">
                             {% endif %}
                         </span>
+                        {% if delete == True %}
+                        <button type="submit", name="response", value="{{ cca['name'] }}", class="delete_button">
+                            <img src="{{ url_for('static',filename= 'images/delete.png') }}">
+                        </button>
+                        {% endif %}
                         <span class="status-text">
                             <span class="status-label">Status: </span>
                             {% if edit == False %}

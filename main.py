@@ -207,6 +207,7 @@ def records_cca():
     log()
     ccas = dbfunctions.retrieve_all_studentcca("username", session.get("user"))
     data = []
+    names = []
     for info in ccas:
         data.append({
             "name": info[1][1],
@@ -215,6 +216,7 @@ def records_cca():
             "type": info[1][2],
             "status": info[4]
         })
+        names.append(info[1][1])
     default = {
         "name": "",
         "start year": "",
@@ -228,6 +230,8 @@ def records_cca():
     if request.method == "POST":
         if request.form["response"] == "+":
             return view.add_cca(edit=True, data=default)
+        elif request.form["response"] == "-":
+            return view.records_cca(cca_data=data, edit=False, delete=True)
         elif request.form["response"] == "Edit":
             return view.records_cca(cca_data=data, edit=True)
         elif request.form["response"] == "Save":
@@ -242,19 +246,21 @@ def records_cca():
                 dbfunctions.update_studentcca(session.get("user"),
                                               data[i]["name"], "year",
                                               edits["year"][i])
-            ccas = dbfunctions.retrieve_all_studentcca("username",
-                                                       session.get("user"))
-            data = []
-            for info in ccas:
-                data.append({
-                    "name": info[1][1],
-                    "year": info[3],
-                    "role": info[2],
-                    "type": info[1][2],
-                    "status": info[4]
-                })
         elif request.form["response"] == "Cancel":
             pass
+        elif request.form["response"] in names:
+            dbfunctions.delete_studentcca(session.get("user"),
+                                          request.form["response"])
+    ccas = dbfunctions.retrieve_all_studentcca("username", session.get("user"))
+    data = []
+    for info in ccas:
+        data.append({
+            "name": info[1][1],
+            "year": info[3],
+            "role": info[2],
+            "type": info[1][2],
+            "status": info[4]
+        })
     return view.records_cca(cca_data=data, edit=False)
 
 
