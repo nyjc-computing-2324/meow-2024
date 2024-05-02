@@ -27,6 +27,8 @@
 }
 
 .cca-activity-text-button {
+    font-family : comfortaa;
+    font-size : 18px;
     border: none; /*by default it will have a black border*/
     border-radius: 20px;
     background: white;
