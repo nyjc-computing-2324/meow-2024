@@ -18,12 +18,19 @@ def edit_activities():
     # display edit_activiies.html
     return render_template("edit_activities.html")
 
-def view_edit_cca():
-    # display view_edit_cca.html
-    # if not completed:
-    #     # redirects the user to temp
-    #     return redirect("/temp")
-    return render_template("view_edit_cca.html")
+def view_cca():
+    # display view_cca.html
+    if not completed:
+        #redirects the user to temp
+        return redirect("/temp")
+    return render_template("view_cca.html")
+
+def edit_cca():
+    # display view_cca.html
+    if not completed:
+        #redirects the user to temp
+        return redirect("/temp")
+    return render_template("edit_cca.html")
 
 def records_cca():
     # display records_cca.html
@@ -60,7 +67,12 @@ def profile_edit():
 
 def about():
     #display about.html
-    #also doesn't exist yet
+    if not completed:
+        return redirect("/temp")
+    raise NotImplementedError
+
+def manage():
+    #display about.html
     if not completed:
         return redirect("/temp")
     raise NotImplementedError
