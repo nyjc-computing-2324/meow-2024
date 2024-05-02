@@ -18,23 +18,72 @@
             <!--the use of a letter is meant to divide the box into 2 distinct lines/sections so as to match with the rest of the colours-->
             <!--linear gradient helps to fit 2 colours in a box. The degree specified marks how the line is drawn-->
         </div>
+        <form method="post" action="/records_cca">
+            <div class="general-text">
+                {% if my_ccas | length == 0 %}
+                <h1 class="no_cca">You dont have any CCAs yet</h1>
+                {% endif %}
+                {% for cca in my_ccas %}
+                <div class="general-textbox">
+                    <span class="circle"></span>
+                    <span>
+                        <h3>
+                        <span class="name_content">
+                            {{ cca["name"] }}
+                        </span>
+                        </h3>
+                        <span class="year_content">
+                            <span class="year-label">Year: </span>
+                            {% if edit == False %}
+                                {{ cca["year"] }}
+                            {% else %}
+                                <input type="text" value="{{ cca['year'] }}" class="year-input" name="year">
+                            {% endif %}
+                        </span>
+                        <span>&nbsp;&nbsp;&nbsp;&nbsp;</span>
+                        <span class="role_content">
+                            <span class="role-label">Role: </span>
+                            {% if edit == False %}
+                                {{ cca["role"] }}
+                            {% else %}
+                                <input type="text" value="{{ cca['role'] }}" class="role-input" name="role">
+                            {% endif %}
+                        </span>
+                        <span>&nbsp;&nbsp;&nbsp;&nbsp;</span>
+                        <span class="type_content">
+                            <span class="type-label">Type: </span>
+                            {% if edit == False %}
+                                {{ cca["type"] }}
+                            {% else %}
+                                <input type="text" value="{{ cca['type'] }}" class="type-input" name="type">
+                            {% endif %}
+                        </span>
+                        {% if delete == True %}
+                        <button type="submit", name="response", value="{{ cca['name'] }}", class="delete_button">
+                            <img src="{{ url_for('static',filename= 'images/delete.png') }}">
+                        </button>
+                        {% endif %}
+                        <span class="status-text">
+                            <span class="status-label">Status: </span>
+                            {% if edit == False %}
+                                {{ cca["status"] }}
+                            {% else %}
+                                <input type="text" value="{{ cca['status'] }}" class="status-input" name="status">
+                            {% endif %}
+                        </span>
+                </div> 
+                {% endfor %}
+            </div>
 
-        <div class="general-text">
-            {% for cca in my_ccas %}
-            <div class="general-textbox">
-                <span class="circle"></span>
-                <span>
-                    <a href="/view_cca" class = "hyperlink" target="_self"><h3>{{ cca["name"] }}</h3> </a>
-
-                    <span>Year: {{ cca["year"] }}&nbsp;&nbsp;&nbsp;&nbsp; Role: {{ cca["role"] }} &nbsp;&nbsp;&nbsp;&nbsp; Type: {{ cca["type"] }} </span> <!--4 &nbsp; creates a tab spacing-->
-                    <span class="status-text">Status: {{ cca["status"] }}</span> <!-- when span is placed in different lines, it creates a space between them-->
-                </span>
-            </div> 
-            {% endfor %}
-        </div>
-
-
-        <a href="/edit_cca" target="_self"><button class="plus-button"> + </button> </a>
+            {% if edit == False %}
+            <input name="response" type="submit" class="edit_cca" value="Edit">
+            <input name="response" type="submit" class="remove_cca" value="-">
+            <input name="response" type="submit" class="add_cca" value="+">
+            {% else %}
+            <input name="response" type="submit" class="cancel_cca" value="Cancel">
+            <input name="response" type="submit" class="save_cca" value="Save">
+            {% endif %}
+        </form>
 
         {% set loggedin = True %}
         {% block content %}

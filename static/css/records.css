@@ -73,7 +73,7 @@
     float: right;
 }
 
-.plus-button {
+.add_cca {
     border: none;
     height: 55px;
     width: 55px;
@@ -83,7 +83,120 @@
     float: right;
     text-align: center;
     padding: 9px 0px; /*1st value repr the top & bottom padding, 2nd value repr the left & right padding*/
-    margin: 10px 20px;
+    margin: 10px 5px;
     font-size: 30px;
     cursor: pointer;
 }
+
+.remove_cca {
+    border: none;
+    height: 55px;
+    width: 55px;
+    border-radius: 50%;
+    background-color: #8AADF4;
+    color: white;
+    float: right;
+    text-align: center;
+    padding: 9px 0px; /*1st value repr the top & bottom padding, 2nd value repr the left & right padding*/
+    margin: 10px 5px;
+    font-size: 30px;
+    cursor: pointer;
+}
+
+.edit_cca {
+    font-family: comfortaa;
+    font-size: 20px;
+    border: none;
+    height: 55px;
+    width: 70px;
+    border-radius: 50%;
+    background-color: #8AADF4;
+    color: white;
+    float: right;
+    text-align: center;
+    padding: 9px 0px; /*1st value repr the top & bottom padding, 2nd value repr the left & right padding*/
+    margin: 10px 5px;
+    cursor: pointer;
+}
+
+.save_cca {
+    font-family: comfortaa;
+    font-size: 20px;
+    border: none;
+    height: 55px;
+    width: 70px;
+    border-radius: 50%;
+    background-color: #8AADF4;
+    color: white;
+    float: right;
+    text-align: center;
+    padding: 9px 0px; /*1st value repr the top & bottom padding, 2nd value repr the left & right padding*/
+    margin: 10px 5px;
+    cursor: pointer;
+}
+
+.cancel_cca {
+    font-family: comfortaa;
+    font-size: 20px;
+    border: none;
+    height: 55px;
+    width: 85px;
+    border-radius: 50%;
+    background-color: #8AADF4;
+    color: white;
+    float: right;
+    text-align: center;
+    padding: 9px 0px; /*1st value repr the top & bottom padding, 2nd value repr the left & right padding*/
+    margin: 10px 5px;
+    cursor: pointer;
+}
+
+.year-input {
+    font-family : comfortaa;
+    font-size: 18px;
+    border: None;
+    outline : none;
+    background-color: transparent;
+    width: 10%;
+}
+
+.role-input {
+    font-family : comfortaa;
+    font-size: 18px;
+    border: None;
+    outline : none;
+    background-color: transparent;
+    width: 10%;
+}
+
+.type-input {
+    font-family : comfortaa;
+    font-size: 18px;
+    border: None;
+    outline : none;
+    background-color: transparent;
+    width: 10%;
+}
+
+.status-input {
+    font-family : comfortaa;
+    font-size: 18px;
+    border: None;
+    outline : none;
+    background-color: transparent;
+}
+
+.delete_button {
+    height: 30px;
+    width: 30px;
+    background: transparent;
+    border: 0;
+    float: right;
+    cursor: pointer;
+    align-self: center;
+}
+
+.no_cca {
+    margin: 15px;
+}
+
