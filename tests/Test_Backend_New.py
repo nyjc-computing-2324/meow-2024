@@ -9,6 +9,8 @@ from auth import create_hash
 # test_cca = get_cca('qa')
 # test_activity = get_activity('qa')
 
+init_tables(conn_factory('qa', ':memory:'))
+
 class Test_Account(TestCase):
     def setUp(self):
         # Set up connection to an in-memory SQLite database(jic)
@@ -39,8 +41,6 @@ class Test_Account(TestCase):
         1. Manual sql INSERT query
         2. Account object's insert method
         """
-        #Initialise tables
-        init_tables(conn_factory('qa', ':memory:'))
 
         #Test Case
         username1 = 'name1'
@@ -92,14 +92,46 @@ def login():
     pass
 
 
-# class Test_Profile(TestCase):
-#     def setUp(self):
-#         self.name1 = 'abcdefghi!'
-#         self._class1 = '2328'
-#         self.email1 = 'name@gmail.com'
-#         self.name2 = 'qwertyuiop'
-#         self._class1 = '2401'
-#         create_profile(self.name1, self._class1, self.email1, 1)
-
-#     def tearDown(self) -> None:
-#     return super().tearDown()
+class Test_Profile(TestCase):
+    def setUp(self):
+        self.profile = get_student()
+        self.name1 = 'abcdefghi!'
+        self._class1 = '2328'
+        self.email1 = 'name@gmail.com'
+        self.name2 = 'qwertyuiop'
+        self._class2 = '2401'
+        self.number = 12345678
+        self.about = "I would punt a baby like a rugby ball if it was crying too loud"
+        self.username = "ABABAB"
+        self.conn = self.profile.get_conn()
+        self.cursor = conn.cursor()
+        create_profile(self.name1, self._class1, self.email1, self.number, self.about, self.username)
+    def test_create_profile(self):
+        #Check for presence of student table
+        query = """
+            SELECT name
+            FROM sqlite_master
+            WHERE  type = 'table' 
+            AND name = ?;
+            """
+        params = ('student',)
+        self.cursor.execute(query,params)
+        tables = self.cursor.fetchall()
+        self.assertNotEqual(tables, [], msg="No 'student' table created in database")
+        data = retrieve_profile(self.username)
+        self.assertEqual(type(data), dict, "Create function failed")
+        self.assertEqual(data['username'], self.username, "")
+        
+        
+    def test_update_profile(self):
+        record = retrieve_profile(self.username)
+        upd = [self.name2, self._class2]
+        for param in upd:
+            update_profile(self.username, upd)
+        record1 = retrieve_profile(self.username)
+        self.assertNotEqual(record[1], record1[1], "Update function failed, update unsuccessful")
+        self.asser
+        
+    def tearDown(self) -> None:
+        return super().tearDown()
+#     functions: create, update, retrieve, delete
