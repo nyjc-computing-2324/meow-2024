@@ -9,6 +9,7 @@ app.secret_key = os.urandom(32)
 
 dbfunctions.make_tables()
 
+
 def log():
     if session.get("logged_in") == None:
         session["logged_in"] = False
@@ -93,12 +94,15 @@ def register():
                 if not dbfunctions.username_taken(username):
                     if tos == "True":
                         dbfunctions.create_account(username, password)
-                        dbfunctions.create_profile(name, "0000", "meow@meow.com", "77777777", "Meow!", username)
+                        dbfunctions.create_profile(name, "0000",
+                                                   "meow@meow.com", "77777777",
+                                                   "Meow!", username)
                         session["logged_in"] = True
                         session["user"] = username
                         return redirect("/home")
                     else:
-                        return view.register(error="Must agree to terms and conditions")
+                        return view.register(
+                            error="Must agree to terms and conditions")
                 else:
                     return view.register(error="Username is already taken")
             else:
@@ -124,7 +128,8 @@ def profile():
             fields = output.keys()
             for key in fields:
                 if key != "response":
-                    dbfunctions.update_profile(session.get("user"), key, output[key])
+                    dbfunctions.update_profile(session.get("user"), key,
+                                               output[key])
             info = dbfunctions.retrieve_profile(session.get("user"))
             return view.profile(edit=False, profile=info)
     return view.profile(profile=info)
@@ -157,9 +162,16 @@ def edit_cca():
 @app.route('/records_cca')
 def records_cca():
     log()
+    default = {
+        "name": "meow",
+        "year": "meow - meow",
+        "role": "meow",
+        "type": "meow",
+        "status": "meow"
+    }
     if not session["logged_in"]:
         return redirect("/login")
-    return view.records_cca()
+    return view.records_cca(cca_data=[default, default, default])
 
 
 @app.route('/records_activities')
