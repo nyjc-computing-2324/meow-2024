@@ -91,12 +91,14 @@ def delete_all_info(username: str) -> None:
             student, cca, *rest = info
             cca_id, name, *rest = cca
             delete_studentcca(username, name)
+            
     studentactivity_data = retrieve_studentactivity("username", username)
     if studentactivity_data is not None:
         for info in studentactivity_data:
             student, activity = info
             activity_id, name, *rest = activity
             delete_studentactivity(username, name)
+            
     delete_profile(username)
     delete_account(username)
 
@@ -210,7 +212,6 @@ def update_profile(username: str, field: str, data) -> None:
         if student.retrieve_primary_key(new_account_id) is not None:
             raise AttributeError("Username already exists as a foriegn key in student table")
 
-    print(student_id, field, data)
     student.update(student_id, field, data)
 
 def retrieve_profile(username: str) -> dict:
