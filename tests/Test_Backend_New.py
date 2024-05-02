@@ -13,19 +13,19 @@ class Test_Account(TestCase):
     def setUp(self):
         # Set up connection to an in-memory SQLite database(jic)
         self.account = get_account('qa')
-        self.connection = sqlite3.connect(':memory:')
-        self.cursor = self.connection.cursor()
+        # self.connection = sqlite3.connect(':memory:')
+        # self.cursor = self.connection.cursor()
 
         # Create the 'Account' table using direct SQL query
-        self.cursor.execute('''
-        CREATE TABLE IF NOT EXISTS "account" (
-        "account_id" INTEGER PRIMARY KEY,
-        "username" TEXT NOT NULL UNIQUE,
-        "password" TEXT NOT NULL,
-        "salt" BYTES NOT NULL
-        );
-        ''')
-        self.connection.commit()
+        # self.cursor.execute('''
+        # CREATE TABLE IF NOT EXISTS "account" (
+        # "account_id" INTEGER PRIMARY KEY,
+        # "username" TEXT NOT NULL UNIQUE,
+        # "password" TEXT NOT NULL,
+        # "salt" BYTES NOT NULL
+        # );
+        # ''')
+        # self.connection.commit()
     
     def test_create_account(self): #Account object taken in just in case for future testing
         """
@@ -106,19 +106,39 @@ class Test_Account(TestCase):
             
         #Check the record inserted via insert method of account
         check_for_record(username2, 2)
+        self.result_create_account = TextTestRunner().run(defaultTestLoader.loadTestsFromName("test_create_account"))
+
         
 
 
-    
+    def test_login(self):
+        # if not self.result_create_account.wasSuccessful():
+        #     self.skipTest("Skipping test condition as account creation does not work")
 
-    def tearDown(self):
-        self.connection.close()
+        right_username_login = 'rightnamelogin'
+        right_password_login = 'RightPa55wordl0gin'
+        wrong_username_login = 'wrongnamelogin'
+        wrong_password_login = 'WrongPa55wordl0gin'
+
+        create_account(right_username_login, right_password_login)
+        
+        self.assertTrue(login(right_username_login, right_password_login), 'Login should work.')
+        self.assertFalse(login(right_username_login, wrong_password_login), 'Login should not work: Wrong password.')
+        self.assertFalse(login(wrong_username_login, right_password_login), 'Login should not work: Wrong username.')
+        self.assertFalse(login(wrong_username_login, wrong_password_login), 'Login should not work: Wrong username and password.')
+
+
+    def test_username_taken(self):
+        
+
+
+    # def tearDown(self):
+    #     self.connection.close()
         
         
         
 
-def login():
-    pass
+
 
 
 # class Test_Profile(TestCase):
