@@ -36,14 +36,16 @@
                 <h2>Exciting Features!</h2>
             </span>
             </div>
+            {# CAROUSEL USED TO CYCLE THROUGH ELEMENTS #}
             <div class="carousel">
                 <button class="carousel__button carousel__button--left">
                     <img src="{{ url_for('static',filename= 'images/arrow_left.png') }}">
                 </button>
-                <div class="carousel__track-container" style="overflow:hidden;">
+                <div class="carousel__track-container">
                     <ul class="carousel__track">
                         <li class="carousel__slide current-slide">
                             <div class = "feature-item">
+                                <img src = "{{ url_for('static',filename= 'images/Convenient.png') }}">
                             </div>
                             <div class = "features-text-container">
                             <div class = "features-text">
@@ -55,6 +57,7 @@
                         </li>
                         <li class="carousel__slide">
                             <div class = "feature-item">
+                                <img src = "{{ url_for('static',filename= 'images/Free.png') }}">
                             </div>
                             <div class = "features-text-container">
                             <div class = "features-text">
@@ -66,6 +69,7 @@
                         </li>
                         <li class="carousel__slide">
                             <div class = "feature-item">
+                                <img src = "{{ url_for('static',filename= 'images/Secure.png') }}">
                             </div>
                             <div class = "features-text-container">
                             <div class = "features-text">
@@ -95,19 +99,19 @@
 
             <div class = "reviews_list">
                 <div class="review1">
-                    <img src="{{ url_for('static',filename= 'images/person1.png') }}" class = "person-img1">
+                    <img src="{{ url_for('static',filename= 'images/person1.png') }}" class = "person-img">
                     <div class="column1">
 
                     </div>
                 </div>
                 <div class="review2">
-                    <img src="{{ url_for('static',filename= 'images/person2.png') }} " class = "person-img2">
+                    <img src="{{ url_for('static',filename= 'images/person2.png') }} " class = "person-img">
                     <div class="column2">
 
                     </div>
                 </div>
                 <div class="review3">
-                    <img src="{{ url_for('static',filename= 'images/person3.png') }}" class = "person-img3">
+                    <img src="{{ url_for('static',filename= 'images/person3.png') }}" class = "person-img">
                     <div class="column3">
 
                     </div>
@@ -132,6 +136,7 @@
             </span>
             </div>
             </div>
+            {# SECTION FOR MESSAGE SUBMIT #}
             <div class = 'email_message-container'>
                 <form action="/" method="post">
                     <div class="email">
@@ -148,6 +153,7 @@
             {% include 'navigation.html' %}
         {% endblock %}
     <hr>
+    {# JAVASCRIPT #}
     <script src="{{ url_for('static', filename='js/carousel.js') }}"></script>
     </body>
 </html>
