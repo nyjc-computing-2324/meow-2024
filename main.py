@@ -138,12 +138,51 @@ def profile():
     return view.profile(profile=info)
 
 
-@app.route('/profile_edit', methods=["GET", "POST"])
-def profile_edit():
+@app.route('/add_cca', methods=["GET", "POST"])
+def add_cca():
     log()
     if not session["logged_in"]:
         return redirect("/login")
-    return view.profile_edit()
+    ccas = dbfunctions.retrieve_all_studentcca("username", session.get("user"))
+    data = []
+    for info in ccas:
+        data.append({
+            "name": info[1][1],
+            "year": info[3],
+            "role": info[2],
+            "type": info[1][2],
+            "status": info[4]
+        })
+    default = {
+        "name": "",
+        "start year": "",
+        "end year": "",
+        "role": "",
+        "type": "",
+        "status": ""
+    }
+    if request.method == "POST":
+        if request.form["response"] == "Cancel":
+            return view.records_cca(cca_data=data, edit=False)
+        elif request.form["response"] == "Save":
+            cca_info = request.form
+            dbfunctions.create_cca(cca_info["name"], cca_info["type"])
+            dbfunctions.create_studentcca(
+                session.get("user"), cca_info["name"], cca_info["role"],
+                f"{cca_info['start-year']} - {cca_info['end-year']}",
+                cca_info["status"])
+            return view.add_cca(edit=False,
+                                data={
+                                    "name": cca_info["name"],
+                                    "start year": cca_info['start-year'],
+                                    "end year": cca_info['end-year'],
+                                    "role": cca_info["role"],
+                                    "type": cca_info["type"],
+                                    "status": cca_info["status"]
+                                })
+        elif request.form["response"] == "Okay":
+            return view.records_cca(cca_data=data, edit=False)
+    return view.add_cca(edit=True, data=default)
 
 
 @app.route('/view_cca')
@@ -162,19 +201,60 @@ def edit_cca():
     return view.edit_cca()
 
 
-@app.route('/records_cca')
+@app.route('/records_cca', methods=["GET", "POST"])
 def records_cca():
     log()
+    ccas = dbfunctions.retrieve_all_studentcca("username", session.get("user"))
+    data = []
+    for info in ccas:
+        data.append({
+            "name": info[1][1],
+            "year": info[3],
+            "role": info[2],
+            "type": info[1][2],
+            "status": info[4]
+        })
     default = {
-        "name": "meow",
-        "year": "meow - meow",
-        "role": "meow",
-        "type": "meow",
-        "status": "meow"
+        "name": "",
+        "start year": "",
+        "end year": "",
+        "role": "",
+        "type": "",
+        "status": ""
     }
     if not session["logged_in"]:
         return redirect("/login")
-    return view.records_cca(cca_data=[default, default, default])
+    if request.method == "POST":
+        if request.form["response"] == "+":
+            return view.add_cca(edit=True, data=default)
+        elif request.form["response"] == "Edit":
+            return view.records_cca(cca_data=data, edit=True)
+        elif request.form["response"] == "Save":
+            edits = dict(request.form.lists())
+            for i in range(len(data)):
+                dbfunctions.update_studentcca(session.get("user"),
+                                              data[i]["name"], "role",
+                                              edits["role"][i])
+                dbfunctions.update_studentcca(session.get("user"),
+                                              data[i]["name"], "status",
+                                              edits["status"][i])
+                dbfunctions.update_studentcca(session.get("user"),
+                                              data[i]["name"], "year",
+                                              edits["year"][i])
+            ccas = dbfunctions.retrieve_all_studentcca("username",
+                                                       session.get("user"))
+            data = []
+            for info in ccas:
+                data.append({
+                    "name": info[1][1],
+                    "year": info[3],
+                    "role": info[2],
+                    "type": info[1][2],
+                    "status": info[4]
+                })
+        elif request.form["response"] == "Cancel":
+            pass
+    return view.records_cca(cca_data=data, edit=False)
 
 
 @app.route('/records_activities')
