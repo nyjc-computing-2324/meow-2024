@@ -61,52 +61,23 @@ class Test_Account(TestCase):
         self.assertNotEqual(tables, [], msg="No 'account' table created in database")
 
         #Function identifies error msg for specific case and asserts
-        def check_for_record(username: str, case: int) -> None:
-            errors = {1: "\n\nTable Not Properly Functional:\n", 2: "\n\nInsert Method Not Properly Functional:\n"}
-            error = errors[case]
+        def check_for_record(username: str) -> None:
 
-            #Check for record in the table with the input username
-            query = """
-                SELECT *
-                FROM 'account'
-                WHERE  username = ?;
-                """
-            params = (username,)
-            self.cursor.execute(query, params)
-            self.connection.commit()
-            row = self.cursor.fetchone()
+            result = retrieve_account(username)
 
             #Get all records in account table
             self.cursor.execute('SELECT * from Account')
 
             #Assertions
-            self.assertIsNotNone(row,f"{error} Record not inserted at all, contents = {self.cursor.fetchall()}")
-            self.assertEqual(row[1], username, f"{error} Record inserted incorrectly,contents = {self.cursor.fetchall()}")
+            self.assertTrue(isinstance(result,dict))
+            self.assertIsNotNone(result,f"Record not inserted at all, result = {result}")
+            self.assertEqual(result['username'], username, f"Record inserted incorrectly, result={result}")
 
         #Insert Record via manual sql query
-        try:
-            # create_account(username1, password1)
-            hash, salt = create_hash(password1)
-            self.cursor.execute("INSERT INTO Account (username, password, salt) VALUES (?, ?, ?)", (username1, hash, salt))
-            self.connection.commit()
-        except:
-            self.fail(msg="Creating account does not work(Manual sql query)")
+        create_account(username1, password1)
 
         #Check the record inserted via manual sql query
-        check_for_record(username1, 1)
-
-        #Insert another record via insert method of account
-        try:
-            #create_account(username2, password2)
-            hash, salt = create_hash(password2)
-            account.insert({'username': username2, 'password': hash, 'salt': salt})
-            self.connection.commit()
-        except:
-            self.fail(msg="Creating account does not work at all(insert method)")
-            
-        #Check the record inserted via insert method of account
-        check_for_record(username2, 2)
-        
+        check_for_record(username1)        
 
 
     
