@@ -302,8 +302,7 @@ def delete_cca(name: str) -> None:
 def create_activity(name: str, date: str, location: str, username: str) -> None:
     """
     if organiser_id(username) does not exist in student table, attribute error is raised
-    if username already exists as a foreign key in activity table,
-    attribute error is raised
+    if name already exists in activity table, attribute error is raised
     else data is inserted into activity table
     """
     account_id = account.retrieve_primary_key(username)
@@ -312,8 +311,9 @@ def create_activity(name: str, date: str, location: str, username: str) -> None:
     organiser_id = student.retrieve_primary_key(account_id)
     if organiser_id is None:
         raise AttributeError("Student profile does not exist")
-    if activity.retrieve_primary_key(account_id) is not None:
-        raise AttributeError("Username already exists as a foriegn key in activity table")
+        
+    if activity.retrieve_primary_key(name) is not None:
+        raise AttributeError("Name already exists ")
     activity.insert({'name': name, 'date': date, 'location': location, 'organiser_id': organiser_id})
 
 def update_activity(name: str, field: str, data) -> None:
@@ -326,8 +326,6 @@ def update_activity(name: str, field: str, data) -> None:
     attribute error is raised
     if profile does not exist for new username in student table for updates to 
     account_id, attribute error is raised
-    if new username already exists as a foreign key in activity table,
-    attribute error is raised
     
     else activity updated in activity table
     field can only be "name", "type" or "organiser_id"
@@ -347,8 +345,7 @@ def update_activity(name: str, field: str, data) -> None:
         new_organiser_id = student.retrieve_primary_key(new_account_id)
         if new_organiser_id is None:
             raise AttributeError("Student profile does not exist for new username")
-        if activity.retrieve_primary_key(new_organiser_id) is not None:
-            raise AttributeError("Username already exists as a foriegn key in avtivity table")
+
     activity.update(activity_id, field, data)
 
 def retrieve_activity(name: str) -> dict:
