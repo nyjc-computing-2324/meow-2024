@@ -7,8 +7,15 @@ app = Flask(__name__)
 
 app.secret_key = os.urandom(32)
 
+dbfunctions.make_tables()
+
+def log():
+    if session.get("logged_in") == None:
+        session["logged_in"] = False
+
 @app.route('/', methods=["GET", "POST"])
 def index():
+    log()
     if request.method == "POST":
         session["logged_in"] = False
     return view.index()
@@ -16,36 +23,47 @@ def index():
 
 @app.route('/temp')
 def temp():
+    log()
     return view.temp()
 
 
 @app.route('/home')
 def home():
+    log()
+    if not session["logged_in"]:
+        return redirect("/login")
     return view.home()
 
 
 @app.route('/edit_activities')
 def edit_activities():
+    log()
+    if not session["logged_in"]:
+        return redirect("/login")
     return view.edit_activities()
 
 
 @app.route('/about')
 def about():
+    log()
     return view.about()
 
 
 @app.route('/pp')
 def pp():
+    log()
     return view.pp()
 
 
 @app.route('/tac')
 def tac():
+    log()
     return view.tac()
 
 
 @app.route('/login', methods=["GET", "POST"])
 def login():
+    log()
     if request.method == "GET":
         return view.login()
     else:
@@ -61,6 +79,7 @@ def login():
 
 @app.route('/register', methods=["GET", "POST"])
 def register():
+    log()
     if request.method == "GET":
         return view.register()
     else:
@@ -85,6 +104,9 @@ def register():
 
 @app.route('/profile', methods=["GET", "POST"])
 def profile():
+    log()
+    if not session["logged_in"]:
+        return redirect("/login")
     info = dbfunctions.retrieve_profile(session.get("user"))
     if request.method == "POST":
         if request.form["response"] == "Edit":
@@ -104,31 +126,49 @@ def profile():
 
 @app.route('/profile_edit', methods=["GET", "POST"])
 def profile_edit():
+    log()
+    if not session["logged_in"]:
+        return redirect("/login")
     return view.profile_edit()
 
 
 @app.route('/view_cca')
 def view_cca():
+    log()
+    if not session["logged_in"]:
+        return redirect("/login")
     return view.view_cca()
 
 
 @app.route('/edit_cca')
 def edit_cca():
+    log()
+    if not session["logged_in"]:
+        return redirect("/login")
     return view.edit_cca()
 
 
 @app.route('/records_cca')
 def records_cca():
+    log()
+    if not session["logged_in"]:
+        return redirect("/login")
     return view.records_cca()
 
 
 @app.route('/records_activities')
 def records_activities():
+    log()
+    if not session["logged_in"]:
+        return redirect("/login")
     return view.records_activities()
 
 
 @app.route('/view_activities')
 def view_activities():
+    log()
+    if not session["logged_in"]:
+        return redirect("/login")
     return view.view_activities()
 
 

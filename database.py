@@ -48,6 +48,8 @@ def init_tables(get_conn: Callable):
             "student_id" INTEGER,
             "cca_id" INTEGER,
             "role" TEXT NOT NULL,
+            "year" INTEGER NOT NUUL,
+            "status" TEXT NOT NULL,
             PRIMARY KEY ("student_id", "cca_id"),
             FOREIGN KEY ("student_id") REFERENCES student("student_id"),
             FOREIGN KEY ("cca_id") REFERENCES cca("cca_id")
@@ -79,7 +81,6 @@ class Table:
     def __init__(self, get_conn: Callable):
         """create a table upon initialisation of the class"""
         self.get_conn = get_conn
-        init_tables(self.get_conn)
 
     def _valid_field_else_error(self, field) -> None:
         """checks if given fields are found in the table"""
@@ -733,7 +734,7 @@ class StudentCCA(JunctionTable):
     table_name: str = "studentcca"
     pk1_name: str = "student_id"
     pk2_name: str = "cca_id"
-    fields = ["student_id", "cca_id", "role"]
+    fields = ["student_id", "cca_id", "role", "year", "status"]
 
     # def __init__(self, database_name):
     #     """
@@ -766,18 +767,19 @@ class StudentCCA(JunctionTable):
     #         cursor.execute(query, params)
     #         conn.commit()
 
-    def update(self, student_id: int, cca_id: int, new_role: str):
+    def update(self, student_id: int, cca_id: int, field: str, data):
         """
         update existing records in the database
-        only role could be updated
+        field can only be "role", "year", "status"
         To "update" student_id or cca_id, instead use .remove() and .insert()
         """
+        super()._valid_field_else_error(field)
         query = f"""
                 UPDATE {self.table_name} 
-                SET "role" = ? 
+                SET {field} = ? 
                 WHERE {self.pk1_name} = ? AND {self.pk2_name};
                 """
-        params = (new_role, student_id, cca_id)
+        params = (data, student_id, cca_id)
         self._execute_query(query, params)
 
     def retrieve_one(self, student_id: int, cca_id: int):
