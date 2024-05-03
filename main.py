@@ -172,5 +172,13 @@ def view_activities():
     return view.view_activities()
 
 
+@app.route('/manage')
+def manage():
+    log()
+    if not session["logged_in"]:
+        return redirect("/login")
+    return view.manage()
+
+
 if __name__ == '__main__':
     app.run(host='0.0.0.0', port=80)
