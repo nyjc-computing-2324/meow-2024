@@ -5,15 +5,13 @@ from database import init_tables
 from unittest import *
 from auth import create_hash
 
-#Instantiating table objects
-# student_profile = get_student('qa')
-# test_cca = get_cca('qa')
-# test_activity = get_activity('qa')
-
 init_tables(conn_factory('qa', ':memory:'))
 
 class Test_Account(TestCase):
     def setUp(self):
+        """
+        Runs before every test
+        """
         # Set up connection to an in-memory SQLite database(jic)
         self.account = get_account('qa')
         self.conn = sqlite3.connect(':memory:')
@@ -162,7 +160,8 @@ class Test_Account(TestCase):
         """
         Tests the update_account() function in dbfunctions.py.
 
-        This test assumes that create_account(), retrieve_account(), and delete_account() works.
+        This test assumes that create_account(), retrieve_account(), and
+        delete_account() works.
         """
         #Test set up
         old_username = 'oldusername'
@@ -198,6 +197,9 @@ class Test_Account(TestCase):
 
 class Test_Profile(TestCase):
     def setUp(self):
+        """
+        Runs before every test
+        """
         self.account = get_account('qa')
         self.profile = get_student('qa')
         self.name1 = 'abcdefghi!'
@@ -255,6 +257,10 @@ class Test_Profile(TestCase):
         
         
     def test_update_profile(self):
+        """
+        Tests the update_profile method, try except called in the case of
+        profile record deletion during inadvertent memory clearing
+        """
         try:
             create_profile(self.name1, self._class1, self.email1, self.number, self.about, self.username)
         except AttributeError:
@@ -268,6 +274,10 @@ class Test_Profile(TestCase):
         self.assertNotEqual(record["class"], record1["class"], "Update function failed, class update unsuccessful")
 
     def test_retrieve_profile(self):
+        """
+        Tests the retrieve_profile method, try except called in the case of
+        profile record deletion during inadvertent memory clearing
+        """
         try:
             create_profile(self.name1, self._class1, self.email1, self.number, self.about, self.username)
         except AttributeError:
@@ -277,6 +287,10 @@ class Test_Profile(TestCase):
         self.assertEqual(str(record["class"]), self._class1, "Retrieved incorrect information")
 
     def test_delete_profile(self):
+        """
+        Tests the delete_profile method, try except called in the case of
+        profile record deletion during inadvertent memory clearing
+        """
         try:
             create_profile(self.name1, self._class1, self.email1, self.number, self.about, self.username)
         except AttributeError:
@@ -331,8 +345,7 @@ class Test_CCA(TestCase):
     
     def test_create_cca(self):
         """
-        Test checks whether the create_cca function works, try except called in
-        the case of cca record deletion during inadvertent memory clearing
+        Test checks whether the create_cca function works
         """
         create_cca(self.name, self.type)
         result = retrieve_cca(self.name)
@@ -363,7 +376,7 @@ class Test_CCA(TestCase):
     def test_retrieve_cca(self):
         """
         Tests if retrieve_cca function works, try except called in the case of
-        activity record deletion during inadvertent memory clearing
+        cca record deletion during inadvertent memory clearing
         """
         try:
             create_cca(self.name, self.type)
@@ -377,10 +390,10 @@ class Test_CCA(TestCase):
         self.assertIsNotNone(result,"Record not found at all")
         self.assertEqual(result['name'], self.name, f"Record retrieved incorrectly, result={result}")
 
-    def test_delete_record(self):
+    def test_delete_cca(self):
         """
         Tests if the delete_cca function works, try except called in the case of
-        activity record deletion during inadvertent memory clearing
+        cca record deletion during inadvertent memory clearing
         """
         try:
             create_cca(self.name, self.type)

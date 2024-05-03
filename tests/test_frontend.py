@@ -5,6 +5,9 @@ import view
 class Test_Frontend(TestCase):
 
     def setUp(self):
+        """
+        Runs before test
+        """
         app.testing = True
         view.completed = True
         self.app = app.test_client()
