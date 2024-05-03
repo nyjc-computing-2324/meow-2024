@@ -65,6 +65,10 @@ def profile_edit():
     #displays profile_edit.html
     return render_template("profile_edit.html")
 
+def profile_edit():
+    #displays profile_edit.html
+    return render_template("profile_edit.html")
+
 def about():
     #display about.html
     if not completed:
