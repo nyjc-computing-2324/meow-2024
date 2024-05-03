@@ -17,8 +17,8 @@ class Test_Account(TestCase):
     def setUp(self):
         # Set up connection to an in-memory SQLite database(jic)
         self.account = get_account('qa')
-        # self.connection = sqlite3.connect(':memory:')
-        # self.cursor = self.connection.cursor()
+        self.connection = sqlite3.connect(':memory:')
+        self.cursor = self.connection.cursor()
 
         # Create the 'Account' table using direct SQL query
         # self.cursor.execute('''
