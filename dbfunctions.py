@@ -76,7 +76,7 @@ def make_tables():
     create_cca("Robotics Club", "Club & Society")
     create_cca("The Drum", "Club & Society")
 
-    #create_activity("Meow Run", "Meowy", "7777", "Meow Land", "Completed", "ncerl")
+    #create_activity("Meow Run", "Meowy", "7777", "Meow Land", "ncerl")
 
 
 def get_account(env: str = "") -> Account:
@@ -286,12 +286,13 @@ def get_all_activity():
     out = []
     data = activity.get_all_entries()
     for entry in data:
-        pass
+        out.append(entry[1])
+    return out
 
 
 # FOR ACTIVITY TABLE
 def create_activity(name: str, organiser: str, date: str, location: str,
-                    status: str, username: str) -> None:
+                    username: str) -> None:
     """
     if organiser_id does not exist in student table, attribute error is raised
     else data is inserted into activity_info and activity_info_backup
@@ -310,7 +311,6 @@ def create_activity(name: str, organiser: str, date: str, location: str,
         'date': date,
         'location': location,
         'organiser': organiser,
-        'status': status,
         'organiser_id': organiser_id
     })
 
@@ -347,9 +347,9 @@ def delete_activity(activity_id: int):
         raise AttributeError('Activity does not exist')
     activity_info.delete(activity_id)
 
-
-# FOR STUDENT ACTIVITY
-def create_studentactivity(student_id: int, activity_id: int) -> None:
+# FOR STUDENT ACTIVITY - TO UPDATE DELETE AND CREATE NEW RECORD
+def create_studentactivity(username: str, activity_name: str,
+                           status: str) -> None:
     """
     if student_id does not exist in student table, attribute error is raised
     if activity_id does not exist in activity table, attribute error is raised
@@ -361,7 +361,18 @@ def create_studentactivity(student_id: int, activity_id: int) -> None:
         raise AttributeError("Invalid activity id.")
     student_activity.insert({"student_id": student_id, "activity_id": activity_id})
 
-def retrieve_studentactivity(pk_name: str, pk: int) -> list[tuple]:
+    activity_id = activity.retrieve_primary_key(activity_name)
+    if activity_id is None:
+        raise AttributeError("No activity linked to name")
+
+    student_activity.insert({
+        "student_id": student_id,
+        "activity_id": activity_id,
+        "status": status
+    })
+
+
+def retrieve_studentactivity(field: str, unique_field) -> list[list[dict]]:
     """
     obtain information for an student activity
     if combination with the pk does not exists, attribute error is raised
@@ -387,10 +398,11 @@ def retrieve_studentactivity(pk_name: str, pk: int) -> list[tuple]:
         raise AttributeError(f"No record for field {field}.")
     new_record = []
     for record in records:
-        student_id, activity_id = record
-        new_record.append(
-            [student.retrieve(student_id),
-             activity.retrieve(activity_id)])
+        student_id, activity_id, status = record
+        new_record.append([
+            student.retrieve(student_id),
+            activity.retrieve(activity_id), status
+        ])
     return new_record
 
 
@@ -407,7 +419,7 @@ def delete_studentactivity(username: str, activity_name: str) -> None:
     while not exists:
         if index >= len(record):
             raise AttributeError("Student activity does not exist.")
-        _student_id, _activity_id = record[index]
+        _student_id, _activity_id = record[index][0], record[index][1]
         if activity_id == _activity_id:
             exists = True
         index += 1
@@ -435,8 +447,28 @@ def update_studentcca(student_id: int, cca_id: int, new: str):
     if student_cca.retrieve_one(student_id, cca_id) is None:
         raise AttributeError("Student-cca combination does not exist.")
     student_cca.update(student_id, cca_id, new)
+    student_cca.update(student_id, cca_id, field, data)
 
-def retrieve_one_studentcca(student_id: int, cca_id: int) -> dict:
+
+def update_studentactivity(username: str, activity_name: str, field: str,
+                           data):
+    account_id = account.retrieve_primary_key(username)
+    if account_id is None:
+        raise AttributeError("No account linked to username")
+    student_id = student.retrieve_primary_key(account_id)
+    if student_id is None:
+        raise AttributeError("Student profile does not exist")
+
+    activity_id = activity.retrieve_primary_key(activity_name)
+    if activity_id is None:
+        raise AttributeError("No activity linked to name")
+    if student_activity.retrieve_one(student_id, activity_id) is None:
+        raise AttributeError("Student-activity combination does not exist.")
+
+    student_activity.update(student_id, activity_id, field, data)
+
+
+def retrieve_one_studentcca(username: str, cca_name: str) -> dict:
     """
     obtain information for a student cca record
     if student-cca combination does not exists, attribute error is raised

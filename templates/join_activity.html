@@ -1,14 +1,14 @@
 <!DOCTYPE html>
 <html>
     <head>
-        <title>Add CCA</title>
+        <title>Join Activity</title>
         <link rel="stylesheet" type="text/css" href="{{ url_for('static', filename='css/add.css') }}">
         <meta name="viewport" content="width=device-width, initial-scale=1.0">
     </head>
     <body>
         <section class="main">
-            <h1>Add a CCA</h1>
-            <form action="/add_cca" method="post" class = "inner">
+            <h1>Join an Activity</h1>
+            <form action="/join_activity" method="post" class = "inner">
                 <div class="field-container">
                     <div class="text-inputs-container1">
                         <div class="row">
@@ -25,39 +25,12 @@
                             {% endif %}
                         </div>
                         <div class="row">
-                            <label for="start-year" class="input-label">Start Year:</a>
-                            {% if edit == True %}
-                                <input type="text" name="start-year" value="{{ data['start year'] }}" class="input">
-                            {% else %}
-                                <span class="input">{{ data["start year"] }}</span>
-                            {% endif %}
-                        </div>
-                        <div class="row">
-                            <label for="end-year" class="input-label">End Year:</a>
-                            {% if edit == True %}
-                                <input type="text" name="end-year" value="{{ data['end year'] }}" class="input">
-                            {% else %}
-                                <span class="input">{{ data["end year"] }}</span>
-                            {% endif %}
-                        </div>
-                    </div>
-                    <div class="text-inputs-container2">
-                        <div class="row">
-                            <label for="role" class="input-label">Role:</a>
-                            {% if edit == True %}
-                                <input type="text" name="role" value="{{ data['role'] }}" class="input">
-                            {% else %}
-                                <span class="input">{{ data["role"] }}</span>
-                            {% endif %}
-                        </div>
-                        <div class="row">
-                            <label for="role" class="input-label">Status:</a>
+                            <label for="status" class="input-label">Status:</a>
                             {% if edit == True %}
                                 <select name="status" class="input">
                                     <option name="{{ data['status'] }}">{{ data['status'] }}</option>
-                                    <option name="Active">Active</option>
-                                    <option name="Inactive">Inactive</option>
-                                    <option name="Graduated">Graduated</option>
+                                    <option name="Ongoing">Ongoing</option>
+                                    <option name="Completed">Completed</option>
                                 </select>
                             {% else %}
                                 <span class="input">{{ data["status"] }}</span>

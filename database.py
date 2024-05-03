@@ -34,13 +34,13 @@ def init_tables(get_conn: Callable):
             "organiser" TEXT NOT NULL,
             "date" TEXT NOT NULL, 
             "location" TEXT NOT NULL,
-            "status" TEXT NOT NULL,
             "organiser_id" INTEGER,
             FOREIGN KEY ("organiser_id") REFERENCES account("student_id")
         );
         CREATE TABLE IF NOT EXISTS "studentactivity" (
             "student_id" INTEGER NOT NULL,
             "activity_id" INTEGER NOT NULL,
+            "status" TEXT NOT NULL,
             PRIMARY KEY ("student_id", "activity_id"),
             FOREIGN KEY ("student_id") REFERENCES student("student_id"),
             FOREIGN KEY ("activity_id") REFERENCES activity("activity_id")
@@ -86,8 +86,6 @@ class Table:
 
     def _valid_field_else_error(self, field) -> None:
         """checks if given fields are found in the table"""
-        print(field)
-        print(self.fields)
         if field not in self.fields:
             raise AttributeError(f"Invalid field '{field}'")
 
@@ -258,7 +256,9 @@ class CCA(Table):
 class Activity(Table):
     table_name: str = "activity"
     pk_name = "activity_id"
-    fields = ["activity_id", "name", "date", "location", "organiser_id"]
+    fields = [
+        "activity_id", "name", "organiser", "date", "organiser_id", "location"
+    ]
     unique_field = "name"
 
 
@@ -267,7 +267,70 @@ class StudentActivity(JunctionTable):
     table_name: str = "studentactivity"
     pk1_name: str = "student_id"
     pk2_name: str = "activity_id"
-    fields = ["student_id", "activity_id"]
+    fields = ["student_id", "activity_id", "status"]
+
+    # def insert(self, student_id: int, activity_id: int):
+    #     """insert new records into the database"""
+    #     with sqlite3.connect(self.database_name) as conn:
+    #         cursor = conn.cursor()
+    #         query = f"""
+    #             INSERT INTO {self.table_name} ({self.pk1_name}, {self.pk2_name}) VALUES (?, ?);
+    #         """
+    #         params = (student_id, activity_id)
+    #         cursor.execute(query, params)
+    #         conn.commit()
+    #         #conn.close() is called automatically
+
+    # def retrieve_all(self, pk_name: str, pk: int):
+    #     """
+    #     find existing records in the database
+    #     pk_name can only be "student_id" or "activity_id"
+    #     retrieves all data regarding the student or activity
+    #     """
+    #     self._valid_field_else_error(pk_name)
+    #     with sqlite3.connect(self.table_name) as conn:
+    #         cursor = conn.cursor()
+    #         query = f"""
+    #                 SELECT *
+    #                 FROM {self.table_name}
+    #                 WHERE {pk_name} = ?;
+    #                 """
+    #         params = (pk, )
+    #         cursor.execute(query, params)
+    #         record = cursor.fetchall()
+    #         conn.commit()
+    #         #conn.close() is called automatically
+    #     return record
+
+    # def delete(self, student_id: int, activity_id: int):
+    #     """remove existing records in the database"""
+    #     with sqlite3.connect(self.database_name) as conn:
+    #         cursor = conn.cursor()
+    #         query = f"""
+    #                 DELETE FROM {self.table_name}
+    #                 WHERE {self.pk1_name} = ? AND {self.pk2_name} = ?;
+    #                 """
+    #         param = (student_id, activity_id)
+    #         cursor.execute(query, param)
+    #         conn.commit()
+    def update(self, student_id: int, activity_id: int, field: str, data):
+        super()._valid_field_else_error(field)
+        query = f"""
+                UPDATE {self.table_name} 
+                SET {field} = ? 
+                WHERE {self.pk1_name} = ? AND {self.pk2_name} = ?;
+                """
+        params = (data, student_id, activity_id)
+        self._execute_query(query, params, commit=True)
+
+    def retrieve_one(self, student_id: int, activity_id: int):
+        query = f"""
+                SELECT *
+                FROM {self.table_name}
+                WHERE "student_id" = ? AND "activity_id" = ?;
+                """
+        params = (student_id, activity_id)
+        return self._execute_query(query, params, fetch=True)
 
 class StudentCCA(JunctionTable):
 
