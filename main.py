@@ -132,7 +132,7 @@ def profile():
             return view.profile(edit=True, profile=info)
         elif request.form["response"] == "Cancel":
             return view.profile(edit=False, profile=info)
-        elif request.form["response"] == "":
+        elif request.form["response"] == "Delete":
             dbfunctions.delete_all_info(session.get("user"))
             return redirect("/login")
         elif request.form["response"] == "Save":
