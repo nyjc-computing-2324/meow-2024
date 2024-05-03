@@ -73,64 +73,101 @@ class Test_Account(TestCase):
 
 
     def test_login(self):
-        # if not self.result_create_account.wasSuccessful():
-        #     self.skipTest("Skipping test condition as account creation does not work")
-
+        """
+        Tests the login() function in dbfunctions.py.
+        
+        This test assumes that create_account() works.
+        """
+        #Test username and password
         right_username_login = 'rightnamelogin'
         right_password_login = 'RightPa55wordl0gin'
+
+        #Test non-existent username and password
         wrong_username_login = 'wrongnamelogin'
         wrong_password_login = 'WrongPa55wordl0gin'
 
+        #Create test account
         create_account(right_username_login, right_password_login)
-        
+
+        #Test successful login
         self.assertTrue(login(right_username_login, right_password_login), 'Login should work.')
+
+        #Test unsuccessful login
         self.assertFalse(login(right_username_login, wrong_password_login), 'Login should not work: Wrong password.')
         self.assertFalse(login(wrong_username_login, right_password_login), 'Login should not work: Wrong username.')
         self.assertFalse(login(wrong_username_login, wrong_password_login), 'Login should not work: Wrong username and password.')
 
 
     def test_username_taken(self):
+        """
+        Tests the username_taken() function in dbfunctions.py.
+        
+        This test assumes that create_account() works.
+        """
+        #Test username and password
         taken_username = 'alreadytakenname'
         password_of_taken_username = 'P4ssword0fTakenName'
+
+        #Test non-existent username
         not_taken_username = 'notyettakenname'
 
+        #Create the "existing account"
         create_account(taken_username, password_of_taken_username)
 
+        #Test if username_taken function
         self.assertTrue(username_taken(taken_username), 'Username should already be taken.')
         self.assertFalse(username_taken(not_taken_username), 'Username is not taken.')
 
     
     def test_retrieve(self):
+        """
+        Tests the retrieve_account() function in dbfunctions.py.
+        
+        This test assumes that create_account() works.
+        """
+        #Test username and password
         username_retrieve = 'usernameretrieve'
         password_retrieve = 'P4ssw0rdRetrieve'
 
+        #Wrong username
         wrong_username_retrieve = 'wrongretrieve'
 
+        #Create test account and retrieve data from account
         create_account(username_retrieve, password_retrieve)
         retrieved_data = retrieve_account(username_retrieve)
-        
+
+        #Test if data retrieved is correct
         self.assertEqual(retrieved_data['username'], username_retrieve, 'Username retrieved is wrong.')
+        
+        #Test if retrieving with non-existent account raises an error
         self.assertRaises(AttributeError, retrieve_account, wrong_username_retrieve)
 
 
     def test_delete_account(self):
         """
+        Tests the delete_account() function in dbfunctions.py.
+        
         This test assumes that create_account() and retrieve_account() works.
         """
+        #Test username and password
         username = 'tobedeleted'
         password = '2Bdeleted'
 
+        #Creat test account
         create_account(username, password)
 
+        #Delete and test if account still exists
         delete_account(username)
         self.assertRaises(AttributeError, retrieve_account, username)
 
         
     def test_update_account(self):
         """
+        Tests the update_account() function in dbfunctions.py.
+
         This test assumes that create_account(), retrieve_account(), and delete_account() works.
         """
-
+        #Test set up
         old_username = 'oldusername'
         old_password = 'OldP4ssw0rd'
 
@@ -142,6 +179,7 @@ class Test_Account(TestCase):
         update_account(old_username, 'password', new_password )
         self.assertEqual(retrieve_account(old_username)['password'], new_password, 'Password update failed.')
 
+        #Reset for Case 2
         delete_account(old_username)
         
         #Case 2: Change Username
