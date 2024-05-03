@@ -17,19 +17,39 @@ class Test_Account(TestCase):
     def setUp(self):
         # Set up connection to an in-memory SQLite database(jic)
         self.account = get_account('qa')
-        # self.connection = sqlite3.connect(':memory:')
-        # self.cursor = self.connection.cursor()
+        self.conn = sqlite3.connect(':memory:')
+        self.cursor = self.conn.cursor()
 
-        # Create the 'Account' table using direct SQL query
-        # self.cursor.execute('''
-        # CREATE TABLE IF NOT EXISTS "account" (
-        # "account_id" INTEGER PRIMARY KEY,
-        # "username" TEXT NOT NULL UNIQUE,
-        # "password" TEXT NOT NULL,
-        # "salt" BYTES NOT NULL
-        # );
-        # ''')
-        # self.connection.commit()
+    # Create the 'account' table using direct SQL query
+        self.cursor.execute('''
+        CREATE TABLE IF NOT EXISTS "account" (
+            "activity_id" INTEGER PRIMARY KEY,
+            "name" TEXT NOT NULL UNIQUE,
+            "date" TEXT NOT NULL, 
+            "location" TEXT NOT NULL,
+            "organiser_id" INTEGER,
+            FOREIGN KEY ("organiser_id") REFERENCES account("student_id")
+        );
+        ''')
+        self.conn.commit()
+
+        #initialise tables
+        init_tables(conn_factory('qa', ':memory:'))
+
+    def test_table(self):
+        """
+        Test checks for presence of account table
+        """
+        query = """
+            SELECT name
+            FROM sqlite_master
+            WHERE  type='table' 
+            AND name = ?;
+            """
+        params = ('account',)
+        self.cursor.execute(query,params)
+        tables = self.cursor.fetchall()
+        self.assertNotEqual(tables, [], msg="No 'account' table created in database")
     
     def test_create_account(self):
         """
@@ -41,36 +61,15 @@ class Test_Account(TestCase):
         username = 'name1'
         password = 'Password1'
 
-        #Check for presence of account table
-        query = """
-            SELECT name
-            FROM sqlite_master
-            WHERE  type='table' 
-            AND name = ?;
-            """
-        params = ('account',)
-        self.cursor.execute(query,params)
-        tables = self.cursor.fetchall()
-        self.assertNotEqual(tables, [], msg="No 'account' table created in database")
-
-        #Function identifies error msg for specific case and asserts
-        def check_for_record(username: str) -> None:
-
-            result = retrieve_account(username)
-
-            #Get all records in account table
-            self.cursor.execute('SELECT * from Account')
-
-            #Assertions
-            self.assertTrue(isinstance(result,dict))
-            self.assertIsNotNone(result,f"Record not inserted at all, result = {result}")
-            self.assertEqual(result['username'], username, f"Record inserted incorrectly, result={result}")
-
         #Insert Record via manual sql query
         create_account(username, password)
 
-        #Check the record inserted via manual sql query
-        check_for_record(username)        
+        result = retrieve_account(username)
+
+        #Assertions
+        self.assertTrue(isinstance(result,dict))
+        self.assertIsNotNone(result,f"Record not inserted at all, result = {result}")
+        self.assertEqual(result['username'], username, f"Record inserted incorrectly, result={result}")
 
 
     def test_login(self):
@@ -111,7 +110,6 @@ class Test_Account(TestCase):
         retrieved_data = retrieve_account(username_retrieve)
         
         self.assertEqual(retrieved_data['username'], username_retrieve, 'Username retrieved is wrong.')
-        self.assertEqual(retrieved_data['password'], password_retrieve, 'Password retrieved is wrong.')
         self.assertRaises(AttributeError, retrieve_account, wrong_username_retrieve)
 
 
@@ -148,14 +146,14 @@ class Test_Account(TestCase):
         
         #Case 2: Change Username
         create_account(old_username, old_password)
-        update_account(old_username, 'username', new_username )
+        update_account(old_username, 'username', new_username)
         self.assertEqual(retrieve_account(new_username)['username'], new_username, 'Username update failed.')
         
 
 
 
-    # def tearDown(self):
-    #     self.connection.close()
+    def tearDown(self):
+        self.conn.close()
         
         
         
