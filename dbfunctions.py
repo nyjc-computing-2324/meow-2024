@@ -39,7 +39,9 @@ def make_tables():
     uri = get_uri(env)
     conn = conn_factory(env, uri)
     init_tables(conn)
-    
+
+    create_cca("Meow Club", "Meow")
+
     create_cca("Badminton", "Sport")
     create_cca("Basketball", "Sport")
     create_cca("Dragonboat", "Sport")
@@ -73,6 +75,9 @@ def make_tables():
     create_cca("Red Cross Youth", "Club & Society")
     create_cca("Robotics Club", "Club & Society")
     create_cca("The Drum", "Club & Society")
+
+    #create_activity("Meow Run", "Meowy", "7777", "Meow Land", "Completed", "ncerl")
+
 
 def get_account(env: str = "") -> Account:
     """returns an instance of Account with an appropriate db conn"""
@@ -221,8 +226,8 @@ def create_cca(name: str, type: str):
     if cca.retrieve_primary_key(name) is not None:
         return
     if type not in [
-            'Sport', 'Aesthetics Group', 'uniform group',
-            'Club & Society', 'others', "meow"
+            'Sport', 'Aesthetics Group', 'uniform group', 'Club & Society',
+            'others', "Meow"
     ]:
         raise AttributeError(f'Invalid type {type}')
     cca_info.insert(name, type)
@@ -252,25 +257,62 @@ def retrieve_cca(pk_name: str, pk) -> dict:
     cca_id, name, type = record
     record_dict = {'cca_id': cca_id, 'name': name, 'type': type}
     return record_dict
-    
+
+
 def delete_cca(pk_name: str, pk) -> None:
     """
     if cca does not exists, attribute error is raised
     else delete cca from cca_info and cca_info_backup
     """
-    if cca_info.retrieve(pk, pk_name) is None:
-        raise AttributeError('CCA record does not exist')
-    cca_info.delete(pk, pk_name)
-    
+    cca_id = cca.retrieve_primary_key(name)
+    if cca_id is None:
+        raise AttributeError("No info linked to name")
+    cca.delete(cca_id)
+
+
+def get_all_cca():
+    """
+    gets all information about all ccas
+    """
+    out = []
+    data = cca.get_all_entries()
+    for entry in data:
+        id, name, type = entry
+        out.append({"id": id, "name": name, "type": type})
+    return out
+
+
+def get_all_activity():
+    out = []
+    data = activity.get_all_entries()
+    for entry in data:
+        pass
+
+
 # FOR ACTIVITY TABLE
-def create_activity(name: str, date: str, location: str, organiser_id: int):
+def create_activity(name: str, organiser: str, date: str, location: str,
+                    status: str, username: str) -> None:
     """
     if organiser_id does not exist in student table, attribute error is raised
     else data is inserted into activity_info and activity_info_backup
     """
-    if student_profile.retrieve(organiser_id) is None:
-        raise AttributeError('Invalid student id.')
-    activity_info.insert(name, date, location, organiser_id)
+    account_id = account.retrieve_primary_key(username)
+    if account_id is None:
+        raise AttributeError("No account linked to username")
+    organiser_id = student.retrieve_primary_key(account_id)
+    if organiser_id is None:
+        raise AttributeError("Student profile does not exist")
+    if activity.retrieve_primary_key(account_id) is not None:
+        raise AttributeError(
+            "Username already exists as a foriegn key in activity table")
+    activity.insert({
+        'name': name,
+        'date': date,
+        'location': location,
+        'organiser': organiser,
+        'status': status,
+        'organiser_id': organiser_id
+    })
 
 def update_activity(activity_id: int, field: str, data):
     """
@@ -329,8 +371,30 @@ def retrieve_studentactivity(pk_name: str, pk: int) -> list[tuple]:
     if record is None:
         raise AttributeError(f"No record for this {pk_name}.")
     return record
+    elif field.lower() == "username":
+        account_id = account.retrieve_primary_key(unique_field)
+        if account_id is None:
+            raise AttributeError("No account linked to username")
+        student_id = student.retrieve_primary_key(account_id)
+        if student_id is None:
+            raise AttributeError("Student profile does not exist")
+        records = student_activity.retrieve_all("student_id", student_id)
 
-def delete_studentactivity(student_id: int, activity_id: int) -> None:
+    else:
+        raise AttributeError(f"Invalid field {field}")
+
+    if records is None:
+        raise AttributeError(f"No record for field {field}.")
+    new_record = []
+    for record in records:
+        student_id, activity_id = record
+        new_record.append(
+            [student.retrieve(student_id),
+             activity.retrieve(activity_id)])
+    return new_record
+
+
+def delete_studentactivity(username: str, activity_name: str) -> None:
     """
     if student-activity combination does not exists, attribute error is raised
     else delete account from student_activity and student_activity_backup

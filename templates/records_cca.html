@@ -72,10 +72,11 @@
             </div>
             
             {% if delete == True %}
-            <input name="response" type="submit" class="done_cca" value="Done">
+            <input name="response" type="submit" class="done_button" value="Done">
             {% elif edit == False %}
-            <input name="response" type="submit" class="edit_cca" value="Edit">
-            <input name="response" type="submit" class="remove_cca" value="-">
+            <input name="response" type="submit" class="edit_button" value="Edit">
+            <input name="response" type="submit" class="remove_button" value="-">
+            <input name="response" type="submit" class="add_button" value="+">
             {% else %}
             <input name="response" type="submit" class="cancel_button" value="Cancel">
             <input name="response" type="submit" class="save_button" value="Save">
