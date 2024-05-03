@@ -211,7 +211,7 @@ class Test_Profile(TestCase):
         self.about = "I would punt a baby like a rugby ball if it was crying too loud"
         self.username = "ABABAB"
         self.conn = self.profile.get_conn()
-        self.cursor = conn.cursor()
+        self.cursor = self.conn.cursor()
         create_profile(self.name1, self._class1, self.email1, self.number, self.about, self.username)
         
     def test_create_profile(self):
@@ -233,9 +233,8 @@ class Test_Profile(TestCase):
         
     def test_update_profile(self):
         record = retrieve_profile(self.username)
-        upd = [self.name2, self._class2]
-        for param in upd:
-            update_profile(self.username, upd)
+        update_profile(self.username, "name", self.name2)
+        update_profile(self.username, "name", self._class2)
         record1 = retrieve_profile(self.username)
         self.assertEqual(type(record), dict, "Retrieve does not return dictionary")
         self.assertNotEqual(record["name"], record1["name"], "Update function failed, name update unsuccessful")
@@ -244,7 +243,7 @@ class Test_Profile(TestCase):
     def test_retrieve_profile(self):
         record = retrieve_profile(self.username)
         self.assertEqual(type(record), dict, "Retrieve does not return a dictionary")
-        self.assertEqual(record["class"], self.class1, "Retrieved incorrect information")
+        self.assertEqual(record["class"], self._class1, "Retrieved incorrect information")
 
     def test_delete_profile(self):
         delete_profile(self.username)
@@ -254,6 +253,12 @@ class Test_Profile(TestCase):
         except AttributeError:
             self.assertEqual(1,1,"idk how this one even fails but good job if it does i guess")
 
+    def tearDown(self) -> None:
+        self.cursor.execute("""
+            DROP TABLE "student"
+            """)
+        self.conn.close()
+    
 
 class Test_CCA(TestCase):
     def setUp(self):
