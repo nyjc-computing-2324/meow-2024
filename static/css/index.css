@@ -241,7 +241,7 @@
     background-color : #6666db;
 }
 
-.person-img1, .person-img2, .person-img3{
+.person-img{
     border-radius : 50%;
     width : 100px;
     height : 100px;
@@ -367,7 +367,7 @@
 .carousel__track-container {
     display : flex;
     justify-content: center;
-    width : 800px;
+    width : 780px;
     height: 320px;
     overflow: hidden;
 }
@@ -408,12 +408,10 @@
     left: 25px;
 }
 
-
 .feature-item{
     min-height: 320px;
     border-radius: 20px;
     min-width: 250px;
-    background-image : linear-gradient(#ffffff, #8AADF4);
 }
 
 /* flex-direction : column Arrange elements in columns */
@@ -425,6 +423,8 @@
     top : 100px;
 }
 .features-text{
+    position : relative;
+    right : 10px;
     font-family : comfortaa;
     font-size: 36px;
     color : white;
@@ -433,6 +433,7 @@
 .features-subtext{
     position : relative;
     top : 25px;
+    right : 10px;
     font-family : comfortaa;
     font-size : 20px;
     min-width : 400px;

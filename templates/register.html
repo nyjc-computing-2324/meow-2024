@@ -20,15 +20,23 @@
                 {# Username field #}
                 <div class="username-field-container">
                     <input id="username-field" type="text" name="username" placeholder="username">
+                    <div class="tooltip">
+                        ?
+                        <span class="tooltiptext">Username cannot contain tab, space, and newline</span>
+                    </div>
                 </div>
                 {# Password field #}
                 <div class="password-field-container">
                     <input id="pass-field" type="password" name="password" placeholder="password">
+                    <div class="tooltip">
+                        ?
+                        <span class="tooltiptext">Password must contain one upper-case letter, one-lower-case letter, one number, and must be at least 8 characters long</span>
+                    </div>
                 </div>
                 {# Checkbox for terms and service #}
                 <div class = 'TOS-checkbox-container'>
                     <input type="checkbox" id="TOS-checkbox" name="TOS-checkbox" value="True">
-                  <label for="TOS-checkbox"> I hereby agree to Meow's Terms and Conditions and acknowledge the Privacy Policy</label>
+                  <label for="TOS-checkbox"> I hereby agree to Meow's <a href="/tac" target="new">Terms and Conditions</a> and acknowledge the <a href="/pp" target="new">Privacy Policy</a></label>
                 </div>
                 <div class = create-account-button-container>
                     <input type="submit" class="create-account" value="Create Account">

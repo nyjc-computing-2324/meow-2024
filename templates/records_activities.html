@@ -3,7 +3,7 @@
 <html>
     <head>
         <link rel="stylesheet" type="text/css" href="{{ url_for('static', filename='css/records.css') }}">
-        <title>CCA Record</title>
+        <title>Activity Record</title>
     </head>
 
     <body>
@@ -18,46 +18,62 @@
             <!--the use of a letter is meant to divide the box into 2 distinct lines/sections so as to match with the rest of the colours-->
             <!--linear gradient helps to fit 2 colours in a box. The degree specified marks how the line is drawn-->
         </div>
-
-        <div class="general-text">
-            <div class="general-textbox">
-                <span class="circle"></span>
-                <span>
-                    <h3>Walk for Rice</h3>
-                    <span>Organiser: NYJC &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; Year: 2023 </span> <!--4 &nbsp; creates a tab spacing-->
-                    <span class="status-text">Status: Completed</span> <!-- when span is placed in different lines, it creates a space between them-->
-                </span>
+        <form method="post" action="/records_activities">
+            <div class="general-text">
+                {% if my_activities | length == 0 %}
+                <h1 class="no_activity">You dont have any Activities yet</h1>
+                {% endif %}
+                {% for activity in my_activities %}
+                <div class="general-textbox">
+                    <span class="circle"></span>
+                    <h3>
+                        <span class="name_content">
+                            {{ activity["name"] }}
+                        </span>
+                    </h3>
+                    <span class="year_content">
+                        <span class="organiser-lable">Organiser: </span>
+                        {{ activity["organiser"] }}
+                    </span>
+                    <span>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</span>
+                    <span class="date_content">
+                        <span class="date-label">Date: </span>
+                        {{ activity["date"] }}
+                    </span>
+                    <span>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</span>
+                    <span class="location">
+                        <span class="location-label">Location: </span>
+                        {{ activity["location"] }}
+                    </span>
+                    {% if delete == True %}
+                    <button type="submit", name="response", value="{{ activity['name'] }}", class="delete_button">
+                        <img src="{{ url_for('static',filename= 'images/delete.png') }}">
+                    </button>
+                    {% endif %}
+                    <span class="status-text">
+                        <span class="status-label">Status: </span>
+                        {% if edit == False %}
+                            {{ activity["status"] }}
+                        {% else %}
+                            <input type="text" value="{{ activity['status'] }}" class="status-input" name="status">
+                        {% endif %}
+                    </span>
+                </div>
+                {% endfor %}
             </div>
-
-            <div class="general-textbox">
-                <span class="circle"></span>
-                <span>
-                    <h3>Sports carnival ref</h3>
-                    <span>Organiser: NYJC &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; Year: 2023 </span>
-                    <span class="status-text">Status: Completed</span>
-                </span>
-            </div>
-
-            <div class="general-textbox">
-                <span class="circle"></span>
-                <span>
-                    <h3>ISLE Batam</h3>
-                    <span>Organiser: Floorball &nbsp;&nbsp;&nbsp; Year: 2023 </span>
-                    <span class="status-text">Status: <span style="color:mediumseagreen">Ongoing</span> </span>
-                </span>
-            </div>
-
-            <div class="general-textbox">
-                <span class="circle"></span>
-                <span>
-                    <h3>Silver Homes</h3>
-                    <span>Organiser: SC &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; Year: 2023 </span>
-                    <span class="status-text">Status: Completed</span>
-                </span>
-            </div>
-        </div>
-
-        <a href="/view_activities" target="_self"><button class="plus-button"> + </button> </a>
+    
+            {% if delete == True %}
+            <input name="response" type="submit" class="done_button" value="Done">
+            {% elif edit == False %}
+            <input name="response" type="submit" class="join_button" value="Join">
+            <input name="response" type="submit" class="edit_button" value="Edit">
+            <input name="response" type="submit" class="remove_button" value="-">
+            <input name="response" type="submit" class="add_button" value="+">
+            {% else %}
+            <input name="response" type="submit" class="cancel_button" value="Cancel">
+            <input name="response" type="submit" class="save_button" value="Save">
+            {% endif %}
+        </form>
         
         {% set loggedin = True %}
         {% block content %}

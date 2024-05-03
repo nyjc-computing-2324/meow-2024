@@ -40,7 +40,7 @@ input[type=file]{
     width : 80%;
     max-width : 900px;
     min-width : 768px;
-    height : 500px;
+    height : 550px;
 
 }
 
@@ -63,7 +63,7 @@ input[type=file]{
 .profile-picture-container{
     height: 200px;
     width: 200px;
-    background-color: #bdbcfb;
+    background-color: #728ddf;
     border-radius: 50%;
     border-style: solid;
     border-color: white;
@@ -91,7 +91,7 @@ input[type=file]{
     border : none;
     border-radius: 12px;
     height : 40px;
-    background-color: #d9d9d9;
+    background-color: #728ddf;
     color : white;
     font-family : comfortaa;
     cursor: pointer;
@@ -106,7 +106,7 @@ input[type=file]{
     border : none;
     border-radius: 12px;
     height : 40px;
-    background-color: #d9d9d9;
+    background-color: #728ddf;
     color : white;
     font-family : comfortaa;
     cursor: pointer;
@@ -120,7 +120,7 @@ input[type=file]{
     border : none;
     border-radius: 12px;
     height : 40px;
-    background-color: #d9d9d9;
+    background-color: #728ddf;
     color : white;
     margin-top : 10px;
     font-family : comfortaa;
@@ -136,7 +136,7 @@ input[type=file]{
     border : none;
     border-radius: 12px;
     height : 40px;
-    background-color: #d9d9d9;
+    background-color: #728ddf;
     color : white;
     font-family : comfortaa;
     cursor: pointer;
@@ -155,7 +155,23 @@ input[type=file]{
     border : none;
     border-radius: 12px;
     height : 40px;
-    background-color: #bdbcfb;
+    background-color: #728ddf;
+    color : white;
+    margin-top : 10px;
+    font-family : comfortaa;
+    cursor: pointer;
+
+}
+
+.delete-profile-label{
+    text-align: center;
+    text-decoration: none;
+    font-size: 16px;
+    width : 178px; 
+    border : none;
+    border-radius: 12px;
+    height : 40px;
+    background-color: red;
     color : white;
     margin-top : 10px;
     font-family : comfortaa;
@@ -195,7 +211,7 @@ input[type=file]{
     background-color: #FBF2CF;
     border-radius: 8px;
     text-align: center;
-    height : 180px;
+    height : 220px;
     width : 80%;
     max-width : 700px;
     min-width : 450px;
