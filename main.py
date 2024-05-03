@@ -128,7 +128,6 @@ def profile():
         return redirect("/login")
     info = dbfunctions.retrieve_profile(session.get("user"))
     if request.method == "POST":
-        print(request.form["response"])
         if request.form["response"] == "Edit":
             return view.profile(edit=True, profile=info)
         elif request.form["response"] == "Cancel":
