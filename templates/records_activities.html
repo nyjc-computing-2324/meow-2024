@@ -3,7 +3,7 @@
 <html>
     <head>
         <link rel="stylesheet" type="text/css" href="{{ url_for('static', filename='css/records.css') }}">
-        <title>CCA Record</title>
+        <title>Activity Record</title>
     </head>
 
     <body>
@@ -20,45 +20,50 @@
         </div>
 
         <div class="general-text">
+            {% if my_activites | length == 0 %}
+            <h1 class="no_activity">You dont have any Activities yet</h1>
+            {% endif %}
+            {% for activity in my_activities %}
             <div class="general-textbox">
                 <span class="circle"></span>
-                <span>
-                    <h3>Walk for Rice</h3>
-                    <span>Organiser: NYJC &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; Year: 2023 </span> <!--4 &nbsp; creates a tab spacing-->
-                    <span class="status-text">Status: Completed</span> <!-- when span is placed in different lines, it creates a space between them-->
+                <h3>
+                    <span class="name_content">
+                        {{ activity["name"] }}
+                    </span>
+                </h3>
+                <span class="year_content">
+                    <span class="organiser-lable">Organiser: </span>
+                    {% if edit == False %}
+                        {{ activity["organiser"] }}
+                    {% else %}
+                        <input type="text" value="{{ cca['organiser'] }}" class="organiser-input" name="organiser">
+                    {% endif %}
+                </span>
+                <span>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</span>
+                <span class="year_content">
+                    <span class="year-label">Year: </span>
+                    {% if edit == False %}
+                        {{ activity["year"] }}
+                    {% else %}
+                        <input type="text" value="{{ activity['year'] }}" class="year-input" name="year">
+                    {% endif %}
+                </span>
+                {% if delete == True %}
+                <button type="submit", name="response", value="{{ activity['name'] }}", class="delete_button">
+                    <img src="{{ url_for('static',filename= 'images/delete.png') }}">
+                </button>
+                {% endif %}
+                <span class="status-text">
+                    <span class="status-label">Status: </span>
+                    {% if edit == False %}
+                        {{ activity["status"] }}
+                    {% else %}
+                        <input type="text" value="{{ activity['status'] }}" class="status-input" name="status">
+                    {% endif %}
                 </span>
             </div>
-
-            <div class="general-textbox">
-                <span class="circle"></span>
-                <span>
-                    <h3>Sports carnival ref</h3>
-                    <span>Organiser: NYJC &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; Year: 2023 </span>
-                    <span class="status-text">Status: Completed</span>
-                </span>
-            </div>
-
-            <div class="general-textbox">
-                <span class="circle"></span>
-                <span>
-                    <h3>ISLE Batam</h3>
-                    <span>Organiser: Floorball &nbsp;&nbsp;&nbsp; Year: 2023 </span>
-                    <span class="status-text">Status: <span style="color:mediumseagreen">Ongoing</span> </span>
-                </span>
-            </div>
-
-            <div class="general-textbox">
-                <span class="circle"></span>
-                <span>
-                    <h3>Silver Homes</h3>
-                    <span>Organiser: SC &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; Year: 2023 </span>
-                    <span class="status-text">Status: Completed</span>
-                </span>
-            </div>
+            {% endfor %}
         </div>
-
-        <a href="/view_activities" target="_self"><button class="plus-button"> + </button> </a>
-        
         {% set loggedin = True %}
         {% block content %}
             {% include 'navigation.html' %}
