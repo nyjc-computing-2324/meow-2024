@@ -1,3 +1,5 @@
+from typing import Optional
+from unittest.case import _AssertRaisesContext
 import sqlite3
 from dbfunctions import *
 from database import init_tables
@@ -15,19 +17,19 @@ class Test_Account(TestCase):
     def setUp(self):
         # Set up connection to an in-memory SQLite database(jic)
         self.account = get_account('qa')
-        self.connection = sqlite3.connect(':memory:')
-        self.cursor = self.connection.cursor()
+        # self.connection = sqlite3.connect(':memory:')
+        # self.cursor = self.connection.cursor()
 
         # Create the 'Account' table using direct SQL query
-        self.cursor.execute('''
-        CREATE TABLE IF NOT EXISTS "account" (
-        "account_id" INTEGER PRIMARY KEY,
-        "username" TEXT NOT NULL UNIQUE,
-        "password" TEXT NOT NULL,
-        "salt" BYTES NOT NULL
-        );
-        ''')
-        self.connection.commit()
+        # self.cursor.execute('''
+        # CREATE TABLE IF NOT EXISTS "account" (
+        # "account_id" INTEGER PRIMARY KEY,
+        # "username" TEXT NOT NULL UNIQUE,
+        # "password" TEXT NOT NULL,
+        # "salt" BYTES NOT NULL
+        # );
+        # ''')
+        # self.connection.commit()
     
     def test_create_account(self):
         """
@@ -71,16 +73,94 @@ class Test_Account(TestCase):
         check_for_record(username)        
 
 
+    def test_login(self):
+        # if not self.result_create_account.wasSuccessful():
+        #     self.skipTest("Skipping test condition as account creation does not work")
+
+        right_username_login = 'rightnamelogin'
+        right_password_login = 'RightPa55wordl0gin'
+        wrong_username_login = 'wrongnamelogin'
+        wrong_password_login = 'WrongPa55wordl0gin'
+
+        create_account(right_username_login, right_password_login)
+        
+        self.assertTrue(login(right_username_login, right_password_login), 'Login should work.')
+        self.assertFalse(login(right_username_login, wrong_password_login), 'Login should not work: Wrong password.')
+        self.assertFalse(login(wrong_username_login, right_password_login), 'Login should not work: Wrong username.')
+        self.assertFalse(login(wrong_username_login, wrong_password_login), 'Login should not work: Wrong username and password.')
+
+
+    def test_username_taken(self):
+        taken_username = 'alreadytakenname'
+        password_of_taken_username = 'P4ssword0fTakenName'
+        not_taken_username = 'notyettakenname'
+
+        create_account(taken_username, password_of_taken_username)
+
+        self.assertTrue(username_taken(taken_username), 'Username should already be taken.')
+        self.assertFalse(username_taken(not_taken_username), 'Username is not taken.')
+
     
+    def test_retrieve(self):
+        username_retrieve = 'usernameretrieve'
+        password_retrieve = 'P4ssw0rdRetrieve'
 
-    def tearDown(self):
-        self.connection.close()
+        wrong_username_retrieve = 'wrongretrieve'
+
+        create_account(username_retrieve, password_retrieve)
+        retrieved_data = retrieve_account(username_retrieve)
+        
+        self.assertEqual(retrieved_data['username'], username_retrieve, 'Username retrieved is wrong.')
+        self.assertEqual(retrieved_data['password'], password_retrieve, 'Password retrieved is wrong.')
+        self.assertRaises(AttributeError, retrieve_account, wrong_username_retrieve)
+
+
+    def test_delete_account(self):
+        """
+        This test assumes that create_account() and retrieve_account() works.
+        """
+        username = 'tobedeleted'
+        password = '2Bdeleted'
+
+        create_account(username, password)
+
+        delete_account(username)
+        self.assertRaises(AttributeError, retrieve_account, username)
+
+        
+    def test_update_account(self):
+        """
+        This test assumes that create_account(), retrieve_account(), and delete_account() works.
+        """
+
+        old_username = 'oldusername'
+        old_password = 'OldP4ssw0rd'
+
+        new_username = 'newusername'
+        new_password = 'NewP4ssw0rd'
+
+        #Case 1: Change Password
+        create_account(old_username, old_password)
+        update_account(old_username, 'password', new_password )
+        self.assertEqual(retrieve_account(old_username)['password'], new_password, 'Password update failed.')
+
+        delete_account(old_username)
+        
+        #Case 2: Change Username
+        create_account(old_username, old_password)
+        update_account(old_username, 'username', new_username )
+        self.assertEqual(retrieve_account(new_username)['username'], new_username, 'Username update failed.')
+        
+
+
+
+    # def tearDown(self):
+    #     self.connection.close()
         
         
         
 
-def login():
-    pass
+
 
 
 class Test_Profile(TestCase):
