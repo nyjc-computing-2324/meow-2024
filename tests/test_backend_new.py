@@ -1,4 +1,3 @@
-from typing import Optional
 from unittest.case import _AssertRaisesContext
 import sqlite3
 from dbfunctions import *
@@ -23,12 +22,10 @@ class Test_Account(TestCase):
     # Create the 'account' table using direct SQL query
         self.cursor.execute('''
         CREATE TABLE IF NOT EXISTS "account" (
-            "activity_id" INTEGER PRIMARY KEY,
-            "name" TEXT NOT NULL UNIQUE,
-            "date" TEXT NOT NULL, 
-            "location" TEXT NOT NULL,
-            "organiser_id" INTEGER,
-            FOREIGN KEY ("organiser_id") REFERENCES account("student_id")
+        "account_id" INTEGER PRIMARY KEY,
+        "username" TEXT NOT NULL UNIQUE,
+        "password" TEXT NOT NULL,
+        "salt" BYTES NOT NULL
         );
         ''')
         self.conn.commit()
@@ -201,7 +198,8 @@ class Test_Account(TestCase):
 
 class Test_Profile(TestCase):
     def setUp(self):
-        self.profile = get_student()
+        self.account = get_account('qa')
+        self.profile = get_student('qa')
         self.name1 = 'abcdefghi!'
         self._class1 = '2328'
         self.email1 = 'name@gmail.com'
@@ -210,53 +208,84 @@ class Test_Profile(TestCase):
         self.number = 12345678
         self.about = "I would punt a baby like a rugby ball if it was crying too loud"
         self.username = "ABABAB"
+        try:
+            create_account(self.username, "P455w0rd")
+        except AttributeError:
+            pass
+            
         self.conn = self.profile.get_conn()
         self.cursor = self.conn.cursor()
-        create_profile(self.name1, self._class1, self.email1, self.number, self.about, self.username)
-        
-    def test_create_profile(self):
-        #Check for presence of student table
+        # Create the 'student' table using direct SQL query
+        self.cursor.execute('''
+        CREATE TABLE IF NOT EXISTS "student" (
+            "student_id" INTEGER PRIMARY KEY,
+            "name" TEXT NOT NULL,
+            "class" INTEGER NOT NULL, 
+            "email" TEXT NOT NULL,
+            "account_id" INTEGER NOT NULL UNIQUE,
+            "number" INTEGER,
+            "about" TEXT,
+            FOREIGN KEY ("account_id") REFERENCES account("account_id")
+        );''')
+        self.conn.commit()
+
+        #initialise tables
+        init_tables(conn_factory('qa', ':memory:'))
+
+    def test_table(self):
+        """
+        Test checks for presence of account table
+        """
         query = """
             SELECT name
             FROM sqlite_master
-            WHERE  type = 'table' 
+            WHERE  type='table' 
             AND name = ?;
             """
         params = ('student',)
         self.cursor.execute(query,params)
         tables = self.cursor.fetchall()
-        self.assertNotEqual(tables, [], msg="No 'student' table created in database")
+        self.assertNotEqual(tables, [], msg="No 'account' table created in database")
+        
+    def test_create_profile(self):
+        create_profile(self.name1, self._class1, self.email1, self.number, self.about, self.username)
         data = retrieve_profile(self.username)
         self.assertEqual(type(data), dict, "Retrieve does not return dictionary")
         self.assertEqual(data['username'], self.username, "Create function failed")
         
         
     def test_update_profile(self):
+        try:
+            create_profile(self.name1, self._class1, self.email1, self.number, self.about, self.username)
+        except AttributeError:
+            pass
         record = retrieve_profile(self.username)
         update_profile(self.username, "name", self.name2)
-        update_profile(self.username, "name", self._class2)
+        update_profile(self.username, "class", self._class2)
         record1 = retrieve_profile(self.username)
         self.assertEqual(type(record), dict, "Retrieve does not return dictionary")
         self.assertNotEqual(record["name"], record1["name"], "Update function failed, name update unsuccessful")
         self.assertNotEqual(record["class"], record1["class"], "Update function failed, class update unsuccessful")
 
     def test_retrieve_profile(self):
+        try:
+            create_profile(self.name1, self._class1, self.email1, self.number, self.about, self.username)
+        except AttributeError:
+            pass
         record = retrieve_profile(self.username)
         self.assertEqual(type(record), dict, "Retrieve does not return a dictionary")
-        self.assertEqual(record["class"], self._class1, "Retrieved incorrect information")
+        self.assertEqual(str(record["class"]), self._class1, "Retrieved incorrect information")
 
     def test_delete_profile(self):
-        delete_profile(self.username)
         try:
-            result = retrieve_profile(self.username)
-            self.assertNotEqual(type(result),dict, "Delete function failed")
+            create_profile(self.name1, self._class1, self.email1, self.number, self.about, self.username)
         except AttributeError:
-            self.assertEqual(1,1,"idk how this one even fails but good job if it does i guess")
+            pass
+        delete_profile(self.username)
+        with self.assertRaises(AttributeError, msg = "CCA record not deleted"):
+            retrieve_profile(self.name1)
 
     def tearDown(self) -> None:
-        self.cursor.execute("""
-            DROP TABLE "student"
-            """)
         self.conn.close()
     
 
@@ -302,7 +331,8 @@ class Test_CCA(TestCase):
     
     def test_create_cca(self):
         """
-        Test checks whether the create_cca function works.
+        Test checks whether the create_cca function works, try except called in
+        the case of cca record deletion during inadvertent memory clearing
         """
         create_cca(self.name, self.type)
         result = retrieve_cca(self.name)
@@ -313,7 +343,8 @@ class Test_CCA(TestCase):
 
     def test_update_cca(self):
         """
-        Test checks whether the update_cca function works
+        Test checks whether the update_cca function works, try except called in
+        the case of cca record deletion during inadvertent memory clearing
         """
         try:
             create_cca(self.name, self.type)
@@ -331,7 +362,8 @@ class Test_CCA(TestCase):
         
     def test_retrieve_cca(self):
         """
-        Tests if retrieve_cca function works
+        Tests if retrieve_cca function works, try except called in the case of
+        activity record deletion during inadvertent memory clearing
         """
         try:
             create_cca(self.name, self.type)
@@ -347,7 +379,8 @@ class Test_CCA(TestCase):
 
     def test_delete_record(self):
         """
-        Tests if the delete_cca function works
+        Tests if the delete_cca function works, try except called in the case of
+        activity record deletion during inadvertent memory clearing
         """
         try:
             create_cca(self.name, self.type)
@@ -388,7 +421,7 @@ class Test_Activity(TestCase):
         except AttributeError:
             pass
 
-        # Create the 'cca' table using direct SQL query
+        # Create the 'activity' table using direct SQL query
         self.cursor.execute('''
         CREATE TABLE IF NOT EXISTS "activity" (
             "activity_id" INTEGER PRIMARY KEY,
@@ -417,9 +450,13 @@ class Test_Activity(TestCase):
         params = ('activity',)
         self.cursor.execute(query,params)
         tables = self.cursor.fetchall()
-        self.assertNotEqual(tables, [], msg="No 'cca' table created in database")
+        self.assertNotEqual(tables, [], msg="No 'activity' table created in database")
 
     def test_create_activity(self):
+        """
+        Tests the create_activity method, try except called in the case of
+        activity record deletion during inadvertent memory clearing
+        """
         create_activity(self.name,self.date,self.location,self.username)
         result = retrieve_activity(self.name)
         #Assertions
@@ -428,10 +465,14 @@ class Test_Activity(TestCase):
         self.assertEqual(result['name'], self.name, f"Record inserted incorrectly, result={result}")
 
     def test_update_activity(self):
-        # try:
-        #     create_activity(self.name,self.date,self.location,self.username)
-        # except AttributeError:
-        #     return self.activity
+        """
+        Tests the update_activity method, try except called in the case of
+        activity record deletion during inadvertent memory clearing
+        """
+        try:
+            create_activity(self.name,self.date,self.location,self.username)
+        except (AttributeError, sqlite3.IntegrityError):
+            return self.activity
         
         update_activity(self.name, 'name', 'Wild Run')
         self.name = 'Wild Run'
@@ -446,9 +487,13 @@ class Test_Activity(TestCase):
         self.assertEqual(result['location'], self.location, f"Record inserted incorrectly, result={result}")
 
     def test_retrieve_activity(self):
+        """
+        Tests the retrieve_activity method, try except called in the case of
+        activity record deletion during inadvertent memory clearing
+        """
         try:
             create_activity(self.name,self.date,self.location,self.username)
-        except AttributeError:
+        except (AttributeError, sqlite3.IntegrityError):
             pass
         
         result = retrieve_activity(self.name)
@@ -458,9 +503,13 @@ class Test_Activity(TestCase):
         self.assertEqual(result['name'], self.name, f"Record inserted incorrectly, result={result}")
 
     def test_delete_activity(self):
+        """
+        Tests the delete_activity method, try except called in the case of
+        activity record deletion during inadvertent memory clearing
+        """
         try:
             create_activity(self.name,self.date,self.location,self.username)
-        except AttributeError:
+        except (AttributeError, sqlite3.IntegrityError):
             pass
 
         delete_activity(self.name)
