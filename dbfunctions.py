@@ -126,7 +126,7 @@ def login(username: str , password: str) -> bool:
     return auth.check_password(password, database_password, salt)
 
 def username_taken(username: str) -> bool:
-    """checks if the username is already in use, returns False if taken(temp measure)"""
+    """checks if the username is already in use, returns False if taken (temp measure)"""
     account_id = account.retrieve_primary_key(username)
     if account_id is None:
         return True
