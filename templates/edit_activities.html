@@ -1,47 +1,62 @@
-<!DOCTYPE html>
-<html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Editable Boxes</title>
-    <link rel="stylesheet" type="text/css" href="pp_style.css">
-</head>
-<body>
-    <a href="#" class="back-button">&larr;</a>
-    <div class="container">
-        <div class="box-container">
-            <div class="overlay-box">
-                <div class="overlay-content">
-                    <div class="picture">
-                        <img src="your_image.jpg" alt="Picture">
+<!DOCTYPE HTML>
+<html>
+    <head>
+        <link rel="stylesheet" type="text/css" href="{{ url_for('static', filename='css/edit_activities.css') }}">
+
+        <title>
+            Meow's Activity View
+        </title>
+    </head>
+    <body>
+        <div class="contain">
+            <div class="top-sect">
+                <div class="top-content">
+                    <a href="/view_activities">
+                    <button class="arrow left"></button>
+                    </a>
+                        <span class="circle"></span>
+
+                    <div class="top-sect-header">
+                        header
                     </div>
-                    <div class="right-content">
-                        <h3>Right Header</h3>
-                        <p>Right Subheader</p>
+                    <br>
+                    <div class="top-sect-organiser">
+                        organiser
                     </div>
                 </div>
             </div>
-            <div class="box">
-                <label for="box1">Box 1:</label>
-                <input type="text" id="box1" name="box1" placeholder="Enter text">
+            
+            <div class="bot-sect">
+                <div class="sub-contain">
+                    <div class="left-text">
+                        <div class="bottom-header">
+                            about
+                            <a href="/edit_activities">
+                            <img src="https://www.freeiconspng.com/thumbs/edit-icon-png/edit-new-icon-22.png" alt="edit">
+                            </a>
+                        </div>
+                        <br>
+                        <textarea class="bottom-text" id="editable">
+                            Date:
+                        </textarea>
+
+                    </div>
+
+                    <div class="right-text">
+                        <div class= "bottom-header">
+                            reflection
+                            <a href="/edit_activities">
+                            <img src="https://www.freeiconspng.com/thumbs/edit-icon-png/edit-new-icon-22.png" alt="edit">
+                            </a>
+                        </div>
+                        <br>
+                        <textarea class="bottom-text" id="editable">
+                            reflection text
+                        </textarea>
+                    </div>
+                </div>
             </div>
-
-
-        </div>
-        <div class="box">
-            <label for="box2">Box 2:</label>
-            <input type="text" id="box2" name="box2" placeholder="Enter text">
         </div>
 
-        <div class="box">
-            <label for="box3">Box 3:</label>
-            <input type="text" id="box3" name="box3" placeholder="Enter text">
-        </div>
-    </div>
-    {% set loggedin = True %}    
-    {% block content %}
-        {% include 'navigation.html' %}
-    {% endblock %}
-</body>
+    </body>
 </html>
-
