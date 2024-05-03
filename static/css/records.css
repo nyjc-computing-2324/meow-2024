@@ -73,7 +73,7 @@
     float: right;
 }
 
-.add_cca {
+.add_button {
     border: none;
     height: 55px;
     width: 55px;
@@ -88,7 +88,7 @@
     cursor: pointer;
 }
 
-.remove_cca {
+.remove_button {
     border: none;
     height: 55px;
     width: 55px;
@@ -103,7 +103,7 @@
     cursor: pointer;
 }
 
-.edit_cca {
+.edit_button {
     font-family: comfortaa;
     font-size: 20px;
     border: none;
@@ -119,7 +119,7 @@
     cursor: pointer;
 }
 
-.save_cca {
+.save_button {
     font-family: comfortaa;
     font-size: 20px;
     border: none;
@@ -135,7 +135,7 @@
     cursor: pointer;
 }
 
-.cancel_cca {
+.cancel_button {
     font-family: comfortaa;
     font-size: 20px;
     border: none;
@@ -186,6 +186,14 @@
     background-color: transparent;
 }
 
+.organiser-input {
+    font-family : comfortaa;
+    font-size: 18px;
+    border: None;
+    outline : none;
+    background-color: transparent;
+}
+
 .delete_button {
     height: 30px;
     width: 30px;
@@ -200,7 +208,23 @@
     margin: 15px;
 }
 
-.done_cca {
+.done_button {
+    font-family: comfortaa;
+    font-size: 20px;
+    border: none;
+    height: 55px;
+    width: 70px;
+    border-radius: 50%;
+    background-color: #8AADF4;
+    color: white;
+    float: right;
+    text-align: center;
+    padding: 9px 0px; /*1st value repr the top & bottom padding, 2nd value repr the left & right padding*/
+    margin: 10px 5px;
+    cursor: pointer;
+}
+
+.join_button {
     font-family: comfortaa;
     font-size: 20px;
     border: none;

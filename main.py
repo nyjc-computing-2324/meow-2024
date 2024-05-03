@@ -295,13 +295,49 @@ def records_cca():
         })
     return view.records_cca(cca_data=data, edit=False)
 
-
-@app.route('/records_activities')
+def get_activity_data():
+    activities = dbfunctions.retrieve_studentactivity("username",
+          session.get("user"))
+    data = []
+    names = []
+    for info in activities:
+        data.append({
+        "name": info[1][1],
+        "organiser": info[1][2],
+        "year": info[1][3],
+        "location": info[1][4],
+        "status": info[1][5]
+        })
+        names.append(info[1][1])
+    return data, names
+    
+@app.route('/records_activities', methods=["GET", "POST"])
 def records_activities():
     log()
+    #dbfunctions.create_studentactivity(session.get("user"), "Meow Run")
+    
+    data, names = get_activity_data()
+    
     if not session["logged_in"]:
         return redirect("/login")
-    return view.records_activities()
+    if request.method == "post":
+        if request.form["response"] == "+":
+            pass
+        elif request.form["response"] == "-":
+            return view.records_activities(activity_data=data, edit=False, delete=True)
+        elif request.form["response"] == "Edit":
+            return view.records_activities(activity_data=data, edit=True)
+        elif request.form["response"] == "Save":
+            pass
+        elif request.form["response"] in names:
+            pass
+        elif request.form["response"] == "Cancel" or request.form[
+        "response"] == "Done":
+            pass    
+    data, names = get_activity_data()
+    return view.records_activities(activity_data=data,
+                                   edit=False,
+                                   delete=False)
 
 
 @app.route('/view_activities')

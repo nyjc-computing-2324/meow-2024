@@ -48,7 +48,9 @@ def make_tables():
     uri = get_uri(env)
     conn = conn_factory(env, uri)
     init_tables(conn)
-    
+
+    create_cca("Meow Club", "Meow")
+
     create_cca("Badminton", "Sport")
     create_cca("Basketball", "Sport")
     create_cca("Dragonboat", "Sport")
@@ -82,6 +84,9 @@ def make_tables():
     create_cca("Red Cross Youth", "Club & Society")
     create_cca("Robotics Club", "Club & Society")
     create_cca("The Drum", "Club & Society")
+
+    #create_activity("Meow Run", "Meowy", "7777", "Meow Land", "Completed", "ncerl")
+
 
 def get_account(env: str = "") -> Account:
     """returns an instance of Account with an appropriate db conn"""
@@ -324,8 +329,8 @@ def create_cca(name: str, type: str) -> None:
     if cca.retrieve_primary_key(name) is not None:
         return
     if type not in [
-            'Sport', 'Aesthetics Group', 'uniform group',
-            'Club & Society', 'others', "meow"
+            'Sport', 'Aesthetics Group', 'uniform group', 'Club & Society',
+            'others', "Meow"
     ]:
         raise AttributeError(f'Invalid type {type}')
     cca.insert({'name': name, 'type': type})
@@ -382,10 +387,17 @@ def get_all_cca():
         out.append({"id": id, "name": name, "type": type})
     return out
 
-    
+
+def get_all_activity():
+    out = []
+    data = activity.get_all_entries()
+    for entry in data:
+        pass
+
+
 # FOR ACTIVITY TABLE
-def create_activity(name: str, date: str, location: str,
-                    username: str) -> None:
+def create_activity(name: str, organiser: str, date: str, location: str,
+                    status: str, username: str) -> None:
     """
     if organiser_id(username) does not exist in student table, attribute error is raised
     if username already exists as a foreign key in activity table,
@@ -405,6 +417,8 @@ def create_activity(name: str, date: str, location: str,
         'name': name,
         'date': date,
         'location': location,
+        'organiser': organiser,
+        'status': status,
         'organiser_id': organiser_id
     })
 
@@ -528,7 +542,7 @@ def retrieve_studentactivity(field: str, unique_field) -> list[list[dict]]:
         student_id = student.retrieve_primary_key(account_id)
         if student_id is None:
             raise AttributeError("Student profile does not exist")
-        records = student_activity.retrieve_all("account_id", account_id)
+        records = student_activity.retrieve_all("student_id", student_id)
 
     else:
         raise AttributeError(f"Invalid field {field}")

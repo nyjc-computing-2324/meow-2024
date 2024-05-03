@@ -31,8 +31,10 @@ def init_tables(get_conn: Callable):
         CREATE TABLE IF NOT EXISTS "activity" (
             "activity_id" INTEGER PRIMARY KEY,
             "name" TEXT NOT NULL UNIQUE,
+            "organiser" TEXT NOT NULL,
             "date" TEXT NOT NULL, 
             "location" TEXT NOT NULL,
+            "status" TEXT NOT NULL,
             "organiser_id" INTEGER,
             FOREIGN KEY ("organiser_id") REFERENCES account("student_id")
         );
@@ -84,6 +86,8 @@ class Table:
 
     def _valid_field_else_error(self, field) -> None:
         """checks if given fields are found in the table"""
+        print(field)
+        print(self.fields)
         if field not in self.fields:
             raise AttributeError(f"Invalid field '{field}'")
 
@@ -125,8 +129,8 @@ class Table:
         values of corresponding types referring to the values to be put in the cells
         """
         # check that all fields in record is valid
-        for field in record:
-            self._valid_field_else_error(field)
+        #for field in record:
+        #self._valid_field_else_error(field)
         # formatting the query
         fieldstr = quote_join(list(record.keys()), enquote=True)
         qnmarks = quote_join(["?"] * len(record))
@@ -188,6 +192,7 @@ class Table:
                 """
         record = self._execute_query(query, (), fetchall=True)
         return record
+
 
 class JunctionTable(Table):
     table_name: str
