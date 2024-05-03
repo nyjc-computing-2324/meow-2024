@@ -126,7 +126,7 @@ def login(username: str , password: str) -> bool:
     return auth.check_password(password, database_password, salt)
 
 def username_taken(username: str) -> bool:
-    """checks if the username is already in use"""
+    """checks if the username is already in use, returns False if taken (temp measure)"""
     account_id = account.retrieve_primary_key(username)
     if account_id is None:
         return True
@@ -142,7 +142,7 @@ def update_account(username: str, field: str, data) -> None:
     account_id = account.retrieve_primary_key(username)
     if account_id is None:
         raise AttributeError("No account linked to username")
-    if field == "username" and username_taken(data):
+    if field == "username" and not username_taken(data):
         raise AttributeError("Username already exist")
     account.update(account_id, field, data)
 
