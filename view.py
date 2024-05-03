@@ -84,6 +84,27 @@ def add_cca(edit, data, names=[], msg=[""]):
                            msg=msg)
 
 
+def add_activity(edit,
+                 data={
+                     "name": "",
+                     "organiser": "",
+                     "date": "",
+                     "location": "",
+                     "status": ""
+                 },
+                 msg=[""]):
+    print("meow")
+    return render_template("add_activity.html", edit=edit, data=data, msg=msg)
+
+
+def join_activity(edit, data={"name": "", "status": ""}, msg=[""], name=[]):
+    return render_template("join_activity.html",
+                           edit=edit,
+                           data=data,
+                           msg=msg,
+                           names=name)
+
+
 def about():
     #display about.html
     #also doesn't exist yet

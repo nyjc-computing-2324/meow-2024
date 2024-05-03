@@ -16,6 +16,8 @@ for cca in all_ccas:
     cca_names.append(cca["name"])
     cca_types.append(cca["type"])
 
+activity_names = dbfunctions.get_all_activity()
+
 
 def log():
     if session.get("logged_in") == None:
@@ -295,49 +297,157 @@ def records_cca():
         })
     return view.records_cca(cca_data=data, edit=False)
 
+
 def get_activity_data():
     activities = dbfunctions.retrieve_studentactivity("username",
-          session.get("user"))
+                                                      session.get("user"))
     data = []
     names = []
     for info in activities:
         data.append({
-        "name": info[1][1],
-        "organiser": info[1][2],
-        "year": info[1][3],
-        "location": info[1][4],
-        "status": info[1][5]
+            "name": info[1][1],
+            "organiser": info[1][2],
+            "date": info[1][3],
+            "location": info[1][4],
+            "status": info[2]
         })
         names.append(info[1][1])
     return data, names
-    
+
+
 @app.route('/records_activities', methods=["GET", "POST"])
 def records_activities():
     log()
-    #dbfunctions.create_studentactivity(session.get("user"), "Meow Run")
-    
+    #dbfunctions.create_studentactivity(session.get("user"), "Meow Run", "Completed")
+
     data, names = get_activity_data()
-    
+
     if not session["logged_in"]:
         return redirect("/login")
-    if request.method == "post":
+
+    if request.method == "POST":
         if request.form["response"] == "+":
-            pass
+            return view.add_activity(edit=True)
+
         elif request.form["response"] == "-":
-            return view.records_activities(activity_data=data, edit=False, delete=True)
+            return view.records_activities(activity_data=data,
+                                           edit=False,
+                                           delete=True)
+
         elif request.form["response"] == "Edit":
             return view.records_activities(activity_data=data, edit=True)
+
         elif request.form["response"] == "Save":
-            pass
+            edits = dict(request.form.lists())
+            for i in range(len(data)):
+                dbfunctions.update_studentactivity(session.get("user"),
+                                                   data[i]["name"], "status",
+                                                   edits["status"][i])
+
         elif request.form["response"] in names:
-            pass
+            dbfunctions.delete_studentactivity(session.get("user"),
+                                               request.form["response"])
+            data, names = get_activity_data()
+            return view.records_activities(activity_data=data,
+                                           edit=False,
+                                           delete=True)
+
         elif request.form["response"] == "Cancel" or request.form[
-        "response"] == "Done":
-            pass    
+                "response"] == "Done":
+            pass
+
+        elif request.form["response"] == "Join":
+            return view.join_activity(edit=True,
+                                      name=dbfunctions.get_all_activity())
+
     data, names = get_activity_data()
     return view.records_activities(activity_data=data,
                                    edit=False,
                                    delete=False)
+
+
+@app.route('/add_activity', methods=["GET", "POST"])
+def add_activity():
+    log()
+
+    data, names = get_activity_data()
+
+    if request.method == "POST":
+        if request.form["response"] == "Cancel" or request.form[
+                "response"] == "Okay":
+            return view.records_activities(edit=False, activity_data=data)
+        elif request.form["response"] == "Save":
+            activity_info = request.form
+            if activity_info["name"] in dbfunctions.get_all_activity():
+                return view.add_activity(
+                    edit=True,
+                    msg=[
+                        "error",
+                        "Activity already exists, try joining the activity instead"
+                    ])
+            elif activity_info["name"] == "":
+                return view.add_activity(
+                    edit=True,
+                    msg=["error", "Activity name cannot be left blank"])
+            else:
+                dbfunctions.create_activity(activity_info["name"],
+                                            activity_info["organiser"],
+                                            activity_info["date"],
+                                            activity_info["location"],
+                                            session.get("user"))
+                dbfunctions.create_studentactivity(session.get("user"),
+                                                   activity_info["name"],
+                                                   activity_info["status"])
+                return view.add_activity(edit=False,
+                                         data={
+                                             "name":
+                                             activity_info["name"],
+                                             "organiser":
+                                             activity_info["organiser"],
+                                             "date":
+                                             activity_info["date"],
+                                             "location":
+                                             activity_info["location"],
+                                             "status":
+                                             activity_info["status"]
+                                         },
+                                         msg=["pass", "Activity Created!"])
+    return view.add_activity(edit=True)
+
+
+@app.route('/join_activity', methods=["GET", "POST"])
+def join_activity():
+    log()
+
+    data, names = get_activity_data()
+
+    if request.method == "POST":
+        if request.form["response"] == "Cancel" or request.form[
+                "response"] == "Okay":
+            return view.records_activities(edit=False, activity_data=data)
+        elif request.form["response"] == "Save":
+            activity_info = request.form
+            if activity_info["name"] in names:
+                return view.join_activity(
+                    edit=True,
+                    msg=["error", "You already joined this activity"],
+                    name=dbfunctions.get_all_activity())
+            elif activity_info["name"] == "":
+                return view.join_activity(
+                    edit=True,
+                    msg=["error", "Activity name cannot be left blank"],
+                    name=dbfunctions.get_all_activity())
+            else:
+                dbfunctions.create_studentactivity(session.get("user"),
+                                                   activity_info["name"],
+                                                   activity_info["status"])
+                return view.join_activity(edit=False,
+                                          data={
+                                              "name": activity_info["name"],
+                                              "status": activity_info["status"]
+                                          },
+                                          msg=["pass", "Activity joined!"])
+    return view.add_activity(edit=True, name=dbfunctions.get_all_activity())
 
 
 @app.route('/view_activities')

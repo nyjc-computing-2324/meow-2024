@@ -33,29 +33,17 @@
                     </h3>
                     <span class="year_content">
                         <span class="organiser-lable">Organiser: </span>
-                        {% if edit == False %}
-                            {{ activity["organiser"] }}
-                        {% else %}
-                            <input type="text" value="{{ cca['organiser'] }}" class="organiser-input" name="organiser">
-                        {% endif %}
+                        {{ activity["organiser"] }}
                     </span>
                     <span>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</span>
-                    <span class="year_content">
-                        <span class="year-label">Year: </span>
-                        {% if edit == False %}
-                            {{ activity["year"] }}
-                        {% else %}
-                            <input type="text" value="{{ activity['year'] }}" class="year-input" name="year">
-                        {% endif %}
+                    <span class="date_content">
+                        <span class="date-label">Date: </span>
+                        {{ activity["date"] }}
                     </span>
                     <span>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</span>
                     <span class="location">
                         <span class="location-label">Location: </span>
-                        {% if edit == False %}
-                            {{ activity["location"] }}
-                        {% else %}
-                            <input type="text" value="{{ activity['location'] }}" class="location-input" name="location">
-                        {% endif %}
+                        {{ activity["location"] }}
                     </span>
                     {% if delete == True %}
                     <button type="submit", name="response", value="{{ activity['name'] }}", class="delete_button">
