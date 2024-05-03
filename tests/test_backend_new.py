@@ -85,7 +85,8 @@ def login():
 
 class Test_Profile(TestCase):
     def setUp(self):
-        self.profile = get_student()
+        self.account = get_account('qa')
+        self.profile = get_student('qa')
         self.name1 = 'abcdefghi!'
         self._class1 = '2328'
         self.email1 = 'name@gmail.com'
@@ -96,7 +97,11 @@ class Test_Profile(TestCase):
         self.username = "ABABAB"
         self.conn = self.profile.get_conn()
         self.cursor = self.conn.cursor()
-        create_profile(self.name1, self._class1, self.email1, self.number, self.about, self.username)
+        try:
+            create_account(self.name1, 'Passwordxyz1')
+            create_profile(self.name1, self._class1, self.email1, self.number, self.about, self.username)
+        except AttributeError:
+            pass
         
     def test_create_profile(self):
         #Check for presence of student table
@@ -139,7 +144,7 @@ class Test_Profile(TestCase):
 
     def tearDown(self) -> None:
         self.cursor.execute("""
-            DROP TABLE "student"
+            DROP TABLE 'student'
             """)
         self.conn.close()
     
