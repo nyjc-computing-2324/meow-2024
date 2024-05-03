@@ -2,34 +2,11 @@
 <html>
     <head>
         <link rel="stylesheet" type="text/css" href="{{ url_for('static', filename='css/index.css') }}">
-        <title>launch</title>
+        <title>landing</title>
     </head>
 
+    {# FIRST SECTION WITH TAGLINE#}
     <body>
-        <section class="topbar-section">
-            <img class="logo-img1" src="{{ url_for('static',filename= 'images/cat.svg') }}">
-            <span class="logo-text1">
-                Meow
-            </span>
-            <div class = "links-container">
-                <div class = "contact-container">
-                <a class="contact-text" href="/temp" target="new">Contact</a>
-                </div>
-                <div class = "faqs-container">
-                <a class="faqs-text" href = "/temp" target="new">FAQs</a>
-                </div>
-                <div class = "divider-container">
-                <span class="divider-text">|</span>
-                </div>
-                <div class = "login-container">
-                <a class="login-text" href="/login">Login</a>
-                </div>
-                <form action="/register" method="get">
-                    <input type="submit" class="sign_up_button1" value="Sign up">
-                </form>
-            </div>
-        </section>
-
         <section class="tagline-section">
             <div class = "tagline-container">
             <div class="slogan-container">
@@ -43,34 +20,72 @@
               <h5>Simplify Record-Keeping and Management effortlessly with Meow.</h5>
             </span>
             </div>
-            <form action="/register" method="get">
+            <form name="to-register" action="/register" method="get">
                 <div class = "sign_up_button2-container">
                 <input type="submit" class="sign_up_button2" value="Sign up now">
                 </div>
-            </div>
             </form>
+                
+            </div>
+            <img src="{{ url_for('static',filename= 'images/main_img.png') }}" class = 'cat_gif'>
         </section>
+        {# SECOND SECTION WITH FEATURES#}
         <section class = "description-section">
             <div class = "brief-description-container">
             <span class = "brief-description-text">
                 <h2>Exciting Features!</h2>
             </span>
             </div>
-            <div class="features-list">
-                <input type="image" src="{{ url_for('static',filename= 'images/arrow.png') }}" alt="button" width="48" height="48" class="prev1">
-                <div class = "feature-item">
+            {# CAROUSEL USED TO CYCLE THROUGH ELEMENTS #}
+            <div class="carousel">
+                <button class="carousel__button carousel__button--left">
+                    <img src="{{ url_for('static',filename= 'images/arrow_left.png') }}">
+                </button>
+                <div class="carousel__track-container">
+                    <ul class="carousel__track">
+                        <li class="carousel__slide current-slide">
+                            <div class = "feature-item">
+                                <img src = "{{ url_for('static',filename= 'images/Convenient.png') }}">
+                            </div>
+                            <div class = "features-text-container">
+                            <div class = "features-text">
+                                <h3>Convenience</h3>
+                            </div>
+                            <div class = "features-subtext">
+                                <h5>Meow is packed full with </br> exciting features!</h5>
+                            </div>
+                        </li>
+                        <li class="carousel__slide">
+                            <div class = "feature-item">
+                                <img src = "{{ url_for('static',filename= 'images/Free.png') }}">
+                            </div>
+                            <div class = "features-text-container">
+                            <div class = "features-text">
+                                <h3>Free</h3>
+                            </div>
+                            <div class = "features-subtext">
+                                <h5>Meow is packed full with </br> exciting features!</h5>
+                            </div>
+                        </li>
+                        <li class="carousel__slide">
+                            <div class = "feature-item">
+                                <img src = "{{ url_for('static',filename= 'images/Secure.png') }}">
+                            </div>
+                            <div class = "features-text-container">
+                            <div class = "features-text">
+                                <h3>Accessibility</h3>
+                            </div>
+                            <div class = "features-subtext">
+                                <h5>Meow is packed full with </br> exciting features!</h5>
+                            </div>
+                        </li>
+                    </ul>
                 </div>
-                <div class = "features-text-container">
-                <div class = "features-text">
-                    <h3>Convenience</h3>
-                </div>
-                <div class = "features-subtext">
-                    <h5>Meow is packed full with exciting features!</h5>
-                </div>
-                </div>
-                <input type="image" src="{{ url_for('static',filename= 'images/arrow.png') }}" alt="button" width="48" height="48" class="next1">
+                <button class="carousel__button carousel__button--right">
+                    <img src="{{ url_for('static',filename= 'images/arrow_right.png') }}">
+                </button>
             </div>
-
+            {# THIRD SECTION WITH REVIEWS#}
             <div class="review-title-container">
             <span class="review-title-text">
                 <h3>What our users say</h3>
@@ -84,19 +99,19 @@
 
             <div class = "reviews_list">
                 <div class="review1">
-                    <img src="{{ url_for('static',filename= 'images/person1.png') }}" class = "person-img1">
+                    <img src="{{ url_for('static',filename= 'images/person1.png') }}" class = "person-img">
                     <div class="column1">
 
                     </div>
                 </div>
                 <div class="review2">
-                    <img src="{{ url_for('static',filename= 'images/person2.png') }} " class = "person-img2">
+                    <img src="{{ url_for('static',filename= 'images/person2.png') }} " class = "person-img">
                     <div class="column2">
 
                     </div>
                 </div>
                 <div class="review3">
-                    <img src="{{ url_for('static',filename= 'images/person3.png') }}" class = "person-img3">
+                    <img src="{{ url_for('static',filename= 'images/person3.png') }}" class = "person-img">
                     <div class="column3">
 
                     </div>
@@ -106,6 +121,7 @@
             <br>
             <br>
         </section>
+        {# FOURTH SECTION WITH FEEDBACK#}
         <section class="ending-description">
             <div class = "reader-engagement-container">
             <div class = "reader-engagement-text">
@@ -120,6 +136,7 @@
             </span>
             </div>
             </div>
+            {# SECTION FOR MESSAGE SUBMIT #}
             <div class = 'email_message-container'>
                 <form action="/" method="post">
                     <div class="email">
@@ -131,12 +148,12 @@
                     <input type="submit" class="submit-message" value="Submit">
             </div>
         </section>
+        {% set loggedin = False %}    
+        {% block content %}
+            {% include 'navigation.html' %}
+        {% endblock %}
     <hr>
-
+    {# JAVASCRIPT #}
+    <script src="{{ url_for('static', filename='js/carousel.js') }}"></script>
     </body>
-    <footer class='footer'>
-        <a class="privacypolicy-text" href = "/temp" target="new">PRIVACY POLICY</a>
-        <a class="terms-text" href = "/temp" target="new">TERMS AND CONDITIONS</a>
-
-    </footer>
 </html>

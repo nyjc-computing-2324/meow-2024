@@ -3,92 +3,89 @@
     src: url(Comfortaa-Light.ttf);
 }
 
-h1 {font-size: 50px;
+h1 {
+    font-size: 50px;
 }
 
-h2 {font-size: 30px;
+h2 {
+    font-size: 30px;
+    margin: 20px;
+    margin-left: 0px;
 }
 
-section {font-family : comfortaa;
-        font-size : 20px;
-        /* margin-left: 10%; */
-        /* margin-right: 10% */
-
-
+section {
+    font-family : comfortaa;
+    font-size : 20px;
 }
 
-.quick-access {background-color: white;
+.quick-access {
+    background-color: white;
 }
 
-.myrecords {background-color: #FBF2CF;
-            color: black;
-            text-align: center;
-            border-radius: 8px;
-            width: 30%;
-            height: 50px;
-            text-decoration: none;
-            padding-top: 25px;
-            display: inline-block;
-            font-size: 16px;
-            margin: 4px 2px;
+.records {
+    background-color: #FAF0C5;
+    color: black;
+    text-align: center;
+    border-radius: 8px; /* make corners round */
+    width: 30%;
+    height: 80px;
+    text-decoration: none;
+    padding-top: 24px; /* align text to center of box */
+    display: inline-block; /* align to manage and profile */
+    font-size: 30px;
+    margin: 2.2%;
+    margin-left: 0%;
 }
 
-
-
-.manage {background-color: #FBF2CF;
-         color: black;
-         text-align: center;
-         border-radius: 8px;
-         width: 30%;
-         height: 50px;
-         text-decoration: none;
-         padding-top: 25px;
-         display: inline-block;
-         font-size: 16px;
-         margin-left: 5%;
+.manage {
+    background-color: #FAF0C5;
+    color: black;
+    text-align: center;
+    border-radius: 8px; /* make corners round */
+    width: 30%;
+    height: 80px;
+    text-decoration: none;
+    padding-top: 24px; /* align text to center of box */
+    display: inline-block; /* align to records and profile */
+    font-size: 30px;
+    margin: 2.2%;
 }
 
-
-
-.profile {background-color: #FBF2CF;
-          color: black;
-          text-align: center;
-          border-radius: 8px;
-          width: 30%;
-          height: 50px;
-          text-decoration: none;
-          padding-top: 25px;
-          display: inline-block;
-          font-size: 16px;
-          float: right;
+.profile {
+    background-color: #FAF0C5;
+    color: black;
+    text-align: center;
+    border-radius: 8px; /* make corners round */
+    width: 30%;
+    height: 80px;
+    text-decoration: none;
+    padding-top: 24px; /* align text to center of box */
+    display: inline-block; /* align to records and profile */
+    font-size: 30px;
+    margin: 2.2%;
+    margin-right: 0%;
 }
 
-
-.ance {background-color: #d9d9d9;
-      border-radius: 8px;
-      height: 300px;
-      width: 100%;   
-      text-align: center;
+.ance { /* announcement box */
+    background-color: #d9d9d9;
+    border-radius: 8px;
+    height: 300px;
+    width: 100%;
+    text-align: center;
+    display: flex;
+    align-items: center; 
+    justify-content: center;
 }
 
-
-
-.footer {background-color: white;
-        color: black;
-        text-align: center;
-        border-radius: 8px;
-        width: 15%;
-        height: 20px;
-        text-decoration: none;
-        padding-top: 25px;
-        display: inline-block;
-        font-size: 16px;
-        float: right;
-        margin-right: 10%
+.ance-text{  /* text in announcement box */
+    color: #737373;
+    text-align: center;
+    vertical-align: middle;
 }
 
 .main-body {
-        margin-top: 150px;
-        margin-left: 30%;
-        margin-right: 30%;
+    background-color: white;
+    margin-top: 120px;
+    margin-left: 5%;
+    margin-right: 5%;
 }

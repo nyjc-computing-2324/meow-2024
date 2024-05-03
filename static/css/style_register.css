@@ -11,7 +11,7 @@
 }
 
 .register-box{
-    margin-top : 150px;
+    margin-top : 250px;
     margin-left : auto;
     margin-right : auto;
     text-align : center;
@@ -34,60 +34,75 @@
 }
 
 .name-field-container{
-    margin-top : 20px;
+    margin-top : 10px;
     margin-left : auto;
     margin-right : auto;
     width : 400px;
-    height : 40px;
-    padding-left : 10px;
+    height : 50px;
+    background-color: #FBF2CF;
+    border : none;
+    border-radius: 10px;
+    display: flex;
+    flex-direction: row;
 }
 
 #name-field{
     font-family: comfortaa; 
     background-color :  #FBF2CF;
     height : 50px;
-    width : 700px;
+    width : 350px;
     padding-left : 20px;
     border : none;
     border-radius: 10px;
+    float: left;
 }
 
 .username-field-container{
-    margin-top : 20px;
+    margin-top : 10px;
     margin-left : auto;
     margin-right : auto;
     width : 400px;
-    height : 40px;
-    padding-left : 10px;
+    height : 50px;
+    background-color: #FBF2CF;
+    border : none;
+    border-radius: 10px;
+    display: flex;
+    flex-direction: row;
 }
 
 #username-field{
     font-family: comfortaa; 
     background-color :  #FBF2CF;
     height : 50px;
-    width : 700px;
+    width : 350px;
     padding-left : 20px;
     border : none;
     border-radius: 10px;
+    float: left;
 }
 
 .password-field-container{
-    margin-top : 20px;
+    margin-top : 10px;
     margin-left : auto;
     margin-right : auto;
     width : 400px;
-    height : 40px;
-    padding-left : 10px;
+    height : 50px;
+    background-color: #FBF2CF;
+    border : none;
+    border-radius: 10px;
+    display: flex;
+    flex-direction: row;
 }
 
 #pass-field{
     font-family: comfortaa; 
     background-color :  #FBF2CF;
     height : 50px;
-    width : 700px;
+    width : 350px;
     padding-left : 20px;
     border : none;
     border-radius: 10px;
+    float: left;
 }
 
 .TOS-checkbox-container{
@@ -119,5 +134,41 @@
     border : none;
     width: 400px;
     height: 40px;
-    color : white
+    color : white;
+    cursor: pointer;
+}
+
+.error_msg {color: red;
+            font-weight: bold;
+            font-family: comfortaa;
+            text-align: center;
+            margin-top: 15px;
+}
+
+.tooltip{
+    font-family: comfortaa;
+    font-size: 15px;
+    color: #999999;
+    width: 50px;
+    height: 50px;
+    text-align: center;
+    margin-top: 15px;
+}
+
+.tooltip .tooltiptext{
+    visibility: hidden;
+    background-color: #333333;
+    color: #fff;
+    text-align: center;
+    padding: 5px;
+    border-radius: 6px;
+    font-size: 10px;
+    white-space: nowrap;
+    position: relative;
+    top: 10px;
+    left: -200px;
+}
+
+.tooltip:hover .tooltiptext {
+    visibility: visible;
 }

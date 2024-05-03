@@ -1,0 +1,254 @@
+@font-face {
+    font-family: comfortaa;
+    src: url(Comfortaa-Light.ttf);
+}
+
+* {
+    padding : 0;
+    margin : 0;
+    box-sizing : border-box;
+    max-width : 1519px;
+}
+
+
+.myrecord-textbox {
+    width: 100%;
+    height: 100px;
+    background: #8AADF4;
+    margin-top: 70px;
+}
+
+.myrecord-text {
+    font-family : comfortaa;
+    font-size : 20px;
+    margin: auto;
+    font-size: 25px;
+    padding: 30px 40px 70px;
+}
+
+.cca-activity-text-button {
+    font-family : comfortaa;
+    font-size : 15px;
+    border: none; /*by default it will have a black border*/
+    border-radius: 20px;
+    background: white;
+    width: 10%;
+    height: 40px;
+    position: relative;
+    top: -20px; /*shifts the button up from its original location*/
+    cursor: pointer; /*changes the cursor to a pointer when the cursor is hovering above the button*/
+}
+
+.circle {
+    height: 55px;
+    width: 55px;
+    border-radius: 50%;
+    background-color: white;
+    float: left;
+    margin-right: 10px;
+}
+
+.general-text{
+    font-family : comfortaa;
+    font-size : 18px;
+    line-height: 1.5;
+}
+
+.hyperlink{
+    text-decoration: none;
+    color : black;
+}
+.general-textbox {
+    border-radius: 25px;
+    background: lemonchiffon;
+    padding: 20px 10px;
+    width: 98%;
+    height: 100px;
+    margin: 1%;
+}
+
+.status-text {
+    font-family : comfortaa;
+    font-size : 18px;
+    float: right;
+}
+
+.add_button {
+    border: none;
+    height: 55px;
+    width: 55px;
+    border-radius: 50%;
+    background-color: #8AADF4;
+    color: white;
+    float: right;
+    text-align: center;
+    padding: 9px 0px; /*1st value repr the top & bottom padding, 2nd value repr the left & right padding*/
+    margin: 10px 5px;
+    font-size: 30px;
+    cursor: pointer;
+}
+
+.remove_button {
+    border: none;
+    height: 55px;
+    width: 55px;
+    border-radius: 50%;
+    background-color: #8AADF4;
+    color: white;
+    float: right;
+    text-align: center;
+    padding: 9px 0px; /*1st value repr the top & bottom padding, 2nd value repr the left & right padding*/
+    margin: 10px 5px;
+    font-size: 30px;
+    cursor: pointer;
+}
+
+.edit_button {
+    font-family: comfortaa;
+    font-size: 20px;
+    border: none;
+    height: 55px;
+    width: 70px;
+    border-radius: 50%;
+    background-color: #8AADF4;
+    color: white;
+    float: right;
+    text-align: center;
+    padding: 9px 0px; /*1st value repr the top & bottom padding, 2nd value repr the left & right padding*/
+    margin: 10px 5px;
+    cursor: pointer;
+}
+
+.save_button {
+    font-family: comfortaa;
+    font-size: 20px;
+    border: none;
+    height: 55px;
+    width: 70px;
+    border-radius: 50%;
+    background-color: #8AADF4;
+    color: white;
+    float: right;
+    text-align: center;
+    padding: 9px 0px; /*1st value repr the top & bottom padding, 2nd value repr the left & right padding*/
+    margin: 10px 5px;
+    cursor: pointer;
+}
+
+.cancel_button {
+    font-family: comfortaa;
+    font-size: 20px;
+    border: none;
+    height: 55px;
+    width: 85px;
+    border-radius: 50%;
+    background-color: #8AADF4;
+    color: white;
+    float: right;
+    text-align: center;
+    padding: 9px 0px; /*1st value repr the top & bottom padding, 2nd value repr the left & right padding*/
+    margin: 10px 5px;
+    cursor: pointer;
+}
+
+.year-input {
+    font-family : comfortaa;
+    font-size: 18px;
+    border: None;
+    outline : none;
+    background-color: transparent;
+    width: 10%;
+}
+
+.role-input {
+    font-family : comfortaa;
+    font-size: 18px;
+    border: None;
+    outline : none;
+    background-color: transparent;
+    width: 10%;
+}
+
+.type-input {
+    font-family : comfortaa;
+    font-size: 18px;
+    border: None;
+    outline : none;
+    background-color: transparent;
+    width: 10%;
+}
+
+.status-input {
+    font-family : comfortaa;
+    font-size: 18px;
+    border: None;
+    outline : none;
+    background-color: transparent;
+}
+
+.organiser-input {
+    font-family : comfortaa;
+    font-size: 18px;
+    border: None;
+    outline : none;
+    background-color: transparent;
+}
+
+.date-input {
+    font-family : comfortaa;
+    font-size: 18px;
+    border: None;
+    outline : none;
+    background-color: transparent;
+}
+
+.delete_button {
+    height: 30px;
+    width: 30px;
+    background: transparent;
+    border: 0;
+    float: right;
+    cursor: pointer;
+    align-self: center;
+}
+
+.no_cca {
+    margin: 15px;
+}
+
+.no_activity {
+    margin: 15px;
+}
+
+.done_button {
+    font-family: comfortaa;
+    font-size: 20px;
+    border: none;
+    height: 55px;
+    width: 70px;
+    border-radius: 50%;
+    background-color: #8AADF4;
+    color: white;
+    float: right;
+    text-align: center;
+    padding: 9px 0px; /*1st value repr the top & bottom padding, 2nd value repr the left & right padding*/
+    margin: 10px 5px;
+    cursor: pointer;
+}
+
+.join_button {
+    font-family: comfortaa;
+    font-size: 20px;
+    border: none;
+    height: 55px;
+    width: 70px;
+    border-radius: 50%;
+    background-color: #8AADF4;
+    color: white;
+    float: right;
+    text-align: center;
+    padding: 9px 0px; /*1st value repr the top & bottom padding, 2nd value repr the left & right padding*/
+    margin: 10px 5px;
+    cursor: pointer;
+}
+

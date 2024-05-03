@@ -1,31 +1,74 @@
-<!DOCTYPE html>
-<html>
-    <head>
-        <link rel="stylesheet" type="text/css" href="{{ url_for('static', filename='css/navigation.css') }}">
-        <title>Register HERE!</title>
-    </head>
+            <!DOCTYPE html>
+            <html>
+                <head>
+                    <link rel="stylesheet" type="text/css" href="{{ url_for('static', filename='css/navigation.css') }}">
+                    <title>Register HERE!</title>
+                </head>
 
     <body>
+        {% block body %}
+        {% endblock %}
+        {% if loggedin == False %}
         <section class="topbar-section">
             <img class="logo-img1" src="{{ url_for('static',filename= 'images/cat.svg') }}">
             <span class="logo-text1">
-                Meow
+                <a href="/home" class="logo-text1"> Meow </a>
             </span>
             <div class = "links-container">
+                {# Link to contacts page #}
                 <div class = "contact-container">
-                <a class="contact-text" href="/temp" target="new">Contact</a>
+                <a class="text" href="/temp" target="new">Contact</a>
                 </div>
+                {# Link to FAQs page #}
                 <div class = "faqs-container">
-                <a class="faqs-text" href = "/temp" target="new">FAQs</a>
+                <a class="text" href = "/temp" target="new">FAQs</a>
                 </div>
                 <div class = "divider-container">
-                <span class="divider-text">|</span>
+                <span class="text">|</span>
                 </div>
                 <div class = "login-container">
-                <a class="login-text" href="/login">Login</a>
+                <a class="text" href="/login">Login</a>
                 </div>
-                <form action="/register" method="get">
-                    <input type="submit" class="sign_up_button1" value="Sign up">
+                <a class="sign_up_button1" href="/register">Sign Up</a>
+                
+            </div>
+        </section>
+        {% endif %}
+
+        {% if loggedin == True %}
+        <section class="topbar-section">
+            <img class="logo-img1" src="{{ url_for('static',filename= 'images/cat.svg') }}">
+            <div class="logo-text1">
+                <a href="/home" class="logo-text1"> Meow </a>
+            </div>
+            <div class = "links-container">
+                <div class = "contact-container">
+                <a class="text" href="/records_cca" target="new">My Records</a>
+                </div>
+                <div class = "faqs-container">
+                <a class="text" href = "/temp" target="new">Manage</a>
+                </div>
+                <div class = "divider-container">
+                <span class="text">|</span>
+                </div>
+                <div class = "login-container">
+                    <form action="/" method="post">
+                        <input type="submit" class = "logout" value="Log Out" name="response">
+                    </form>
+                </div>
+                <form name="view-profile" action="/profile" method="get">
+                    <input type="image" class = "profile-button" src="{{ url_for('static',filename= 'images/daijin.png') }}" value="">
                 </form>
             </div>
         </section>
+        {% endif %}
+
+        <section class="footer">
+        <div class="pp-text">
+            <a class="privacypolicy-text" href = "/pp" target="new">Privacy Policy</a>
+        </div>
+        <div class="tac-text">
+            <a class="terms-text" href = "/tac" target="new">Terms and Conditions</a>
+        </div>
+        </section>
+    </body>

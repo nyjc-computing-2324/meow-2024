@@ -1,0 +1,72 @@
+<!-- edit my cca page -->
+
+<!DOCTYPE html>
+<html>
+    <head>
+        <link rel="stylesheet" type="text/css" href="{{ url_for('static', filename='css/view_edit_cca.css') }}">
+        <title>CCA</title>
+    </head>
+
+    <body>
+        <div class="general-text">
+            <div class="general-left-textbox">
+                <div>
+                    <span class="profile-circle"></span> 
+                    <!-- when span is placed in different lines, it creates a space between them-->
+                    <span class="profile-text">
+                        <h2>Robotics</h2>
+                        <p>Status: Graduated</p>
+                    </span>
+                </div>
+
+                </br>
+
+                <div class="left-textbox">
+                    <div class="edit-alignment">
+                        <span><h2>About</h2></span><span><button class="plus-button"> + </button> </span>
+                    </div>
+                    </br>
+                    <textarea id="body-text" name="about">
+Type: Clubs and Societies
+Role: Vice President
+Date joined: 01/01/2015
+Date left: 01/01/2018
+                    </textarea>
+                </div>
+            </div>
+
+            <div class="middle-textbox">
+                <div class="edit-alignment">
+                    <span><h2>Achievements</h2></span><span><button class="plus-button"> + </button> </span>
+                </div>
+                </br>
+                <textarea id="body-text" name="achievement">
+2015 NRPC 8th place
+2016 WRO participation
+2016 NRC runner up
+2017 NRC participation
+2018 WRO participation
+2018 WRO best designed robot
+                </textarea> 
+                <!--need to align it all to the left so that it will stay on the left after running-->
+            </div>
+
+            <div class="right-textbox">
+                <div class="edit-alignment">
+                    <span><h2>Participation</h2></span><span><button class="plus-button"> + </button> </span>
+                </div>
+                </br>
+                <textarea id="body-text" name="participation">
+2016 beach cleaning
+2017 VIA Fei Yue old folks home
+2018 VIA soup kitchen
+                </textarea>
+            </div>
+        </div>
+        {% set loggedin = True %}    
+        {% block content %}
+            {% include 'navigation.html' %}
+        {% endblock %}
+    </body>
+
+</html>

@@ -1,0 +1,148 @@
+/* Define font-face for custom font */
+@font-face {
+    font-family: comfortaa;
+    src: url(Comfortaa-Light.ttf);
+}
+
+/* Reset default padding, margin, and ensure content fits within viewport */
+* {
+    padding: 0;
+    margin: 0;
+    box-sizing: border-box;
+    max-width: 100%;
+    font-family: comfortaa; /* Apply custom font to all elements */
+}
+
+/* Main container for layout */
+.main-container {
+    display: flex;
+    height: 1000px; /* Set a fixed height for the container */
+    position: relative;
+    padding-top: 80px; /* Add padding to the top to accommodate a fixed header */
+}
+
+/* Container for subsections */
+.subsection-container {
+    flex: 0 0 auto; /* Do not grow or shrink */
+    width: 20%; /* Adjust width according to layout */
+    padding: 20px; /* Add padding for spacing */
+    background-color: #f0f0f0; /* Background color for subsections */
+    min-width: 200px;
+}
+
+/* Styling for scrollbar */
+.sub-container::-webkit-scrollbar {
+    display: none; /* Hide scrollbar for WebKit browsers */
+}
+
+.sub-container {
+    scrollbar-width: none; /* Hide scrollbar for Firefox */
+}
+
+/* Sub-container for subsections */
+.sub-container {
+    display: flex;
+    position: fixed; /* Fixed positioning */
+    flex-direction: column;
+    padding: 20px;
+    overflow-y: auto; /* Allow vertical scrolling */
+    max-height: calc(100vh - 40px); /* Adjust based on layout */
+    height: calc(100vh - 40px); /* Fill viewport height minus padding */
+    width: 20%; /* Adjust width according to layout */
+    top: 70px; /* Position from the top of viewport */
+    left: 0; /* Position from the left of viewport */
+    background-color: #f0f0f0; /* Background color for subsections */
+}
+
+/* Content container */
+.content-container {
+    flex-grow: 1; /* Take up remaining space */
+    padding: 20px; /* Add padding for spacing */
+    min-width: 500px; /* Ensure a minimum width */
+}
+
+/* Styling for sections */
+.sect {
+    padding: 18px; /* Add padding for spacing */
+}
+
+/* Hover effect for sections */
+.sect:hover {
+    background-color: lightblue; /* Change background color on hover */
+}
+
+/* Styling for collapsible buttons */
+.collapsible {
+    background-color: #f2f2f2; /* Background color */
+    color: black; /* Text color */
+    cursor: pointer; /* Cursor style */
+    padding: 18px; /* Padding around text */
+    width: 100%; /* Full width */
+    border: none; /* Remove border */
+    text-align: left; /* Align text to the left */
+    outline: none; /* Remove outline */
+    font-size: 15px; /* Font size */
+    margin-top: 10px; /* Margin at the top */
+    border-radius: 10px; /* Rounded corners */
+}
+
+/* Active state for collapsible buttons */
+.active {
+    background-color: #f1f1f1; /* Background color for active state */
+    border-bottom-left-radius: 0px; /* Adjust border radius for active state */
+    border-bottom-right-radius: 0px; /* Adjust border radius for active state */
+}
+
+/* Hover effect for collapsible buttons */
+.collapsible:hover {
+    background-color: #f1f1f1; /* Background color on hover */
+}
+
+/* Content inside collapsible sections */
+.content {
+    padding: 0 18px; /* Padding around content */
+    max-height: 0; /* Initially hide content */
+    overflow: hidden; /* Hide overflow */
+    transition: max-height 0.2s ease-out; /* Smooth transition effect */
+    background-color: #f1f1f1; /* Background color for content */
+    border-bottom-left-radius: 10px; /* Rounded corners */
+    border-bottom-right-radius: 10px; /* Rounded corners */
+}
+
+/* Styling for the plus/minus icon on collapsible buttons */
+.collapsible:after {
+    content: '\02795'; /* Unicode character for "plus" sign (+) */
+    font-size: 13px; /* Font size for icon */
+    color: white; /* Icon color */
+    float: right; /* Float icon to the right */
+    margin-left: 5px; /* Margin between icon and text */
+}
+
+/* Active state for plus/minus icon */
+.active:after {
+    content: "\2796"; /* Unicode character for "minus" sign (-) */
+}
+
+/* Footer styling */
+.footer {
+    text-align: right; /* Align text to the right */
+    margin-left: auto; /* Align to the leftmost position */
+    margin-right: auto; /* Align to the rightmost position */
+}
+
+/* Styling for privacy policy text */
+.privacypolicy-text {
+    padding-right: 10px; /* Padding on the right side */
+    font-family: comfortaa; /* Font family */
+    text-decoration: none; /* Remove text decoration */
+    font-size: 12px; /* Font size */
+    font-weight: bold; /* Font weight */
+}
+
+/* Styling for terms text */
+.terms-text {
+    font-family: comfortaa; /* Font family */
+    text-decoration: none; /* Remove text decoration */
+    font-size: 12px; /* Font size */
+    font-weight: bold; /* Font weight */
+}
