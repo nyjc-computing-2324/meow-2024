@@ -2,35 +2,11 @@
 <html>
     <head>
         <link rel="stylesheet" type="text/css" href="{{ url_for('static', filename='css/index.css') }}">
-        <title>launch</title>
+        <title>landing</title>
     </head>
 
     {# FIRST SECTION WITH TAGLINE#}
     <body>
-        <section class="topbar-section">
-            <img class="logo-img1" src="{{ url_for('static',filename= 'images/cat.svg') }}">
-            <span class="logo-text1">
-                Meow
-            </span>
-            <div class = "links-container">
-                <div class = "contact-container">
-                <a class="contact-text" href="/temp" target="new">Contact</a>
-                </div>
-                <div class = "faqs-container">
-                <a class="faqs-text" href = "/temp" target="new">FAQs</a>
-                </div>
-                <div class = "divider-container">
-                <span class="divider-text">|</span>
-                </div>
-                <div class = "login-container">
-                <a class="login-text" href="/login">Login</a>
-                </div>
-                <form action="/register" method="get">
-                    <input type="submit" class="sign_up_button1" value="Sign up">
-                </form>
-            </div>
-        </section>
-
         <section class="tagline-section">
             <div class = "tagline-container">
             <div class="slogan-container">
@@ -60,19 +36,54 @@
                 <h2>Exciting Features!</h2>
             </span>
             </div>
-            <div class="features-list">
-                <input type="image" src="{{ url_for('static',filename= 'images/arrow.png') }}" alt="button" width="48" height="48" class="prev1">
-                <div class = "feature-item">
+            {# CAROUSEL USED TO CYCLE THROUGH ELEMENTS #}
+            <div class="carousel">
+                <button class="carousel__button carousel__button--left">
+                    <img src="{{ url_for('static',filename= 'images/arrow_left.png') }}">
+                </button>
+                <div class="carousel__track-container">
+                    <ul class="carousel__track">
+                        <li class="carousel__slide current-slide">
+                            <div class = "feature-item">
+                                <img src = "{{ url_for('static',filename= 'images/Convenient.png') }}">
+                            </div>
+                            <div class = "features-text-container">
+                            <div class = "features-text">
+                                <h3>Convenience</h3>
+                            </div>
+                            <div class = "features-subtext">
+                                <h5>Meow is packed full with </br> exciting features!</h5>
+                            </div>
+                        </li>
+                        <li class="carousel__slide">
+                            <div class = "feature-item">
+                                <img src = "{{ url_for('static',filename= 'images/Free.png') }}">
+                            </div>
+                            <div class = "features-text-container">
+                            <div class = "features-text">
+                                <h3>Free</h3>
+                            </div>
+                            <div class = "features-subtext">
+                                <h5>Meow is packed full with </br> exciting features!</h5>
+                            </div>
+                        </li>
+                        <li class="carousel__slide">
+                            <div class = "feature-item">
+                                <img src = "{{ url_for('static',filename= 'images/Secure.png') }}">
+                            </div>
+                            <div class = "features-text-container">
+                            <div class = "features-text">
+                                <h3>Accessibility</h3>
+                            </div>
+                            <div class = "features-subtext">
+                                <h5>Meow is packed full with </br> exciting features!</h5>
+                            </div>
+                        </li>
+                    </ul>
                 </div>
-                <div class = "features-text-container">
-                <div class = "features-text">
-                    <h3>Convenience</h3>
-                </div>
-                <div class = "features-subtext">
-                    <h5>Meow is packed full with exciting features!</h5>
-                </div>
-                </div>
-                <input type="image" src="{{ url_for('static',filename= 'images/arrow.png') }}" alt="button" width="48" height="48" class="next1">
+                <button class="carousel__button carousel__button--right">
+                    <img src="{{ url_for('static',filename= 'images/arrow_right.png') }}">
+                </button>
             </div>
             {# THIRD SECTION WITH REVIEWS#}
             <div class="review-title-container">
@@ -137,11 +148,12 @@
                     <input type="submit" class="submit-message" value="Submit">
             </div>
         </section>
+        {% set loggedin = False %}    
+        {% block content %}
+            {% include 'navigation.html' %}
+        {% endblock %}
     <hr>
+    {# JAVASCRIPT #}
+    <script src="{{ url_for('static', filename='js/carousel.js') }}"></script>
     </body>
-    <footer class='footer'>
-        <a class="privacypolicy-text" href = "/temp" target="new">PRIVACY POLICY</a>
-        <a class="terms-text" href = "/temp" target="new">TERMS AND CONDITIONS</a>
-
-    </footer>
 </html>

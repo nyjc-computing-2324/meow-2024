@@ -2,94 +2,83 @@
 <!DOCTYPE html>
 <html>
     <head>
-        <title>RECORD ACTIVITY</title>
-        <style>
-            h5{
-                text-align: right;
-            }
-            th, td {
-              border: 1px gray;
-              border-radius: 10px;
-            }
-            table {
-              border-collapse: collapse;
-              width: 100%;
-            }
-        </style>
+        <link rel="stylesheet" type="text/css" href="{{ url_for('static', filename='css/records.css') }}">
+        <title>Activity Record</title>
     </head>
 
     <body>
-        <h3>My records</h3>
-        </br>
-        <table>
-            <th>
-                <td>
-                    CCA
-                </td>
-                <td>
-                    Activities
-                </td>
-            </th>
-        </table>
-
-        </br>
-
-        <table>
-            <tr>
-            <th>
-                Walk For Rice
-            </th>
-            <td>
-                <pre>Year: 2023</pre>
-                <h5>
-                    Status: Completed
-                </h5>
-            </td>
-            </tr>
-
-            </br>
-
-            <tr>
-            <th>
-                Sports Carnival ref
-            </th>
-            <td>
-                <pre>Year: 2023</pre>
-                <h5>
-                    Status: Completed
-                </h5>
-            </td>
-            </tr>
-
-            </br>
-
-            <tr>
-            <th>
-                ISLE Batam
-            </th>
-            <td>
-                <pre>Year: 2023</pre>
-                <h5>
-                    Status: Ongoing
-                </h5>
-            </td>
-            </tr>
-
-            </br>
-
-            <tr>
-            <th>
-                Silver Homes
-            </th>
-            <td>
-                <pre>Year: 2023</pre>
-                <h5>
-                    Status: Completed
-                </h5>
-            </td>
-            </tr>
-        </table>
-        {% include 'navigation.html' %}
+        <div class="myrecord-textbox">
+            <h3 class="myrecord-text">My Activities</h3>
+        </div>
+        
+        <div>
+            <a href="/records_cca" target="_self"><button class="cca-activity-text-button" style="background: linear-gradient(180deg, whitesmoke 50%, white 50%)">CCA </br> <span style="color: white">h</span> </button></a><button class="cca-activity-text-button">Activities </br> <span style="color: white">h</span></button>
+            <!--spanning a button within in same line will make them stay together on the same line with no space between them-->
+            <!--the href links the button to the respective page when it is clicked on-->
+            <!--the use of a letter is meant to divide the box into 2 distinct lines/sections so as to match with the rest of the colours-->
+            <!--linear gradient helps to fit 2 colours in a box. The degree specified marks how the line is drawn-->
+        </div>
+        <form method="post" action="/records_activities">
+            <div class="general-text">
+                {% if my_activities | length == 0 %}
+                <h1 class="no_activity">You dont have any Activities yet</h1>
+                {% endif %}
+                {% for activity in my_activities %}
+                <div class="general-textbox">
+                    <span class="circle"></span>
+                    <h3>
+                        <span class="name_content">
+                            {{ activity["name"] }}
+                        </span>
+                    </h3>
+                    <span class="year_content">
+                        <span class="organiser-lable">Organiser: </span>
+                        {{ activity["organiser"] }}
+                    </span>
+                    <span>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</span>
+                    <span class="date_content">
+                        <span class="date-label">Date: </span>
+                        {{ activity["date"] }}
+                    </span>
+                    <span>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</span>
+                    <span class="location">
+                        <span class="location-label">Location: </span>
+                        {{ activity["location"] }}
+                    </span>
+                    {% if delete == True %}
+                    <button type="submit", name="response", value="{{ activity['name'] }}", class="delete_button">
+                        <img src="{{ url_for('static',filename= 'images/delete.png') }}">
+                    </button>
+                    {% endif %}
+                    <span class="status-text">
+                        <span class="status-label">Status: </span>
+                        {% if edit == False %}
+                            {{ activity["status"] }}
+                        {% else %}
+                            <input type="text" value="{{ activity['status'] }}" class="status-input" name="status">
+                        {% endif %}
+                    </span>
+                </div>
+                {% endfor %}
+            </div>
+    
+            {% if delete == True %}
+            <input name="response" type="submit" class="done_button" value="Done">
+            {% elif edit == False %}
+            <input name="response" type="submit" class="join_button" value="Join">
+            <input name="response" type="submit" class="edit_button" value="Edit">
+            <input name="response" type="submit" class="remove_button" value="-">
+            <input name="response" type="submit" class="add_button" value="+">
+            {% else %}
+            <input name="response" type="submit" class="cancel_button" value="Cancel">
+            <input name="response" type="submit" class="save_button" value="Save">
+            {% endif %}
+        </form>
+        
+        {% set loggedin = True %}
+        {% block content %}
+            {% include 'navigation.html' %}
+        {% endblock %}
     </body>
-
-</html>
+    
+    </html>

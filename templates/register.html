@@ -2,38 +2,54 @@
 <html>
     <head>
         <link rel="stylesheet" type="text/css" href="{{ url_for('static', filename='css/style_register.css') }}">
-        <title>Register HERE!</title>
+        <title>Register</title>
     </head>
-    {% set page = "register" %}    
-    {% block content %}
-        {% include 'navigation.html' %}
-    {% endblock %}
     <body>
         {# Box for signing up#}
         <section class = register-box>
+            <br>
             <img class="logo-img2" src="{{ url_for('static',filename= 'images/cat.svg') }}">
             <div class = 'register-box-title'>
                 <h3>sign up</h3>
             </div>
-        <form action="/register" method="post">
-            <div class = "name-field-container">
-                <input id="name-field" type="text" name="name" value="name">
-            </div>
-            <div class="username-field-container">
-                <input id="username-field" type="text" name="username" value="username">
-            </div>
-            <div class="password-field-container">
-                <input id="pass-field" type="password" name="password" value="password">
-            </div>
-            <div class = 'TOS-checkbox-container'>
-                <input type="checkbox" id="TOS-checkbox" name="TOS-checkbox" value="True">
-              <label for="TOS-checkbox"> I hereby agree to Meow's Terms and Conditions and acknowledge the Privacy Policy</label>
-            </div>
-            <div class = create-account-button-container>
-                <input type="submit" class="create-account" value="Create Account">
+            <form name="register" action="/register" method="post">
+                {# Name field #}
+                <div class = "name-field-container">
+                    <input id="name-field" type="text" name="name" placeholder="name">
+                </div>
+                {# Username field #}
+                <div class="username-field-container">
+                    <input id="username-field" type="text" name="username" placeholder="username">
+                    <div class="tooltip">
+                        ?
+                        <span class="tooltiptext">Username cannot contain tab, space, and newline</span>
+                    </div>
+                </div>
+                {# Password field #}
+                <div class="password-field-container">
+                    <input id="pass-field" type="password" name="password" placeholder="password">
+                    <div class="tooltip">
+                        ?
+                        <span class="tooltiptext">Password must contain one upper-case letter, one-lower-case letter, one number, and must be at least 8 characters long</span>
+                    </div>
+                </div>
+                {# Checkbox for terms and service #}
+                <div class = 'TOS-checkbox-container'>
+                    <input type="checkbox" id="TOS-checkbox" name="TOS-checkbox" value="True">
+                  <label for="TOS-checkbox"> I hereby agree to Meow's <a href="/tac" target="new">Terms and Conditions</a> and acknowledge the <a href="/pp" target="new">Privacy Policy</a></label>
+                </div>
+                <div class = create-account-button-container>
+                    <input type="submit" class="create-account" value="Create Account">
+                </div>
+            </form>
+            <div class="error_msg">
+                <p>{{ error_msg }}</p>
             </div>
         </section>
-          
+        {% set loggedin = False %}    
+        {% block content %}
+            {% include 'navigation.html' %}
+        {% endblock %}
     </body>
       
 </html>

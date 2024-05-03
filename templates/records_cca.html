@@ -2,48 +2,90 @@
 <!DOCTYPE html>
 <html>
     <head>
+        <link rel="stylesheet" type="text/css" href="{{ url_for('static', filename='css/records.css') }}">
         <title>CCA Record</title>
     </head>
 
     <body>
-        <h3>My records</h3>
-        </br>
-        <div>
-            <p>CCA &nbsp;&nbsp;&nbsp;&nbsp; Activities</p>
-        </div>
-        
-        </br>
-        
-        <div>
-            <h3>Robotics</h3>
-            <span>Year: 2015 - 2018 &nbsp;&nbsp;&nbsp;&nbsp; Role: Vice President &nbsp;&nbsp;&nbsp;&nbsp; Type: Clubs and societies </span>
-            <span>Status: Graduated</span>
+        <div class="myrecord-textbox">
+            <h3 class="myrecord-text">My records</h3>
         </div>
 
-        </br>
-
         <div>
-            <h3>Symphonic Band</h3>
-            <span>Year: 2019 - 2023 &nbsp;&nbsp;&nbsp;&nbsp; Role: Member &nbsp;&nbsp;&nbsp;&nbsp; Type: Performing Arts</span>
-            <span>Status: Graduated</span>
+            <button class="cca-activity-text-button">CCA </br> <span style="color: white">h</span> </button><a href="/records_activities" target="_self"><button class="cca-activity-text-button" style="background: linear-gradient(180deg, whitesmoke 50%, white 50%)"> Activities </br> <span style="color: white">h</span></button> </a>
+            <!--spanning a button within in same line will make them stay together on the same line with no space between them-->
+            <!--the href links the button to the respective page when it is clicked on-->
+            <!--the use of a letter is meant to divide the box into 2 distinct lines/sections so as to match with the rest of the colours-->
+            <!--linear gradient helps to fit 2 colours in a box. The degree specified marks how the line is drawn-->
         </div>
+        <form method="post" action="/records_cca">
+            <div class="general-text">
+                {% if my_ccas | length == 0 %}
+                <h1 class="no_cca">You dont have any CCAs yet</h1>
+                {% endif %}
+                {% for cca in my_ccas %}
+                <div class="general-textbox">
+                    <span class="circle"></span>
+                    <span>
+                        <h3>
+                        <span class="name_content">
+                            {{ cca["name"] }}
+                        </span>
+                        </h3>
+                        <span class="year_content">
+                            <span class="year-label">Year: </span>
+                            {% if edit == False %}
+                                {{ cca["year"] }}
+                            {% else %}
+                                <input type="text" value="{{ cca['year'] }}" class="year-input" name="year">
+                            {% endif %}
+                        </span>
+                        <span>&nbsp;&nbsp;&nbsp;&nbsp;</span>
+                        <span class="role_content">
+                            <span class="role-label">Role: </span>
+                            {% if edit == False %}
+                                {{ cca["role"] }}
+                            {% else %}
+                                <input type="text" value="{{ cca['role'] }}" class="role-input" name="role">
+                            {% endif %}
+                        </span>
+                        <span>&nbsp;&nbsp;&nbsp;&nbsp;</span>
+                        <span class="type_content">
+                            <span class="type-label">Type: </span>
+                                {{ cca["type"] }}
+                        </span>
+                        {% if delete == True %}
+                        <button type="submit", name="response", value="{{ cca['name'] }}", class="delete_button">
+                            <img src="{{ url_for('static',filename= 'images/delete.png') }}">
+                        </button>
+                        {% endif %}
+                        <span class="status-text">
+                            <span class="status-label">Status: </span>
+                            {% if edit == False %}
+                                {{ cca["status"] }}
+                            {% else %}
+                                <input type="text" value="{{ cca['status'] }}" class="status-input" name="status">
+                            {% endif %}
+                        </span>
+                </div> 
+                {% endfor %}
+            </div>
+            
+            {% if delete == True %}
+            <input name="response" type="submit" class="done_button" value="Done">
+            {% elif edit == False %}
+            <input name="response" type="submit" class="edit_button" value="Edit">
+            <input name="response" type="submit" class="remove_button" value="-">
+            <input name="response" type="submit" class="add_button" value="+">
+            {% else %}
+            <input name="response" type="submit" class="cancel_button" value="Cancel">
+            <input name="response" type="submit" class="save_button" value="Save">
+            {% endif %}
+        </form>
 
-        </br>
-
-        <div>
-            <h3>Football</h3>
-            <span>Year: 2022 - 2023 &nbsp;&nbsp;&nbsp;&nbsp; Role: Captain &nbsp;&nbsp;&nbsp;&nbsp; Type: Sports</span>
-            <span>Status: Inactive</span>
-        </div>
-
-        </br>
-
-        <div>
-            <h3>Floorball</h3>
-            <span>Year: 2023 - &nbsp;&nbsp;&nbsp;&nbsp; Role: Logistics &nbsp;&nbsp;&nbsp;&nbsp; Type: Sports</span>
-            <span>Status: Active</span>
-        </div>
-        {% include 'navigation.html' %}
+        {% set loggedin = True %}
+        {% block content %}
+            {% include 'navigation.html' %}
+        {% endblock %}
     </body>
-
-</html>
+    </html>

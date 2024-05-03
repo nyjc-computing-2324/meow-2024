@@ -4,37 +4,30 @@
         <link rel="stylesheet" type="text/css" href="{{ url_for('static', filename='css/home.css') }}">
         <title>Home Page</title>
     </head>
-    
+
     <body>
         <div class='main-body'>
         <section>
             <h1>Welcome Back!</h1>
             <h2>Quick access</h2>
             <div class="quick-access"></div>
-            <div class="myrecords">
-                <a href="/records_cca" target="new"> My Records</a>
-            </div>
-            <div class="manage">
-                <a href="/manage" target="new"> Manage</a>
-            </div>
-            <div class="profile">
-                <a href="/profile" target="new"> Profile</a>
-            </div>
+            <a class="records" href="/records_cca" target="new"> My Records</a>
+            <a class="manage" href="/temp" target="new"> Manage</a>
+            <a class="profile" href="/profile" target="new"> Profile</a>
         </section>
         <br>
         <section>
             <h2>Announcements</h2>
             <br>
             <div class="ance">
-                blank
+                <a class="ance-text">No announcements</a>
             </div>
         </section>
-        
-        <footer class='footer'>
-            <a class="privacypolicy-text" href = "/temp" target="new">PRIVACY POLICY</a>
-        </footer>
         </div>
-        {% include 'navigation.html' %}
+        {% set loggedin = True %}    
+        {% block content %}
+            {% include 'navigation.html' %}
+        {% endblock %}
     </body>
 </html>
 

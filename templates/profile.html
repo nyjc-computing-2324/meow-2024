@@ -1,41 +1,135 @@
 <!DOCTYPE html>
 <html>
     <head>
-        <title>PROFILE</title>
+        <title>Profile</title>
+        <link rel="stylesheet" type="text/css" href="{{ url_for('static', filename='css/profile.css') }}">
+        <meta name="viewport" content="width=device-width, initial-scale=1.0">
     </head>
-    {% set page = "profile" %}    
-    {% block content %}
-        {% include 'navigation.html' %}
-    {% endblock %}
-        <div class= "header">
-            <h1>Profile Page</h1>
-        </div>
-
-        <div class= "email">
-            <h2>email:</h2>
-            <p>zhuohaowren123@gmail.com</p>
-        </div>
-
-        <div class= "number">
-            <h2>number:</h2>
-            <p>+65 98765432</p>
-        </div>
-
-        <div class="name">
-            <h2>Zhuo Howren</h2>
-            <p>@username</p>
-        </div>
-
-        <div class="edit-download">
-            <h3><div button class="button-round">edit</button></h3>
-            <h3><div button class="button-round">download profile</button></h3>
-        </div>
-
-        <div class= "about">
-            <h2>About myself:</h2>
-            <p>Lorem ipsum dolor sit amet, consectetur adipiscing elit. Curabitur in iaculis ex. Etiam volutpat laoreet urna. Morbi ut tortor nec nulla commodo malesuada sit amet vel lacus. Fusce eget efficitur libero. Morbi dapibus porta quam laoreet placerat.</h3>
-        </div>
-
+    <body>
+        <section class="profile-section">
+            <form action = "/profile" method="post" onkeydown="return event.key != 'Enter';">
+            <div class="profile-container">
+                
+                <div class="profile-display-container">
+                    <div class="profile-picture-container">
+                    {% if has_img == True %}
+                    <img src = "{{ url_for('static', filename=file) }}" class = "profile-picture">
+                    {% else %}
+                    <img src = "{{ url_for('static', filename='images/daijin.png') }}" class = "profile-picture">
+                    {% endif %}
+                    </div>
+                    
+                    <span class = "profile-name">
+                        <h2>
+                            {% if edit == False %}
+                                {% if "name" in profile %}
+                                    {{ profile["name"] }}
+                                {% else %}
+                                    meow
+                                {% endif %}
+                            {% elif edit == True %}
+                                {% if "name" in profile %}
+                                    <input type="text" value="{{ profile['name'] }}" class="name-input" name="name">
+                                {% else %}
+                                    <input type="text" value="meow" class="name-input" name="name">
+                                {% endif %}
+                            {% endif %}
+                        </h2>
+                    </span>
+                
+                    <span class = "profile-username">
+                        <h3>@
+                            {%- if "username" in profile -%}
+                                {{- profile["username"] -}}
+                            {%- else -%}
+                                meow
+                            {%- endif -%}
+                        </h3>
+                    </span>
+                        {% if edit == False %}
+                        <input name="response" type="submit" class='edit-profile-button' value="Edit">
+                        {% elif edit == True %}
+                        <input name="response" type="submit" class='save-profile-button' value="Save">
+                        {% endif %}
+                        {% if edit == False %}
+                        <input name="response" type="submit" class='delete-profile-label' value="Delete">
+                        {% elif edit == True %}
+                        <input name="response" type="submit" class='cancel-profile-button' value="Cancel">
+                        {% endif %}
+                </div>
+                
+                <div class="profile-description-container">
+                    <span class="profile-title"><h1>Profile Page</h1></span>
+                    <div class="email-number-container">
+                        <div class="email-container">
+                            <span class="email-label">email:</span>
+                            <br>
+                            <span class="email-content">
+                                {% if edit == False %}
+                                    {% if "email" in profile %}
+                                        {{ profile["email"] }}
+                                    {% else %}
+                                        meow@meow.com
+                                    {% endif %}
+                                {% elif edit == True %}
+                                    {% if "email" in profile %}
+                                        <input type="text" value="{{ profile['email'] }}" class="email-input" name="email">
+                                    {% else %}
+                                        <input type="text" value="meow@meow.com" class="email-input" name="email">
+                                    {% endif %}
+                                {% endif %}
+                            </span>
+                        </div>
+                        <div class="number-container">
+                            <span class="number-label">number:</span>
+                            <br>
+                            <span class="number-content">
+                                {% if edit == False %}
+                                    {% if "number" in profile %}
+                                        {{ profile["number"] }}
+                                    {% else %}
+                                        +65 meow
+                                    {% endif %}
+                                {% elif edit == True %}
+                                    {% if "number" in profile %}
+                                        <input type="text" value="{{ profile['number'] }}" class="number-input" name="number">
+                                    {% else %}
+                                        <input type="text" value="+65 meow" class="number-input" name="number">
+                                    {% endif %}
+                                {% endif %}
+                            </span>    
+                        </div>
+                    </div>
+                    <div class="about-container">
+                        <span class="about-label">
+                            About Me:
+                        </span>
+                        <br>
+                        <div class="about">
+                            {% if edit == True %}
+                            <textarea id="about-field" type="text" name="about" placeholder="Meow!">
+                                {%- if "about" in profile -%}
+                                    {{- profile["about"] -}}
+                                {%- endif -%}
+                            </textarea>
+                            {% elif edit == False %}
+                            <textarea id="about-field" type="text" name="about" placeholder="Meow!" readonly>
+                                {%- if "about" in profile -%}
+                                    {{- profile["about"] -}}
+                                {%- endif -%}
+                            </textarea>
+                            {% endif %}
+                        </div>
+                    </div>
+                </div>
+                
+            </div>
+        </section>
+        </form>
+        {% set loggedin = True %}    
+        {% block content %}
+            {% include 'navigation.html' %}
+        {% endblock %}
     </body>
 </html>
-        
+

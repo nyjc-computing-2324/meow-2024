@@ -79,8 +79,9 @@ def login():
     else:
         username = request.form["username"]
         password = request.form["password"]
-        if validate.user_isvalid(username, password):
+        if dbfunctions.login(username, password):
             session["logged_in"] = True
+            session["user"] = username
             return redirect("/home")
         else:
             return view.login(error="Invalid username or password")
@@ -453,7 +454,6 @@ def view_activities():
     if not session["logged_in"]:
         return redirect("/login")
     return view.view_activities()
-
 
 @app.route('/manage')
 def manage():
