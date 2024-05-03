@@ -1,4 +1,5 @@
 from typing import Optional
+from unittest.case import _AssertRaisesContext
 from dbfunctions import *
 from database import init_tables
 from unittest import *
@@ -77,7 +78,6 @@ class Test_Account(TestCase):
         create_account(username1, password1)
 
         #Check the record inserted via manual sql query
-
         check_for_record(username1)        
 
 
@@ -99,7 +99,67 @@ class Test_Account(TestCase):
 
 
     def test_username_taken(self):
+        taken_username = 'alreadytakenname'
+        password_of_taken_username = 'P4ssword0fTakenName'
+        not_taken_username = 'notyettakenname'
+
+        create_account(taken_username, password_of_taken_username)
+
+        self.assertTrue(username_taken(taken_username), 'Username should already be taken.')
+        self.assertFalse(username_taken(not_taken_username), 'Username is not taken.')
+
+    
+    def test_retrieve(self):
+        username_retrieve = 'usernameretrieve'
+        password_retrieve = 'P4ssw0rdRetrieve'
+
+        wrong_username_retrieve = 'wrongretrieve'
+
+        create_account(username_retrieve, password_retrieve)
+        retrieved_data = retrieve_account(username_retrieve)
         
+        self.assertEqual(retrieved_data['username'], username_retrieve, 'Username retrieved is wrong.')
+        self.assertEqual(retrieved_data['password'], password_retrieve, 'Password retrieved is wrong.')
+        self.assertRaises(AttributeError, retrieve_account, wrong_username_retrieve)
+
+
+    def test_delete_account(self):
+        """
+        This test assumes that create_account() and retrieve_account() works.
+        """
+        username = 'tobedeleted'
+        password = '2Bdeleted'
+
+        create_account(username, password)
+
+        delete_account(username)
+        self.assertRaises(AttributeError, retrieve_account, username)
+
+        
+    def test_update_account(self):
+        """
+        This test assumes that create_account(), retrieve_account(), and delete_account() works.
+        """
+
+        old_username = 'oldusername'
+        old_password = 'OldP4ssw0rd'
+
+        new_username = 'newusername'
+        new_password = 'NewP4ssw0rd'
+
+        #Case 1: Change Password
+        create_account(old_username, old_password)
+        update_account(old_username, 'password', new_password )
+        self.assertEqual(retrieve_account(old_username)['password'], new_password, 'Password update failed.')
+
+        delete_account(old_username)
+        
+        #Case 2: Change Username
+        create_account(old_username, old_password)
+        update_account(old_username, 'username', new_username )
+        self.assertEqual(retrieve_account(new_username)['username'], new_username, 'Username update failed.')
+        
+
 
 
     # def tearDown(self):
@@ -110,7 +170,7 @@ class Test_Account(TestCase):
 
 
 
-
+    
 # class Test_Profile(TestCase):
 #     def setUp(self):
 #         self.name1 = 'abcdefghi!'
