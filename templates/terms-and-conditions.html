@@ -67,6 +67,10 @@
 
             </div>
         </div>
+        {% set page = "privacy" %}    
+        {% block content %}
+            {% include 'navigation.html' %}
+        {% endblock %}
         <script src="static/js/pp_script.js"></script>
         {% set loggedin = False %}    
         {% block content %}
@@ -75,4 +79,5 @@
         </body>
         <hr>
 
+        </footer>
 </html>
