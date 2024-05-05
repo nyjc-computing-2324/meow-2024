@@ -60,3 +60,18 @@ view_activities.html is the page for viewing a specific activity.
 
 ## view_cca.html
 view_cca.html is the apge for viewing a specific cca.
+
+# Quality Assurance(QA) files
+There are a total of 3 files used by QA, which are all stored in the tests folder. These files are all for the purpose of unit-testing via Python's 'unittest' module, where each instantiated class is known, and from herein will be referred to as a 'test case'.
+
+## __init__.py
+__init__.py serves as a marker to help Python to detect the test cases in the files below and execute them via the shell.
+
+## test_backend.py
+test_backend.py provides test cases to test various isolated groups of functions in dbfunctions.py, namely for account, student profile, co-curricular activity(cca), and activity.
+
+## test_integration.py
+test_integration.py provides the test case to test for the correct loading of webapp pages for flask as in main.py/view.py. All other forms of frontend and integration testing such as UI/UX functionality were done via exploratory means for better coverage and integrity.
+
+## test_validate.py
+test_validate.py provides the test case to test the validation logic of username and password inputs in validate.py.
