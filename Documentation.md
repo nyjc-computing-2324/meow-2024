@@ -59,7 +59,7 @@ terms-and-conditions.html is the page displaying the terms of conditions.
 view_activities.html is the page for viewing a specific activity.
 
 ## view_cca.html
-view_cca.html is the apge for viewing a specific cca.
+view_cca.html is the page for viewing a specific cca.
 
 # Quality Assurance(QA) files
 There are a total of 3 files used by QA, which are all stored in the tests folder. These files are all for the purpose of unit-testing via Python's 'unittest' module, where each instantiated class is known, and from herein will be referred to as a 'test case'.
