@@ -1,0 +1,84 @@
+<!DOCTYPE html>
+<html>
+    <head>
+        <title>Create Activity</title>
+        <link rel="stylesheet" type="text/css" href="{{ url_for('static', filename='css/add.css') }}">
+        <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    </head>
+    <body>
+        <section class="main">
+            <h1>Create an activity</h1>
+            <form action="/add_activity" method="post" class = "inner">
+                <div class="field-container">
+                    <div class="text-inputs-container1">
+                        <div class="row">
+                            <label for="name" class="input-label">Name:</a>
+                            {% if edit == True %}
+                                <input type="text" name="name" value="{{ data['name'] }}" class="input">
+                            {% else %}
+                                <span class="input">{{ data["name"] }}</span>
+                            {% endif %}
+                        </div>
+                        <div class="row">
+                            <label for="date" class="input-label">Date:</a>
+                            {% if edit == True %}
+                                <input type="text" name="date" value="{{ data['date'] }}" class="input">
+                            {% else %}
+                                <span class="input">{{ data["date"] }}</span>
+                            {% endif %}
+                        </div>
+                        <div class="row">
+                            <label for="location" class="input-label">Location:</a>
+                            {% if edit == True %}
+                                <input type="text" name="location" value="{{ data['location'] }}" class="input">
+                            {% else %}
+                                <span class="input">{{ data["location"] }}</span>
+                            {% endif %}
+                        </div>
+                    </div>
+                    <div class="text-inputs-container2">
+                        <div class="row">
+                            <label for="organiser" class="input-label">Organiser:</a>
+                            {% if edit == True %}
+                                <input type="text" name="organiser" value="{{ data['organiser'] }}" class="input">
+                            {% else %}
+                                <span class="input">{{ data["organiser"] }}</span>
+                            {% endif %}
+                        </div>
+                        <div class="row">
+                            <label for="status" class="input-label">Status:</a>
+                            {% if edit == True %}
+                                <select name="status" class="input">
+                                    <option name="{{ data['status'] }}">{{ data['status'] }}</option>
+                                    <option name="Ongoing">Ongoing</option>
+                                    <option name="Completed">Completed</option>
+                                </select>
+                            {% else %}
+                                <span class="input">{{ data["status"] }}</span>
+                            {% endif %}
+                        </div>
+                    </div>
+                </div>
+                {% if msg[0] == "pass" %}
+                <label class="pass_msg">{{ msg[1] }}</label>
+                {% endif %}
+                {% if msg[0] == "error" %}
+                <label class="error_msg">{{ msg[1] }}</label>
+                {% endif %}
+                {% if edit == True %}
+                <div class="submission-container">
+                    <input type="submit" value="Save" name="response" class="submit-buttons">
+                    <input type="submit" value="Cancel" name="response" class="submit-buttons">
+                </div>
+                {% else %}
+                <div class="submission-container">
+                    <input type="submit" value="Okay" name="response" class="submit-buttons">
+                </div>
+                {% endif %}
+            </form>
+        </section>
+        {% set loggedin = True %}    
+        {% block content %}
+            {% include 'navigation.html' %}
+        {% endblock %}
+    </body>

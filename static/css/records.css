@@ -18,13 +18,17 @@
 }
 
 .myrecord-text {
+    font-family : comfortaa;
+    font-size : 20px;
     margin: auto;
     font-size: 25px;
     padding: 30px 40px 70px;
 }
 
 .cca-activity-text-button {
-    border: none; /*by default is will have a bblack border*/
+    font-family : comfortaa;
+    font-size : 15px;
+    border: none; /*by default it will have a black border*/
     border-radius: 20px;
     background: white;
     width: 10%;
@@ -49,6 +53,10 @@
     line-height: 1.5;
 }
 
+.hyperlink{
+    text-decoration: none;
+    color : black;
+}
 .general-textbox {
     border-radius: 25px;
     background: lemonchiffon;
@@ -64,7 +72,7 @@
     float: right;
 }
 
-.plus-button {
+.add_button {
     border: none;
     height: 55px;
     width: 55px;
@@ -74,7 +82,171 @@
     float: right;
     text-align: center;
     padding: 9px 0px; /*1st value repr the top & bottom padding, 2nd value repr the left & right padding*/
-    margin: 10px 20px;
+    margin: 10px 5px;
     font-size: 30px;
+    cursor: pointer;
+}
+
+.remove_button {
+    border: none;
+    height: 55px;
+    width: 55px;
+    border-radius: 50%;
+    background-color: #8AADF4;
+    color: white;
+    float: right;
+    text-align: center;
+    padding: 9px 0px; /*1st value repr the top & bottom padding, 2nd value repr the left & right padding*/
+    margin: 10px 5px;
+    font-size: 30px;
+    cursor: pointer;
+}
+
+.edit_button {
+    font-family: comfortaa;
+    font-size: 20px;
+    border: none;
+    height: 55px;
+    width: 70px;
+    border-radius: 50%;
+    background-color: #8AADF4;
+    color: white;
+    float: right;
+    text-align: center;
+    padding: 9px 0px; /*1st value repr the top & bottom padding, 2nd value repr the left & right padding*/
+    margin: 10px 5px;
+    cursor: pointer;
+}
+
+.save_button {
+    font-family: comfortaa;
+    font-size: 20px;
+    border: none;
+    height: 55px;
+    width: 70px;
+    border-radius: 50%;
+    background-color: #8AADF4;
+    color: white;
+    float: right;
+    text-align: center;
+    padding: 9px 0px; /*1st value repr the top & bottom padding, 2nd value repr the left & right padding*/
+    margin: 10px 5px;
+    cursor: pointer;
+}
+
+.cancel_button {
+    font-family: comfortaa;
+    font-size: 20px;
+    border: none;
+    height: 55px;
+    width: 85px;
+    border-radius: 50%;
+    background-color: #8AADF4;
+    color: white;
+    float: right;
+    text-align: center;
+    padding: 9px 0px; /*1st value repr the top & bottom padding, 2nd value repr the left & right padding*/
+    margin: 10px 5px;
+    cursor: pointer;
+}
+
+.year-input {
+    font-family : comfortaa;
+    font-size: 18px;
+    border: None;
+    outline : none;
+    background-color: transparent;
+    width: 10%;
+}
+
+.role-input {
+    font-family : comfortaa;
+    font-size: 18px;
+    border: None;
+    outline : none;
+    background-color: transparent;
+    width: 10%;
+}
+
+.type-input {
+    font-family : comfortaa;
+    font-size: 18px;
+    border: None;
+    outline : none;
+    background-color: transparent;
+    width: 10%;
+}
+
+.status-input {
+    font-family : comfortaa;
+    font-size: 18px;
+    border: None;
+    outline : none;
+    background-color: transparent;
+}
+
+.organiser-input {
+    font-family : comfortaa;
+    font-size: 18px;
+    border: None;
+    outline : none;
+    background-color: transparent;
+}
+
+.date-input {
+    font-family : comfortaa;
+    font-size: 18px;
+    border: None;
+    outline : none;
+    background-color: transparent;
+}
+
+.delete_button {
+    height: 30px;
+    width: 30px;
+    background: transparent;
+    border: 0;
+    float: right;
+    cursor: pointer;
+    align-self: center;
+}
+
+.no_cca {
+    margin: 15px;
+}
+
+.no_activity {
+    margin: 15px;
+}
+
+.done_button {
+    font-family: comfortaa;
+    font-size: 20px;
+    border: none;
+    height: 55px;
+    width: 70px;
+    border-radius: 50%;
+    background-color: #8AADF4;
+    color: white;
+    float: right;
+    text-align: center;
+    padding: 9px 0px; /*1st value repr the top & bottom padding, 2nd value repr the left & right padding*/
+    margin: 10px 5px;
+    cursor: pointer;
+}
+
+.join_button {
+    font-family: comfortaa;
+    font-size: 20px;
+    border: none;
+    height: 55px;
+    width: 70px;
+    border-radius: 50%;
+    background-color: #8AADF4;
+    color: white;
+    float: right;
+    text-align: center;
+    padding: 9px 0px; /*1st value repr the top & bottom padding, 2nd value repr the left & right padding*/
+    margin: 10px 5px;
     cursor: pointer;
 }

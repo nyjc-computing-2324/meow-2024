@@ -93,12 +93,9 @@
     width: 100px;
     height: 40px;
 
-
 }
 /* flex-direction : column Arrange elements in row */
 .tagline-section{
-    margin-right : auto;
-    margin-left : auto;
     padding-top : 250px;
     padding-bottom : 100px;
     display : flex;
@@ -109,17 +106,19 @@
 /* flex-direction : column Arrange elements in columns */
 
 .tagline-container{
+    margin-left : auto;
     position : relative;
     left : 150px;
-    align-content: left;
+    align-content: center;
     display : flex;
     flex-direction : column;
 }
 
 .cat_gif{
+    margin-right : auto;
     position : relative;
     left : 100px;
-    width : 700px;
+    width : 600px;
     z-index : -1;
 }
 
@@ -241,7 +240,7 @@
     background-color : #6666db;
 }
 
-.person-img1, .person-img2, .person-img3{
+.person-img{
     border-radius : 50%;
     width : 100px;
     height : 100px;
@@ -350,13 +349,6 @@
     font-weight : bold;
 }
 
-.terms-text{
-    font-family : comfortaa;
-    text-decoration : none;
-    font-size : 12px;
-    font-weight : bold;
-}
-
 /* Create a carousel */
 .carousel {
     display : flex;
@@ -367,7 +359,7 @@
 .carousel__track-container {
     display : flex;
     justify-content: center;
-    width : 800px;
+    width : 780px;
     height: 320px;
     overflow: hidden;
 }
@@ -408,12 +400,10 @@
     left: 25px;
 }
 
-
 .feature-item{
     min-height: 320px;
     border-radius: 20px;
     min-width: 250px;
-    background-image : linear-gradient(#ffffff, #8AADF4);
 }
 
 /* flex-direction : column Arrange elements in columns */
@@ -425,6 +415,8 @@
     top : 100px;
 }
 .features-text{
+    position : relative;
+    right : 10px;
     font-family : comfortaa;
     font-size: 36px;
     color : white;
@@ -433,6 +425,90 @@
 .features-subtext{
     position : relative;
     top : 25px;
+    right : 10px;
+    font-family : comfortaa;
+    text-decoration : none;
+    font-size : 12px;
+    font-weight : bold;
+}
+
+/* Create a carousel */
+.carousel {
+    display : flex;
+    justify-content: center;
+    width : 100%;
+}
+
+.carousel__track-container {
+    display : flex;
+    justify-content: center;
+    width : 780px;
+    height: 320px;
+    overflow: hidden;
+}
+
+.carousel__track {
+    padding: 0;
+    margin: 0;
+    list-style: none;
+    display : flex;
+    justify-content: center;
+    width : 800px;
+    height: 320px;
+}
+
+.carousel__slide {
+    position: absolute;
+    display : flex;
+    justify-content: center;
+    width : 800px;
+    height: 320px;
+}
+
+.carousel__button {
+    position: relative;
+    top: 120px;
+    background: transparent;
+    border: 0;
+    cursor: pointer;
+    width: 48px;
+    height: 48px;
+}
+
+.carousel__button--left {
+    right: 25px;
+}
+
+.carousel__button--right {
+    left: 25px;
+}
+
+.feature-item{
+    min-height: 320px;
+    border-radius: 20px;
+    min-width: 250px;
+}
+
+/* flex-direction : column Arrange elements in columns */
+.features-text-container{
+    position : relative;
+    flex-direction: column;
+    text-align : left;
+    left : 50px;
+    top : 100px;
+}
+.features-text{
+    position : relative;
+    right : 10px;
+    font-family : comfortaa;
+    font-size: 36px;
+    color : white;
+}
+
+.features-subtext{
+    position : relative;
+    top : 25px;
+    right : 10px;
     font-family : comfortaa;
     font-size : 20px;
     min-width : 400px;
