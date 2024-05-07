@@ -49,7 +49,7 @@ def init_tables(get_conn: Callable):
             "student_id" INTEGER,
             "cca_id" INTEGER,
             "role" TEXT NOT NULL,
-            "year" TEXT NOT NULL,
+            "year" INTEGER NOT NULL,
             "status" TEXT NOT NULL,
             PRIMARY KEY ("student_id", "cca_id"),
             FOREIGN KEY ("student_id") REFERENCES student("student_id"),

@@ -1,6 +1,6 @@
 from typing import Dict
 from flask import Flask, redirect, request, session
-import view, validate, dbfunctions, database
+import view, validate, dbfunctions
 import os
 
 app = Flask(__name__)
@@ -58,7 +58,6 @@ def edit_activities():
 def about():
     log()
     return view.about()
-
 
 @app.route('/pp')
 def pp():
@@ -455,6 +454,13 @@ def view_activities():
     if not session["logged_in"]:
         return redirect("/login")
     return view.view_activities()
+
+@app.route('/manage')
+def manage():
+    log()
+    if not session["logged_in"]:
+        return redirect("/login")
+    return view.manage()
 
 
 if __name__ == '__main__':

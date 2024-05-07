@@ -3,7 +3,6 @@
     src: url(Comfortaa-Light.ttf);
 }
 
-
 h1 {
     font-size: 50px;
 }
@@ -177,6 +176,21 @@ input[type=file]{
     font-family : comfortaa;
     cursor: pointer;
 
+}
+
+.delete-profile-label{
+    text-align: center;
+    text-decoration: none;
+    font-size: 16px;
+    width : 178px; 
+    border : none;
+    border-radius: 12px;
+    height : 40px;
+    background-color: red;
+    color : white;
+    margin-top : 10px;
+    font-family : comfortaa;
+    cursor: pointer;
 }
 
 .profile-description-container{

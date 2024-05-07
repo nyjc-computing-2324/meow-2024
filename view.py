@@ -107,7 +107,6 @@ def join_activity(edit, data={"name": "", "status": ""}, msg=[""], name=[]):
 
 def about():
     #display about.html
-    #also doesn't exist yet
     if not completed:
         return redirect("/temp")
     raise NotImplementedError
